@@ -1,1 +1,4 @@
 baseurl: /blog
+encoding: utf-8
+paginate: 1
+paginate_path: "/index:num"
