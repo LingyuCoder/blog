@@ -7,7 +7,7 @@ title: SkyInlayer`s Blog 天镶的博客
 	{% for post in paginator.posts %}
 	<article class="is-post is-post-excerpt">
 		<header>
-			<h2><a href="{{ post.url | prepend: site.baseurl}}">{{ post.title }}</a></h2>
+			<h2><a href="{{ post.url }}">{{ post.title }}</a></h2>
 			<span class="byline">{{ post.subTitle }}</span>
 		</header>
 		<div class="info">

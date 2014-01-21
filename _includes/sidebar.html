@@ -5,9 +5,9 @@
 </a>
 <nav id="nav">
 	<ul>
-		<li {% if page.cur == "home" %}class="current_page_item"{% endif %}><a href="/blog/index.html">文章列表</a></li>
-		<li {% if page.cur == "items" %}class="current_page_item"{% endif %}><a href="/blog/items.html">小玩意儿</a></li>
-		<li {% if page.cur == "about" %}class="current_page_item"{% endif %}><a href="/blog/about.html">关于我</a></li>
+		<li {% if page.cur == "home" %}class="current_page_item"{% endif %}><a href="/index.html">文章列表</a></li>
+		<li {% if page.cur == "items" %}class="current_page_item"{% endif %}><a href="/items.html">小玩意儿</a></li>
+		<li {% if page.cur == "about" %}class="current_page_item"{% endif %}><a href="/about.html">关于我</a></li>
 	</ul>
 </nav>
 <section class="is-recent-posts">
@@ -16,7 +16,7 @@
 	</header>
 	<ul>
 		{% for post in site.posts %}
-		  <li><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>{{ post.date | date_to_string }} </li>
+		  <li><a href="{{ post.url }}">{{ post.title }}</a>{{ post.date | date_to_string }} </li>
 		{% endfor %}
 	</ul>
 </section>
