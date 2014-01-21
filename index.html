@@ -1,38 +1,22 @@
 ---
 layout: default
+cur: home
 title: SkyInlayer`s Blog 天镶的博客
 ---
 <ul>
 	{% for post in paginator.posts %}
 	<article class="is-post is-post-excerpt">
 		<header>
-			<h2><a href="#">{{ post.title }}</a></h2>
+			<h2><a href="{{ post.url | prepend: site.baseurl}}">{{ post.title }}</a></h2>
 			<span class="byline">{{ post.subTitle }}</span>
 		</header>
 		<div class="info">
-			<span class="date"><span class="month">{{ post.month }}<span>{{ post.monthTail }}</span></span><span class="day">{{ post.day }}</span><span class="year">, {{ post.year }}</span></span>
+			{{ post.date | date: "<span class='date'><span class='month'>%m月</span><span class='day'>%d</span><span class='year'>%Y</span></span>" }}
 		</div>
 		<!-- <a href="#" class="image image-full"><img src="images/n33-robot-invader.jpg" alt="" /></a> -->
 		{{ post.desc }}
 	</article>
 	{% endfor %}
-	<!-- <div class="pager">
-		{% if paginator.previous_page %}
-		<a href="/blog/page{{ paginator.previous_page }}" class="button previous">上一页</a>
-		{% endif %}
-	
-		<div class="pages">
-			<a href="#" class="active">1</a>
-			<a href="#">2</a>
-			<a href="#">3</a>
-			<a href="#">4</a>
-			<span>&hellip;</span>
-			<a href="#">20</a>
-		</div>
-		{% if paginator.next_page %}
-		<a href="/blog/page{{ paginator.next_page }}" class="button next">下一页</a>
-		{% endif %}
-	</div> -->
 
 
 	{% if paginator.total_pages > 1 %}

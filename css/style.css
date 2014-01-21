@@ -964,6 +964,13 @@
 			padding-bottom: 0;
 		}
 
+		.is-recent-posts a,
+		.is-recent-comments a
+		{
+			text-decoration: none;
+			margin-right: 10px;
+		}
+
 	.is-search
 	{
 	}
@@ -1226,3 +1233,14 @@
 			box-shadow: inset 0px 1px 0px 0px rgba(255,255,255,0.075), 0px 1px 0px 0px rgba(255,255,255,0.075);
 			display: block;
 		}
+
+/*********************************************************************************/
+/* About                                                                         */
+/*********************************************************************************/
+
+	.avatar
+	{
+		height: 80px;
+		width: 80px;
+		border-radius: 50%;
+	}

@@ -1,38 +1,25 @@
-<div id="logo">
-	<h1>SkyInlayer</h1>
-</div>
+<a href="{{ site.baseurl }}" style="text-decoration: none;">
+	<div id="logo">
+		<h1>SkyInlayer</h1>
+	</div>
+</a>
 <nav id="nav">
 	<ul>
-		<li class="current_page_item"><a href="#">最新的文章</a></li>
-		<li><a href="#">文章列表</a></li>
-		<li><a href="#">关于我</a></li>
+		<li {% if page.cur == "home" %}class="current_page_item"{% endif %}><a href="/blog/index.html">文章列表</a></li>
+		<li {% if page.cur == "items" %}class="current_page_item"{% endif %}><a href="/blog/items.html">小玩意儿</a></li>
+		<li {% if page.cur == "about" %}class="current_page_item"{% endif %}><a href="/blog/about.html">关于我</a></li>
 	</ul>
 </nav>
-<section class="is-search">
-	<form method="post" action="#">
-		<input type="text" class="text" name="search" placeholder="Search" />
-	</form>
-</section>
-<!-- <section class="is-text-style1">
-	<div class="inner">
-		<p>
-			<strong>Striped:</strong> A free and fully responsive HTML5 site
-			template designed by <a href="http://n33.co/">AJ</a> for <a href="http://html5up.net/">HTML5 up!</a>
-		</p>
-	</div>
-</section> -->
 <section class="is-recent-posts">
 	<header>
 		<h2>最近的文章</h2>
 	</header>
 	<ul>
 		{% for post in site.posts %}
-		<li>{{ post.date | date_to_string }} <a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></li>
+		  <li><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>{{ post.date | date_to_string }} </li>
 		{% endfor %}
 	</ul>
 </section>
 <div id="copyright">
-	<p>
-		&copy; 2014 LingyuCoder<br />
-	</p>
+	<p>&copy; 2014 LingyuCoder<br /></p>
 </div>

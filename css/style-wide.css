@@ -98,7 +98,7 @@
 				.is-post .info .date .year,
 				.is-post .info .date .month span
 				{
-					display: none;
+					display: block;
 				}
 			
 				.is-post .info .date .day

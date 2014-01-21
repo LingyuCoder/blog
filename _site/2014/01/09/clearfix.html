@@ -1,0 +1,88 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>闭合浮动最佳方案（clearfix）</title>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<meta name="description" content="" />
+		<meta name="keywords" content="" />
+		<link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400italic,700|Open+Sans+Condensed:300,700" rel="stylesheet" />
+		<link rel="stylesheet" href="/blog/css/skel-noscript.css" />
+		<link rel="stylesheet" href="/blog/css/style.css" />
+		<link rel="stylesheet" href="/blog/css/style-desktop.css" />
+		<link rel="stylesheet" href="/blog/css/style-wide.css" />
+	</head>
+	<body class="left-sidebar">
+		<div id="wrapper">
+			<div id="content">
+				<div id="content-inner">
+					<article class="is-post is-post-excerpt">
+						<header>
+							<h2><a href="#">闭合浮动最佳方案（clearfix）</a></h2>
+							<span class="byline">传统闭合浮动方法与使用:after伪类的闭合浮动</span>
+						</header>
+						<div class="info">
+							<span class='date'><span class='month'>01月</span><span class='day'>09</span><span class='year'>2014</span></span>
+						</div>
+						<p>传统方法：</p>
+
+<pre class="css21"><code class="css21">.clear{clear:both;height:0;overflow:hidden;}</code></pre>
+
+<p>这样在需要闭合的地方加一个div.clear就行了，但是会改变html文档结构，所以建议使用以下方式：</p>
+
+<pre class="css21"><code class="css21">.clearfix:after{content:&quot;.&quot;;display:block;height:0;clear:both;visibility:hidden}
+.clearfix{*+height:1%;}</code></pre>
+
+<p>使用after伪类后可以不用改变html文档结构即完成浮动闭合,加在浮动元素的父元素上就可以了</p>
+						<div class="ds-thread" style="min-height:277px"></div>
+					</article>
+				</div>
+			</div>
+			<div id="sidebar">
+				<a href="/blog" style="text-decoration: none;">
+	<div id="logo">
+		<h1>SkyInlayer</h1>
+	</div>
+</a>
+<nav id="nav">
+	<ul>
+		<li ><a href="/blog/index.html">文章列表</a></li>
+		<li ><a href="/blog/items.html">小玩意儿</a></li>
+		<li ><a href="/blog/about.html">关于我</a></li>
+	</ul>
+</nav>
+<section class="is-recent-posts">
+	<header>
+		<h2>最近的文章</h2>
+	</header>
+	<ul>
+		
+		  <li><a href="/blog/2014/01/09/clearfix.html">闭合浮动最佳方案（clearfix）</a>09 Jan 2014 </li>
+		
+		  <li><a href="/blog/2014/01/01/hello-world.html">你好jekyll</a>01 Jan 2014 </li>
+		
+	</ul>
+</section>
+<div id="copyright">
+	<p>&copy; 2014 LingyuCoder<br /></p>
+</div>
+			</div>
+		</div>
+		<!-- Duoshuo Comment BEGIN -->
+		<script type="text/javascript">
+			var duoshuoQuery = {short_name:"skyinlayer"};
+			(function() {
+				var ds = document.createElement('script');
+				ds.type = 'text/javascript';ds.async = true;
+				ds.src = 'http://static.duoshuo.com/embed.js';
+				ds.charset = 'UTF-8';
+				(document.getElementsByTagName('head')[0] 
+				|| document.getElementsByTagName('body')[0]).appendChild(ds);
+			})();
+		</script>
+		<!-- Duoshuo Comment END -->
+		<script src="/blog/js/jquery.min.js"></script>
+		<script src="/blog/js/skel.min.js"></script>
+		<script src="/blog/js/skel-panels.min.js"></script>
+		<script src="/blog/js/init.js"></script>
+	</body>
+</html>
