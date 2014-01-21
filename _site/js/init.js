@@ -87,4 +87,8 @@ $(function() {
 			}, 100);
 		}).trigger('resize');
 	});
+
+	$('pre code', $("#content")).each(function(i, e) {
+		hljs.highlightBlock(e);
+	});
 });
