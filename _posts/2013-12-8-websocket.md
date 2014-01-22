@@ -58,7 +58,6 @@ nodejs有很多websocket的三方库，都很实用，在stackoverflow上有人�
         wss = new WebSocketServer({
         port: process.env.WSPORT || 3001
     });
-
 这样wss就成为了一个监听3001端口的WS服务器，我们需要为WS服务器创建WS客户端连接时候的事件：
 
     wss.on('connection', function(ws) {});
