@@ -81,7 +81,7 @@ $(function() {
 			window.clearTimeout(tid);
 			tid = window.setTimeout(function() {
 				if (skel.isActive('mobile') || skel.isActive('narrower'))
-					$sc.css('min-height', '0').css('height', 'auto');
+					$sc.css('min-height', '0').css('height', '100%');
 				else
 					$sc.css('min-height', $window.height()).css('height', '100%');
 			}, 100);

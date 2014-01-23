@@ -3,11 +3,11 @@
 	html5up.net | @n33co
 	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 */
-
+@media (min-width: 1201px){
 /*********************************************************************************/
 /* Basic                                                                         */
 /*********************************************************************************/
-
+	
 	body
 	{
 		min-width: 1200px;
@@ -160,3 +160,4 @@
 			margin-right: 14em; /* = sidebar width */
 			margin-left: 7em;
 		}
+}

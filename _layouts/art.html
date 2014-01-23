@@ -8,10 +8,10 @@
 		<link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400italic,700|Open+Sans+Condensed:300,700" rel="stylesheet" />
 		<noscript>
 			<link rel="stylesheet" href="/css/skel-noscript.css" />
-			<link rel="stylesheet" href="/css/style.css" />
-			<link rel="stylesheet" href="/css/style-desktop.css" />
-			<link rel="stylesheet" href="/css/style-wide.css" />
 		</noscript>
+		<link rel="stylesheet" href="/css/style.css" />
+		<link rel="stylesheet" href="/css/style-desktop.css" />
+		<link rel="stylesheet" href="/css/style-wide.css" />
 		<link rel="stylesheet" href="/css/github.css" />
 	</head>
 	<body class="left-sidebar">
@@ -24,7 +24,7 @@
 							<span class="byline">{{ page.subTitle }}</span>
 						</header>
 						<div class="info">
-							{{ page.date | date: "<span class='date'><span class='month'>%m月</span><span class='day'>%d</span><span class='year'>%Y</span></span>" }}
+							{{ page.date | date: "<span class='date'><span class='month'>%-m<span>月</span></span><span class='day'>%-d<span>日</span></span><span class='year'>%Y<span>年</span></span></span>" }}
 						</div>
 						{{ content }}
 						<div class="ds-thread" style="min-height:277px"></div>

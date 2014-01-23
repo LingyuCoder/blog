@@ -5,9 +5,9 @@
 </a>
 <nav id="nav">
 	<ul>
-		<li {% if page.cur == "home" %}class="current_page_item"{% endif %}><a href="/index.html">文章列表</a></li>
-		<li {% if page.cur == "items" %}class="current_page_item"{% endif %}><a href="/items.html">小玩意儿</a></li>
-		<li {% if page.cur == "about" %}class="current_page_item"{% endif %}><a href="/about.html">关于我</a></li>
+		<li class="{% if page.cur == "home" %}current_page_item{% endif %}"><a href="/index.html">文章列表</a></li>
+		<li class="{% if page.cur == "items" %}current_page_item{% endif %} no_wide_hide"><a href="/items.html">小玩意儿</a></li>
+		<li class="{% if page.cur == "about" %}current_page_item{% endif %}"><a href="/about.html">关于我</a></li>
 	</ul>
 </nav>
 <section class="is-recent-posts">
