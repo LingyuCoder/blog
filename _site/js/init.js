@@ -75,19 +75,22 @@ skel.init(
 );
 
 $(function() {
-	var $window = $(window), $document = $(document), $sc = $('#sidebar, #content'), tid;
+	var $window = $(window), $document = $(document), $sc = $('#sidebar, #content'), tid, $ci = $("#content-inner");
 	$window.load(function() {
-		$window.resize(function() {
+		var resizeFn = function() {
+			console.log("resizing");
 			window.clearTimeout(tid);
 			tid = window.setTimeout(function() {
 				if (skel.isActive('mobile') || skel.isActive('narrower'))
-					$sc.css('min-height', '0').css('height', '100%');
-				else
-					$sc.css('min-height', $window.height()).css('height', '100%');
+					$sc.css('min-height', $window.height()).css('height', 'auto');
+				else {
+					$sc.css('min-height', $window.height()).css('height', $document.height());
+				}
 			}, 100);
-		}).trigger('resize');
+		};
+		$window.resize(resizeFn).trigger('resize');
+		$ci.resize(resizeFn);
 	});
-
 	$('pre code', $("#content")).each(function(i, e) {
 		hljs.highlightBlock(e);
 	});

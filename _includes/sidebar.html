@@ -5,21 +5,30 @@
 </a>
 <nav id="nav">
 	<ul>
-		<li class="{% if page.cur == "home" %}current_page_item{% endif %}"><a href="/index.html">文章列表</a></li>
+		<li class="{% if page.cur == "home" %}current_page_item{% endif %}"><a href="/index.html">首页</a></li>
+		<li class="{% if page.cur == "archieves" %}current_page_item{% endif %}"><a href="/archieves.html">所有文章</a></li>
 		<li class="{% if page.cur == "items" %}current_page_item{% endif %} no_wide_hide"><a href="/items.html">小玩意儿</a></li>
 		<li class="{% if page.cur == "about" %}current_page_item{% endif %}"><a href="/about.html">关于我</a></li>
 	</ul>
 </nav>
+<section class="is-recent-posts">
+	<div class="tags">
+		{% for tag in site.tags %}
+		<a class="tag" href="/show_by_tag.html?tag={{ tag[0] }}"> {{ tag[0] }}</a>
+	    {% endfor %}
+	</div>
+	
+</section>
 <section class="is-recent-posts">
 	<header>
 		<h2>最近的文章</h2>
 	</header>
 	<ul>
 		{% for post in site.posts limit:5 %}
-		  <li><a href="{{ post.url }}">{{ post.title }}</a>{{ post.date | date_to_string }} </li>
+		<li><a href="{{ post.url }}">{{ post.title }}</a>{{ post.date | date_to_string }}</li>
 		{% endfor %}
 	</ul>
 </section>
 <div id="copyright">
-	<p>&copy; 2014 LingyuCoder<br /></p>
+	<p>&copy; 2014 天镶<br /></p>
 </div>

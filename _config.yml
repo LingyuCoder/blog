@@ -2,3 +2,4 @@ baseurl: /
 encoding: utf-8
 paginate: 5
 paginate_path: "/index:num"
+permalink: /blog/:year/:month/:day/:title

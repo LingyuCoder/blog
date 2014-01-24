@@ -399,6 +399,29 @@
 				box-shadow: none;
 				text-shadow: -1px -1px 0px rgba(0,0,0,0.5);
 			}
+	.tags
+	{
+	}
+	.tags .tag
+	{
+		position: relative;
+
+		display: inline-block;
+		padding: 0.1em 0.3em;
+		margin-top: 0.3em;
+		border-radius: 0.4em;
+
+		background-color: #c94663;
+		background-image: url('images/bg1.png');
+		font-size: 1em;
+		text-decoration: none;
+		font-family: 'Open Sans Condensed', sans-serif;
+		font-weight: 700;
+		color: #fff;
+		letter-spacing: 0.1em;
+		text-align: center;
+		box-shadow: inset 0px 0px 0px 1px rgba(255,255,255,0.15), 0 0.025em 0.15em 0em rgba(0,0,0,0.25);
+	}
 
 /*********************************************************************************/
 /* Icons                                                                         */
@@ -919,11 +942,16 @@
 	{
 		position: relative;
 	}
-	
+		
+		.is-post .tags 
+		{
+			margin-top: 1em;
+		}
+
 		.is-post .info
 		{
 		}
-		
+			
 			.is-post .info .stats
 			{
 				margin: 0;
@@ -935,6 +963,17 @@
 				text-decoration: none;
 				color: #1b252a;
 				font-weight: 700;
+			}
+
+		.is-post .arc-list
+		{
+			font-size: 1.5em;
+			color: #999;
+		}
+			.is-post .arc-list a
+			{
+				margin-left: 10px;
+				text-decoration: none;
 			}
 	
 	.is-recent-posts,
@@ -1186,6 +1225,10 @@
 				height: 0.5em;
 				margin: 0 0 2em 0;
 			}
+		#sidebar .tag
+		{
+			color: white;
+		}
 		
 /*********************************************************************************/
 /* Content                                                                       */

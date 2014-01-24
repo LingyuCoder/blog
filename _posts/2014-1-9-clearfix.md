@@ -3,6 +3,8 @@ layout: art
 title: 闭合浮动最佳方案（clearfix）
 subTitle: 传统闭合浮动方法与使用:after伪类的闭合浮动
 desc: 
+tags: [css]
+categories: [前端技术]
 ---
 
 传统方法：

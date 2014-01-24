@@ -30,7 +30,6 @@
 	.is-post
 	{
 	}
-	
 		.is-post h2
 		{
 			font-size: 3.25em;
@@ -90,9 +89,8 @@
 				display: block;
 				font-size: 1.5em;
 				color: #999;
-				border-bottom: solid 1px #ddd;
-				padding: 0 0 1em 0;
-				margin: 0 0 0.75em 0;
+				/* padding: 0 0 1em 0;
+				margin: 0 0 0.75em 0; */
 			}
 
 				.is-post .info .date .year,

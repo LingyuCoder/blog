@@ -1,0 +1,22 @@
+---
+layout: default
+cur: archieves
+title: 所有文章
+---
+{% for category in site.categories %}
+<article class="is-post is-post-excerpt">
+	<header>
+		<h2>{{ category | first }}</h2>
+	</header>
+	<div class="info">
+		<span class='date'><span class='month'>文章</span><span class='day'>{{ category | last | size }}</span></span>
+	</div>
+	<ul class="arc-list">
+		{% for post in site.posts %}
+			{% if post.categories contains category.first %}
+			<li><span class="date">{{ post.date | date:"%d/%m/%Y"}}</span><a href="{{ post.url }}">{{ post.title }}</a></li>
+			{% endif %}
+		{% endfor %}
+	</ul>
+</article>
+{% endfor %}

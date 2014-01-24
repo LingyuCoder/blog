@@ -63,6 +63,11 @@
 			{
 				display: inline;
 			}
+				.is-post .info .date .year,
+				.is-post .info .date .day
+				{
+					margin-left: 0.5em;
+				}
 
 			.is-post .info .stats
 			{

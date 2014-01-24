@@ -3,6 +3,8 @@ layout: art
 title: 搭建HTML5简易聊天室
 subTitle: 使用WebSocket+NodeJs搭建聊天室
 desc: 之前曾经写过一个符合xmpp协议的Web IM，但使用的是JSJaC，后台用的也是与之配套的jabber client，发现nodejs的事件模式更适合作为Web IM的客户端。而传统的ajax轮询机制也早晚被全双工websocket所取代，所以就打算在我的毕业设计的Web IM平台中使用websocket。在这里调研一下并作出了一个简单的，放在小玩意里了，这里讲一下这个简单demo的实现方式
+tags: [WebSocket, NodeJs, xmpp, WebIM]
+categories: [网站建设]
 ---
 
 ###前面的话###

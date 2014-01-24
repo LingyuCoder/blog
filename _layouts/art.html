@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html>
 	<head>
-		<title>{{ page.title }}</title>
+		<title>{{ page.title }} - 天镶的博客 SkyInlayer`s Blog </title>
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		<meta name="description" content="" />
 		<meta name="keywords" content="" />
@@ -13,6 +13,7 @@
 		<link rel="stylesheet" href="/css/style-desktop.css" />
 		<link rel="stylesheet" href="/css/style-wide.css" />
 		<link rel="stylesheet" href="/css/github.css" />
+		<script src="/js/jquery.min.js"></script>
 	</head>
 	<body class="left-sidebar">
 		<div id="wrapper">
@@ -22,9 +23,14 @@
 						<header>
 							<h2><a href="#">{{ page.title }}</a></h2>
 							<span class="byline">{{ page.subTitle }}</span>
+							<div class="tags">
+								{% for tag in page.tags %}
+									<a class="tag" href="/show_by_tag.html?tag={{ tag }}" class="tag">{{ tag }}</a>
+								{% endfor %}
+							</div>
 						</header>
 						<div class="info">
-							{{ page.date | date: "<span class='date'><span class='month'>%-m<span>月</span></span><span class='day'>%-d<span>日</span></span><span class='year'>%Y<span>年</span></span></span>" }}
+							{{ page.date | date: "<span class='date'><span class='month'>%b</span><span class='day'>%-d</span><span class='year'>%Y</span></span>" }}
 						</div>
 						{{ content }}
 						<div class="ds-thread" style="min-height:277px"></div>
@@ -48,7 +54,6 @@
 			})();
 		</script>
 		<!-- Duoshuo Comment END -->
-		<script src="/js/jquery.min.js"></script>
 		<script src="/js/skel.min.js"></script>
 		<script src="/js/skel-panels.min.js"></script>
 		<script src="/js/highlight.pack.js"></script>
