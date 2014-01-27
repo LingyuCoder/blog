@@ -1,0 +1,349 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>使用Jekyll在Github上搭建个人博客（博客编写） - 天镶的博客 SkyInlayer`s Blog </title>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<meta name="description" content="" />
+		<meta name="keywords" content="" />
+		<link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400italic,700|Open+Sans+Condensed:300,700" rel="stylesheet" />
+		<noscript>
+			<link rel="stylesheet" href="/css/skel-noscript.min.css" />
+		</noscript>
+		<link rel="stylesheet" href="/css/style.min.css" />
+		<link rel="stylesheet" href="/css/style-desktop.min.css" />
+		<link rel="stylesheet" href="/css/style-wide.min.css" />
+		<link rel="stylesheet" href="/css/github.min.css" />
+		<script src="/js/jquery.min.js"></script>
+	</head>
+	<body class="left-sidebar">
+		<div id="wrapper">
+			<div id="content">
+				<div id="content-inner">
+					<article class="is-post is-post-excerpt">
+						<header>
+							<h2><a href="#">使用Jekyll在Github上搭建个人博客（博客编写）</a></h2>
+							<span class="byline">使用jekyll搭建github博客系列</span>
+							<div class="tags">
+								
+									<a class="tag" href="/show_by_tag.html?tag=github" class="tag">github</a>
+								
+									<a class="tag" href="/show_by_tag.html?tag=jekyll" class="tag">jekyll</a>
+								
+							</div>
+						</header>
+						<div class="info">
+							<span class='date'><span class='month'>Jan</span><span class='day'>27</span><span class='year'>2014</span></span>
+						</div>
+						<p>系列文章传送门：</p>
+
+<p><a href="http://skyinlayer.com/blog/2014/01/25/jekyll-1/">使用Jekyll在Github上搭建个人博客（环境搭建）</a></p>
+
+<p>这篇文章主要介绍博客内容的编写及本地测试，内容主要来自<a href="http://jekyllrb.com/docs/home/">Jekyll的文档</a>、<a href="http://docs.shopify.com/themes/liquid-basics">Liquid的文档</a></p>
+
+<h2 id="">创建项目</h2>
+<hr />
+<p>到想要创建项目的文件夹下（如d:/），运行命令：</p>
+
+<pre class="shell"><code class="shell">jekyll new blog</code></pre>
+
+<p>这样就会创建一个新文件夹d:/blog，其结构如下：</p>
+
+<ol>
+<li>文件夹_layouts：用于存放模板的文件夹，里面有两个模板，default.html和post.html</li>
+
+<li>文件夹_posts：用于存放博客文章的文件夹，里面有一篇markdown格式的文章–2014-01-27-welcome-to-jekyll.markdown</li>
+
+<li>文件夹css：存放博客所用css的文件夹</li>
+
+<li>.gitignore：可以删掉，后面会将项目添加到git项目，所以这个不需要了</li>
+
+<li>_coinfig.yml：jekyll的配置文件，里面可以定义相当多的配置参数，具体配置参数可以参照其<a href="http://jekyllrb.com/docs/configuration/">官网</a></li>
+
+<li>index.html：项目的首页</li>
+</ol>
+
+<p>根据实际需要，可能还需要创建如下文件或文件夹：</p>
+
+<ol>
+<li>_includes:用于存放一些固定的HTML代码段，文件为.html格式，可以在模板中通过liquid标签引入，常用来在各个模板中复用如 导航条、标签栏、侧边栏 之类的在每个页面上都一样不变的内容，需要注意的是，这个代码段也可以是未被编译的，也就是说也可以使用liquid标签放在这些代码段中</li>
+
+<li>image和js等自定义文件夹：用来存放一些需要的资源文件，如图片或者javascript文件，可以任意命名</li>
+
+<li>CNAME文件：用来在github上做域名绑定的，将在后面介绍</li>
+
+<li>favicon.ico：网站的小图标</li>
+
+<li>….</li>
+</ol>
+
+<p>创建完需要的文件夹之后，首先需要修改的就是jekyll的配置文件_config.yml，这个配置文件的内容相当多，详细见<a href="http://jekyllrb.com/docs/configuration/">官方文档</a>，如果没有太多的额外需求，只需要设定两个参数就行了，一个是编码的字符集，一个是项目的路径，我这里是这么设定的：</p>
+
+<pre><code>baseurl: /
+encoding: utf-8</code></pre>
+
+<p>这样一个博客项目就创建完成了</p>
+
+<h2 id="_2">编写博文</h2>
+<hr />
+<p>大致上jekyll生成html的流程，jekyll首先会读取如下内容进入内存中：</p>
+
+<ol>
+<li>_posts及文件夹下的所有文章，将其参数和文章内容组织保存在内存中，所有的文章的内容、参数都在site.posts对象（其他文件夹下的文章不会放入site.posts中）</li>
+
+<li>_layouts文件夹下的所有模板</li>
+
+<li>_includes文件夹下的所有需要被引入的内容</li>
+</ol>
+
+<p>然后根据每一篇需要编译的文章选择的其参数定义的模板来创建一个模板，并将当前文章的内容、参数等进行扩展后放在page对象、content对象中，然后进行模板的编译，生成html文件，并按照一定规则放在_site文件夹下。也就是说在创建一篇文章时，其实所有文章的内容都已经被读取出来了，这也为文章相互之间的关联提供了可能</p>
+
+<p>可以看一下_posts下的jekyll给的例子：</p>
+
+<pre class="markdown"><code class="markdown">---
+layout: post
+title:  &quot;Welcome to Jekyll!&quot;
+date:   2014-01-27 21:57:11
+categories: jekyll update
+---
+
+You&#39;ll find this post in your `_posts` directory - edit this post and re-build (or run with the `-w` switch) to see your changes!
+To add new posts, simply add a file in the `_posts` directory that follows the convention: YYYY-MM-DD-name-of-post.ext.
+
+Jekyll also offers powerful support for code snippets:
+
+{% highlight ruby %}
+def print_hi(name)
+  puts &quot;Hi, #{name}&quot;
+end
+print_hi(&#39;Tom&#39;)
+#=&gt; prints &#39;Hi, Tom&#39; to STDOUT.
+{% endhighlight %}
+
+Check out the [Jekyll docs][jekyll] for more info on how to get the most out of Jekyll. File all bugs/feature requests at [Jekyll&#39;s GitHub repo][jekyll-gh].
+
+[jekyll-gh]: https://github.com/mojombo/jekyll
+[jekyll]:    http://jekyllrb.com</code></pre>
+
+<p>可以看到在博文的最上方有被两个<code>---</code>包裹起来的一段，这里就定义了文章的一些参数，更多参数在<a href="http://jekyllrb.com/docs/frontmatter/">FrontMatter</a>和<a href="http://jekyllrb.com/docs/variables/">Variables</a>获取，简单的只需要关注几个就好：</p>
+
+<ol>
+<li>title：文章的标题</li>
+
+<li>date：文章的日期</li>
+
+<li>categories：定义了文章所属的目录，一个list，将会根据这个目录的list来创建目录并将文章html放在生成的目录下，文章分类时候用，这里就不使用了</li>
+
+<li>layout：文章所使用的模板名称，也就是_layouts中定义的模板的文件名去掉.html</li>
+
+<li>tags：例子中没有，定义了文章的标签，也是一个list，文章分类时候用，这里就不使用了</li>
+</ol>
+
+<p>这里就写一个最简单的文章，只是用其中的两个参数：layout，title，如下：</p>
+
+<pre><code>---
+layout: mylayout
+title: hello-jekyll
+---
+
+Hello jekyll!</code></pre>
+
+<p>将这个写完的文章保存为 “年-月-日-标题.markdown”的名字形式，因为如果不修改permlinks，jekyll会根据文章的标题来创建文件夹，如2014-01-27-hello会创建成/2014/01/27/hello.html。这里就保存成2014-01-27-hello.markdown</p>
+
+<p>ps：文章的文件名不要使用中文，否则会出现bug，因为在url中会escape，而服务器查找却是按照escape后的字符串去查找 ，就会出现找不到文章的情况，使用英文代替就好，定义了title变量就无所谓文件名中标题的内容了</p>
+
+<p>博客不能没有主页，所以我们修改index.html文件如下：</p>
+
+<pre class="xml"><code class="xml">---
+layout: mylayout
+title: Hello Jekyll!
+---
+&lt;ul class=&quot;posts&quot;&gt;
+{% for post in site.posts %}
+  &lt;li&gt;&lt;span&gt;{{ post.date | date_to_string }}&lt;/span&gt; &amp;raquo; &lt;a href=&quot;{{ post.url }}&quot;&gt;{{ post.title }}&lt;/a&gt;&lt;/li&gt;
+{% endfor %}
+&lt;/ul&gt;</code></pre>
+
+<p>还是使用我们刚才的模板，这回编译完成后生成的结果如下：</p>
+
+<pre class="xml"><code class="xml">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+    &lt;head&gt;
+        &lt;meta charset=&quot;utf-8&quot;&gt;
+        &lt;title&gt;test&lt;/title&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        Hello Jekyll!
+        &lt;ul class=&quot;posts&quot;&gt;
+          &lt;li&gt;&lt;span&gt;27 Jan 2014&lt;/span&gt; &amp;raquo; &lt;a href=&quot;/2014/01/27/hello.html&quot;&gt;hello-jekyll&lt;/a&gt;&lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+<p>由于index文件名中没有时间，所以时间直接被忽略了，而内容段则通过liquid的for标签进行了迭代，遍历了_posts下的所有文章，将其文章的时间、路径、标题组织成html文件，生成指向博文的连接</p>
+
+<h2 id="_3">创建模板</h2>
+<hr />
+<p>我们可以打开jekyll给的例子default.html看一看模板的结构:</p>
+
+<pre class="xml"><code class="xml">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+    &lt;head&gt;
+        &lt;meta charset=&quot;utf-8&quot;&gt;
+        &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;IE=edge,chrome=1&quot;&gt;
+        &lt;title&gt;{{ page.title }}&lt;/title&gt;
+        &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width&quot;&gt;
+
+        &lt;!-- syntax highlighting CSS --&gt;
+        &lt;link rel=&quot;stylesheet&quot; href=&quot;/css/syntax.css&quot;&gt;
+
+        &lt;!-- Custom CSS --&gt;
+        &lt;link rel=&quot;stylesheet&quot; href=&quot;/css/main.css&quot;&gt;
+
+    &lt;/head&gt;
+    &lt;body&gt;
+
+        &lt;div class=&quot;site&quot;&gt;
+          &lt;div class=&quot;header&quot;&gt;
+            &lt;h1 class=&quot;title&quot;&gt;&lt;a href=&quot;/&quot;&gt;{{ site.name }}&lt;/a&gt;&lt;/h1&gt;
+            &lt;a class=&quot;extra&quot; href=&quot;/&quot;&gt;home&lt;/a&gt;
+          &lt;/div&gt;
+
+          {{ content }}
+
+          &lt;div class=&quot;footer&quot;&gt;
+            &lt;div class=&quot;contact&quot;&gt;
+              &lt;p&gt;
+                Your Name&lt;br /&gt;
+                What You Are&lt;br /&gt;
+                you@example.com
+              &lt;/p&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;contact&quot;&gt;
+              &lt;p&gt;
+                &lt;a href=&quot;https://github.com/yourusername&quot;&gt;github.com/yourusername&lt;/a&gt;&lt;br /&gt;
+                &lt;a href=&quot;https://twitter.com/yourusername&quot;&gt;twitter.com/yourusername&lt;/a&gt;&lt;br /&gt;
+              &lt;/p&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+
+    &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+<p>可以看到，模板和普通的html文件几乎是一样的。jekyll使用的是一个叫liquid的模板引擎创建html文件，这个模板引擎也有<a href="http://docs.shopify.com/themes/liquid-basics">详细的文档</a>，现在就只关注其中比较核心的部分，文章的标题和文章的内容</p>
+
+<p>可以看到模板的有这么两句{{ page.title }}, {{ content }}，这两句就分别是文章标题和文章内容的占位符，如果有文章使用了这个模板，如过使用上面写的那篇hello的文章，标题就是hello-jekyll，content就是Hello jekyll!，这里定义一个自己的新模板，保存为mylayout.html</p>
+
+<pre class="xml"><code class="xml">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+    &lt;head&gt;
+        &lt;meta charset=&quot;utf-8&quot;&gt;
+        &lt;title&gt;test&lt;/title&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+          {{ page.title }}
+          {{ page.date }}
+          {{ content }}
+    &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+<p>第一行是标题，然后是博文时间（在文件名中定义），然后是博文内容 这样一个简单的模板就创建好了</p>
+
+<h2 id="_4">调试</h2>
+<hr />
+<p>在博客文件夹下，在命令行中输入<code>jekyll build --trace</code>就可以将所有文章文件根据其模板进行编译，生成结果，放在根目录下的_site中，这里我们使用后，会出现如下结果：\blog\_site\2014\01\27文件夹下有一个hello.html，其内容为：</p>
+
+<pre class="xml"><code class="xml">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+    &lt;head&gt;
+        &lt;meta charset=&quot;utf-8&quot;&gt;
+        &lt;title&gt;test&lt;/title&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+          hello-jekyll
+          2014-01-27 00:00:00 +0800
+          &lt;p&gt;Hello jekyll!&lt;/p&gt;
+    &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+<p>可以看到，这就是编译完的博文文件，如我们设定的，第一行是标题，然后是文件名定义的时间，然后是博文内容，如果编译错误，将会在命令行中看到一个错误栈，可以方便调试，具体哪里出错了，如果不需要看错误栈，直接使用<code>jekyll build</code>就行了</p>
+
+<p>如果想要在本地开启一个服务器查看效果，可以使用命令<code>jekyll serve</code>，这样会开启一个监听端口4000的服务器，浏览器中查看localhost:4000，则会进入index.html的内容中，点击文章的标题就可以跳转到具体的博文了</p>
+						<div class="ds-thread" style="min-height:277px"></div>
+					</article>
+				</div>
+			</div>
+			<div id="sidebar">
+				<a href="/" style="text-decoration: none;">
+	<div id="logo">
+		<h1>SkyInlayer</h1>
+	</div>
+</a>
+<nav id="nav">
+	<ul>
+		<li class=""><a href="/index.html">首页</a></li>
+		<li class=""><a href="/archieves.html">所有文章</a></li>
+		<li class=" no_wide_hide"><a href="/items.html">小玩意儿</a></li>
+		<li class=""><a href="/about.html">关于我</a></li>
+	</ul>
+</nav>
+<section class="is-recent-posts">
+	<div class="tags">
+		
+		<a class="tag" href="/show_by_tag.html?tag=WebSocket"> WebSocket</a>
+	    
+		<a class="tag" href="/show_by_tag.html?tag=NodeJs"> NodeJs</a>
+	    
+		<a class="tag" href="/show_by_tag.html?tag=xmpp"> xmpp</a>
+	    
+		<a class="tag" href="/show_by_tag.html?tag=WebIM"> WebIM</a>
+	    
+		<a class="tag" href="/show_by_tag.html?tag=css"> css</a>
+	    
+		<a class="tag" href="/show_by_tag.html?tag=github"> github</a>
+	    
+		<a class="tag" href="/show_by_tag.html?tag=jekyll"> jekyll</a>
+	    
+	</div>
+	
+</section>
+<section class="is-recent-posts">
+	<header>
+		<h2>最近的文章</h2>
+	</header>
+	<ul>
+		
+		<li><a href="/blog/2014/01/27/jekyll-2">使用Jekyll在Github上搭建个人博客（博客编写）</a>27 Jan 2014</li>
+		
+		<li><a href="/blog/2014/01/25/jekyll-1">使用Jekyll在Github上搭建个人博客（环境搭建）</a>25 Jan 2014</li>
+		
+		<li><a href="/blog/2014/01/09/clearfix">闭合浮动最佳方案（clearfix）</a>09 Jan 2014</li>
+		
+		<li><a href="/blog/2013/12/08/websocket">搭建HTML5简易聊天室</a>08 Dec 2013</li>
+		
+	</ul>
+</section>
+<div id="copyright">
+	<p>&copy; 2014 天镶<br /></p>
+</div>
+			</div>
+		</div>
+		<!-- Duoshuo Comment BEGIN -->
+		<script type="text/javascript">
+			var duoshuoQuery = {short_name:"skyinlayer"};
+			(function() {
+				var ds = document.createElement('script');
+				ds.type = 'text/javascript';ds.async = true;
+				ds.src = 'http://static.duoshuo.com/embed.js';
+				ds.charset = 'UTF-8';
+				(document.getElementsByTagName('head')[0] 
+				|| document.getElementsByTagName('body')[0]).appendChild(ds);
+			})();
+		</script>
+		<!-- Duoshuo Comment END -->
+		<script src="/js/skel.min.js"></script>
+		<script src="/js/skel-panels.min.js"></script>
+		<script src="/js/highlight.pack.js"></script>
+		<script src="/js/init.min.js"></script>
+	</body>
+</html>
