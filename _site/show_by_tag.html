@@ -32,7 +32,7 @@
 
 <script type="text/javascript" src="/js/Jquery.Query.js"></script>
 <script type="text/javascript">
-	var dataStr = '{ "WebSocket":[{"url":"/blog/2013/12/08/websocket", "title":"搭建HTML5简易聊天室", "date":"08/12/2013"}],"NodeJs":[{"url":"/blog/2013/12/08/websocket", "title":"搭建HTML5简易聊天室", "date":"08/12/2013"}],"xmpp":[{"url":"/blog/2013/12/08/websocket", "title":"搭建HTML5简易聊天室", "date":"08/12/2013"}],"WebIM":[{"url":"/blog/2013/12/08/websocket", "title":"搭建HTML5简易聊天室", "date":"08/12/2013"}],"css":[{"url":"/blog/2014/01/09/clearfix", "title":"闭合浮动最佳方案（clearfix）", "date":"09/01/2014"}],"github":[{"url":"/blog/2014/01/25/jekyll-1", "title":"使用Jekyll在Github上搭建个人博客（环境搭建）", "date":"25/01/2014"}],"jekyll":[{"url":"/blog/2014/01/25/jekyll-1", "title":"使用Jekyll在Github上搭建个人博客（环境搭建）", "date":"25/01/2014"}] }';
+	var dataStr = '{ "WebSocket":[{"url":"/blog/2013/12/08/websocket", "title":"搭建HTML5简易聊天室", "date":"08/12/2013"}],"NodeJs":[{"url":"/blog/2013/12/08/websocket", "title":"搭建HTML5简易聊天室", "date":"08/12/2013"}],"xmpp":[{"url":"/blog/2013/12/08/websocket", "title":"搭建HTML5简易聊天室", "date":"08/12/2013"}],"WebIM":[{"url":"/blog/2013/12/08/websocket", "title":"搭建HTML5简易聊天室", "date":"08/12/2013"}],"css":[{"url":"/blog/2014/01/09/clearfix", "title":"闭合浮动最佳方案（clearfix）", "date":"09/01/2014"}],"github":[{"url":"/blog/2014/01/27/jekyll-2", "title":"使用Jekyll在Github上搭建个人博客（博客编写）", "date":"27/01/2014"},{"url":"/blog/2014/01/25/jekyll-1", "title":"使用Jekyll在Github上搭建个人博客（环境搭建）", "date":"25/01/2014"}],"jekyll":[{"url":"/blog/2014/01/27/jekyll-2", "title":"使用Jekyll在Github上搭建个人博客（博客编写）", "date":"27/01/2014"},{"url":"/blog/2014/01/25/jekyll-1", "title":"使用Jekyll在Github上搭建个人博客（环境搭建）", "date":"25/01/2014"}] }';
 	var data = JSON.parse(dataStr);
 	var curTag = $.query.get("tag");
 	var archieves = data[curTag];
@@ -85,6 +85,8 @@
 		<h2>最近的文章</h2>
 	</header>
 	<ul>
+		
+		<li><a href="/blog/2014/01/27/jekyll-2">使用Jekyll在Github上搭建个人博客（博客编写）</a>27 Jan 2014</li>
 		
 		<li><a href="/blog/2014/01/25/jekyll-1">使用Jekyll在Github上搭建个人博客（环境搭建）</a>25 Jan 2014</li>
 		
