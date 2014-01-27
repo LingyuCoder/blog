@@ -1306,6 +1306,10 @@
 	{
 		display: block;
 		padding: 9.5px;
+	}
+
+	code {
+		display: inline;
 		margin: 0 0 10px;
 		font-size: 13px;
 		line-height: 1.428571429;
