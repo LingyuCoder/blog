@@ -13,7 +13,7 @@ categories: [网站建设]
 
 而传统的ajax轮询机制也早晚被全双工websocket所取代，所以就打算在我的毕业设计的Web IM平台中使用websocket。
 
-在这里调研一下并作出了一个简单的[版聊demo](http://skyinlayer.com/broadchat)，放在小玩意里了，这里讲一下这个简单demo的实现方式
+在这里调研一下并作出了一个简单的版聊demo，这里讲一下这个简单demo的实现方式
 
 ###WebSocket###
 ***
@@ -343,4 +343,4 @@ close事件在WS客服端给这个WS服务器发送关闭请求时调用
 
 ###写在最后###
 ***
-这样一个完整的基于WebSocket的简单聊天室就完成了，[试用一下](http://skyinlayer.com/broadchat)，虽然功能不完善，但是已经可以用了，并且兼容firefox25和chrome
+这样一个完整的基于WebSocket的简单聊天室就完成了，试用一下，虽然功能不完善，但是已经可以用了，并且兼容firefox25和chrome

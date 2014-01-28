@@ -16,13 +16,13 @@
 	</head>
 	<body class="left-sidebar">
 		<div id="wrapper">
+			<div id="sidebar">
+				{% include sidebar.html %}
+			</div>
 			<div id="content">
 				<div id="content-inner">
 					{{ content }}
 				</div>
-			</div>
-			<div id="sidebar">
-				{% include sidebar.html %}
 			</div>
 		</div>
 		<script src="/js/skel.min.js"></script>
