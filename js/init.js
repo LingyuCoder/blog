@@ -78,7 +78,6 @@ $(function() {
 	var $window = $(window), $document = $(document), $sc = $('#sidebar, #content'), tid, $ci = $("#content-inner");
 	$window.load(function() {
 		var resizeFn = function() {
-			console.log("resizing");
 			window.clearTimeout(tid);
 			tid = window.setTimeout(function() {
 				if (skel.isActive('mobile') || skel.isActive('narrower'))
