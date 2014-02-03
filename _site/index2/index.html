@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html>
 	<head>
-		<title>闭合浮动最佳方案（clearfix） - 天镶的博客 SkyInlayer`s Blog </title>
+		<title>首页 - 天镶的博客 SkyInlayer`s Blog </title>
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		<meta name="description" content="" />
 		<meta name="keywords" content="" />
@@ -12,40 +12,10 @@
 		<link rel="stylesheet" href="/css/style.min.css" />
 		<link rel="stylesheet" href="/css/style-desktop.min.css" />
 		<link rel="stylesheet" href="/css/style-wide.min.css" />
-		<link rel="stylesheet" href="/css/github.min.css" />
 		<script src="/js/jquery.min.js"></script>
 	</head>
 	<body class="left-sidebar">
 		<div id="wrapper">
-			<div id="content">
-				<div id="content-inner">
-					<article class="is-post is-post-excerpt">
-						<header>
-							<h2><a href="#">闭合浮动最佳方案（clearfix）</a></h2>
-							<span class="byline">传统闭合浮动方法与使用:after伪类的闭合浮动</span>
-							<div class="tags">
-								
-									<a class="tag" href="/show_by_tag.html?tag=css" class="tag">css</a>
-								
-							</div>
-						</header>
-						<div class="info">
-							<span class='date'><span class='month'>Jan</span><span class='day'>9</span><span class='year'>2014</span></span>
-						</div>
-						<p>传统方法：</p>
-
-<pre class="css21"><code class="css21">.clear{clear:both;height:0;overflow:hidden;}</code></pre>
-
-<p>这样在需要闭合的地方加一个div.clear就行了，但是会改变html文档结构，所以建议使用以下方式：</p>
-
-<pre class="css21"><code class="css21">.clearfix:after{content:&quot;.&quot;;display:block;height:0;clear:both;visibility:hidden}
-.clearfix{*+height:1%;}</code></pre>
-
-<p>使用after伪类后可以不用改变html文档结构即完成浮动闭合,加在浮动元素的父元素上就可以了</p>
-						<div class="ds-thread" style="min-height:277px"></div>
-					</article>
-				</div>
-			</div>
 			<div id="sidebar">
 				<a href="/" style="text-decoration: none;">
 	<div id="logo">
@@ -54,7 +24,7 @@
 </a>
 <nav id="nav">
 	<ul>
-		<li class=""><a href="/index.html">首页</a></li>
+		<li class="current_page_item"><a href="/index.html">首页</a></li>
 		<li class=""><a href="/archieves.html">所有文章</a></li>
 		<li class=" no_wide_hide"><a href="/items.html">小玩意儿</a></li>
 		<li class=""><a href="/about.html">关于我</a></li>
@@ -104,23 +74,62 @@
 	<p>&copy; 2014 天镶<br /></p>
 </div>
 			</div>
+			<div id="content">
+				<div id="content-inner">
+					<ul>
+	
+	<article class="is-post is-post-excerpt">
+		<header>
+			<h2><a href="/blog/2013/12/08/websocket">搭建HTML5简易聊天室</a></h2>
+			<span class="byline">使用WebSocket+NodeJs搭建聊天室</span>
+			<div class="tags">
+				
+					<a class="tag" href="/show_by_tag.html?tag=WebSocket" class="tag">WebSocket</a>
+				
+					<a class="tag" href="/show_by_tag.html?tag=NodeJs" class="tag">NodeJs</a>
+				
+					<a class="tag" href="/show_by_tag.html?tag=xmpp" class="tag">xmpp</a>
+				
+					<a class="tag" href="/show_by_tag.html?tag=WebIM" class="tag">WebIM</a>
+				
+			</div>
+		</header>
+		<div class="info">
+			<span class='date'><span class='month'>Dec</span><span class='day'>8</span><span class='year'>2013</span></span>
 		</div>
-		<!-- Duoshuo Comment BEGIN -->
-		<script type="text/javascript">
-			var duoshuoQuery = {short_name:"skyinlayer"};
-			(function() {
-				var ds = document.createElement('script');
-				ds.type = 'text/javascript';ds.async = true;
-				ds.src = 'http://static.duoshuo.com/embed.js';
-				ds.charset = 'UTF-8';
-				(document.getElementsByTagName('head')[0] 
-				|| document.getElementsByTagName('body')[0]).appendChild(ds);
-			})();
-		</script>
-		<!-- Duoshuo Comment END -->
+		<!-- <a href="#" class="image image-full"><img src="images/n33-robot-invader.jpg" alt="" /></a> -->
+		之前曾经写过一个符合xmpp协议的Web IM，但使用的是JSJaC，后台用的也是与之配套的jabber client，发现nodejs的事件模式更适合作为Web IM的客户端。而传统的ajax轮询机制也早晚被全双工websocket所取代，所以就打算在我的毕业设计的Web IM平台中使用websocket。在这里调研一下并作出了一个简单的，放在小玩意里了，这里讲一下这个简单demo的实现方式
+	</article>
+	
+
+
+	
+	<div class="pager">
+	
+	  	<a href="/index.html" class="button next">上一页</a>
+	
+	
+	<div class="pages">
+	
+	    
+	      <a href="/index.html">1</a>
+	    
+	
+	    
+	      <span class="active">2</span>
+	    
+	
+	</div>
+
+	
+	</div>
+	
+</ul>
+				</div>
+			</div>
+		</div>
 		<script src="/js/skel.min.js"></script>
 		<script src="/js/skel-panels.min.js"></script>
-		<script src="/js/highlight.pack.js"></script>
 		<script src="/js/init.min.js"></script>
 	</body>
 </html>
