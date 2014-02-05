@@ -17,34 +17,38 @@ title: 首页
 		</header>
 		<div class="info">
 			{{ post.date | date: "<span class='date'><span class='month'>%b</span><span class='day'>%-d</span><span class='year'>%Y</span></span>" }}
+			<ul class="stats" data-thread-key="{{ post.id | md5 }}">
+				<li><a href="#" class="fa fa-comment"></a></li>
+				<li><a href="#" class="fa fa-heart"></a></li>
+				<li><a href="#" class="fa fa-weibo"></a></li>
+			</ul>
 		</div>
-		<!-- <a href="#" class="image image-full"><img src="images/n33-robot-invader.jpg" alt="" /></a> -->
 		{{ post.desc }}
 	</article>
 	{% endfor %}
 
 
 	{% if paginator.total_pages > 1 %}
-	<div class="pager">
-	{% if paginator.previous_page %}
-	  	<a href="{{ paginator.previous_page_path | prepend: site.baseurl | replace: '//', '/' }}" class="button next">上一页</a>
-	{% endif %}
-	
-	<div class="pages">
-	{% for page in (1..paginator.total_pages) %}
-	    {% if page == paginator.page %}
-	      <span class="active">{{ page }}</span>
-	    {% elsif page == 1 %}
-	      <a href="{{ '/index.html' | prepend: site.baseurl | replace: '//', '/' }}">{{ page }}</a>
-	    {% else %}
-	      <a href="{{ site.paginate_path | prepend: site.baseurl | replace: '//', '/' | replace: ':num', page }}">{{ page }}</a>
-	    {% endif %}
-	{% endfor %}
-	</div>
+		<div class="pager">
+		{% if paginator.previous_page %}
+		  	<a href="{{ paginator.previous_page_path | prepend: site.baseurl | replace: '//', '/' }}" class="button next">上一页</a>
+		{% endif %}
+		
+		<div class="pages">
+		{% for page in (1..paginator.total_pages) %}
+		    {% if page == paginator.page %}
+		      <span class="active">{{ page }}</span>
+		    {% elsif page == 1 %}
+		      <a href="{{ '/index.html' | prepend: site.baseurl | replace: '//', '/' }}">{{ page }}</a>
+		    {% else %}
+		      <a href="{{ site.paginate_path | prepend: site.baseurl | replace: '//', '/' | replace: ':num', page }}">{{ page }}</a>
+		    {% endif %}
+		{% endfor %}
+		</div>
 
-	{% if paginator.next_page %}
-	  	<a href="{{ paginator.next_page_path | prepend: site.baseurl | replace: '//', '/' }}" class="button next">下一页</a>
-	{% endif %}
-	</div>
+		{% if paginator.next_page %}
+		  	<a href="{{ paginator.next_page_path | prepend: site.baseurl | replace: '//', '/' }}" class="button next">下一页</a>
+		{% endif %}
+		</div>
 	{% endif %}
 </ul>

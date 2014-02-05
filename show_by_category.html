@@ -1,0 +1,30 @@
+---
+layout: default
+cur: category
+title: 文章分类
+---
+
+<article class="is-post is-post-excerpt">
+	<header>
+		<h2>分类：<span id="cat_head"></span></h2>
+	</header>
+	<div class="info">
+		<span class='date'><span class='month'>文章</span><span class='day' id="cat_count"></span></span>
+	</div>
+	<div>
+		<ul id="archieves" class="arc-list"></ul>
+	</div>
+</article>
+<script type="text/javascript" src="/js/Jquery.Query.js"></script>
+<script type="text/javascript">
+	var dataStr = '{ {% for cat in site.categories %}{% if cat[0] != site.categories.first[0] %},{% endif %}"{{ cat[0] }}":[{% for post in cat[1] %}{% if post != cat[1].first %},{% endif %}{"url":"{{post.url}}", "title":"{{post.title}}", "date":"{{post.date | date:"%d/%m/%Y"}}"}{% endfor %}]{% endfor %} }';
+	var data = JSON.parse(dataStr);
+	var curTag = $.query.get("cat");
+	var archieves = data[curTag];
+	var $archieves = $("#archieves");
+	$("#cat_head").text(curTag);
+	$("#cat_count").text(data[curTag].length);
+	for (var i = 0, max = archieves.length; i < max; i++) {
+		$archieves.append("<li><span class='date'>" + archieves[i].date + "</span><a href='" + archieves[i].url + "'>" + archieves[i].title + "</a><li>");
+	}
+</script>

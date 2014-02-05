@@ -1,5 +1,5 @@
 baseurl: /
 encoding: utf-8
 paginate: 5
-paginate_path: "/index:num"
+paginate_path: "test/page:num"
 permalink: /blog/:year/:month/:day/:title
