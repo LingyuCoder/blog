@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html>
 	<head>
-		<title>闭合浮动最佳方案（clearfix） - 天镶的博客 SkyInlayer`s Blog </title>
+		<title>使用Jekyll在Github上搭建个人博客（将本地博客上传至github） - 天镶的博客 SkyInlayer`s Blog </title>
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		<meta name="description" content="" />
 		<meta name="keywords" content="" />
@@ -21,28 +21,93 @@
 				<div id="content-inner">
 					<article class="is-post is-post-excerpt">
 						<header>
-							<h2><a href="#">闭合浮动最佳方案（clearfix）</a></h2>
-							<span class="byline">传统闭合浮动方法与使用:after伪类的闭合浮动</span>
+							<h2><a href="#">使用Jekyll在Github上搭建个人博客（将本地博客上传至github）</a></h2>
+							<span class="byline">使用jekyll搭建github博客系列</span>
 							<div class="tags">
 								
-									<a class="tag" href="/show_by_tag.html?tag=css" class="tag">css</a>
+									<a class="tag" href="/show_by_tag.html?tag=github" class="tag">github</a>
+								
+									<a class="tag" href="/show_by_tag.html?tag=jekyll" class="tag">jekyll</a>
 								
 							</div>
 						</header>
 						<div class="info">
-							<span class='date'><span class='month'>Jan</span><span class='day'>9</span><span class='year'>2014</span></span>
+							<span class='date'><span class='month'>Feb</span><span class='day'>9</span><span class='year'>2014</span></span>
 						</div>
-						<p>传统方法：</p>
+						<p>系列文章传送门：</p>
 
-<pre class="css21"><code class="css21">.clear{clear:both;height:0;overflow:hidden;}</code></pre>
+<p><a href="http://skyinlayer.com/blog/2014/01/25/jekyll-1/">使用Jekyll在Github上搭建个人博客（环境搭建）</a></p>
 
-<p>这样在需要闭合的地方加一个div.clear就行了，但是会改变html文档结构，所以建议使用以下方式：</p>
+<p><a href="http://skyinlayer.com/blog/2014/01/27/jekyll-2/">使用Jekyll在Github上搭建个人博客（博客编写）</a></p>
 
-<pre class="css21"><code class="css21">.clearfix:after{content:&quot;.&quot;;display:block;height:0;clear:both;visibility:hidden}
-.clearfix{*+height:1%;}</code></pre>
+<p><a href="http://skyinlayer.com/blog/2014/02/06/jekyll-3/">使用Jekyll在Github上搭建个人博客（分页实现）</a></p>
 
-<p>使用after伪类后可以不用改变html文档结构即完成浮动闭合,加在浮动元素的父元素上就可以了</p>
-						<div class="ds-thread" data-thread-key="/blog/2014/01/09/clearfix" data-title="闭合浮动最佳方案（clearfix）" style="min-height:277px"></div>
+<p><a href="http://skyinlayer.com/blog/2014/02/06/jekyll-4/">使用Jekyll在Github上搭建个人博客（文章分类索引）</a></p>
+
+<h3 id="">预先准备</h3>
+
+<p>首先安装git bash和申请，这个文章很多，百度、Google上一抓一大把，就不重复赘述了</p>
+
+<h3 id="git">对已有项目进行git初始化</h3>
+
+<p>到jekyll项目下，运行命令：</p>
+
+<pre class="shell"><code class="shell">$ git init</code></pre>
+
+<h3 id="ghpages">创建一个名为gh-pages的分支</h3>
+
+<pre class="shell"><code class="shell">$ git checkout --orphan gh-pages</code></pre>
+
+<p><a href="http://jekyllrb.com/docs/github-pages/">Jekyll官网的github pages介绍</a>上说如果要部署在github上，必须名称叫gh-pages。所以先创建一个叫gh-pages的分支</p>
+
+<h3 id="_2">发布</h3>
+
+<p>使用命令:</p>
+
+<pre class="shell"><code class="shell">$ git add .
+$ git commit -a -m &quot;v0.0.1 first blood&quot;</code></pre>
+
+<p>提交所有的修改到本地的git仓库</p>
+
+<h3 id="github">上传到github</h3>
+
+<p>使用命令：</p>
+
+<pre class="shell"><code class="shell">$ git remote add origin https://github.com/(github用户名)/(jekyll项目名称).git
+$ git push origin gh-pages</code></pre>
+
+<h3 id="_3">修改后提交</h3>
+
+<p>使用命令：</p>
+
+<pre class="shell"><code class="shell">$ git add .
+$ git commit -a -m &quot;自己的提交注释&quot;
+$ git push origin gh-pages</code></pre>
+
+<p>第一句增加所有新增的文件到项目中</p>
+
+<p>第二句提交所有修改</p>
+
+<p>第三句将修改提交到远程github服务器</p>
+
+<h3 id="_4">绑定到自己的域名</h3>
+
+<p>如果是绑定到一级域名：</p>
+
+<ol>
+<li>首先在项目根目录下创建一个叫CNAME文件，里面写上自己的以及一级域名（如这个博客就是skyinlayer.com）</li>
+
+<li>在DNS中为自己的域名增加一条A记录，指向207.97.227.245</li>
+
+<li>将项目提交到github上，等一会儿（不会超过1小时）</li>
+
+<li>baseurl应该为”/”</li>
+
+<li>访问自己的域名看看结果吧</li>
+</ol>
+
+<p>如果是绑定到二级域名，需要额外在DNS中增加一条CNAME，指向(github用户名).github.io，然后再CNAME文件中修改为自己的二级域名即可</p>
+						<div class="ds-thread" data-thread-key="/blog/2014/02/09/jekyll-5" data-title="使用Jekyll在Github上搭建个人博客（将本地博客上传至github）" style="min-height:277px"></div>
 					</article>
 				</div>
 			</div>
