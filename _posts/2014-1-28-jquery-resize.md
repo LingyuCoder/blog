@@ -3,7 +3,7 @@ layout: art
 title: 使用jQuery监听DOM元素大小变化
 subTitle: 使用jQuery实现
 desc: 今天写页面的时候突然有这么个需求，由于父元素（一个DIV）的height是由javascript计算出来的固定的值，而在其中增加了一个多说插件，在用户评论后，子元素（DIV）的height属性增加，导致子元素溢出。但是又不知道如何为多说的评论按钮增加回调函数，于是乎就想到了根据子元素的大小变化来重新计算父元素的height。
-tags: [jQuery]
+tags: [jQuery, JavaScript]
 categories: [前端技术]
 ---
 {% raw %}
