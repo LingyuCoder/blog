@@ -6,7 +6,7 @@ desc:
 tags: [css]
 categories: [前端技术]
 ---
-
+{% raw %}
 传统方法：
 ```css
 .clear{clear:both;height:0;overflow:hidden;}
@@ -17,3 +17,5 @@ categories: [前端技术]
 .clearfix{*+height:1%;}
 ```
 使用after伪类后可以不用改变html文档结构即完成浮动闭合,加在浮动元素的父元素上就可以了
+
+{% endraw %}

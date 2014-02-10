@@ -1,0 +1,627 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>JavaScript选择题解答（1-20） - 天镶的博客 SkyInlayer`s Blog </title>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<meta name="description" content="" />
+		<meta name="keywords" content="" />
+		<link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400italic,700|Open+Sans+Condensed:300,700" rel="stylesheet" />
+		<noscript>
+			<link rel="stylesheet" href="/css/skel-noscript.min.css" />
+		</noscript>
+		<link rel="stylesheet" href="/css/style.min.css" />
+		<link rel="stylesheet" href="/css/style-desktop.min.css" />
+		<link rel="stylesheet" href="/css/style-wide.min.css" />
+		<link rel="stylesheet" href="/css/github.min.css" />
+		<script src="/js/jquery.min.js"></script>
+	</head>
+	<body class="left-sidebar">
+		<div id="wrapper">
+			<div id="content">
+				<div id="content-inner">
+					<article class="is-post is-post-excerpt">
+						<header>
+							<h2><a href="#">JavaScript选择题解答（1-20）</a></h2>
+							<span class="byline">javascript puzzlers的个人解答</span>
+							<div class="tags">
+								
+									<a class="tag" href="/show_by_tag.html?tag=javascript" class="tag">javascript</a>
+								
+							</div>
+						</header>
+						<div class="info">
+							<span class='date'><span class='month'>Feb</span><span class='day'>10</span><span class='year'>2014</span></span>
+						</div>
+						<p>最近做了个heroku上的JavaScript的测试（<a href="http://javascript-puzzlers.herokuapp.com/">题目地址</a>），错了一大堆，感觉js的概念还有很多不是很清晰，这里记录一下</p>
+
+<h3 id="">第一题</h3>
+
+<p>What is the result of this expression? (or multiple ones)</p>
+
+<pre class="javascript"><code class="javascript">[&quot;1&quot;, &quot;2&quot;, &quot;3&quot;].map(parseInt) </code></pre>
+
+<p>A：[“1”, “2”, “3”]</p>
+
+<p>B：[1, 2, 3]</p>
+
+<p>C：[0, 1, 2]</p>
+
+<p>D：other</p>
+
+<p>解答：这里考的是map、parseInt的用法。map会传递三个参数给其作为参数的函数，为(element, index, array)，分别为当前的元素、当前元素在数组中的位置、整个数组：</p>
+
+<pre><code>&gt; [&quot;1&quot;, &quot;2&quot;, &quot;3&quot;].map(function(){console.log(arguments)}) 
+[&quot;1&quot;, 0, Array[3]]
+[&quot;2&quot;, 1, Array[3]]
+[&quot;3&quot;, 2, Array[3]]</code></pre>
+
+<p>而parseInt只接收两个参数，为(element, radix)，element代表需要被转换为int的字符串，radix代表当前字符串里数字的进制数</p>
+
+<p>所以相当于说，结果数组的元素实际分别为为：</p>
+
+<pre><code>parseInt(&quot;1&quot;, 0)
+parseInt(&quot;2&quot;, 1)
+parseInt(&quot;3&quot;, 2)</code></pre>
+
+<p>parseInt(“1”, 0)的值为1，MDN上可以看到parseInt函数的radix为0时的行为</p>
+
+<p>If radix is undefined or 0 (or absent), JavaScript assumes the following:</p>
+
+<p>If the input string begins with “0x” or “0X”, radix is 16 (hexadecimal) and the remainder of the string is parsed.</p>
+
+<p>If the input string begins with “0”, radix is eight (octal) or 10 (decimal). Exactly which radix is chosen is implementation-dependent. ECMAScript 5 specifies that 10 (decimal) is used, but not all browsers support this yet. For this reason always specify a radix when using parseInt.</p>
+
+<p>If the input string begins with any other value, the radix is 10 (decimal).</p>
+
+<p>所以这里radix值实际为10，所以结果为1</p>
+
+<p>而parseInt(“2”, 1)和parseInt(“3”, 2)则确实无法解析，会生成NaN</p>
+
+<p>所以答案为[1,NaN,NaN]，为D</p>
+
+<h3 id="_2">第二题和第五题</h3>
+
+<p>What is the result of this expression? (or multiple ones)</p>
+
+<pre class="javascript"><code class="javascript">[typeof null, null instanceof Object]</code></pre>
+
+<p>A: [“object”, false]</p>
+
+<p>B: [null, false]</p>
+
+<p>C: [“object”, true]</p>
+
+<p>D: other</p>
+
+<p>考察typeof运算符和instanceof运算符，上MDN上看一下typeof运算符，一些基础类型的结果为： Undefined “undefined” Null “object” Boolean “boolean” Number “number” String “string” Any other object “object” Array “object”</p>
+
+<p>自从javascript创造出来，typeof null的值就是object了</p>
+
+<p>而null instanceof 任何类型 都是false</p>
+
+<p>所以答案为[“object”, false], 选A</p>
+
+<h3 id="_3">第三题</h3>
+
+<p>What is the result of this expression? (or multiple ones)</p>
+
+<pre class="javascript"><code class="javascript">[ [3,2,1].reduce(Math.pow), [].reduce(Math.pow)] ]</code></pre>
+
+<p>A: an error</p>
+
+<p>B: [9, 0]</p>
+
+<p>C: [9, NaN]</p>
+
+<p>D: [9, undefined]</p>
+
+<p>这题考的Math.pow和Array.prototype.reduce</p>
+
+<p>Math.pow(base, exponent)接受两个参数：基数、需要计算的次方</p>
+
+<p>reduce传递给其作为参数的函数几个值：</p>
+
+<ul>
+<li>previousValue：上一次计算的结果</li>
+
+<li>currentValue：当前元素的值</li>
+
+<li>index： 当前元素在数组中的位置</li>
+
+<li>array：整个数组</li>
+</ul>
+
+<p>reduce本身接受两个参数，callback和initialValue，分别是reduce的回调函数和计算初始值–也就是第一次reduce的callback被调用时的previousValue的值，默认为0</p>
+
+<p>reduce在数组为空且没有定义initialValue时，会抛出错误，如chrome下：TypeError: Reduce of empty array with no initial value</p>
+
+<p>所以选A</p>
+
+<h3 id="_4">第四题</h3>
+
+<p>What is the result of this expression? (or multiple ones)</p>
+
+<pre class="javascript"><code class="javascript">var val = &#39;smtg&#39;;
+console.log(&#39;Value is &#39; + (val === &#39;smtg&#39;) ? &#39;Something&#39; : &#39;Nothing&#39;);</code></pre>
+
+<p>A: Value is Something</p>
+
+<p>B: Value is Nothing</p>
+
+<p>C: NaN</p>
+
+<p>D: other</p>
+
+<p>这题考的javascript中的运算符符优先级，<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Operator_Precedence">MDN传送门</a>，这里’+’运算符的优先级要高于’?’所以运算符，实际上是 ‘Value is true’?’Something’ : ‘Nothing’，当字符串不为空时，转换为bool为true，所以结果为’Something’，选D</p>
+
+<h3 id="_5">第六题</h3>
+
+<p>What is the result of this expression? (or multiple ones)</p>
+
+<pre class="javascript"><code class="javascript">var name = &#39;World!&#39;;
+(function () {
+    if (typeof name === &#39;undefined&#39;) {
+        var name = &#39;Jack&#39;;
+        console.log(&#39;Goodbye &#39; + name);
+    } else {
+        console.log(&#39;Hello &#39; + name);
+    }
+})();</code></pre>
+
+<p>A: Goodbye Jack</p>
+
+<p>B: Hello Jack</p>
+
+<p>C: Hello undefined</p>
+
+<p>D: Hello World</p>
+
+<p>这题考的是javascript作用域中的变量提升，javascript的作用于中使用var定义的变量都会被提升到所有代码的最前面，于是乎这段代码就成了：</p>
+
+<pre class="javascript"><code class="javascript">var name = &#39;World!&#39;;
+(function () {
+    var name;//现在还是undefined
+    if (typeof name === &#39;undefined&#39;) {
+        name = &#39;Jack&#39;;
+        console.log(&#39;Goodbye &#39; + name);
+    } else {
+        console.log(&#39;Hello &#39; + name);
+    }
+})();</code></pre>
+
+<p>这样就很好理解了，<code>typeof name === &#39;undefined&#39;</code>的结果为true，所以最后会输出’Goodbye Jack’，选A</p>
+
+<h3 id="_6">第七题</h3>
+
+<p>What is the result of this expression? (or multiple ones)</p>
+
+<pre class="javascript"><code class="javascript">var END = Math.pow(2, 53);
+var START = END - 100;
+var count = 0;
+for (var i = START; i &lt;= END; i++) {
+    count++;
+}
+console.log(count);</code></pre>
+
+<p>A: 0</p>
+
+<p>B: 100</p>
+
+<p>C: 101</p>
+
+<p>D: other</p>
+
+<p>这题考查javascript中的数字的概念：首先明确一点，javascript和其他语言不同，仅有一种数字，IEEE 754标准的64位浮点数，能够表示的整数范围是-2^53~2^53（包含边界值），所以Math.pow(2, 53)即为javascript中所能表示的最大整数，在最大整数在继续增大就会出现精度丢失的情况，END + 1 的值其实是等于END的，这也就造成了死循环，所以选D</p>
+
+<h3 id="_7">第八题</h3>
+
+<p>What is the result of this expression? (or multiple ones)</p>
+
+<pre class="javascript"><code class="javascript">var ary = [0,1,2];
+ary[10] = 10;
+ary.filter(function(x) { return x === undefined;});</code></pre>
+
+<p>A: [undefined 脳 7]</p>
+
+<p>B: [0, 1, 2, 10]</p>
+
+<p>C: []</p>
+
+<p>D: [undefined]</p>
+
+<p>考查Array.prototype.filter方法的使用，MDN上有这么一句it is not invoked for indexes which have been deleted or which have never been assigned values，所以结果为空数组，选C</p>
+
+<h3 id="_8">第九题</h3>
+
+<p>What is the result of this expression? (or multiple ones)</p>
+
+<pre class="javascript"><code class="javascript">var two   = 0.2
+var one   = 0.1
+var eight = 0.8
+var six   = 0.6
+[two - one == one, eight - six == two]</code></pre>
+
+<p>A: [true, true]</p>
+
+<p>B: [false, false]</p>
+
+<p>C: [true, false]</p>
+
+<p>D: other</p>
+
+<p>浮点数计算时的精度丢失问题，其他语言也会出现…至于结果，反正我是蒙的…chrome中计算出来的结果：[0.1, 0.20000000000000007]，也就是[true, false]，选C</p>
+
+<h3 id="_9">第十题</h3>
+
+<p>What is the result of this expression? (or multiple ones)</p>
+
+<pre class="javascript"><code class="javascript">function showCase(value) {
+    switch(value) {
+    case &#39;A&#39;:
+        console.log(&#39;Case A&#39;);
+        break;
+    case &#39;B&#39;:
+        console.log(&#39;Case B&#39;);
+        break;
+    case undefined:
+        console.log(&#39;undefined&#39;);
+        break;
+    default:
+        console.log(&#39;Do not know!&#39;);
+    }
+}
+showCase(new String(&#39;A&#39;));</code></pre>
+
+<p>A: Case A</p>
+
+<p>B: Case B</p>
+
+<p>C: Do not know!</p>
+
+<p>D: undefined</p>
+
+<p>这题考的是使用new方法创建基础类型，使用new方法创建的基础类型，首先来看个栗子(chrome):</p>
+
+<pre class="javascript"><code class="javascript">&gt; typeof new String(&quot;skyinlayer&quot;);
+&quot;object&quot;
+typeof &quot;skyinlayer&quot;;
+&quot;string&quot;</code></pre>
+
+<p>这样基本上就能看到结果了，但是为什么呢？MDN上的解释是，字符串字面量和直接调用String()方法（不使用new调用构造函数）的结果是原始字符串。JS自动回转化原始字符串到String对象。所以可以在原始字符串上使用用String对象的方法。而在上下文中，在原始字符串的方法被调用或者从其中获取属性时，JS会自动包裹原始字符串然后调用方法或者获取属性。</p>
+
+<p>所以呢，JS本身有原始字符串和字符串对象之分，只不过在调用方法和获取属性时的时候会自动转换，但typeof运算符运算时是不会转换的。Number和Boolean同样适用</p>
+
+<p>所以这里结果为Do not know!，选C</p>
+
+<h3 id="_10">第十一题</h3>
+
+<p>What is the result of this expression? (or multiple ones)</p>
+
+<pre class="javascript"><code class="javascript">function showCase2(value) {
+    switch(value) {
+    case &#39;A&#39;:
+        console.log(&#39;Case A&#39;);
+        break;
+    case &#39;B&#39;:
+        console.log(&#39;Case B&#39;);
+        break;
+    case undefined:
+        console.log(&#39;undefined&#39;);
+        break;
+    default:
+        console.log(&#39;Do not know!&#39;);
+    }
+}
+showCase(String(&#39;A&#39;));</code></pre>
+
+<p>A: Case A</p>
+
+<p>B: Case B</p>
+
+<p>C: Do not know!</p>
+
+<p>D: undefined</p>
+
+<p>和上题原理一样，不过这里没有使用new来生成字符串，所以生成的结果就是原始字符串，相当于<code>showCase(&#39;A&#39;)</code>，所以结果就是A了</p>
+
+<h3 id="_11">第十二题</h3>
+
+<p>What is the result of this expression? (or multiple ones)</p>
+
+<pre class="javascript"><code class="javascript">function isOdd(num) {
+    return num % 2 == 1;
+}
+function isEven(num) {
+    return num % 2 == 0;
+}
+function isSane(num) {
+    return isEven(num) || isOdd(num);
+}
+var values = [7, 4, &#39;13&#39;, -9, Infinity];
+values.map(isSane);</code></pre>
+
+<p>A: [true, true, true, true, true]</p>
+
+<p>B: [true, true, true, true, false]</p>
+
+<p>C: [true, true, true, false, false]</p>
+
+<p>D: [true, true, false, false, false]</p>
+
+<p>还是JS的数字相关，不过这次考察的是取模，这题我也是瞎蒙的（果断跪了）。</p>
+
+<p>前两个基本上没什么疑问，必然是true</p>
+
+<p>‘13’在进行计算前则会进行隐式类型转换（JS最恶心的部分之一），详细参见<a href="http://www.cnblogs.com/mizzle/archive/2011/08/12/2135885.html">$雨$的文章《Javascript类型转换的规则》</a>，这里的规则就是将字符串通过Number()方法转换为数字，所以结果为13 % 2 ，也就是true</p>
+
+<p>而JS中负数取模的结果是负数，这里-9%2的结果实际上是-1，所以为false</p>
+
+<p>而Infinity对任意数取模都是NaN，所以是false</p>
+
+<p>综上，结果为[true, true, true, false, false]，也就是C</p>
+
+<h3 id="_12">第十三题</h3>
+
+<p>What is the result of this expression? (or multiple ones)</p>
+
+<pre class="javascript"><code class="javascript">parseInt(3, 8)
+parseInt(3, 2)
+parseInt(3, 0)</code></pre>
+
+<p>A: 3, 3, 3</p>
+
+<p>B: 3, 3, NaN</p>
+
+<p>C: 3, NaN, NaN</p>
+
+<p>D: other</p>
+
+<p>还是parseInt的题，考的和第一题类似，第一个值为3没什么好说的。如果出现的数字不符合后面输入的进制，则为NaN，所以第二个值为NaN。而radix为0时的情况第一题下面有介绍，这里也是一样为默认10，所以结果为3，所以答案为3, NaN, 3，选D</p>
+
+<h3 id="_13">第十四题</h3>
+
+<p>What is the result of this expression? (or multiple ones)</p>
+
+<pre class="javascript"><code class="javascript">Array.isArray( Array.prototype )</code></pre>
+
+<p>A: true</p>
+
+<p>B: false</p>
+
+<p>C: error</p>
+
+<p>D: other</p>
+
+<p>死知识，<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/prototype">MDN传送门</a>，这是MDN官方给的例子</p>
+
+<h3 id="_14">第十五题</h3>
+
+<p>What is the result of this expression? (or multiple ones)</p>
+
+<pre class="javascript"><code class="javascript">var a = [0];
+if ([0]) { 
+  console.log(a == true);
+} else { 
+  console.log(&quot;wut&quot;);
+}</code></pre>
+
+<p>A: true</p>
+
+<p>B: false</p>
+
+<p>C: “wut”</p>
+
+<p>D: other</p>
+
+<p>同样是一道隐式类型转换的题，不过这次考虑的是’==’运算符，a本身是一个长度为1的数组，而当数组不为空时，其转换成bool值为true。</p>
+
+<p>而==左右的转换，会使用<code>如果一个操作值为布尔值，则在比较之前先将其转换为数值</code>的规则来转换，Number([0])，也就是0，于是变成了0 == true，结果自然是false，所以最终结果为B</p>
+
+<h3 id="_15">第十六题</h3>
+
+<p>What is the result of this expression? (or multiple ones)</p>
+
+<pre class="javascript"><code class="javascript">[] == []</code></pre>
+
+<p>A: true</p>
+
+<p>B: false</p>
+
+<p>C: error</p>
+
+<p>D: other</p>
+
+<p>这题考的是数组字面量创建数组的原理和==运算符，首先JS中数组的真实类型是Object这点很明显<code>typeof []</code>的值为”object”，而==运算符当左右都是对象时，则会比较其是否指向同一个对象。而每次调用字面量创建，都会创造新的对象，也就是会开辟新的内存区域。所以指针的值自然不一样，结果为 false，选B</p>
+
+<h3 id="_16">第十七题</h3>
+
+<p>What is the result of this expression? (or multiple ones)</p>
+
+<pre class="javascript"><code class="javascript">&#39;5&#39; + 3  
+&#39;5&#39; - 3  </code></pre>
+
+<p>A: 53, 2</p>
+
+<p>B: 8, 2</p>
+
+<p>C: error</p>
+
+<p>D: other</p>
+
+<p>又是一道隐式类型转换的题</p>
+
+<p>加法： 加法运算中，如果有一个操作值为字符串类型，则将另一个操作值转换为字符串，最后连接起来</p>
+
+<p>减法： 如果操作值之一不是数值，则被隐式调用Number()函数进行转换</p>
+
+<p>所以第一行结果为字符串运算，为’53’。第二行结果为2，选A</p>
+
+<h3 id="_17">第十八题</h3>
+
+<p>What is the result of this expression? (or multiple ones)</p>
+
+<pre class="javascript"><code class="javascript">1 + - + + + - + 1 </code></pre>
+
+<p>A: 2</p>
+
+<p>B: 1</p>
+
+<p>C: error</p>
+
+<p>D: other</p>
+
+<p>C语言中的经典…对于这种问题，原理什么的不懂，蒙吧，结果是2</p>
+
+<h3 id="_18">第十九题</h3>
+
+<p>What is the result of this expression? (or multiple ones)</p>
+
+<pre class="javascript"><code class="javascript">var ary = Array(3);
+ary[0]=2
+ary.map(function(elem) { return &#39;1&#39;; }); </code></pre>
+
+<p>A: [2, 1, 1]</p>
+
+<p>B: [“1”, “1”, “1”]</p>
+
+<p>C: [2, “1”, “1”]</p>
+
+<p>D: other</p>
+
+<p>又是考的Array.prototype.map的用法，map在使用的时候，只有数组中被初始化过元素才会被触发，其他都是undefined，所以结果为[“1”, undefined × 2]，选D</p>
+
+<h3 id="_19">第二十题</h3>
+
+<p>What is the result of this expression? (or multiple ones)</p>
+
+<pre class="javascript"><code class="javascript">function sidEffecting(ary) { 
+  ary[0] = ary[2];
+}
+function bar(a,b,c) { 
+  c = 10
+  sidEffecting(arguments);
+  return a + b + c;
+}
+bar(1,1,1)</code></pre>
+
+<p>A: 3</p>
+
+<p>B: 12</p>
+
+<p>C: error</p>
+
+<p>D: other</p>
+
+<p>这题考的是JS的函数arguments的概念：</p>
+
+<p>在调用函数时，函数内部的arguments维护着传递到这个函数的参数列表。它看起来是一个数组，但实际上它只是一个有length属性的Object，不从Array.prototype继承。所以无法使用一些Array.prototype的方法。</p>
+
+<p>arguments对象其内部属性以及函数形参创建getter和setter方法，因此改变形参的值会影响到arguments对象的值，反过来也是一样</p>
+
+<p>具体例子可以参见<a href="http://bonsaiden.github.io/JavaScript-Garden/zh/#function.arguments">Javascript秘密花园#arguments</a></p>
+
+<p>所以，这里所有的更改都将生效，a和c的值都为10，a+b+c的值将为21，选D</p>
+						<div class="ds-thread" data-thread-key="/blog/2014/02/10/javascript-puzzlers" data-title="JavaScript选择题解答（1-20）" style="min-height:277px"></div>
+					</article>
+				</div>
+			</div>
+			<div id="sidebar">
+				<a href="/" style="text-decoration: none;">
+	<div id="logo">
+		<h1>SkyInlayer</h1>
+	</div>
+</a>
+<nav id="nav">
+	<ul>
+		<li class=""><a href="/index.html">首页</a></li>
+		<li class=""><a href="/archieves.html">所有文章</a></li>
+		<li class=" no_wide_hide"><a href="/items.html">小玩意儿</a></li>
+		<li class=""><a href="/about.html">关于我</a></li>
+	</ul>
+</nav>
+<section class="is-recent-posts">
+	<header>
+		<h2>最近的文章</h2>
+	</header>
+	<ul>
+		
+		<li><a href="/blog/2014/02/10/javascript-puzzlers">JavaScript选择题解答（1-20）</a>10 Feb 2014</li>
+		
+		<li><a href="/blog/2014/02/09/jekyll-5">使用Jekyll在Github上搭建个人博客（将本地博客上传至github）</a>09 Feb 2014</li>
+		
+		<li><a href="/blog/2014/02/09/box-shadow-pix-image">使用box-shadow绘制像素画</a>09 Feb 2014</li>
+		
+		<li><a href="/blog/2014/02/06/jekyll-4">使用Jekyll在Github上搭建个人博客（文章分类索引）</a>06 Feb 2014</li>
+		
+		<li><a href="/blog/2014/02/05/repost-rujingyurushi">【转载】入静和入世</a>05 Feb 2014</li>
+		
+	</ul>
+</section>
+<section class="is-recent-posts">
+	<header>
+		<h2>文章类别</h2>
+	</header>
+	<ul>
+		
+		<li><a href="/show_by_category.html?cat=网站建设">网站建设</a>6</li>
+		
+		<li><a href="/show_by_category.html?cat=前端技术">前端技术</a>4</li>
+		
+		<li><a href="/show_by_category.html?cat=生活情感">生活情感</a>2</li>
+		
+	</ul>
+</section>
+<section class="is-recent-posts">
+	<header>
+		<h2>文章标签</h2>
+	</header>
+	<div class="tags">
+		
+		<a class="tag" href="/show_by_tag.html?tag=WebSocket"> WebSocket</a>
+	    
+		<a class="tag" href="/show_by_tag.html?tag=NodeJs"> NodeJs</a>
+	    
+		<a class="tag" href="/show_by_tag.html?tag=xmpp"> xmpp</a>
+	    
+		<a class="tag" href="/show_by_tag.html?tag=WebIM"> WebIM</a>
+	    
+		<a class="tag" href="/show_by_tag.html?tag=css"> css</a>
+	    
+		<a class="tag" href="/show_by_tag.html?tag=github"> github</a>
+	    
+		<a class="tag" href="/show_by_tag.html?tag=jekyll"> jekyll</a>
+	    
+		<a class="tag" href="/show_by_tag.html?tag=jQuery"> jQuery</a>
+	    
+		<a class="tag" href="/show_by_tag.html?tag=生活"> 生活</a>
+	    
+		<a class="tag" href="/show_by_tag.html?tag=思考"> 思考</a>
+	    
+		<a class="tag" href="/show_by_tag.html?tag=javascript"> javascript</a>
+	    
+	</div>
+</section>
+<div id="copyright">
+	<p>&copy; 2014 天镶<br /></p>
+</div>
+			</div>
+		</div>
+		<!-- Duoshuo Comment BEGIN -->
+		<script type="text/javascript">
+			var duoshuoQuery = {short_name:"skyinlayer"};
+			(function() {
+				var ds = document.createElement('script');
+				ds.type = 'text/javascript';ds.async = true;
+				ds.src = 'http://static.duoshuo.com/embed.js';
+				ds.charset = 'UTF-8';
+				(document.getElementsByTagName('head')[0] 
+				|| document.getElementsByTagName('body')[0]).appendChild(ds);
+			})();
+		</script>
+		<!-- Duoshuo Comment END -->
+		<script src="/js/skel.min.js"></script>
+		<script src="/js/skel-panels.min.js"></script>
+		<script src="/js/highlight.pack.js"></script>
+		<script src="/js/init.min.js"></script>
+	</body>
+</html>

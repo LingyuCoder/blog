@@ -6,7 +6,7 @@ desc: 之前曾经写过一个符合xmpp协议的Web IM，但使用的是JSJaC�
 tags: [WebSocket, NodeJs, xmpp, WebIM]
 categories: [网站建设]
 ---
-
+{% raw %}
 ###前面的话###
 ***
 之前曾经写过一个符合xmpp协议的Web IM，但使用的是JSJaC，后台用的也是与之配套的jabber client，发现nodejs的事件模式更适合作为Web IM的客户端。
@@ -344,3 +344,5 @@ close事件在WS客服端给这个WS服务器发送关闭请求时调用
 ###写在最后###
 ***
 这样一个完整的基于WebSocket的简单聊天室就完成了，试用一下，虽然功能不完善，但是已经可以用了，并且兼容firefox25和chrome
+
+{% endraw %}
