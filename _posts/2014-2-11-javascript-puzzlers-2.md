@@ -142,4 +142,61 @@ D: other
 
 如果要表示最小的负数和最大的负数，可以使用\-Number.MAX\_VALUE和\-Number.MIN\_VALUE
 
+###第二十四题
+What is the result of this expression? (or multiple ones)
+```javascript
+[1 < 2 < 3, 3 < 2 < 1]
+```
+A: \[true, true\]
+
+B: \[true, false\]
+
+C: error
+
+D: other
+
+运算符的运算顺序和隐式类型转换的题，从[MDN上运算符优先级](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Operator_Precedence)，'<'运算符顺序是从左到右，所以变成了\[true < 3, false < 1\]
+
+接着进行隐式类型转换，'<'操作符的转换规则（来自[$雨$的文章《Javascript类型转换的规则》](http://www.cnblogs.com/mizzle/archive/2011/08/12/2135885.html)）:
+
+1. 如果两个操作值都是数值，则进行数值比较
+2. 如果两个操作值都是字符串，则比较字符串对应的字符编码值
+3. 如果只有一个操作值是数值，则将另一个操作值转换为数值，进行数值比较
+4. 如果一个操作数是对象，则调用valueOf()方法（如果对象没有valueOf()方法则调用toString()方法），得到的结果按照前面的规则执行比较
+5. 如果一个操作值是布尔值，则将其转换为数值，再进行比较
+
+所以，这里首先通过Number()转换为数字然后进行比较，true会转换成1，而false转换成0，就变成了\[1 < 3, 0 < 1\]
+
+所以结果为A
+
+###第二十五题
+What is the result of this expression? (or multiple ones)
+```javascript
+// the most classic wtf
+2 == [[[2]]]
+```
+A: true
+
+B: false
+
+C: undefined
+
+D: other
+
+又是隐式类型转换的题（汗）
+
+题目作者的解释是：
+both objects get converted to strings and in both cases the resulting string is "2"
+
+也就是说左右两边都被转换成了字符串，而字符串都是"2"
+
+这里首先需要对==右边的数组进行类型转换，根据以下规则（来自[justjavac的文章《「译」JavaScript 的怪癖 1：隐式类型转换》](http://justjavac.iteye.com/blog/1848749)）：
+1. 调用 valueOf()。如果结果是原始值（不是一个对象），则将其转换为一个数字。
+2. 否则，调用 toString() 方法。如果结果是原始值，则将其转换为一个数字。
+3. 否则，抛出一个类型错误。
+
+所以右侧被使用toString()方法转换为"2"，然后又通过Number("2")转换为数字2进行比较，结果就是true了，选A
+
+
+
 {% endraw %}
