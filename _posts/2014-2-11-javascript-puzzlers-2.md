@@ -197,6 +197,60 @@ both objects get converted to strings and in both cases the resulting string is 
 
 所以右侧被使用toString()方法转换为"2"，然后又通过Number("2")转换为数字2进行比较，结果就是true了，选A
 
+###第二十六题
+What is the result of this expression? (or multiple ones)
+```javascript
+3.toString()
+3..toString()
+3...toString()
+```
+A: "3", error, error
+
+B: "3", "3.0", error
+
+C: error, "3", error
+
+D: other
+
+说实话这题有点常见了，很多人都踩过3.toString()的坑（包括我）...虽然JavaScript会在调用方法时对原始值进行包装，但是这个点是小数点呢、还是方法调用的点呢，于是乎第一个就是error了，因为JavaScript解释器会将其认为是小数点。
+
+而第二个则很好说通了，第一个点解释为小数点，变成了(3.0).toString()，结果就是"3"了
+
+第三个也是，第一个点为小数点，第二个是方法调用的点，但是后面接的不是一个合法的方法名，于是乎就error了
+
+综上，选C
+
+###第二十七题
+What is the result of this expression? (or multiple ones)
+```javascript
+(function(){
+  var x = y = 1;
+})();
+console.log(y);
+console.log(x);
+```
+A: 1, 1
+
+B: error, error
+
+C: 1, error
+
+D: other
+
+变量提升和隐式定义全局变量的题，也是一个JavaScript经典的坑...
+
+还是那句话，在作用域内，变量定义和函数定义会先行提升，所以里面就变成了:
+```javascript
+(function(){
+    var x;
+    y = 1;
+    x = 1;
+})();
+```
+这点会问了，为什么不是```var x, y;```，这就是坑的地方...这里只会定义第一个变量x，而y则会通过不使用var的方式直接使用，于是乎就隐式定义了一个全局变量y
+
+所以，y是全局作用域下，而x则是在函数内部，结果就为1, error，选C
+
 
 
 {% endraw %}
