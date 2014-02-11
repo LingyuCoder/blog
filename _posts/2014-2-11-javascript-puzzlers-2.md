@@ -121,6 +121,7 @@ C: error
 D: other
 
 考查的Number.MIN\_VALUE的概念，[MDN传送门](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/MIN_VALUE)，关键的几句话
+
 * The Number.MIN_VALUE property represents the smallest positive numeric value representable in JavaScript.
 翻译：Number.MIN_VALUE表示的是JavaScript中最小的正数
 
@@ -139,7 +140,7 @@ D: other
 * Number.NEGATIVE_INFINITY：负无穷大
 * Number.POSITIVE_INFINITY：正无穷大
 
-如果要表示最小的负数和最大的负数，可以使用-Number.MAX\_VALUE和-Number.MIN\_VALUE
+如果要表示最小的负数和最大的负数，可以使用\-Number.MAX\_VALUE和\-Number.MIN\_VALUE
 
 ###第二十四题
 What is the result of this expression? (or multiple ones)
