@@ -251,6 +251,30 @@ D: other
 
 所以，y是全局作用域下，而x则是在函数内部，结果就为1, error，选C
 
+###第二十八题
+What is the result of this expression? (or multiple ones)
+```javascript
+var a = /123/,
+    b = /123/;
+a == b
+a === b
+```
+A: true, true
+
+B: true, false
+
+C: false, false
+
+D: other
+
+首先需要明确JavaScript的正则表达式是什么。JavaScript中的正则表达式依旧是对象，使用typeof运算符就能得出结果：
+```javascript
+console.log(typeof /123/);
+//输出结果：
+//"object"
+```
+==运算符左右两边都是对象时，会比较他们是否指向同一个对象，可以理解为C语言中两个指针的值是否一样（指向同一片内存），所以两个结果自然都是false
+
 
 
 {% endraw %}
