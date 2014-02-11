@@ -259,8 +259,13 @@ var a = /123/,
 a == b
 a === b
 ```
+A: true, true
 
+B: true, false
 
+C: false, false
+
+D: other
 ###第二十九题
 What is the result of this expression? (or multiple ones)
 ```javascript
