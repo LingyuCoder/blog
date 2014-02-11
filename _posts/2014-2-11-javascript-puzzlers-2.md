@@ -253,12 +253,7 @@ D: other
 
 ###第二十八题
 What is the result of this expression? (or multiple ones)
-```javascript
-var a = /123/,
-    b = /123/;
-a == b
-a === b
-```
+
 A: true, true
 
 B: true, false
@@ -275,6 +270,221 @@ console.log(typeof /123/);
 ```
 ==运算符左右两边都是对象时，会比较他们是否指向同一个对象，可以理解为C语言中两个指针的值是否一样（指向同一片内存），所以两个结果自然都是false
 
+###第二十九题
+What is the result of this expression? (or multiple ones)
+```javascript
+var a = [1, 2, 3],
+    b = [1, 2, 3],
+    c = [1, 2, 4]
+a == b
+a === b
+a > c
+a < c
+```
+A: false, false, false, true
 
+B: false, false, false, false
+
+C: true, true, false, true
+
+D: other
+
+和上题类似，JavaScript中Array的本质也是对象，所以前两个的结果都是false，
+
+而JavaScript中Array的'>'运算符和'<'运算符的比较方式类似于字符串比较字典序，会从第一个元素开始进行比较，如果一样比较第二个，还一样就比较第三个，如此类推，所以第三个结果为false，第四个为true。
+
+综上所述，结果为false, false, false, true，选A
+
+###第三十题
+What is the result of this expression? (or multiple ones)
+```javascript
+var a = {}, b = Object.prototype;
+[a.prototype === b, Object.getPrototypeOf(a) === b]
+```
+A: \[false, true\]
+
+B: \[true, true\]
+
+C: \[false, false\]
+
+D: other
+
+原型链的题（总会有的），考查的\_\_proto\_\_和prototype的区别。首先要明确对象和构造函数的关系，对象在创建的时候，其\_\_proto\_\_会指向其构造函数的prototype属性
+
+Object实际上是一个构造函数（typeof Object的结果为"function"）,使用字面量创建对象和new Object创建对象是一样的，所以a.\_\_proto\_\_也就是Object.prototype，而Object.getPrototypeOf(a)与a.\_\_proto\_\_是一样的，所以第二个结果为true
+
+而实例对象是没有prototype属性的，只有函数才有，所以a.prototype其实是undefined，第一个结果为false
+
+综上，选A
+
+###第三十一题
+What is the result of this expression? (or multiple ones)
+```javascript
+function f() {}
+var a = f.prototype, b = Object.getPrototypeOf(f);
+a === b
+```
+A: true
+
+B: false
+
+C: null
+
+D: other
+
+还是\_\_proto\_\_和prototype的区别，两者不是一个东西，所以选B
+
+###第三十二题
+What is the result of this expression? (or multiple ones)
+```javascript
+function foo() { }
+var oldName = foo.name;
+foo.name = "bar";
+[oldName, foo.name]
+```
+A: error
+
+B: \["", ""\]
+
+C: \["foo", "foo"\]
+
+D: \["foo", "bar"\]
+
+考察了函数的name属性，使用函数定义方式时，会给function对象本身添加一个name属性，保存了函数的名称，很好理解oldName为"foo"。name属性时只读的，不允许修改，所以```foo.name = "bar";```之后，foo.name还是"foo"，所以结果为\["foo", "foo"\]，选C
+
+PS：name属性不是一个标准属性，不要去使用，除非你想要坑别人
+
+###第三十三题
+What is the result of this expression? (or multiple ones)
+```javascript
+"1 2 3".replace(/\d/g, parseInt)
+```
+A: "1 2 3"
+
+B: "0 1 2"
+
+C: "NaN 2 3"
+
+D: "1 NaN 3"
+
+String.prototype.replace、正则表达式的全局匹配和parseInt（又是parseInt...），可以根据题意看出来题目上漏了一个'\'
+
+
+首先需要确定replace会传给parseInt哪些参数。举个栗子：
+```javascript
+"1 2 3".replace(/\d/g, function(){
+    console.log(arguments);
+});
+//输出结果：
+//["1", 0, "1 2 3"]
+//["2", 2, "1 2 3"]
+//["3", 4, "1 2 3"] 
+```
+一共三个：
+1. match：正则表达式被匹配到的子字符串
+2. offset：被匹配到的子字符串在原字符串中的位置
+3. string：原字符串
+
+这样就很好理解了，又回到之前parseInt的问题了，结果就是parseInt("1", 10), parseInt("2", 2), parseInt("3", 4)所以结果为"1, NaN, 3"，选D
+
+###第三十四题
+What is the result of this expression? (or multiple ones)
+```javascript
+function f() {}
+var parent = Object.getPrototypeOf(f);
+f.name // ?
+parent.name // ?
+typeof eval(f.name) // ?
+typeof eval(parent.name) //  ?
+```
+A: "f", "Empty", "function", "function"
+
+B: "f", undefined, "function", error
+
+C: "f", "Empty", "function", error
+
+D: other
+
+又是Function.name属性的题，和三十二题一样样，f.name值为"f"，而eval("f")则会输出f函数，所以结果为"function"
+
+接着看parent，parent实际上就是f.\_\_proto\_\_，需要明确的是JavaScript中的函数也是对象，其也有自己的构造函数Function，所以f.\_\_proto\_\_ === Function.prototype结果是true，而Function.prototype就是一个名为Empty的function
+```javascript
+console.log(Function.prototype);
+console.log(Function.prototype.name);
+//输出结果：
+//function Empty() {}
+//Empty
+```
+所以parent.name的值为Empty
+
+如果想直接在全局作用域下调用Empty，显示未定义...因为Empty并不在全局作用域下
+
+综上所述，结果为C
+
+###第三十五题
+What is the result of this expression? (or multiple ones)
+```javascript
+var lowerCaseOnly =  /^[a-z]+$/;
+[lowerCaseOnly.test(null), lowerCaseOnly.test()]
+```
+A: \[true, false\]
+
+B: error
+
+C: \[true, true\]
+
+D: \[false, true\]
+
+正则表达式的test方法会自动将参数转换为字符串，原式就变成了```[lowerCaseOnly.test("null"), lowerCaseOnly.test("undefined")]```，结果都是真，所以选C
+
+###第三十六题
+What is the result of this expression? (or multiple ones)
+```javascript
+[,,,].join(", ")
+```
+A: ", , , "
+
+B: "undefined, undefined, undefined, undefined"
+
+C: ", , "
+
+D: ""
+
+JavaScript中使用字面量创建数组时，如果最末尾有一个逗号','，会背省略，所以实际上这个数组只有三个元素（都是undefined）：
+```javascript
+console.log([,,,].length);
+//输出结果：
+//3
+```
+而三个元素，使用join方法，只需要添加两次，所以结果为", , "，选C
+
+###第三十七题
+What is the result of this expression? (or multiple ones)
+```javascript
+var a = {class: "Animal", name: 'Fido'};
+a.class
+```
+A: "Animal"
+
+B: Object
+
+C: an error
+
+D: other
+
+经典坑中的一个，class是关键字。根据浏览器的不同，结果不同：
+
+chrome的结果： "Animal"
+
+Firefox的结果："Animal"
+
+Opera的结果："Animal"
+
+IE 8以上也是： "Animal"
+
+IE 8 及以下： 报错
+
+###总结
+终于把37题全部弄完了，虽然很多题都偏而怪，但其中涉及的知识还是相当重要的。JavaScript中的糟粕和精华永远是一个话题，也是笔试面试时经常遇到的问题。
 
 {% endraw %}
