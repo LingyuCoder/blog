@@ -975,7 +975,49 @@
 				margin-left: 10px;
 				text-decoration: none;
 			}
-	
+
+		.is-post ol {
+		list-style: decimal inside;
+		}
+
+		.is-post ul {
+			list-style: disc inside;
+		}
+		
+		.is-post footer
+		{
+			margin-top: 2em;
+		}
+
+			.is-post footer a
+			{
+				display: block;
+				width: 100%;
+				height: 2em;
+				padding: 0;
+				border-radius: .4em;
+
+				text-align: center;
+				text-decoration: none;
+				color: inherit;
+				background-color: #e8e8e8;
+				background-image: url(images/bg2.png);
+				color: #565656;
+				text-shadow: none;
+				line-height: 2em;
+				-moz-transition: background-color .25s ease-in-out;
+				-webkit-transition: background-color .25s ease-in-out;
+				-o-transition: background-color .25s ease-in-out;
+				-ms-transition: background-color .25s ease-in-out;
+				transition: background-color .25s ease-in-out;
+				box-shadow: inset 0 .075em .25em 0 rgba(0,0,0,.1);
+			}
+
+			.is-post footer a:hover
+			{
+				background-color: #dadada;
+			}
+
 	.is-recent-posts,
 	.is-recent-comments
 	{
@@ -1258,13 +1300,6 @@
 		position: relative;
 		z-index: 1;
 	}
-		#content-inner ol {
-			list-style: decimal inside;
-		}
-
-		#content-inner ul {
-			list-style: disc inside;
-		}
 
 /*********************************************************************************/
 /* Copyright                                                                     */
