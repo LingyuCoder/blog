@@ -8,7 +8,7 @@ categories: [前端技术]
 ---
 {% raw %}
 
-![响应式Web设计](/images/responsive.png)
+<span class="image image-full">![响应式Web设计](/images/responsive.png)</span>
 
 总是在各个地方看到响应式Web设计。一直对其很感兴趣，也只是零零散散的接触，但并没有系统的去学习响应式。这两天读了Ben Frain著（王永强 译）的《响应式Web设计-HTML5和CSS3实践》，收获颇多，在这里记录一下
 
