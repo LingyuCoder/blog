@@ -977,11 +977,13 @@
 			}
 
 		.is-post ol {
-		list-style: decimal inside;
+			list-style: decimal inside;
+			margin-left: 2em;
 		}
 
 		.is-post ul {
 			list-style: disc inside;
+			margin-left: 2em;
 		}
 		
 		.is-post footer
