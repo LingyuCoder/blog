@@ -952,6 +952,11 @@
 		{
 		}
 			
+			.is-post .info ul
+			{
+				list-style: none;
+			}
+
 			.is-post .info .stats
 			{
 				margin: 0;
@@ -964,6 +969,8 @@
 				color: #1b252a;
 				font-weight: 700;
 			}
+
+
 
 		.is-post .arc-list
 		{
@@ -985,7 +992,7 @@
 			list-style: disc inside;
 			margin-left: 2em;
 		}
-		
+			
 		.is-post footer
 		{
 			margin-top: 2em;

@@ -296,7 +296,7 @@ _当搭建一个页面是，想想你准备放入```<article>```标签的内容�
 ```
 
 ###audio
-元素```<audio>```和```<video>```基本一致，除了width、height、poster外几百年相同，但```audio```没有可视区域
+元素```<audio>```和```<video>```基本一致，除了width、height、poster外基本相同，但```audio```没有可视区域
 
 ###响应式设计中的视频
 通过设置width和height为百分比来达到响应式的效果，但这样没办法解决iframe中视频的响应问题，可以使用JavaScript来解决，其中[FitVids](http://fitvidsjs.com/)就是一个用来解决iframe中视频响应问题的jQuery插件
