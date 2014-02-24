@@ -2,12 +2,12 @@
 layout: art
 title: 如何让CSS3的动画不再卡顿失帧？
 subTitle: 编写高性能的CSS3动画
-desc: 最近拜读了一下html5rocks上两位大神写的一篇关于CSS3动画性能优化的文章，学到了很多，在这里记录一下，其中的知识都是来源于那篇文章，我只是截取了其中比较关注的内容出来
+desc: 最近拜读了一下html5rocks上几位大神写的一篇关于CSS3动画性能优化的文章，学到了很多，在这里记录一下，其中的知识都是来源于这篇文章，我只是截取了其中比较关注的内容出来
 tags: [css]
 categories: [前端技术]
 ---
 {% raw %}
-最近拜读了一下[html5rocks](http://www.html5rocks.com/)上几位大神写的一篇关于CSS3动画性能优化的文章，学到了很多，在这里记录一下，其中的知识都是来源于那篇文章，我只是截取了其中比较关注的内容出来，原文地址[High Performance Animations](http://www.html5rocks.com/en/tutorials/speed/high-performance-animations/)
+最近拜读了一下[html5rocks](http://www.html5rocks.com/)上几位大神写的一篇关于CSS3动画性能优化的文章，学到了很多，在这里记录一下，其中的知识都是来源于这俩篇文章，我只是截取了其中比较关注的内容出来，原文地址[High Performance Animations](http://www.html5rocks.com/en/tutorials/speed/high-performance-animations/)及[Accelerated Rendering in Chrome](http://www.html5rocks.com/zh/tutorials/speed/layers/)
 
 ##原理
 现代浏览器在使用CSS3动画时，以下四种情形绘制的效率较高，分别是：
@@ -15,12 +15,35 @@ categories: [前端技术]
 * 改变大小
 * 旋转
 * 改变透明度
+###层？重绘？回流和重布局？图层重组？
+首先要了解CSS的图层的概念（Chrome浏览器）
 
-一次动画帧浏览器需要做如下工作：
-1. 计算需要被加载到节点上的样式结果（Recalculate style）
-2. 为每个节点生成图形和位置（Layout）
-3. 将每个节点填充到图层中（Paint Setup和Paint）
-4. 组合图层到页面上（Composite Layers）
+浏览器在渲染一个页面时，会将页面分为很多个图层，图层有大有小，每个图层上有一个或多个节点。在渲染DOM的时候，浏览器所做的工作实际上是：
+1. 获取DOM后分割为多个图层
+2. 对每个图层的节点计算样式结果（Recalculate style--样式重计算）
+3. 为每个节点生成图形和位置（Layout--回流和重布局）
+4. 将每个节点绘制填充到图层位图中（Paint Setup和Paint--重绘）
+5. 图层作为纹理上传至GPU
+6. 符合多个图层到页面上生成最终屏幕图像（Composite Layers--图层重组）
+
+Chrome中满足以下任意情况就会创建图层：
+* 3D或透视变换（perspective transform）CSS属性
+* 使用加速视频解码的```<video>```节点
+* 拥有3D（WebGL）上下文或加速的2D上下文的```<canvas>```节点
+* 混合插件（如Flash）
+* 对自己的opacity做CSS动画或使用一个动画webkit变换的元素
+* 拥有加速CSS过滤器的元素
+* 元素有一个包含复合层的后代节点（一个元素拥有一个子元素，该子元素在自己的层里）
+* 元素有一个```z-index```较低且包含一个复合层的兄弟元素（换句话说就是该元素在复合层上面渲染）
+
+需要注意的是，如果图层中某个元素需要重绘，那么整个图层都需要重绘。比如一个图层包含很多节点，其中有个gif图，gif图的每一帧，都会重回整个图层的其他节点，然后生成最终的图层位图。所以这需要通过特殊的方式来强制gif图属于自己一个图层（```translateZ(0)```或者```translate3d(0,0,0)```），CSS3的动画也是一样（好在绝大部分情况浏览器自己会为CSS3动画的节点创建图层）
+
+###层和CSS动画
+简化一下上述过程，每一帧动画浏览器可能需要做如下工作：
+1. 计算需要被加载到节点上的样式结果（Recalculate style--样式重计算）
+2. 为每个节点生成图形和位置（Layout--回流和重布局）
+3. 将每个节点填充到图层中（Paint Setup和Paint--重绘）
+4. 组合图层到页面上（Composite Layers--图层重组）
 
 如果我们需要使得动画的性能提高，需要做的就是减少浏览器在动画运行时所需要做的工作。最好的情况是，改变的属性仅仅印象图层的组合，变换（```transform```）和透明度（```opacity```）就属于这种情况
 
