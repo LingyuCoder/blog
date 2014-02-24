@@ -3,7 +3,7 @@
 -------------------------------------------*/
 body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,button,textarea,blockquote,th,td,p{margin:0;padding:0}input,button,select,textarea{outline:none}li{list-style:none}img{border:none}textarea{resize:none}body{color:#666;background:#fff;word-break:break-all;word-wrap:break-word;text-align:center}body,input,textarea{font-size:12px;font-family:\5b8b\4f53,Verdana,Arial}a{color:#305999;text-decoration:none;outline:none}a:hover{color:#090}.wrap{width:1000px;margin:0 auto;text-align:left;position:relative}/*clearfix*/.clearfix:after,.wrap:after{content:".";display:block;height:0;clear:both;visibility:hidden}.clearfix,.wrap{*+height:1%}
 
-body{padding: .7em; background-color: #181818; background-size: 100% 100%; background-attachment: fixed; font-size: 14px; font-family: "Microsoft Yahei", arial, sans-serif; color: #222; }
+body{padding: .7em; background-color: #181818; background-size: 100% 100%; background-attachment: fixed; font-size: 16px; font-family: "Microsoft Yahei", arial, sans-serif; color: #222; }
 
 
 .container {background-color: #f3f3f3; }
@@ -21,7 +21,7 @@ article {padding: 1em; }
 	article header {} article header h1{font-size: 1.8em; line-height: 2.2em; color: #cf8a05; text-align: left; }
 		article header h2{display: none; font-size: 1.2em; line-height: 1.3em; color: #B8B8B8; font-style: italic; text-align: left; }
 	article .content {text-align: left;}
-		article .content h3 {font-size: 1.2em; line-height: 2em; font-weight: bold; text-align: left; }
+		article .content h3 {font-size: 1.5em; line-height: 1.8em; font-weight: bold; text-align: left; }
 
 .skills {}
 	.skills .keywords {}
@@ -32,6 +32,7 @@ article {padding: 1em; }
 	.education .period {text-align: left;}
 
 .experience {}
+	.experience section {margin-bottom: 1em}
 	.experience .project {}
 		.experience .project div:before {display: block; color: #868686; font-style: italic;line-height: 1.7em;font-size: 1.2em}
 		.experience .project .time{}
@@ -57,7 +58,7 @@ article {padding: 1em; }
 		.profile .hobby:before {content: "业余爱好"}
 
 
-@media screen and (min-width: 40em) {
+@media screen and (min-width: 48.1em) {
 	.container {}
 		.container .head {padding: 1em 2em; }
 			.container .head .avatar {display: block; float: left; width: 20%; overflow: hidden; }
@@ -69,6 +70,7 @@ article {padding: 1em; }
 		article header {float: left; width: 30%; }
 			article header h2{display: block; }
 		article .content {float: right; width: 70%; }
+			article .content h3 {font-size: 1.3em; line-height: 1.5em;}
 	
 	.skills {}
 		.skills .keywords {}
