@@ -1,0 +1,201 @@
+<!DOCTYPE HTML>
+<html lang="zh">
+	<head>
+		<title>聊一聊优雅降级、渐进增强和移动先行 - 天镶的博客 SkyInlayer`s Blog </title>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<meta http-equiv="cache-control" content="max-age=0"/>
+		<meta name="description" content="" />
+		<meta name="keywords" content="" />
+		<link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400italic,700|Open+Sans+Condensed:300,700" rel="stylesheet" />
+		<noscript>
+			<link rel="stylesheet" href="/css/skel-noscript.min.css" />
+		</noscript>
+		<link rel="stylesheet" href="/css/style.min.css" />
+		<link rel="stylesheet" href="/css/style-desktop.min.css" />
+		<link rel="stylesheet" href="/css/style-wide.min.css" />
+		<link rel="stylesheet" href="/css/github.min.css" />
+		<script src="/js/jquery.min.js"></script>
+	</head>
+	<body class="left-sidebar">
+		<div id="wrapper">
+			<div id="content">
+				<div id="content-inner">
+					<article class="is-post is-post-excerpt">
+						<header>
+							<h2><a href="#">聊一聊优雅降级、渐进增强和移动先行</a></h2>
+							<span class="byline">主流跨浏览器和响应式页面的设计策略</span>
+							<div class="tags">
+								
+									<a class="tag" href="/show_by_tag.html?tag=响应式" class="tag">响应式</a>
+								
+							</div>
+						</header>
+						<div class="info">
+							<span class='date'><span class='month'>Feb</span><span class='day'>25</span><span class='year'>2014</span></span>
+						</div>
+						<p>前端开发，最重要的是让更多的人访问到我们的页面，并给他们优秀的用户体验。但在这美丽而残酷的世界，总有那么一些事情不尽如人意，浏览器之间差异便是其中一个。如今网页开发者和网页设计师们需要一个优秀的设计策略来引导跨浏览器、跨设备网页开发。这里就介绍了三种主流的设计策略。</p>
+
+<h2 id="">浏览器兼容设计策略</h2>
+
+<h3 id="_2">优雅降级(适度退化)</h3>
+
+<p>一般情况下，我们总是希望自己的网页能在所有的浏览器中能正常工作，但事实总是那么的残酷（因为M记的IE）。一种比较常见的策略，名叫优雅降级(也叫适度退化)。也就是先使得网页能在所有的现代浏览器中正常工作（不一定是最新，一般是当前最新版本的上一个发行版本），然后通过代码来监测网页能否在用户使用的老式浏览器中正常工作。比如IE自身的盒子模型问题，开发者就会根据具体的IE版本实现来进行降级。也就是说，如果使用优雅降级的策略，我们需要实现整个网页的所有功能和效果，为无法支持所有功能的浏览器专门去制定一些候选方案，关注其中的核心功能，在老式浏览器上降低用户体验而保持核心功能能够正常工作。</p>
+
+<h3 id="_3">渐进增强</h3>
+
+<p>渐进增强的策略与优雅降级相反。首先从能被所有浏览器所支持的基本功能开始，逐步的去添加现代浏览器所支持的功能。用户体验中内容为王，在网页实现时最重要的就是将主要内容展现给用户。渐进增强就很符合这个理念。</p>
+
+<p>要实现渐进增强，首先需要为所有设备准备好清晰的语义化HTML以及完善的内容，再通过无侵入的方式想页面中增加无害于基础浏览器的额外样式和功能。这样当浏览器更新换代时，就会不断提升用户体验</p>
+
+<h3 id="_4">不要为了兼容舍弃新技术</h3>
+
+<p>有很多人整日只关注老式浏览器上的表现情况，和他们一谈HTML5和CSS3，他们的态度是：“IE6（7）支持吗？不支持用（学）它干嘛”，我很鄙视这种想法。我们不应该仅仅为了照顾那些老古董（老式浏览器用户），而阻碍大批量现代浏览器用户享受CSS3和HTML5所带来的优秀视觉体验和交互设计。同时浏览器本身也会随着时间而变得更加强大，老式浏览器所占的份额也越来越小，没理由不去使用CSS3和HTML5。</p>
+
+<h2 id="_5">响应式页面设计策略</h2>
+
+<h3 id="_6">移动先行</h3>
+
+<p>在响应式页面设计时我们需要考虑的几个问题：</p>
+
+<ol>
+<li>允许更多的人访问我们的网页（目前77%的人拥有收集，2011年出售的85%收集安装了浏览器）</li>
+
+<li>让设计者关注核心的内容和功能（如果你失去了屏幕大小的80%你会怎么做？）</li>
+
+<li>让设计者关注新技术，热爱创新（地理位置、触碰事件等等）</li>
+</ol>
+
+<p>响应式页面的核心内容：</p>
+
+<ol>
+<li>根据设备的屏幕大小流式布局</li>
+
+<li>伸缩的图片和媒体保证在任何屏幕大小中完整显示</li>
+
+<li>通过为媒体查询增加断点</li>
+</ol>
+
+<p>如今，随着移动互联网的发展，移动设备（智能手机、平板电脑等）所占有的比重越来越重，这也决定了视口大小的多种多样。同时随着传统数字设备（台式机、笔记本电脑、上网本）的发展，其视口大小也在不断扩大。这也导致了需要兼容的最大视口与最小视口的大小的差距逐渐增大。响应式web设计业应运而生。我们的目标就是（没有蛀牙！），让我们的页面兼容更多的设备。但是需要注意的是，将页面做成响应式页面只是权宜之计，最好的方法（预算够）是为移动端设备专门开发一个页面。这样可以为移动端设备做一些针对性的优化。 移动先行就是一种响应式页面设计策略，采用渐进增强的思想。最初只是为移动端的小视口设备（智能手机等）展现核心内容和功能，然后通过媒体查询为中视口设备（平板电脑等）添加更多的功能和视觉效果，再在大视口传统数字设备（台式机、笔记本电脑）上添加所有的内容和更加复杂的视觉效果，最后为了兼容超大视口（高分屏），可以适当加大原有内容的显示效果，并同时保持内容居中。</p>
+
+<h3 id="_7">参考文献</h3>
+
+<p><a href="http://fatesinger.com/764.html">渐进增强与优雅降级</a></p>
+
+<p><a href="http://bradfrostweb.com/blog/web/mobile-first-responsive-web-design/">Mobile-First Responsive Web Design</a></p>
+						<div class="ds-thread" data-url="http://skyinlayer.com//blog/2014/02/25/design-strategies" data-thread-key="/blog/2014/02/25/design-strategies" data-title="聊一聊优雅降级、渐进增强和移动先行" style="min-height:277px"></div>
+					</article>
+				</div>
+			</div>
+			<div id="sidebar">
+				<a href="/" style="text-decoration: none;">
+	<div id="logo">
+		<h1>SkyInlayer</h1>
+	</div>
+</a>
+<nav id="nav">
+	<ul>
+		<li class=""><a href="/index.html">首页</a></li>
+		<li class=""><a href="/archieves.html">所有文章</a></li>
+		<li class=" no_wide_hide"><a href="/items.html">小玩意儿</a></li>
+		<li class=""><a href="/about.html">关于我</a></li>
+		<li><a href="/profile.html">个人简历</a></li>
+	</ul>
+</nav>
+<section class="is-recent-posts">
+	<header>
+		<h2>最近的文章</h2>
+	</header>
+	<ul>
+		
+		<li><a href="/blog/2014/02/25/design-strategies">聊一聊优雅降级、渐进增强和移动先行</a>25 Feb 2014</li>
+		
+		<li><a href="/blog/2014/02/24/CSS3-animation-optimization">如何让CSS3的动画不再卡顿失帧？</a>24 Feb 2014</li>
+		
+		<li><a href="/blog/2014/02/20/application-cache">使用应用缓存构建离线应用</a>20 Feb 2014</li>
+		
+		<li><a href="/blog/2014/02/19/plsql-and-storage-function">PL/SQL编写存储函数</a>19 Feb 2014</li>
+		
+		<li><a href="/blog/2014/02/15/responsive-html5">聊聊响应式网页设计中的HTML5</a>15 Feb 2014</li>
+		
+	</ul>
+</section>
+<section class="is-recent-posts">
+	<header>
+		<h2>文章类别</h2>
+	</header>
+	<ul>
+		
+		<li><a href="/show_by_category.html?cat=网站建设">网站建设</a>6</li>
+		
+		<li><a href="/show_by_category.html?cat=前端技术">前端技术</a>10</li>
+		
+		<li><a href="/show_by_category.html?cat=生活情感">生活情感</a>2</li>
+		
+		<li><a href="/show_by_category.html?cat=数据库技术">数据库技术</a>1</li>
+		
+	</ul>
+</section>
+<section class="is-recent-posts">
+	<header>
+		<h2>文章标签</h2>
+	</header>
+	<div class="tags">
+		
+		<a class="tag" href="/show_by_tag.html?tag=WebSocket"> WebSocket</a>
+	    
+		<a class="tag" href="/show_by_tag.html?tag=NodeJs"> NodeJs</a>
+	    
+		<a class="tag" href="/show_by_tag.html?tag=xmpp"> xmpp</a>
+	    
+		<a class="tag" href="/show_by_tag.html?tag=WebIM"> WebIM</a>
+	    
+		<a class="tag" href="/show_by_tag.html?tag=css"> css</a>
+	    
+		<a class="tag" href="/show_by_tag.html?tag=github"> github</a>
+	    
+		<a class="tag" href="/show_by_tag.html?tag=jekyll"> jekyll</a>
+	    
+		<a class="tag" href="/show_by_tag.html?tag=jQuery"> jQuery</a>
+	    
+		<a class="tag" href="/show_by_tag.html?tag=JavaScript"> JavaScript</a>
+	    
+		<a class="tag" href="/show_by_tag.html?tag=生活"> 生活</a>
+	    
+		<a class="tag" href="/show_by_tag.html?tag=思考"> 思考</a>
+	    
+		<a class="tag" href="/show_by_tag.html?tag=HTML"> HTML</a>
+	    
+		<a class="tag" href="/show_by_tag.html?tag=CSS"> CSS</a>
+	    
+		<a class="tag" href="/show_by_tag.html?tag=响应式"> 响应式</a>
+	    
+		<a class="tag" href="/show_by_tag.html?tag=oracle"> oracle</a>
+	    
+		<a class="tag" href="/show_by_tag.html?tag=存储函数"> 存储函数</a>
+	    
+	</div>
+</section>
+<div id="copyright">
+	<p>&copy; 2014 天镶<br /></p>
+</div>
+			</div>
+		</div>
+		<!-- Duoshuo Comment BEGIN -->
+		<script type="text/javascript">
+			var duoshuoQuery = {short_name:"skyinlayer"};
+			(function() {
+				var ds = document.createElement('script');
+				ds.type = 'text/javascript';ds.async = true;
+				ds.src = 'http://static.duoshuo.com/embed.js';
+				ds.charset = 'UTF-8';
+				(document.getElementsByTagName('head')[0] 
+				|| document.getElementsByTagName('body')[0]).appendChild(ds);
+			})();
+		</script>
+		<!-- Duoshuo Comment END -->
+		<script src="/js/skel.min.js"></script>
+		<script src="/js/skel-panels.min.js"></script>
+		<script src="/js/highlight.pack.js"></script>
+		<script src="/js/init.min.js"></script>
+	</body>
+</html>
