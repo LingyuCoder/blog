@@ -1,0 +1,282 @@
+<!DOCTYPE HTML>
+<html lang="zh">
+	<head>
+		<title>CSS优先级备忘 - 天镶的博客 SkyInlayer`s Blog </title>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<meta http-equiv="cache-control" content="max-age=0"/>
+		<meta name="description" content="" />
+		<meta name="keywords" content="" />
+		<link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400italic,700|Open+Sans+Condensed:300,700" rel="stylesheet" />
+		<noscript>
+			<link rel="stylesheet" href="/css/skel-noscript.min.css" />
+		</noscript>
+		<link rel="stylesheet" href="/css/style.min.css" />
+		<link rel="stylesheet" href="/css/style-desktop.min.css" />
+		<link rel="stylesheet" href="/css/style-wide.min.css" />
+		<link rel="stylesheet" href="/css/github.min.css" />
+		<script src="/js/jquery.min.js"></script>
+	</head>
+	<body class="left-sidebar">
+		<div id="wrapper">
+			<div id="content">
+				<div id="content-inner">
+					<article class="is-post is-post-excerpt">
+						<header>
+							<h2><a href="#">CSS优先级备忘</a></h2>
+							<span class="byline">记录CSS优先级计算的规则，再也不用害怕面试官问了</span>
+							<div class="tags">
+								
+									<a class="tag" href="/show_by_tag.html?tag=css" class="tag">css</a>
+								
+							</div>
+						</header>
+						<div class="info">
+							<span class='date'><span class='month'>Feb</span><span class='day'>25</span><span class='year'>2014</span></span>
+						</div>
+						<h2 id="">常规优先级计算</h2>
+
+<p>一个选择器的优先级是由如下方式计算的：</p>
+
+<ul>
+<li>通配符（<code>*</code>）的权重为0</li>
+
+<li>元素选择器(<code>div</code>)、伪元素(<code>::before</code>)的权重为1</li>
+
+<li>类型选择器(<code>.className</code>)、属性选择器(<code>[someAttr=someValue]</code>)、伪类选择器(<code>:hover</code>)的权重为10</li>
+
+<li>id选择器（<code>#</code>）的权重为100</li>
+
+<li>内联样式（HTML中的<code>style=&quot;blahblah&quot;</code>）为1000</li>
+
+<li>如果权重一样，后声明的优先</li>
+</ul>
+
+<p>需要注意的是这里的10、100、1000并不是十进制的，进制数很大，在W3C上的原话： Concatenating the three numbers a-b-c (in a number system with a large base) gives the specificity.</p>
+
+<p>确定伪元素有哪些：</p>
+
+<ul>
+<li>first-letter</li>
+
+<li>first-line</li>
+
+<li>before</li>
+
+<li>after</li>
+</ul>
+
+<p>确伪类有哪些：</p>
+
+<ul>
+<li>active</li>
+
+<li>focus</li>
+
+<li>hover</li>
+
+<li>link</li>
+
+<li>visited</li>
+
+<li>first-child</li>
+
+<li>lang</li>
+</ul>
+
+<p>需要注意的是伪类和伪元素的差别，伪类的优先级要高于伪元素。伪元素一般使用<code>::first-letter</code>，前面两个冒号，而伪类只有一个。但目前已知处于相互混淆的状态。用一个也是可以的。同时很多人将<code>::before</code>和<code>::after</code>也一起称为伪类，更加混淆了伪类和伪元素。虽然平常使用的时候差别并不大，但在计算优先级权重的时候还是有差别的，需要注意。</p>
+
+<h2 id="_2">特殊规则</h2>
+
+<h3 id="important">!important永远覆盖其他</h3>
+
+<p>当!important规则被用在一个样式声明中，这个样式声明会覆盖任何其他声明，无论在声明列表的那个位置，与优先级无关</p>
+
+<p>如下例所示：</p>
+
+<pre class="xml"><code class="xml">&lt;div class=&quot;outer&quot; style=&quot;color:red&quot;&gt;
+    &lt;p&gt;这是outer中的一段文字&lt;/p&gt;
+&lt;/div&gt;</code></pre>
+
+<p>然后加上outer类的样式：</p>
+
+<pre class="css21"><code class="css21">.outer {
+    color: green !important;
+}</code></pre>
+
+<p>最终结果:</p>
+
+<p><img src="/images/selector_priority/1.png" alt="结果" /></p>
+
+<p>可见!important凌驾于一切之上</p>
+
+<h3 id="not0">:not伪类的优先级为0</h3>
+
+<p>需要注意的是伪类的优先级为0，比如如下例子：</p>
+
+<pre class="xml"><code class="xml">&lt;div class=&quot;outer&quot;&gt;
+    &lt;p&gt;这是outer中的文本，不属于inner&lt;/p&gt;
+    &lt;div class=&quot;inner&quot;&gt;
+        &lt;p&gt;这是inner中的文本&lt;/p&gt;
+    &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+
+<p>给其添加样式如下：</p>
+
+<pre class="css21"><code class="css21">div:not(.outer) p {
+    color: green;
+}
+
+div.outer p{
+    color: red;
+}</code></pre>
+
+<p>结果如图：</p>
+
+<p><img src="/images/selector_priority/2.png" alt="结果" /></p>
+
+<p>可以看到，outer的color属性为red，很好理解</p>
+
+<p>但inner的color也是red，可以检索一下元素发现：</p>
+
+<p><img src="/images/selector_priority/3.png" alt="结果" /></p>
+
+<p>两个样式都被用在了inner上了，但<code>div.outer p</code>被最终采用。说明<code>div:not(.outer) p</code>的优先级不会大于<code>div.outer p</code>。</p>
+
+<p>接下来给两个样式换个顺序：</p>
+
+<pre class="css21"><code class="css21">div.outer p{
+    color: red;
+}
+
+div:not(.outer) p {
+    color: green;
+}</code></pre>
+
+<p>F5看看输出效果，inner的color属性变成green了</p>
+
+<p><img src="/images/selector_priority/4.png" alt="结果" /></p>
+
+<p>由此可以看出<code>div.outer p</code>的优先级也不会大于<code>div:not(.outer) p</code>。这俩优先级一样，会按照最后声明的样式进行加载。这也充分证明了<code>:not</code>伪类是没有优先级的</p>
+
+<h2 id="_3">参考文献</h2>
+
+<p><a href="https://developer.mozilla.org/zh-CN/docs/CSS/Specificity">MDN的CSS优先级文章</a></p>
+
+<p><a href="http://www.w3.org/TR/selectors/#specificity">CSS3 Selectors Specificity</a></p>
+						<div class="ds-thread" data-url="http://skyinlayer.com//blog/2014/02/25/css-selectors-priority" data-thread-key="/blog/2014/02/25/css-selectors-priority" data-title="CSS优先级备忘" style="min-height:277px"></div>
+					</article>
+				</div>
+			</div>
+			<div id="sidebar">
+				<a href="/" style="text-decoration: none;">
+	<div id="logo">
+		<h1>SkyInlayer</h1>
+	</div>
+</a>
+<nav id="nav">
+	<ul>
+		<li class=""><a href="/index.html">首页</a></li>
+		<li class=""><a href="/archieves.html">所有文章</a></li>
+		<li class=" no_wide_hide"><a href="/items.html">小玩意儿</a></li>
+		<li class=""><a href="/about.html">关于我</a></li>
+		<li><a href="/profile.html">个人简历</a></li>
+	</ul>
+</nav>
+<section class="is-recent-posts">
+	<header>
+		<h2>最近的文章</h2>
+	</header>
+	<ul>
+		
+		<li><a href="/blog/2014/02/26/BFC">深入浅出BFC（Block formatting contexts）</a>26 Feb 2014</li>
+		
+		<li><a href="/blog/2014/02/25/design-strategies">聊一聊优雅降级、渐进增强和移动先行</a>25 Feb 2014</li>
+		
+		<li><a href="/blog/2014/02/25/css-selectors-priority">CSS优先级备忘</a>25 Feb 2014</li>
+		
+		<li><a href="/blog/2014/02/24/CSS3-animation-optimization">如何让CSS3的动画不再卡顿失帧？</a>24 Feb 2014</li>
+		
+		<li><a href="/blog/2014/02/20/application-cache">使用应用缓存构建离线应用</a>20 Feb 2014</li>
+		
+	</ul>
+</section>
+<section class="is-recent-posts">
+	<header>
+		<h2>文章类别</h2>
+	</header>
+	<ul>
+		
+		<li><a href="/show_by_category.html?cat=网站建设">网站建设</a>6</li>
+		
+		<li><a href="/show_by_category.html?cat=前端技术">前端技术</a>12</li>
+		
+		<li><a href="/show_by_category.html?cat=生活情感">生活情感</a>2</li>
+		
+		<li><a href="/show_by_category.html?cat=数据库技术">数据库技术</a>1</li>
+		
+	</ul>
+</section>
+<section class="is-recent-posts">
+	<header>
+		<h2>文章标签</h2>
+	</header>
+	<div class="tags">
+		
+		<a class="tag" href="/show_by_tag.html?tag=WebSocket"> WebSocket</a>
+	    
+		<a class="tag" href="/show_by_tag.html?tag=NodeJs"> NodeJs</a>
+	    
+		<a class="tag" href="/show_by_tag.html?tag=xmpp"> xmpp</a>
+	    
+		<a class="tag" href="/show_by_tag.html?tag=WebIM"> WebIM</a>
+	    
+		<a class="tag" href="/show_by_tag.html?tag=css"> css</a>
+	    
+		<a class="tag" href="/show_by_tag.html?tag=github"> github</a>
+	    
+		<a class="tag" href="/show_by_tag.html?tag=jekyll"> jekyll</a>
+	    
+		<a class="tag" href="/show_by_tag.html?tag=jQuery"> jQuery</a>
+	    
+		<a class="tag" href="/show_by_tag.html?tag=JavaScript"> JavaScript</a>
+	    
+		<a class="tag" href="/show_by_tag.html?tag=生活"> 生活</a>
+	    
+		<a class="tag" href="/show_by_tag.html?tag=思考"> 思考</a>
+	    
+		<a class="tag" href="/show_by_tag.html?tag=HTML"> HTML</a>
+	    
+		<a class="tag" href="/show_by_tag.html?tag=CSS"> CSS</a>
+	    
+		<a class="tag" href="/show_by_tag.html?tag=响应式"> 响应式</a>
+	    
+		<a class="tag" href="/show_by_tag.html?tag=oracle"> oracle</a>
+	    
+		<a class="tag" href="/show_by_tag.html?tag=存储函数"> 存储函数</a>
+	    
+	</div>
+</section>
+<div id="copyright">
+	<p>&copy; 2014 天镶<br /></p>
+</div>
+			</div>
+		</div>
+		<!-- Duoshuo Comment BEGIN -->
+		<script type="text/javascript">
+			var duoshuoQuery = {short_name:"skyinlayer"};
+			(function() {
+				var ds = document.createElement('script');
+				ds.type = 'text/javascript';ds.async = true;
+				ds.src = 'http://static.duoshuo.com/embed.js';
+				ds.charset = 'UTF-8';
+				(document.getElementsByTagName('head')[0] 
+				|| document.getElementsByTagName('body')[0]).appendChild(ds);
+			})();
+		</script>
+		<!-- Duoshuo Comment END -->
+		<script src="/js/skel.min.js"></script>
+		<script src="/js/skel-panels.min.js"></script>
+		<script src="/js/highlight.pack.js"></script>
+		<script src="/js/init.min.js"></script>
+	</body>
+</html>
