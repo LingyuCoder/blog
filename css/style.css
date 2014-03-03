@@ -53,7 +53,7 @@ a {text-decoration: none; color: #a28351; position: relative; letter-spacing: 0.
 	.content .post ul, .content .post ol {padding: 1em;width: 100% }
 		.content .post ul li {list-style: disc inside }
 		.content .post ol li {list-style: decimal inside }
-	.content .post a {text-decoration: underline;}
+	/* .content .post a {text-decoration: underline;} */
 	.content .post code {background-image: url(/images/i/codeback.png); padding: 0.2em; border-radius: 0.2em; color: white; font-family: 'courier new', typewriter, matrix, monospace, sans-serif; }
 	.content .post pre {background-image: url(/images/i/codeback.png); padding: 1em; border-radius: 1.5em; margin: 1em 0; }
 		.content .post pre code{border-radius: 2em; font-family: 'courier new', typewriter, matrix, monospace, sans-serif; background: none; }
