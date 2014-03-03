@@ -1,5 +1,5 @@
 /* Style reset 消除浏览器默认样式 */
-body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,button,textarea,blockquote,th,td,p{margin:0;padding:0}input,button,select,textarea{outline:none}li{list-style:none}img{border:none}textarea{resize:none}body{color:#666;background:#fff;word-break:break-all;word-wrap:break-word;text-align:center}body,input,textarea{font-size:12px;font-family:\5b8b\4f53,Verdana,Arial}a{color:#305999;text-decoration:none;outline:none}a:hover{color:#090}.wrap{width:1000px;margin:0 auto;text-align:left;position:relative}/*clearfix*/.clearfix:after,.wrap:after{content:".";display:block;height:0;clear:both;visibility:hidden}.clearfix,.wrap{*+height:1%}
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,button,textarea,blockquote,th,td,p{margin:0;padding:0}input,button,select,textarea{outline:none}li{list-style:none}img{border:none}textarea{resize:none}body{color:#666;background:#fff;word-break:break-all;word-wrap:break-word;text-align:center}body,input,textarea{font-size:12px;font-family:\5b8b\4f53,Verdana,Arial,sans-serif}a{color:#305999;text-decoration:none;outline:none}a:hover{color:#090}.wrap{width:1000px;margin:0 auto;text-align:left;position:relative}/*clearfix*/.clearfix:after,.wrap:after{content:".";display:block;height:0;clear:both;visibility:hidden}.clearfix,.wrap{*+height:1%}
 
 body {background-image: url(/images/i/sos.png);background-color: #e8ecf0; font-family: "Microsoft YaHei", Helvetica, Arial, sans-serif; color: #333; font-size: 16px; text-align: left; }
 /* body:before {visibility: visible; content: "Sky Inlayer"; display: block; position: fixed; top: -0.5em; bottom: 0; left: -0.5em; right: 0; margin: auto; font-weight: 900; font-size: 40em; color: rgba(0, 0, 0, 0.1); width: 2em; height: 2em; line-height: 1; transform: rotate(-90deg); -ms-transform: rotate(-90deg); IE 9 -webkit-transform: rotate(-90deg); Safari and Chrome -webkit-mask-image: url(/images/i/denim-mask2.png); -o-mask-image: url(/images/i/denim-mask2.png); -moz-mask-image: url(/images/i/denim-mask2.png); mask-image: url(/images/i/denim-mask2.png); }
@@ -19,8 +19,7 @@ a {text-decoration: none; color: #a28351; position: relative; letter-spacing: 0.
 	.header .banner {margin: 1em 0; letter-spacing: 0.1em; }
 	.header .desc {color: #aaa; letter-spacing: 0.5em; font-size: 1.4em; font-weight: normal; margin: 1em 0 1.5em; }
 	.header nav {margin: 0 0 1em; }
-		.header nav ul{}
-			.header nav ul li{display: inline-block; margin-right: 10% }
+		.header nav li{display: inline-block; margin-right: 10% }
 
 .content {background: transparent url(/images/i/sep.png) no-repeat 50% 0; margin: 0 0 1em; overflow: visible;}
 	.content .post {padding-top: 2em; word-wrap:break-word;overflow: hidden;}
@@ -41,6 +40,9 @@ a {text-decoration: none; color: #a28351; position: relative; letter-spacing: 0.
 			.content .post .to-detail {float: right; text-align: right; font-size: 1.1em; }
 			.content .post .to-detail:after{display: block; color: #a28351; content: "查看详细内容>>"}
 				.content .post .to-detail:hover:after{color: #000; }
+		.content .post p {
+			margin: 1em 0 1em;
+		}
 	
 	.content .post h1, 
 	.content .post h2,
@@ -48,12 +50,13 @@ a {text-decoration: none; color: #a28351; position: relative; letter-spacing: 0.
 	.content .post h4,
 	.content .post h5,
 	.content .post h6{margin-top: 1em; }
-	.content .post ul, .content .post ol{padding: 1em;width: 100% }
+	.content .post ul, .content .post ol {padding: 1em;width: 100% }
 		.content .post ul li {list-style: disc inside }
 		.content .post ol li {list-style: decimal inside }
-	.content .post code {background-image: url(/images/i/codeback.png); padding: 0.2em; border-radius: 0.2em; color: white; font-family: 'courier new', typewriter, matrix, monospace; }
+	.content .post a {text-decoration: underline;}
+	.content .post code {background-image: url(/images/i/codeback.png); padding: 0.2em; border-radius: 0.2em; color: white; font-family: 'courier new', typewriter, matrix, monospace, sans-serif; }
 	.content .post pre {background-image: url(/images/i/codeback.png); padding: 1em; border-radius: 1.5em; margin: 1em 0; }
-		.content .post pre code{border-radius: 2em; font-family: 'courier new', typewriter, matrix, monospace; background: none; }
+		.content .post pre code{border-radius: 2em; font-family: 'courier new', typewriter, matrix, monospace, sans-serif; background: none; }
 
 	.content .pager {margin: 2em 0 0;}
 		.content .pager:after {content: ""; display: block; height: 0; visibility: hidden; clear: both; }
@@ -80,10 +83,8 @@ a {text-decoration: none; color: #a28351; position: relative; letter-spacing: 0.
 		.aside section h3 {letter-spacing: 0.1em; }
 
 	.aside .recent, .aside .categories {}
-		.aside .recent ul,
-		.aside .categories ul {}
-			.aside .recent ul li,
-			.aside .categories ul li {margin: 0 0 0.3em;}
+		.aside .recent li,
+		.aside .categories li {margin: 0 0 0.3em;}
 	
 	.aside .recent {}		
 		.aside .recent .date {color: #aaa;}
@@ -102,14 +103,14 @@ a {text-decoration: none; color: #a28351; position: relative; letter-spacing: 0.
 
 .footer {padding: 2em 0 0; text-align: center; color: #aaa; }
 
-@media screen and (min-width: 768px) {
+@media screen and (min-width: 48em) {
 	body {background-attachment: fixed; background-position: 90% 80%; }
 	
 	.header {text-align: right; padding: 5% 20% 0 0; }
 		.header .banner h1 {font-size: 3.5em; }
 		.header .desc {font-size: 1.7em; margin: 1em 0 0; }
 		.header nav {margin: 2em 0 2em; font-size: 1.3em; text-align: right }
-		.header nav ul li{display: inline-block; margin: 0 0 0 5%}
+		.header nav li{display: inline-block; margin: 0 0 0 5%}
 
 	.content {padding-left: 5%;}
 		.content .post {}
@@ -118,7 +119,7 @@ a {text-decoration: none; color: #a28351; position: relative; letter-spacing: 0.
 			.content .post .main {display: inline-block; width: 80%; overflow: hidden; }
 			.content .post h1 {}
 				.content .post h1:before,
-				.content .post h1:after {position: relative; display: inline; color: #aaa; font-family: "宋体"; font-size: 1.5em }
+				.content .post h1:after {position: relative; display: inline; color: #aaa; font-family: "宋体", sans-serif; font-size: 1.5em }
 				.content .post h1:before {left: -0.3em; content: '“'; }
 				.content .post h1:after {top: 0.7em; left: 0.3em; content: '”'; }
 			.content .post .to-detail {float: right; width: 18%; }
@@ -134,7 +135,7 @@ a {text-decoration: none; color: #a28351; position: relative; letter-spacing: 0.
 			.aside section .inner {padding: 1em 0 0; display: block; overflow: hidden; }
 }
 
-@media screen and (min-width: 1024px) {
+@media screen and (min-width: 64em) {
 	.aside {position: absolute; background: none; left: 0%; width: 20%; top: 20em; overflow: visible;}
 		.aside section {}
 			.aside section h3 {display: block; float: none; width: 100%; }
@@ -146,8 +147,32 @@ a {text-decoration: none; color: #a28351; position: relative; letter-spacing: 0.
 
 	.header {padding-right: 10em; max-width: 60em;margin-left: 27%}
 		.header nav {text-align: left }
-		.header nav ul li{margin: 0 5% 0 0;}
+		.header nav li{margin: 0 5% 0 0;}
 	.content {width: 70%;max-width: 70em; margin-left: 27%;background: transparent url(/images/i/sep.png) no-repeat 0 0;  display: inline-block; padding-left: 0; overflow: visible; }
 		.content .pager {}
 			.content .pages {display: block; text-align: center; font-size: 1.3em; margin: 0 auto; overflow: hidden; }
+}
+
+@-webkit-keyframes FADEY {
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
+}
+.aside, .header {
+	-webkit-animation-name: FADEY;
+	-webkit-animation-duration: 1s;
+	-webkit-animation-timing-function: ease-in-out;
+	-webkit-animation-iteration-count: 1;
+}
+.content .post {
+	-webkit-opacity: 0;
+	-webkit-animation-name: FADEY;
+	-webkit-animation-duration: 1s;
+	-webkit-animation-timing-function: ease-in-out;
+	-webkit-animation-delay: 0.5s;
+	-webkit-animation-fill-mode: forwards;
+	-webkit-animation-iteration-count: 1;
 }
