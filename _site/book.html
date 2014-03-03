@@ -138,7 +138,7 @@
 			</div>
 		</div>
 	</div>
-	<script type="text/javascript" src="/js/jquery.min.js"></script>
+	<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
 	<script type="text/javascript">
 		var book_thick = 30; var $doc = $(document); var __rotatePage = function($page){var prefix = ["", "-moz-", "-o-", "-ms-", "-webkit-"]; var page = Number($page.attr("page")); for(var i = prefix.length;i--;){$page.css(prefix[i] + "transform", "translateZ(" + (book_thick/2 - 0.4) + "px) rotateY(-" + (110 - page * 0.1) + "deg)"); } }; var __unRotatePage = function($page){var prefix = ["", "-moz-", "-o-", "-ms-", "-webkit-"]; for(var i = prefix.length;i--;){$page.css(prefix[i] + "transform", "translateZ("+ (book_thick/2 - 0.4) + "px) rotateY(0deg)"); } }; $doc.data("page", 0); $("#book").click(function(event) {var $this = $(this); var curPage = $doc.data("page"); var nextPage; var next; if (curPage > 0) {if($this.find(".page[page='" + curPage + "']").length > 0) {__rotatePage($this.find(".page[page='" + curPage + "']")); $doc.data("page", curPage + 1); } } else if (curPage === 0) {$this.find(".cover").addClass("cover_turnover"); $doc.data("page", 1); } else {} }).contextmenu(function(event) {event.stopPropagation(); event.preventDefault(); var $this = $(this); var curPage = $doc.data("page"); var nextPage; var next; if(curPage > 1){if($this.find("page[page='" + (curPage - 1) + "']")) {__unRotatePage($this.find(".page[page='" + (curPage - 1) + "']")); $doc.data("page", curPage - 1); } } else if(curPage === 1){$this.find(".cover").removeClass("cover_turnover"); $doc.data("page", 0); } }); 
 	</script>
