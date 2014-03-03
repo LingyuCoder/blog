@@ -1,253 +1,204 @@
-<!DOCTYPE HTML>
-<html lang="zh">
-	<head>
-		<title>首页 - 天镶的博客 SkyInlayer`s Blog </title>
-		<meta http-equiv="content-type" content="text/html; charset=utf-8;"/>
-		<meta http-equiv="cache-control" content="max-age=0"/>
-		<meta name="description" content="天镶SkyInlayer的个人博客" />
-		<meta name="keywords" content="天镶, SkyInlayer, 天镶的博客, 博客, 个人博客, 前端, IT, 程序员" />
-		<link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400italic,700|Open+Sans+Condensed:300,700" rel="stylesheet" />
-		<noscript>
-			<link rel="stylesheet" href="/css/skel-noscript.min.css" />
-		</noscript>
-		<link rel="stylesheet" href="/css/style.min.css" />
-		<link rel="stylesheet" href="/css/style-desktop.min.css" />
-		<link rel="stylesheet" href="/css/style-wide.min.css" />
-		<script src="/js/jquery.min.js"></script>
-	</head>
-	<body class="left-sidebar">
-		<div id="wrapper">
-			<div id="sidebar">
-				<a href="/" style="text-decoration: none;">
-	<div id="logo">
-		<h1>SkyInlayer</h1>
-	</div>
-</a>
-<nav id="nav">
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8;"/>
+	<title>天镶的博客 SkyInlayer`s Blog </title>
+
+	<link rel="stylesheet" media="screen" href="/css/style.min.css">
+
+	<meta name="keywords" content="天镶, SkyInlayer, 天镶的博客, 博客, 个人博客, 前端, IT, 程序员" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="author" content="Skyinlayer">
+	<meta name="description" content="天镶SkyInlayer的个人博客">
+	<meta name="robots" content="all">
+	<!--[if lt IE 9]>
+	<script src="script/html5shiv.js"></script>
+	<![endif]-->
+	<script src="/js/jquery.min.js"></script>
+</head>
+<body>
+	<div class="wrapper">
+		<header class="header">
+			<div class="banner"><h1>天镶的博客</h1></div>
+<div class="desc">学海无涯，回头是岸</div>
+<nav>
 	<ul>
-		<li class="current_page_item"><a href="/index.html">首页</a></li>
-		<li class=""><a href="/archieves.html">所有文章</a></li>
-		<li class=" no_wide_hide"><a href="/items.html">小玩意儿</a></li>
-		<li class=""><a href="/about.html">关于我</a></li>
-		<li><a href="/profile.html">个人简历</a></li>
+		<li><a href="/index.html">首页</a></li>
+		<li><a href="/archieves.html">文章</a></li>
+		<li><a href="/items.html">玩意</a></li>
+		<li><a href="/about.html">关于</a></li>
+		<li><a href="/profile.html">简历</a></li>
 	</ul>
 </nav>
-<section class="is-recent-posts">
+		</header>
+		<div class="content">
+			
+<article class="post">
 	<header>
-		<h2>最近的文章</h2>
+		<h2>使用应用缓存构建离线应用</h2>
+		<span class="byline">Application Cache（应用缓存）学习小记</span>
 	</header>
-	<ul>
-		
-		<li><a href="/blog/2014/02/28/grunt">初识Grunt</a>28 Feb 2014</li>
-		
-		<li><a href="/blog/2014/02/26/BFC">深入浅出BFC（Block formatting contexts）</a>26 Feb 2014</li>
-		
-		<li><a href="/blog/2014/02/25/design-strategies">聊一聊优雅降级、渐进增强和移动先行</a>25 Feb 2014</li>
-		
-		<li><a href="/blog/2014/02/25/css-selectors-priority">CSS优先级备忘</a>25 Feb 2014</li>
-		
-		<li><a href="/blog/2014/02/24/CSS3-animation-optimization">如何让CSS3的动画不再卡顿失帧？</a>24 Feb 2014</li>
-		
-	</ul>
-</section>
-<section class="is-recent-posts">
-	<header>
-		<h2>文章类别</h2>
-	</header>
-	<ul>
-		
-		<li><a href="/show_by_category.html?cat=网站建设">网站建设</a>7</li>
-		
-		<li><a href="/show_by_category.html?cat=前端技术">前端技术</a>12</li>
-		
-		<li><a href="/show_by_category.html?cat=生活情感">生活情感</a>2</li>
-		
-		<li><a href="/show_by_category.html?cat=数据库技术">数据库技术</a>1</li>
-		
-	</ul>
-</section>
-<section class="is-recent-posts">
-	<header>
-		<h2>文章标签</h2>
-	</header>
+	<div class="main">
+		<div class="brief">
+			之前在segmentfault上刷问题看到一个关于manifest的问题，很好奇就研究了一下application cache。Application Cache是HTML5的新特性，允许浏览器在本地存储页面所需要的资源，使得页面离线也可以访问。之前研究的目的是为了在博客中使用，将一些不需要改动的CSS、JavaScript、图片文件离线缓存，这样加载速度必然飞起，希望能用在博客上，但是失败了，但还是记录一下学到的知识
+		</div>
+		<div class="info">
+			<div class="replies">
+				<span class='date'> <span class='month'>Feb</span> <span class='day'>20</span> <span class='year'>2014</span> </span>
+				<ul class="stats" data-thread-key="/blog/2014/02/20/application-cache">
+					<li class="comment fa fa-comment"></li>
+					<li class="heart fa fa-heart"></li>
+					<li class="weibo fa fa-weibo"></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<a class="to-detail" href="/blog/2014/02/20/application-cache"></a>
 	<div class="tags">
 		
-		<a class="tag" href="/show_by_tag.html?tag=WebSocket"> WebSocket</a>
-	    
-		<a class="tag" href="/show_by_tag.html?tag=NodeJs"> NodeJs</a>
-	    
-		<a class="tag" href="/show_by_tag.html?tag=xmpp"> xmpp</a>
-	    
-		<a class="tag" href="/show_by_tag.html?tag=WebIM"> WebIM</a>
-	    
-		<a class="tag" href="/show_by_tag.html?tag=css"> css</a>
-	    
-		<a class="tag" href="/show_by_tag.html?tag=github"> github</a>
-	    
-		<a class="tag" href="/show_by_tag.html?tag=jekyll"> jekyll</a>
-	    
-		<a class="tag" href="/show_by_tag.html?tag=jQuery"> jQuery</a>
-	    
-		<a class="tag" href="/show_by_tag.html?tag=JavaScript"> JavaScript</a>
-	    
-		<a class="tag" href="/show_by_tag.html?tag=生活"> 生活</a>
-	    
-		<a class="tag" href="/show_by_tag.html?tag=思考"> 思考</a>
-	    
-		<a class="tag" href="/show_by_tag.html?tag=HTML"> HTML</a>
-	    
-		<a class="tag" href="/show_by_tag.html?tag=CSS"> CSS</a>
-	    
-		<a class="tag" href="/show_by_tag.html?tag=响应式"> 响应式</a>
-	    
-		<a class="tag" href="/show_by_tag.html?tag=oracle"> oracle</a>
-	    
-		<a class="tag" href="/show_by_tag.html?tag=存储函数"> 存储函数</a>
-	    
-		<a class="tag" href="/show_by_tag.html?tag=grunt"> grunt</a>
-	    
+			<a class="tag" href="/show_by_tag.html?tag=HTML" class="tag">HTML</a>
+		
 	</div>
-</section>
-<div id="copyright">
-	<p>&copy; 2014 天镶<br /></p>
-</div>
-			</div>
-			<div id="content">
-				<div id="content-inner">
-					<ul>
-	
-	<article class="is-post is-post-excerpt">
-		<header>
-			<h2><a href="/blog/2014/02/20/application-cache">使用应用缓存构建离线应用</a></h2>
-			<span class="byline">Application Cache（应用缓存）学习小记</span>
-			<div class="tags">
-				
-					<a class="tag" href="/show_by_tag.html?tag=HTML" class="tag">HTML</a>
-				
-			</div>
-		</header>
-		<div class="info">
-			<span class='date'><span class='month'>Feb</span><span class='day'>20</span><span class='year'>2014</span></span>
-			<ul class="stats" data-thread-key="/blog/2014/02/20/application-cache">
-				<li><a href="#" class="fa fa-comment"></a></li>
-				<li><a href="#" class="fa fa-heart"></a></li>
-				<li><a href="#" class="fa fa-weibo"></a></li>
-			</ul>
+</article>
+
+<article class="post">
+	<header>
+		<h2>PL/SQL编写存储函数</h2>
+		<span class="byline">PL/SQL安装使用 + 简单的存储函数编写</span>
+	</header>
+	<div class="main">
+		<div class="brief">
+			在编写报表的时候经常会遇到数据结构不适合生成交叉报表或列式报表的情况，而生成报表的报表工具又没有强力到能够将数据转换成理想的格式。但公司的数据库是用Oracle，还是可以使用PL/SQL来对数据进行转换。这里介绍了PL/SQL安装使用以及简单的存储函数的编写
 		</div>
-		之前在segmentfault上刷问题看到一个关于manifest的问题，很好奇就研究了一下application cache。Application Cache是HTML5的新特性，允许浏览器在本地存储页面所需要的资源，使得页面离线也可以访问。之前研究的目的是为了在博客中使用，将一些不需要改动的CSS、JavaScript、图片文件离线缓存，这样加载速度必然飞起，希望能用在博客上，但是失败了，但还是记录一下学到的知识
-		<footer><a href="/blog/2014/02/20/application-cache" class="button">查看文章内容</a></footer>
-	</article>
-	
-	<article class="is-post is-post-excerpt">
-		<header>
-			<h2><a href="/blog/2014/02/19/plsql-and-storage-function">PL/SQL编写存储函数</a></h2>
-			<span class="byline">PL/SQL安装使用 + 简单的存储函数编写</span>
-			<div class="tags">
-				
-					<a class="tag" href="/show_by_tag.html?tag=oracle" class="tag">oracle</a>
-				
-					<a class="tag" href="/show_by_tag.html?tag=存储函数" class="tag">存储函数</a>
-				
-			</div>
-		</header>
 		<div class="info">
-			<span class='date'><span class='month'>Feb</span><span class='day'>19</span><span class='year'>2014</span></span>
-			<ul class="stats" data-thread-key="/blog/2014/02/19/plsql-and-storage-function">
-				<li><a href="#" class="fa fa-comment"></a></li>
-				<li><a href="#" class="fa fa-heart"></a></li>
-				<li><a href="#" class="fa fa-weibo"></a></li>
-			</ul>
-		</div>
-		在编写报表的时候经常会遇到数据结构不适合生成交叉报表或列式报表的情况，而生成报表的报表工具又没有强力到能够将数据转换成理想的格式。但公司的数据库是用Oracle，还是可以使用PL/SQL来对数据进行转换。这里介绍了PL/SQL安装使用以及简单的存储函数的编写
-		<footer><a href="/blog/2014/02/19/plsql-and-storage-function" class="button">查看文章内容</a></footer>
-	</article>
-	
-	<article class="is-post is-post-excerpt">
-		<header>
-			<h2><a href="/blog/2014/02/15/responsive-html5">聊聊响应式网页设计中的HTML5</a></h2>
-			<span class="byline">读《响应式Web设计-HTML5和CSS3实践》有感（HTML5部分）</span>
-			<div class="tags">
-				
-					<a class="tag" href="/show_by_tag.html?tag=JavaScript" class="tag">JavaScript</a>
-				
-					<a class="tag" href="/show_by_tag.html?tag=HTML" class="tag">HTML</a>
-				
-					<a class="tag" href="/show_by_tag.html?tag=CSS" class="tag">CSS</a>
-				
-					<a class="tag" href="/show_by_tag.html?tag=响应式" class="tag">响应式</a>
-				
+			<div class="replies">
+				<span class='date'> <span class='month'>Feb</span> <span class='day'>19</span> <span class='year'>2014</span> </span>
+				<ul class="stats" data-thread-key="/blog/2014/02/19/plsql-and-storage-function">
+					<li class="comment fa fa-comment"></li>
+					<li class="heart fa fa-heart"></li>
+					<li class="weibo fa fa-weibo"></li>
+				</ul>
 			</div>
-		</header>
-		<div class="info">
-			<span class='date'><span class='month'>Feb</span><span class='day'>15</span><span class='year'>2014</span></span>
-			<ul class="stats" data-thread-key="/blog/2014/02/15/responsive-html5">
-				<li><a href="#" class="fa fa-comment"></a></li>
-				<li><a href="#" class="fa fa-heart"></a></li>
-				<li><a href="#" class="fa fa-weibo"></a></li>
-			</ul>
 		</div>
-		继上一篇《聊聊响应式网页设计》。这一篇记录了响应式网页设计中的HTML5部分
-		<footer><a href="/blog/2014/02/15/responsive-html5" class="button">查看文章内容</a></footer>
-	</article>
-	
-	<article class="is-post is-post-excerpt">
-		<header>
-			<h2><a href="/blog/2014/02/14/responsive-web-design">聊聊响应式网页设计</a></h2>
-			<span class="byline">读《响应式Web设计-HTML5和CSS3实践》有感（响应式网页设计部分）</span>
-			<div class="tags">
-				
-					<a class="tag" href="/show_by_tag.html?tag=JavaScript" class="tag">JavaScript</a>
-				
-					<a class="tag" href="/show_by_tag.html?tag=HTML" class="tag">HTML</a>
-				
-					<a class="tag" href="/show_by_tag.html?tag=CSS" class="tag">CSS</a>
-				
-					<a class="tag" href="/show_by_tag.html?tag=响应式" class="tag">响应式</a>
-				
+	</div>
+	<a class="to-detail" href="/blog/2014/02/19/plsql-and-storage-function"></a>
+	<div class="tags">
+		
+			<a class="tag" href="/show_by_tag.html?tag=oracle" class="tag">oracle</a>
+		
+			<a class="tag" href="/show_by_tag.html?tag=存储函数" class="tag">存储函数</a>
+		
+	</div>
+</article>
+
+<article class="post">
+	<header>
+		<h2>聊聊响应式网页设计中的HTML5</h2>
+		<span class="byline">读《响应式Web设计-HTML5和CSS3实践》有感（HTML5部分）</span>
+	</header>
+	<div class="main">
+		<div class="brief">
+			继上一篇《聊聊响应式网页设计》。这一篇记录了响应式网页设计中的HTML5部分
+		</div>
+		<div class="info">
+			<div class="replies">
+				<span class='date'> <span class='month'>Feb</span> <span class='day'>15</span> <span class='year'>2014</span> </span>
+				<ul class="stats" data-thread-key="/blog/2014/02/15/responsive-html5">
+					<li class="comment fa fa-comment"></li>
+					<li class="heart fa fa-heart"></li>
+					<li class="weibo fa fa-weibo"></li>
+				</ul>
 			</div>
-		</header>
-		<div class="info">
-			<span class='date'><span class='month'>Feb</span><span class='day'>14</span><span class='year'>2014</span></span>
-			<ul class="stats" data-thread-key="/blog/2014/02/14/responsive-web-design">
-				<li><a href="#" class="fa fa-comment"></a></li>
-				<li><a href="#" class="fa fa-heart"></a></li>
-				<li><a href="#" class="fa fa-weibo"></a></li>
-			</ul>
 		</div>
-		<span class="image image-full"><img src="/images/responsive.png"/></span>总是在各个地方看到响应式Web设计。一直对其很感兴趣，也只是零零散散的接触，但并没有系统的去学习响应式。这两天读了Ben Frain著（王永强 译）的《响应式Web设计-HTML5和CSS3实践》，收获颇多，在这里记录一下
-		<footer><a href="/blog/2014/02/14/responsive-web-design" class="button">查看文章内容</a></footer>
-	</article>
-	
-	<article class="is-post is-post-excerpt">
-		<header>
-			<h2><a href="/blog/2014/02/11/javascript-puzzlers-2">JavaScript选择题解答（21-37）</a></h2>
-			<span class="byline">javascript puzzlers的个人解答</span>
-			<div class="tags">
-				
-					<a class="tag" href="/show_by_tag.html?tag=JavaScript" class="tag">JavaScript</a>
-				
+	</div>
+	<a class="to-detail" href="/blog/2014/02/15/responsive-html5"></a>
+	<div class="tags">
+		
+			<a class="tag" href="/show_by_tag.html?tag=JavaScript" class="tag">JavaScript</a>
+		
+			<a class="tag" href="/show_by_tag.html?tag=HTML" class="tag">HTML</a>
+		
+			<a class="tag" href="/show_by_tag.html?tag=CSS" class="tag">CSS</a>
+		
+			<a class="tag" href="/show_by_tag.html?tag=响应式" class="tag">响应式</a>
+		
+	</div>
+</article>
+
+<article class="post">
+	<header>
+		<h2>聊聊响应式网页设计</h2>
+		<span class="byline">读《响应式Web设计-HTML5和CSS3实践》有感（响应式网页设计部分）</span>
+	</header>
+	<div class="main">
+		<div class="brief">
+			<span class="image image-full"><img src="/images/responsive.png"/></span>总是在各个地方看到响应式Web设计。一直对其很感兴趣，也只是零零散散的接触，但并没有系统的去学习响应式。这两天读了Ben Frain著（王永强 译）的《响应式Web设计-HTML5和CSS3实践》，收获颇多，在这里记录一下
+		</div>
+		<div class="info">
+			<div class="replies">
+				<span class='date'> <span class='month'>Feb</span> <span class='day'>14</span> <span class='year'>2014</span> </span>
+				<ul class="stats" data-thread-key="/blog/2014/02/14/responsive-web-design">
+					<li class="comment fa fa-comment"></li>
+					<li class="heart fa fa-heart"></li>
+					<li class="weibo fa fa-weibo"></li>
+				</ul>
 			</div>
-		</header>
-		<div class="info">
-			<span class='date'><span class='month'>Feb</span><span class='day'>11</span><span class='year'>2014</span></span>
-			<ul class="stats" data-thread-key="/blog/2014/02/11/javascript-puzzlers-2">
-				<li><a href="#" class="fa fa-comment"></a></li>
-				<li><a href="#" class="fa fa-heart"></a></li>
-				<li><a href="#" class="fa fa-weibo"></a></li>
-			</ul>
 		</div>
-		最近做了个heroku上的JavaScript的测试（<a href="http://javascript-puzzlers.herokuapp.com/">题目地址</a>），错了一大堆，感觉js的概念还有很多不是很清晰，这里记录一下，下半部分
-		<footer><a href="/blog/2014/02/11/javascript-puzzlers-2" class="button">查看文章内容</a></footer>
-	</article>
-	
+	</div>
+	<a class="to-detail" href="/blog/2014/02/14/responsive-web-design"></a>
+	<div class="tags">
+		
+			<a class="tag" href="/show_by_tag.html?tag=JavaScript" class="tag">JavaScript</a>
+		
+			<a class="tag" href="/show_by_tag.html?tag=HTML" class="tag">HTML</a>
+		
+			<a class="tag" href="/show_by_tag.html?tag=CSS" class="tag">CSS</a>
+		
+			<a class="tag" href="/show_by_tag.html?tag=响应式" class="tag">响应式</a>
+		
+	</div>
+</article>
+
+<article class="post">
+	<header>
+		<h2>JavaScript选择题解答（21-37）</h2>
+		<span class="byline">javascript puzzlers的个人解答</span>
+	</header>
+	<div class="main">
+		<div class="brief">
+			最近做了个heroku上的JavaScript的测试（<a href="http://javascript-puzzlers.herokuapp.com/">题目地址</a>），错了一大堆，感觉js的概念还有很多不是很清晰，这里记录一下，下半部分
+		</div>
+		<div class="info">
+			<div class="replies">
+				<span class='date'> <span class='month'>Feb</span> <span class='day'>11</span> <span class='year'>2014</span> </span>
+				<ul class="stats" data-thread-key="/blog/2014/02/11/javascript-puzzlers-2">
+					<li class="comment fa fa-comment"></li>
+					<li class="heart fa fa-heart"></li>
+					<li class="weibo fa fa-weibo"></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<a class="to-detail" href="/blog/2014/02/11/javascript-puzzlers-2"></a>
+	<div class="tags">
+		
+			<a class="tag" href="/show_by_tag.html?tag=JavaScript" class="tag">JavaScript</a>
+		
+	</div>
+</article>
 
 
+
+
+	<div class="pager">
 	
-		<div class="pager">
-		
-		  	<a href="/index.html" class="button next">上一页</a>
-		
-		
+	  	<a href="/index.html" class="pre">上一页</a>
+	
+	
+	
+	  	<a href="/test/page3" class="next">下一页</a>
+	
+	
 		<div class="pages">
 		
 		    
@@ -271,20 +222,119 @@
 		    
 		
 		</div>
+	</div>
 
-		
-		  	<a href="/test/page3" class="button next">下一页</a>
-		
+
 		</div>
-	
-</ul>
-				</div>
-			</div>
+		<aside class="aside">
+			<section class="recent">
+	<h3>最近的文章</h3>
+	<div class="inner">
+		<ul>
+			
+			<li>
+				<a href="/blog/2014/02/28/grunt">初识Grunt</a>
+				<span class="date">28 Feb 2014</span>
+			</li>
+			
+			<li>
+				<a href="/blog/2014/02/26/BFC">深入浅出BFC（Block formatting contexts）</a>
+				<span class="date">26 Feb 2014</span>
+			</li>
+			
+			<li>
+				<a href="/blog/2014/02/25/design-strategies">聊一聊优雅降级、渐进增强和移动先行</a>
+				<span class="date">25 Feb 2014</span>
+			</li>
+			
+			<li>
+				<a href="/blog/2014/02/25/css-selectors-priority">CSS优先级备忘</a>
+				<span class="date">25 Feb 2014</span>
+			</li>
+			
+			<li>
+				<a href="/blog/2014/02/24/CSS3-animation-optimization">如何让CSS3的动画不再卡顿失帧？</a>
+				<span class="date">24 Feb 2014</span>
+			</li>
+			
+		</ul>
+	</div>
+</section>
+<section class="categories">
+	<h3>文章类别</h3>
+	<div class="inner">
+		<ul>
+			
+			<li>
+				<a href="/show_by_category.html?cat=网站建设">网站建设</a>
+				<span class="count">7</span>
+			</li>
+			
+			<li>
+				<a href="/show_by_category.html?cat=前端技术">前端技术</a>
+				<span class="count">12</span>
+			</li>
+			
+			<li>
+				<a href="/show_by_category.html?cat=生活情感">生活情感</a>
+				<span class="count">2</span>
+			</li>
+			
+			<li>
+				<a href="/show_by_category.html?cat=数据库技术">数据库技术</a>
+				<span class="count">1</span>
+			</li>
+			
+		</ul>
+	</div>
+</section>
+<section class="all-tags">
+	<h3>文章标签</h3>
+	<div class="inner">
+		<div class="tags">
+			
+			<a class="tag" href="/show_by_tag.html?tag=WebSocket"> WebSocket</a>
+		    
+			<a class="tag" href="/show_by_tag.html?tag=NodeJs"> NodeJs</a>
+		    
+			<a class="tag" href="/show_by_tag.html?tag=xmpp"> xmpp</a>
+		    
+			<a class="tag" href="/show_by_tag.html?tag=WebIM"> WebIM</a>
+		    
+			<a class="tag" href="/show_by_tag.html?tag=css"> css</a>
+		    
+			<a class="tag" href="/show_by_tag.html?tag=github"> github</a>
+		    
+			<a class="tag" href="/show_by_tag.html?tag=jekyll"> jekyll</a>
+		    
+			<a class="tag" href="/show_by_tag.html?tag=jQuery"> jQuery</a>
+		    
+			<a class="tag" href="/show_by_tag.html?tag=JavaScript"> JavaScript</a>
+		    
+			<a class="tag" href="/show_by_tag.html?tag=生活"> 生活</a>
+		    
+			<a class="tag" href="/show_by_tag.html?tag=思考"> 思考</a>
+		    
+			<a class="tag" href="/show_by_tag.html?tag=HTML"> HTML</a>
+		    
+			<a class="tag" href="/show_by_tag.html?tag=CSS"> CSS</a>
+		    
+			<a class="tag" href="/show_by_tag.html?tag=响应式"> 响应式</a>
+		    
+			<a class="tag" href="/show_by_tag.html?tag=oracle"> oracle</a>
+		    
+			<a class="tag" href="/show_by_tag.html?tag=存储函数"> 存储函数</a>
+		    
+			<a class="tag" href="/show_by_tag.html?tag=grunt"> grunt</a>
+		    
 		</div>
-		<script src="/js/skel.min.js"></script>
-		<script src="/js/skel-panels.min.js"></script>
-		<script src="/js/init.min.js"></script>
-	</body>
+	</div>
+</section>
+		</aside>
+		<footer class="footer">
+			<p>&copy; 2014 天镶 Skyinlayer</p>
+		</footer>
+	</div>
 	<script type="text/javascript">
 		(function() {
 			var artIds = [],
@@ -312,4 +362,5 @@
 			});
 		})();
 	</script>
+</body>
 </html>

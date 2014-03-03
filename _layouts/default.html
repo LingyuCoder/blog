@@ -1,35 +1,36 @@
-<!DOCTYPE HTML>
-<html lang="zh">
-	<head>
-		<title>{{ page.title }} - 天镶的博客 SkyInlayer`s Blog </title>
-		<meta http-equiv="content-type" content="text/html; charset=utf-8;"/>
-		<meta http-equiv="cache-control" content="max-age=0"/>
-		<meta name="description" content="天镶SkyInlayer的个人博客" />
-		<meta name="keywords" content="天镶, SkyInlayer, 天镶的博客, 博客, 个人博客, 前端, IT, 程序员" />
-		<link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400italic,700|Open+Sans+Condensed:300,700" rel="stylesheet" />
-		<noscript>
-			<link rel="stylesheet" href="/css/skel-noscript.min.css" />
-		</noscript>
-		<link rel="stylesheet" href="/css/style.min.css" />
-		<link rel="stylesheet" href="/css/style-desktop.min.css" />
-		<link rel="stylesheet" href="/css/style-wide.min.css" />
-		<script src="/js/jquery.min.js"></script>
-	</head>
-	<body class="left-sidebar">
-		<div id="wrapper">
-			<div id="sidebar">
-				{% include sidebar.html %}
-			</div>
-			<div id="content">
-				<div id="content-inner">
-					{{ content }}
-				</div>
-			</div>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8;"/>
+	<title>天镶的博客 SkyInlayer`s Blog </title>
+
+	<link rel="stylesheet" media="screen" href="/css/style.min.css">
+
+	<meta name="keywords" content="天镶, SkyInlayer, 天镶的博客, 博客, 个人博客, 前端, IT, 程序员" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="author" content="Skyinlayer">
+	<meta name="description" content="天镶SkyInlayer的个人博客">
+	<meta name="robots" content="all">
+	<!--[if lt IE 9]>
+	<script src="script/html5shiv.js"></script>
+	<![endif]-->
+	<script src="/js/jquery.min.js"></script>
+</head>
+<body>
+	<div class="wrapper">
+		<header class="header">
+			{% include header.html %}
+		</header>
+		<div class="content">
+			{{ content }}
 		</div>
-		<script src="/js/skel.min.js"></script>
-		<script src="/js/skel-panels.min.js"></script>
-		<script src="/js/init.min.js"></script>
-	</body>
+		<aside class="aside">
+			{% include sidebar.html %}
+		</aside>
+		<footer class="footer">
+			<p>&copy; 2014 天镶 Skyinlayer</p>
+		</footer>
+	</div>
 	<script type="text/javascript">
 		(function() {
 			var artIds = [],
@@ -57,4 +58,5 @@
 			});
 		})();
 	</script>
+</body>
 </html>

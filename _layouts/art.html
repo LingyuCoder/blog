@@ -1,63 +1,63 @@
-<!DOCTYPE HTML>
-<html lang="zh">
-	<head>
-		<title>{{ page.title }} - 天镶的博客 SkyInlayer`s Blog </title>
-		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-		<meta http-equiv="cache-control" content="max-age=0"/>
-		<meta name="description" content="" />
-		<meta name="keywords" content="" />
-		<link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400italic,700|Open+Sans+Condensed:300,700" rel="stylesheet" />
-		<noscript>
-			<link rel="stylesheet" href="/css/skel-noscript.min.css" />
-		</noscript>
-		<link rel="stylesheet" href="/css/style.min.css" />
-		<link rel="stylesheet" href="/css/style-desktop.min.css" />
-		<link rel="stylesheet" href="/css/style-wide.min.css" />
-		<link rel="stylesheet" href="/css/github.min.css" />
-		<script src="/js/jquery.min.js"></script>
-	</head>
-	<body class="left-sidebar">
-		<div id="wrapper">
-			<div id="content">
-				<div id="content-inner">
-					<article class="is-post is-post-excerpt">
-						<header>
-							<h2><a href="#">{{ page.title }}</a></h2>
-							<span class="byline">{{ page.subTitle }}</span>
-							<div class="tags">
-								{% for tag in page.tags %}
-									<a class="tag" href="/show_by_tag.html?tag={{ tag }}" class="tag">{{ tag }}</a>
-								{% endfor %}
-							</div>
-						</header>
-						<div class="info">
-							{{ page.date | date: "<span class='date'><span class='month'>%b</span><span class='day'>%-d</span><span class='year'>%Y</span></span>" }}
-						</div>
-						{{ content }}
-						<div class="ds-thread" data-url="http://skyinlayer.com/{{ page.url }}" data-thread-key="{{ page.id | md5 }}" data-title="{{ page.title}}" style="min-height:277px"></div>
-					</article>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8;"/>
+	<title>{{ page.title }} - 天镶的博客 SkyInlayer`s Blog </title>
+
+	<link rel="stylesheet" media="screen" href="/css/style.min.css">
+	<link rel="stylesheet" media="screen" href="/css/dark.min.css">
+
+	<meta name="keywords" content="天镶, SkyInlayer, 天镶的博客, 博客, 个人博客, 前端, IT, 程序员" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="author" content="Skyinlayer">
+	<meta name="description" content="天镶SkyInlayer的个人博客">
+	<meta name="robots" content="all">
+	<!--[if lt IE 9]>
+	<script src="/js/html5shiv.js"></script>
+	<![endif]-->
+	<script src="/js/jquery.min.js"></script>
+</head>
+<body>
+	<div class="wrapper">
+		<header class="header">
+			{% include header.html %}
+		</header>
+		<div class="content">
+			<article class="post">
+				<header>
+					<h1>{{ page.title }}</h1>
+					<span class="byline">{{ page.subTitle }}</span>
+				</header>
+				<div class="tags">
+					{% for tag in page.tags %}
+						<a class="tag" href="/show_by_tag.html?tag={{ tag }}" class="tag">{{ tag }}</a>
+					{% endfor %}
 				</div>
-			</div>
-			<div id="sidebar">
-				{% include sidebar.html %}
-			</div>
+				{{ content }}
+				<div class="ds-thread" data-url="http://skyinlayer.com/{{ page.url }}" data-thread-key="{{ page.url }}" data-title="{{ page.title }}" style="min-height:277px"></div>
+			</article>
 		</div>
-		<!-- Duoshuo Comment BEGIN -->
-		<script type="text/javascript">
-			var duoshuoQuery = {short_name:"skyinlayer"};
-			(function() {
-				var ds = document.createElement('script');
-				ds.type = 'text/javascript';ds.async = true;
-				ds.src = 'http://static.duoshuo.com/embed.js';
-				ds.charset = 'UTF-8';
-				(document.getElementsByTagName('head')[0] 
-				|| document.getElementsByTagName('body')[0]).appendChild(ds);
-			})();
-		</script>
-		<!-- Duoshuo Comment END -->
-		<script src="/js/skel.min.js"></script>
-		<script src="/js/skel-panels.min.js"></script>
-		<script src="/js/highlight.pack.js"></script>
-		<script src="/js/init.min.js"></script>
-	</body>
+		<aside class="aside">
+			{% include sidebar.html %}
+		</aside>
+		<footer class="footer">
+			<p>&copy; 2014 天镶 Skyinlayer</p>
+		</footer>
+	</div>
+</body>
+<script src="/js/highlight.pack.js"></script>
+<script type="text/javascript">
+	var duoshuoQuery = {short_name:"skyinlayer"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = 'http://static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		|| document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	$('pre code').each(function(i, e) {
+		hljs.highlightBlock(e);
+	});
+</script>
 </html>
