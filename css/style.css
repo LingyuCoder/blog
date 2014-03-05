@@ -53,10 +53,11 @@ a {text-decoration: none; color: #a28351; position: relative; letter-spacing: 0.
 	.content .post ul, .content .post ol {padding: 1em;width: 100% }
 		.content .post ul li {list-style: disc inside }
 		.content .post ol li {list-style: decimal inside }
-	/* .content .post a {text-decoration: underline;} */
 	.content .post code {background-image: url(/images/i/codeback.png); padding: 0.2em; border-radius: 0.2em; color: white; font-family: 'courier new', typewriter, matrix, monospace, sans-serif; }
 	.content .post pre {background-image: url(/images/i/codeback.png); padding: 1em; border-radius: 1.5em; margin: 1em 0; }
 		.content .post pre code{border-radius: 2em; font-family: 'courier new', typewriter, matrix, monospace, sans-serif; background: none; }
+	.content .post .image {display: block}
+			.content .post .image-full img{width: 100%; }
 
 	.content .pager {margin: 2em 0 0;}
 		.content .pager:after {content: ""; display: block; height: 0; visibility: hidden; clear: both; }
@@ -112,31 +113,32 @@ a {text-decoration: none; color: #a28351; position: relative; letter-spacing: 0.
 		.header nav {margin: 2em 0 2em; font-size: 1.3em; text-align: right }
 		.header nav li{display: inline-block; margin: 0 0 0 5%}
 
-	.content {padding-left: 5%;}
+	.content {padding: 0 5%;}
 		.content .post {}
 			.content .post:after {content: ""; display: block; height: 0; visibility: hidden; clear: both; }
 			.content .post .brief {overflow: hidden; }
-			.content .post .main {display: inline-block; width: 80%; overflow: hidden; }
+			.content .post .main {float: left; width: 80%;}
 			.content .post h1 {}
 				.content .post h1:before,
 				.content .post h1:after {position: relative; display: inline; color: #aaa; font-family: "宋体", sans-serif; font-size: 1.5em }
 				.content .post h1:before {left: -0.3em; content: '“'; }
 				.content .post h1:after {top: 0.7em; left: 0.3em; content: '”'; }
-			.content .post .to-detail {float: right; width: 18%; }
+			.content .post .to-detail {overflow: hidden; width: 18%; }
 				.content .post .to-detail:after{content: "查看详细"; width: 100%; text-align: left; margin-left: 1em; font-size: 1em }
-			.content .post .tags {display: block; }
+			.content .post .tags {display: block; clear: both}
 				.content .post .tags .tag{margin-right: 1em; }
 			.content .pager {padding-right: 18% }
 			
 
 	.aside {padding-left: 5%;margin-bottom: 2em; }
 		.aside section {}
+			.aside section:after {content: ""; display: block; height: 0; visibility: hidden; clear: both; }
 			.aside section h3 {display: block; width: 30%; float: left; background: transparent url(/images/i/waves.png) no-repeat 0 100%; padding-bottom: 1em;}
 			.aside section .inner {padding: 1em 0 0; display: block; overflow: hidden; }
 }
 
 @media screen and (min-width: 64em) {
-	.aside {position: absolute; background: none; left: 0%; width: 20%; top: 20em; overflow: visible;}
+	.aside {display: block; background: none; width: 15%;padding: 0 5%;overflow: hidden;}
 		.aside section {}
 			.aside section h3 {display: block; float: none; width: 100%; }
 			.aside section .inner {display: block; overflow: visible;}
@@ -145,12 +147,15 @@ a {text-decoration: none; color: #a28351; position: relative; letter-spacing: 0.
 	.aside a:before, .header a:before{position: absolute; content: ""; display: inline-block; width: 0.4em; left: -0.6em; top: 0.25em; height: 0; border-left: 0.4em solid #000; border-top: 0.4em solid transparent; border-bottom: 0.4em solid transparent; opacity: 0; -webkit-transform: translate(-1em, 0); -ms-transform: translate(-1em, 0); transform: translate(-1em, 0); }
 	.aside a:hover:before, .header a:hover:before{-webkit-transform: translate(0, 0); -ms-transform: translate(0, 0); transform: translate(0, 0); opacity: 1; }
 
-	.header {padding-right: 10em; max-width: 60em;margin-left: 27%}
+	.header {padding-right: 10em; max-width: 60em;margin-left: 27%;}
 		.header nav {text-align: left }
 		.header nav li{margin: 0 5% 0 0;}
-	.content {width: 70%;max-width: 70em; margin-left: 27%;background: transparent url(/images/i/sep.png) no-repeat 0 0;  display: inline-block; padding-left: 0; overflow: visible; }
-		.content .pager {}
+
+	.content {float:right;width: 75%; background: transparent url(/images/i/sep.png) no-repeat 0 0;  display: inline-block; padding: 0; overflow: hidden; }
+		.content .post {max-width: 70em}
+		.content .pager {max-width: 70em}
 			.content .pages {display: block; text-align: center; font-size: 1.3em; margin: 0 auto; overflow: hidden; }
+	.footer {clear:both;}
 }
 
 @-webkit-keyframes FADEY {

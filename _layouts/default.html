@@ -32,31 +32,7 @@
 		</footer>
 	</div>
 	<script type="text/javascript">
-		(function() {
-			var artIds = [],
-				arts = $(".stats");
-			for (var i = arts.length; i--;)
-				artIds.push($(arts[i]).attr("data-thread-key"));
-			$.ajax({
-				url: 'http://api.duoshuo.com/threads/counts.jsonp?short_name=skyinlayer&threads=' + artIds.join(','),
-				type: "GET",
-				dataType: "jsonp"
-			}).done(function(data) {
-				var response = data.response,
-					id,
-					$stats,
-					artInfo;
-				for (var i = arts.length; i--;) {
-					$stats = $(arts[i]);
-					artInfo = response[$stats.attr("data-thread-key")];
-					$stats.find(".fa-comment").text(artInfo.comments);
-					$stats.find(".fa-heart").text(artInfo.likes);
-					$stats.find(".fa-weibo").text(artInfo.weibo_reposts);
-				}
-			}).fail(function() {
-				//fail
-			});
-		})();
+		(function() {var artIds = [], arts = $(".stats"); for (var i = arts.length; i--;) artIds.push($(arts[i]).attr("data-thread-key")); $.ajax({url: 'http://api.duoshuo.com/threads/counts.jsonp?short_name=skyinlayer&threads=' + artIds.join(','), type: "GET", dataType: "jsonp"}).done(function(data) {var response = data.response, id, $stats, artInfo; for (var i = arts.length; i--;) {$stats = $(arts[i]); artInfo = response[$stats.attr("data-thread-key")]; $stats.find(".fa-comment").text(artInfo.comments); $stats.find(".fa-heart").text(artInfo.likes); $stats.find(".fa-weibo").text(artInfo.weibo_reposts); } }).fail(function() {//fail }); })();
 	</script>
 </body>
 </html>

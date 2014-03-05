@@ -62,9 +62,13 @@
 <article class="post">
 	<header>
 		<h2>前端技术</h2>
-		<span class="byline">12 篇文章</span>
+		<span class="byline">14 篇文章</span>
 	</header>
 	<ul>
+		
+			<li><span class="date">05/03/2014</span><a href="/blog/2014/03/05/new-page">博客换页面了</a></li>
+		
+			<li><span class="date">05/03/2014</span><a href="/blog/2014/03/05/layouts">网页布局实例</a></li>
 		
 			<li><span class="date">26/02/2014</span><a href="/blog/2014/02/26/BFC">深入浅出BFC（Block formatting contexts）</a></li>
 		
@@ -129,6 +133,16 @@
 		<ul>
 			
 			<li>
+				<a href="/blog/2014/03/05/new-page">博客换页面了</a>
+				<span class="date">05 Mar 2014</span>
+			</li>
+			
+			<li>
+				<a href="/blog/2014/03/05/layouts">网页布局实例</a>
+				<span class="date">05 Mar 2014</span>
+			</li>
+			
+			<li>
 				<a href="/blog/2014/02/28/grunt">初识Grunt</a>
 				<span class="date">28 Feb 2014</span>
 			</li>
@@ -141,16 +155,6 @@
 			<li>
 				<a href="/blog/2014/02/25/design-strategies">聊一聊优雅降级、渐进增强和移动先行</a>
 				<span class="date">25 Feb 2014</span>
-			</li>
-			
-			<li>
-				<a href="/blog/2014/02/25/css-selectors-priority">CSS优先级备忘</a>
-				<span class="date">25 Feb 2014</span>
-			</li>
-			
-			<li>
-				<a href="/blog/2014/02/24/CSS3-animation-optimization">如何让CSS3的动画不再卡顿失帧？</a>
-				<span class="date">24 Feb 2014</span>
 			</li>
 			
 		</ul>
@@ -168,7 +172,7 @@
 			
 			<li>
 				<a href="/show_by_category.html?cat=前端技术">前端技术</a>
-				<span class="count">12</span>
+				<span class="count">14</span>
 			</li>
 			
 			<li>
@@ -232,31 +236,7 @@
 		</footer>
 	</div>
 	<script type="text/javascript">
-		(function() {
-			var artIds = [],
-				arts = $(".stats");
-			for (var i = arts.length; i--;)
-				artIds.push($(arts[i]).attr("data-thread-key"));
-			$.ajax({
-				url: 'http://api.duoshuo.com/threads/counts.jsonp?short_name=skyinlayer&threads=' + artIds.join(','),
-				type: "GET",
-				dataType: "jsonp"
-			}).done(function(data) {
-				var response = data.response,
-					id,
-					$stats,
-					artInfo;
-				for (var i = arts.length; i--;) {
-					$stats = $(arts[i]);
-					artInfo = response[$stats.attr("data-thread-key")];
-					$stats.find(".fa-comment").text(artInfo.comments);
-					$stats.find(".fa-heart").text(artInfo.likes);
-					$stats.find(".fa-weibo").text(artInfo.weibo_reposts);
-				}
-			}).fail(function() {
-				//fail
-			});
-		})();
+		(function() {var artIds = [], arts = $(".stats"); for (var i = arts.length; i--;) artIds.push($(arts[i]).attr("data-thread-key")); $.ajax({url: 'http://api.duoshuo.com/threads/counts.jsonp?short_name=skyinlayer&threads=' + artIds.join(','), type: "GET", dataType: "jsonp"}).done(function(data) {var response = data.response, id, $stats, artInfo; for (var i = arts.length; i--;) {$stats = $(arts[i]); artInfo = response[$stats.attr("data-thread-key")]; $stats.find(".fa-comment").text(artInfo.comments); $stats.find(".fa-heart").text(artInfo.likes); $stats.find(".fa-weibo").text(artInfo.weibo_reposts); } }).fail(function() {//fail }); })();
 	</script>
 </body>
 </html>
