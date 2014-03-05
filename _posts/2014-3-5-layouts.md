@@ -52,7 +52,7 @@ body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input
 ###效果
 [jsfiddle地址](http://jsfiddle.net/skyinlayer/24rT2/)
 
-<iframe width="100%" height="600" src="http://jsfiddle.net/zalun/NmudS/embedded/result,html,css" allowfullscreen="allowfullscreen" frameborder="0">&nbsp;</iframe>
+<iframe width="100%" height="600" src="http://jsfiddle.net/skyinlayer/24rT2/embedded/result,html,css" allowfullscreen="allowfullscreen" frameborder="0">&nbsp;</iframe>
 
 ###浏览器兼容性
 兼容ie8+和所有现代浏览器，如果设定为固定宽度，则兼容ie6
