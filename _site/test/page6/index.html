@@ -2,10 +2,9 @@
 <html lang="zh-CN">
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8;"/>
-	<title>闭合浮动最佳方案（clearfix） - 天镶的博客 SkyInlayer`s Blog </title>
+	<title>天镶的博客 SkyInlayer`s Blog </title>
 
 	<link rel="stylesheet" media="screen" href="/css/style.min.css">
-	<link rel="stylesheet" media="screen" href="/css/dark.min.css">
 
 	<meta name="keywords" content="天镶, SkyInlayer, 天镶的博客, 博客, 个人博客, 前端, IT, 程序员" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,7 +12,7 @@
 	<meta name="description" content="天镶SkyInlayer的个人博客">
 	<meta name="robots" content="all">
 	<!--[if lt IE 9]>
-	<script src="/js/html5shiv.js"></script>
+	<script src="script/html5shiv.js"></script>
 	<![endif]-->
 	<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
 </head>
@@ -33,28 +32,81 @@
 </nav>
 		</header>
 		<div class="content">
-			<article class="post">
-				<header>
-					<h1>闭合浮动最佳方案（clearfix）</h1>
-					<span class="byline">传统闭合浮动方法与使用:after伪类的闭合浮动</span>
-				</header>
-				<div class="tags">
-					
-						<a class="tag" href="/show_by_tag.html?tag=css" class="tag">css</a>
-					
-				</div>
-				<p>传统方法：</p>
+			
+<article class="post">
+	<header>
+		<h2>搭建HTML5简易聊天室</h2>
+		<span class="byline">使用WebSocket+NodeJs搭建聊天室</span>
+	</header>
+	<div class="main">
+		<div class="brief">
+			之前曾经写过一个符合xmpp协议的Web IM，但使用的是JSJaC，后台用的也是与之配套的jabber client，发现nodejs的事件模式更适合作为Web IM的客户端。而传统的ajax轮询机制也早晚被全双工websocket所取代，所以就打算在我的毕业设计的Web IM平台中使用websocket。在这里调研一下并作出了一个简单的，放在小玩意里了，这里讲一下这个简单demo的实现方式
+		</div>
+		<div class="info">
+			<div class="replies">
+				<span class='date'> <span class='month'>Dec</span> <span class='day'>8</span> <span class='year'>2013</span> </span>
+				<ul class="stats" data-thread-key="/blog/2013/12/08/websocket">
+					<li class="comment fa fa-comment"></li>
+					<li class="heart fa fa-heart"></li>
+					<li class="weibo fa fa-weibo"></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<a class="to-detail" href="/blog/2013/12/08/websocket"></a>
+	<div class="tags">
+		
+			<a class="tag" href="/show_by_tag.html?tag=WebSocket" class="tag">WebSocket</a>
+		
+			<a class="tag" href="/show_by_tag.html?tag=NodeJs" class="tag">NodeJs</a>
+		
+			<a class="tag" href="/show_by_tag.html?tag=xmpp" class="tag">xmpp</a>
+		
+			<a class="tag" href="/show_by_tag.html?tag=WebIM" class="tag">WebIM</a>
+		
+	</div>
+</article>
 
-<pre class="css21"><code class="css21">.clear{clear:both;height:0;overflow:hidden;}</code></pre>
 
-<p>这样在需要闭合的地方加一个div.clear就行了，但是会改变html文档结构，所以建议使用以下方式：</p>
 
-<pre class="css21"><code class="css21">.clearfix:after{content:&quot;.&quot;;display:block;height:0;clear:both;visibility:hidden}
-.clearfix{*+height:1%;}</code></pre>
 
-<p>使用after伪类后可以不用改变html文档结构即完成浮动闭合,加在浮动元素的父元素上就可以了</p>
-				<div class="ds-thread" data-url="http://skyinlayer.com//blog/2014/01/09/clearfix" data-thread-key="/blog/2014/01/09/clearfix" data-title="闭合浮动最佳方案（clearfix）" style="min-height:277px"></div>
-			</article>
+	<div class="pager">
+	
+	  	<a href="/test/page5" class="pre">上一页</a>
+	
+	
+	
+	
+		<div class="pages">
+		
+		    
+		      <a href="/index.html">1</a>
+		    
+		
+		    
+		      <a href="/test/page2">2</a>
+		    
+		
+		    
+		      <a href="/test/page3">3</a>
+		    
+		
+		    
+		      <a href="/test/page4">4</a>
+		    
+		
+		    
+		      <a href="/test/page5">5</a>
+		    
+		
+		    
+		      <span class="active">6</span>
+		    
+		
+		</div>
+	</div>
+
+
 		</div>
 		<aside class="aside">
 			<section class="recent">
@@ -172,9 +224,8 @@
 			<p>&copy; 2014 天镶 Skyinlayer</p>
 		</footer>
 	</div>
+	<script type="text/javascript">
+		(function() {var artIds = [], arts = $(".stats"); for (var i = arts.length; i--;) artIds.push($(arts[i]).attr("data-thread-key")); $.ajax({url: 'http://api.duoshuo.com/threads/counts.jsonp?short_name=skyinlayer&threads=' + artIds.join(','), type: "GET", dataType: "jsonp"}).done(function(data) {var response = data.response, id, $stats, artInfo; for (var i = arts.length; i--;) {$stats = $(arts[i]); artInfo = response[$stats.attr("data-thread-key")]; $stats.find(".fa-comment").text(artInfo.comments); $stats.find(".fa-heart").text(artInfo.likes); $stats.find(".fa-weibo").text(artInfo.weibo_reposts); } }).fail(function() {}); })();
+	</script>
 </body>
-<script src="/js/highlight.pack.js"></script>
-<script type="text/javascript">
-	var duoshuoQuery = {short_name:"skyinlayer"}; (function() {var ds = document.createElement('script'); ds.type = 'text/javascript';ds.async = true; ds.src = 'http://static.duoshuo.com/embed.js'; ds.charset = 'UTF-8'; (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds); })(); $('pre code').each(function(i, e) {hljs.highlightBlock(e); });
-</script>
 </html>
