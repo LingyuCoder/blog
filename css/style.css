@@ -285,8 +285,8 @@ a:focus {
 }
 
 .content .post code {
-  background-image: url(/images/i/codeback.png);
   background-color: #424242;
+  background-image: url(/images/i/codeback.png);
   padding: 0.2em;
   border-radius: 0.2em;
   color: white;
@@ -294,8 +294,8 @@ a:focus {
 }
 
 .content .post pre {
-  background-image: url(/images/i/codeback.png);
   background-color: #424242;
+  background-image: url(/images/i/codeback.png);
   padding: 1em;
   border-radius: 1.5em;
   margin: 1em 0;
