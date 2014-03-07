@@ -1,11 +1,12 @@
-﻿/*
+/*
 
 Dark style from softwaremaniacs.org (c) Ivan Sagalaev <Maniac@SoftwareManiacs.Org>
 
 */
 
 pre code {
-  display: block; padding: 0.5em;
+  display: block;
+  padding: 0.5em;
   background: #444;
 }
 
