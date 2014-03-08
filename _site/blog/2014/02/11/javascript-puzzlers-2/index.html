@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8;"/>
+	<title>JavaScript选择题解答（21-37） - 天镶的博客 SkyInlayer`s Blog </title>
+
+	<link rel="stylesheet" media="screen" href="/css/style.min.css">
+	<link rel="stylesheet" media="screen" href="/css/dark.min.css">
+
+	<meta name="keywords" content="天镶, SkyInlayer, 天镶的博客, 博客, 个人博客, 前端, IT, 程序员" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="author" content="Skyinlayer">
+	<meta name="description" content="天镶SkyInlayer的个人博客">
+	<meta name="robots" content="all">
+	<!--[if lt IE 9]>
+	<script src="/js/html5shiv.js"></script>
+	<![endif]-->
+	<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+</head>
+<body>
+	<div class="wrapper">
+		<header class="header">
+			<div class="banner"><h1>天镶的博客</h1></div>
+<div class="desc">学海无涯，回头是岸</div>
+<nav>
+	<ul>
+		<li><a href="/index.html">首页</a></li>
+		<li><a href="/archieves.html">文章</a></li>
+		<li><a href="/items.html">玩意</a></li>
+		<li><a href="/about.html">关于</a></li>
+		<li><a href="/profile.html">简历</a></li>
+	</ul>
+</nav>
+		</header>
+		<div class="content">
+			<article class="post">
+				<header>
+					<h1>JavaScript选择题解答（21-37）</h1>
+					<span class="byline">javascript puzzlers的个人解答</span>
+				</header>
+				<div class="tags">
+					
+						<a class="tag" href="/show_by_tag.html?tag=JavaScript" class="tag">JavaScript</a>
+					
+				</div>
+				<h3 id="">第二十一题</h3>
+
+<p>What is the result of this expression? (or multiple ones)</p>
+
+<pre class="javascript"><code class="javascript">var a = 111111111111111110000,
+    b = 1111;
+a + b;</code></pre>
+
+<p>A: 111111111111111111111</p>
+
+<p>B: 111111111111111110000</p>
+
+<p>C: NaN</p>
+
+<p>D: Infinity</p>
+
+<p>又是一道考查JavaScript数字的题，与第七题考察点相似。由于JavaScript实际上只有一种数字形式IEEE 754标准的64位双精度浮点数，其所能表示的整数范围为-2^53~2^53(包括边界值)。这里的111111111111111110000已经超过了2^53次方，所以会发生精度丢失的情况。综上选B</p>
+
+<h3 id="_2">第二十二题</h3>
+
+<p>What is the result of this expression? (or multiple ones)</p>
+
+<pre class="javascript"><code class="javascript">var x = [].reverse;
+x();</code></pre>
+
+<p>A: []</p>
+
+<p>B: undefined</p>
+
+<p>C: error</p>
+
+<p>D: window</p>
+
+<p>这题考查的是函数调用时的this和Array.prototype.reverse方法。</p>
+
+<p>首先看Array.prototype.reverse方法，首先举几个栗子：</p>
+
+<pre class="javascript"><code class="javascript">console.log(Array.prototype.reverse.call(&quot;skyinlayer&quot;));
+//skyinlayer
+console.log(Array.prototype.reverse.call({}));
+//Object {}
+console.log(Array.prototype.reverse.call(123));
+//123</code></pre>
+
+<p>这几个栗子可以得出一个结论，Array.prototype.reverse方法的返回值，就是this</p>
+
+<p>Javascript中this有如下几种情况：</p>
+
+<p>全局下this，指向window对象</p>
+
+<pre class="javascript"><code class="javascript">console.log(this);
+//输出结果：
+//Window {top: Window, window: Window, location: Location, external: Object, chrome: Object…}</code></pre>
+
+<p>函数调用，this指向全局window对象：</p>
+
+<pre class="javascript"><code class="javascript">function somefun(){
+    console.log(this);
+}
+somefun();
+//输出结果：
+//Window {top: Window, window: Window, location: Location, external: Object, chrome: Object…}</code></pre>
+
+<p>方法调用，this指向拥有该方法的对象：</p>
+
+<pre class="javascript"><code class="javascript">var someobj = {};
+someobj.fun = function(){
+    console.log(this);
+};
+console.log(someobj.fun());
+//输出结果：
+//Object {fun: function}</code></pre>
+
+<p>调用构造函数，构造函数内部的this指向新创建对象：</p>
+
+<pre class="javascript"><code class="javascript">function Con() {
+    console.log(this);
+}
+Con.prototype.somefun = function(){};
+console.log(new Con());
+//输出结果：
+//Con {somefun: function}</code></pre>
+
+<p>显示确定this：</p>
+
+<pre class="javascript"><code class="javascript">function somefun(){
+    console.log(this);
+};
+somefun.apply(&quot;skyinlayer&quot;);
+somefun.call(&quot;skyinlayer&quot;);
+//输出结果：
+//String {0: &quot;s&quot;, 1: &quot;k&quot;, 2: &quot;y&quot;, 3: &quot;i&quot;, 4: &quot;n&quot;, 5: &quot;l&quot;, 6: &quot;a&quot;, 7: &quot;y&quot;, 8: &quot;e&quot;, 9: &quot;r&quot;, length: 10}
+//String {0: &quot;s&quot;, 1: &quot;k&quot;, 2: &quot;y&quot;, 3: &quot;i&quot;, 4: &quot;n&quot;, 5: &quot;l&quot;, 6: &quot;a&quot;, 7: &quot;y&quot;, 8: &quot;e&quot;, 9: &quot;r&quot;, length: 10} </code></pre>
+
+<p>这里可以看到，使用的是函数调用方式，this指向的是全局对象window，所以选D</p>
+
+<h3 id="_3">第二十三题</h3>
+
+<p>What is the result of this expression? (or multiple ones)</p>
+
+<pre class="javascript"><code class="javascript">Number.MIN_VALUE &gt; 0</code></pre>
+
+<p>A: false</p>
+
+<p>B: true</p>
+
+<p>C: error</p>
+
+<p>D: other</p>
+
+<p>考查的Number.MIN_VALUE的概念，<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/MIN_VALUE">MDN传送门</a>，关键的几句话</p>
+
+<ul>
+<li>
+<p>The Number.MIN_VALUE property represents the smallest positive numeric value representable in JavaScript. 翻译：Number.MIN_VALUE表示的是JavaScript中最小的正数</p>
+</li>
+
+<li>
+<p>The MIN_VALUE property is the number closest to 0, not the most negative number, that JavaScript can represent. 翻译：MIN_VALUE是接近0的数，而不是最小的数</p>
+</li>
+
+<li>
+<p>MIN_VALUE has a value of approximately 5e-324. Values smaller than MIN_VALUE (“underflow values”) are converted to 0. 翻译：MIN_VALUE值约等于5e-324，比起更小的值（大于0），将被转换为0</p>
+</li>
+</ul>
+
+<p>所以，这里是true，选B</p>
+
+<p>顺带把Number的几个常量拉出来：</p>
+
+<ul>
+<li>Number.MAX_VALUE：最大的正数</li>
+
+<li>Number.MIN_VALUE：最小的正数</li>
+
+<li>Number.NaN：特殊值，用来表示这不是一个数</li>
+
+<li>Number.NEGATIVE_INFINITY：负无穷大</li>
+
+<li>Number.POSITIVE_INFINITY：正无穷大</li>
+</ul>
+
+<p>如果要表示最小的负数和最大的负数，可以使用-Number.MAX_VALUE和-Number.MIN_VALUE</p>
+
+<h3 id="_4">第二十四题</h3>
+
+<p>What is the result of this expression? (or multiple ones)</p>
+
+<pre class="javascript"><code class="javascript">[1 &lt; 2 &lt; 3, 3 &lt; 2 &lt; 1]</code></pre>
+
+<p>A: [true, true]</p>
+
+<p>B: [true, false]</p>
+
+<p>C: error</p>
+
+<p>D: other</p>
+
+<p>运算符的运算顺序和隐式类型转换的题，从<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Operator_Precedence">MDN上运算符优先级</a>，’&lt;’运算符顺序是从左到右，所以变成了[true &lt; 3, false &lt; 1]</p>
+
+<p>接着进行隐式类型转换，’&lt;’操作符的转换规则（来自<a href="http://www.cnblogs.com/mizzle/archive/2011/08/12/2135885.html">$雨$的文章《Javascript类型转换的规则》</a>）:</p>
+
+<ol>
+<li>如果两个操作值都是数值，则进行数值比较</li>
+
+<li>如果两个操作值都是字符串，则比较字符串对应的字符编码值</li>
+
+<li>如果只有一个操作值是数值，则将另一个操作值转换为数值，进行数值比较</li>
+
+<li>如果一个操作数是对象，则调用valueOf()方法（如果对象没有valueOf()方法则调用toString()方法），得到的结果按照前面的规则执行比较</li>
+
+<li>如果一个操作值是布尔值，则将其转换为数值，再进行比较</li>
+</ol>
+
+<p>所以，这里首先通过Number()转换为数字然后进行比较，true会转换成1，而false转换成0，就变成了[1 &lt; 3, 0 &lt; 1]</p>
+
+<p>所以结果为A</p>
+
+<h3 id="_5">第二十五题</h3>
+
+<p>What is the result of this expression? (or multiple ones)</p>
+
+<pre class="javascript"><code class="javascript">// the most classic wtf
+2 == [[[2]]]</code></pre>
+
+<p>A: true</p>
+
+<p>B: false</p>
+
+<p>C: undefined</p>
+
+<p>D: other</p>
+
+<p>又是隐式类型转换的题（汗）</p>
+
+<p>题目作者的解释是： both objects get converted to strings and in both cases the resulting string is “2”</p>
+
+<p>也就是说左右两边都被转换成了字符串，而字符串都是”2”</p>
+
+<p>这里首先需要对==右边的数组进行类型转换，根据以下规则（来自<a href="http://justjavac.iteye.com/blog/1848749">justjavac的文章《「译」JavaScript 的怪癖 1：隐式类型转换》</a>）：</p>
+
+<ol>
+<li>调用 valueOf()。如果结果是原始值（不是一个对象），则将其转换为一个数字。</li>
+
+<li>否则，调用 toString() 方法。如果结果是原始值，则将其转换为一个数字。</li>
+
+<li>否则，抛出一个类型错误。</li>
+</ol>
+
+<p>所以右侧被使用toString()方法转换为”2”，然后又通过Number(“2”)转换为数字2进行比较，结果就是true了，选A</p>
+
+<h3 id="_6">第二十六题</h3>
+
+<p>What is the result of this expression? (or multiple ones)</p>
+
+<pre class="javascript"><code class="javascript">3.toString()
+3..toString()
+3...toString()</code></pre>
+
+<p>A: “3”, error, error</p>
+
+<p>B: “3”, “3.0”, error</p>
+
+<p>C: error, “3”, error</p>
+
+<p>D: other</p>
+
+<p>说实话这题有点常见了，很多人都踩过3.toString()的坑（包括我）…虽然JavaScript会在调用方法时对原始值进行包装，但是这个点是小数点呢、还是方法调用的点呢，于是乎第一个就是error了，因为JavaScript解释器会将其认为是小数点。</p>
+
+<p>而第二个则很好说通了，第一个点解释为小数点，变成了(3.0).toString()，结果就是”3”了</p>
+
+<p>第三个也是，第一个点为小数点，第二个是方法调用的点，但是后面接的不是一个合法的方法名，于是乎就error了</p>
+
+<p>综上，选C</p>
+
+<h3 id="_7">第二十七题</h3>
+
+<p>What is the result of this expression? (or multiple ones)</p>
+
+<pre class="javascript"><code class="javascript">(function(){
+  var x = y = 1;
+})();
+console.log(y);
+console.log(x);</code></pre>
+
+<p>A: 1, 1</p>
+
+<p>B: error, error</p>
+
+<p>C: 1, error</p>
+
+<p>D: other</p>
+
+<p>变量提升和隐式定义全局变量的题，也是一个JavaScript经典的坑</p>
+
+<p>还是那句话，在作用域内，变量定义和函数定义会先行提升，所以里面就变成了:</p>
+
+<pre class="javascript"><code class="javascript">(function(){
+    var x;
+    y = 1;
+    x = 1;
+})();</code></pre>
+
+<p>这点会问了，为什么不是<code>var x, y;</code>，这就是坑的地方…这里只会定义第一个变量x，而y则会通过不使用var的方式直接使用，于是乎就隐式定义了一个全局变量y</p>
+
+<p>所以，y是全局作用域下，而x则是在函数内部，结果就为1, error，选C</p>
+
+<h3 id="_8">第二十八题</h3>
+
+<p>What is the result of this expression? (or multiple ones)</p>
+
+<pre class="javascript"><code class="javascript">var a = /123/,
+    b = /123/;
+a == b
+a === b</code></pre>
+
+<p>A: true, true</p>
+
+<p>B: true, false</p>
+
+<p>C: false, false</p>
+
+<p>D: other</p>
+
+<p>首先需要明确JavaScript的正则表达式是什么。JavaScript中的正则表达式依旧是对象，使用typeof运算符就能得出结果：</p>
+
+<pre class="javascript"><code class="javascript">console.log(typeof /123/);
+//输出结果：
+//&quot;object&quot;</code></pre>
+
+<p>’==’运算符左右两边都是对象时，会比较他们是否指向同一个对象，可以理解为C语言中两个指针的值是否一样（指向同一片内存），所以两个结果自然都是false</p>
+
+<h3 id="_9">第二十九题</h3>
+
+<p>What is the result of this expression? (or multiple ones)</p>
+
+<pre class="javascript"><code class="javascript">var a = [1, 2, 3],
+    b = [1, 2, 3],
+    c = [1, 2, 4]
+a == b
+a === b
+a &gt; c
+a &lt; c</code></pre>
+
+<p>A: false, false, false, true</p>
+
+<p>B: false, false, false, false</p>
+
+<p>C: true, true, false, true</p>
+
+<p>D: other</p>
+
+<p>和上题类似，JavaScript中Array的本质也是对象，所以前两个的结果都是false，</p>
+
+<p>而JavaScript中Array的’&gt;’运算符和’&lt;’运算符的比较方式类似于字符串比较字典序，会从第一个元素开始进行比较，如果一样比较第二个，还一样就比较第三个，如此类推，所以第三个结果为false，第四个为true。</p>
+
+<p>综上所述，结果为false, false, false, true，选A</p>
+
+<h3 id="_10">第三十题</h3>
+
+<p>What is the result of this expression? (or multiple ones)</p>
+
+<pre class="javascript"><code class="javascript">var a = {}, b = Object.prototype;
+[a.prototype === b, Object.getPrototypeOf(a) === b]</code></pre>
+
+<p>A: [false, true]</p>
+
+<p>B: [true, true]</p>
+
+<p>C: [false, false]</p>
+
+<p>D: other</p>
+
+<p>原型链的题（总会有的），考查的__proto__和prototype的区别。首先要明确对象和构造函数的关系，对象在创建的时候，其__proto__会指向其构造函数的prototype属性</p>
+
+<p>Object实际上是一个构造函数（typeof Object的结果为”function”）,使用字面量创建对象和new Object创建对象是一样的，所以a.__proto__也就是Object.prototype，而Object.getPrototypeOf(a)与a.__proto__是一样的，所以第二个结果为true</p>
+
+<p>而实例对象是没有prototype属性的，只有函数才有，所以a.prototype其实是undefined，第一个结果为false</p>
+
+<p>综上，选A</p>
+
+<h3 id="_11">第三十一题</h3>
+
+<p>What is the result of this expression? (or multiple ones)</p>
+
+<pre class="javascript"><code class="javascript">function f() {}
+var a = f.prototype, b = Object.getPrototypeOf(f);
+a === b</code></pre>
+
+<p>A: true</p>
+
+<p>B: false</p>
+
+<p>C: null</p>
+
+<p>D: other</p>
+
+<p>还是__proto__和prototype的区别，两者不是一个东西，所以选B</p>
+
+<h3 id="_12">第三十二题</h3>
+
+<p>What is the result of this expression? (or multiple ones)</p>
+
+<pre class="javascript"><code class="javascript">function foo() { }
+var oldName = foo.name;
+foo.name = &quot;bar&quot;;
+[oldName, foo.name]</code></pre>
+
+<p>A: error</p>
+
+<p>B: [””, ””]</p>
+
+<p>C: [“foo”, “foo”]</p>
+
+<p>D: [“foo”, “bar”]</p>
+
+<p>考察了函数的name属性，使用函数定义方式时，会给function对象本身添加一个name属性，保存了函数的名称，很好理解oldName为”foo”。name属性时只读的，不允许修改，所以<code>foo.name = &quot;bar&quot;;</code>之后，foo.name还是”foo”，所以结果为[“foo”, “foo”]，选C</p>
+
+<p>PS：name属性不是一个标准属性，不要去使用，除非你想要坑别人</p>
+
+<h3 id="_13">第三十三题</h3>
+
+<p>What is the result of this expression? (or multiple ones)</p>
+
+<pre class="javascript"><code class="javascript">&quot;1 2 3&quot;.replace(/\d/g, parseInt)</code></pre>
+
+<p>A: “1 2 3”</p>
+
+<p>B: “0 1 2”</p>
+
+<p>C: “NaN 2 3”</p>
+
+<p>D: “1 NaN 3”</p>
+
+<p>String.prototype.replace、正则表达式的全局匹配和parseInt（又是parseInt…），可以根据题意看出来题目上漏了一个’&#39;</p>
+
+<p>首先需要确定replace会传给parseInt哪些参数。举个栗子：</p>
+
+<pre class="javascript"><code class="javascript">&quot;1 2 3&quot;.replace(/\d/g, function(){
+    console.log(arguments);
+});
+//输出结果：
+//[&quot;1&quot;, 0, &quot;1 2 3&quot;]
+//[&quot;2&quot;, 2, &quot;1 2 3&quot;]
+//[&quot;3&quot;, 4, &quot;1 2 3&quot;] </code></pre>
+
+<p>一共三个：</p>
+
+<ol>
+<li>match：正则表达式被匹配到的子字符串</li>
+
+<li>offset：被匹配到的子字符串在原字符串中的位置</li>
+
+<li>string：原字符串</li>
+</ol>
+
+<p>这样就很好理解了，又回到之前parseInt的问题了，结果就是parseInt(“1”, 10), parseInt(“2”, 2), parseInt(“3”, 4)所以结果为”1, NaN, 3”，选D</p>
+
+<h3 id="_14">第三十四题</h3>
+
+<p>What is the result of this expression? (or multiple ones)</p>
+
+<pre class="javascript"><code class="javascript">function f() {}
+var parent = Object.getPrototypeOf(f);
+f.name // ?
+parent.name // ?
+typeof eval(f.name) // ?
+typeof eval(parent.name) //  ?</code></pre>
+
+<p>A: “f”, “Empty”, “function”, “function”</p>
+
+<p>B: “f”, undefined, “function”, error</p>
+
+<p>C: “f”, “Empty”, “function”, error</p>
+
+<p>D: other</p>
+
+<p>又是Function.name属性的题，和三十二题一样样，f.name值为”f”，而eval(“f”)则会输出f函数，所以结果为”function”</p>
+
+<p>接着看parent，parent实际上就是f.__proto__，需要明确的是JavaScript中的函数也是对象，其也有自己的构造函数Function，所以f.__proto__ === Function.prototype结果是true，而Function.prototype就是一个名为Empty的function</p>
+
+<pre class="javascript"><code class="javascript">console.log(Function.prototype);
+console.log(Function.prototype.name);
+//输出结果：
+//function Empty() {}
+//Empty</code></pre>
+
+<p>所以parent.name的值为Empty</p>
+
+<p>如果想直接在全局作用域下调用Empty，显示未定义…因为Empty并不在全局作用域下</p>
+
+<p>综上所述，结果为C</p>
+
+<h3 id="_15">第三十五题</h3>
+
+<p>What is the result of this expression? (or multiple ones)</p>
+
+<pre class="javascript"><code class="javascript">var lowerCaseOnly =  /^[a-z]+$/;
+[lowerCaseOnly.test(null), lowerCaseOnly.test()]</code></pre>
+
+<p>A: [true, false]</p>
+
+<p>B: error</p>
+
+<p>C: [true, true]</p>
+
+<p>D: [false, true]</p>
+
+<p>正则表达式的test方法会自动将参数转换为字符串，原式就变成了<code>[lowerCaseOnly.test(&quot;null&quot;), lowerCaseOnly.test(&quot;undefined&quot;)]</code>，结果都是真，所以选C</p>
+
+<h3 id="_16">第三十六题</h3>
+
+<p>What is the result of this expression? (or multiple ones)</p>
+
+<pre class="javascript"><code class="javascript">[,,,].join(&quot;, &quot;)</code></pre>
+
+<p>A: “, , , ”</p>
+
+<p>B: “undefined, undefined, undefined, undefined”</p>
+
+<p>C: “, , ”</p>
+
+<p>D: ””</p>
+
+<p>JavaScript中使用字面量创建数组时，如果最末尾有一个逗号’,’，会背省略，所以实际上这个数组只有三个元素（都是undefined）：</p>
+
+<pre class="javascript"><code class="javascript">console.log([,,,].length);
+//输出结果：
+//3</code></pre>
+
+<p>而三个元素，使用join方法，只需要添加两次，所以结果为”, , “，选C</p>
+
+<h3 id="_17">第三十七题</h3>
+
+<p>What is the result of this expression? (or multiple ones)</p>
+
+<pre class="javascript"><code class="javascript">var a = {class: &quot;Animal&quot;, name: &#39;Fido&#39;};
+a.class</code></pre>
+
+<p>A: “Animal”</p>
+
+<p>B: Object</p>
+
+<p>C: an error</p>
+
+<p>D: other</p>
+
+<p>经典坑中的一个，class是关键字。根据浏览器的不同，结果不同：</p>
+
+<p>chrome的结果： “Animal”</p>
+
+<p>Firefox的结果：”Animal”</p>
+
+<p>Opera的结果：”Animal”</p>
+
+<p>IE 8以上也是： “Animal”</p>
+
+<p>IE 8 及以下： 报错</p>
+
+<h3 id="_18">总结</h3>
+
+<p>终于把37题全部弄完了，虽然很多题都偏而怪，但其中涉及的知识还是相当重要的。JavaScript中的糟粕和精华永远是一个话题，也是笔试面试时经常遇到的问题。</p>
+				<div class="ds-thread" data-url="http://skyinlayer.com//blog/2014/02/11/javascript-puzzlers-2" data-thread-key="/blog/2014/02/11/javascript-puzzlers-2" data-title="JavaScript选择题解答（21-37）" style="min-height:277px"></div>
+			</article>
+		</div>
+		<aside class="aside">
+			<section class="recent">
+	<h3>最近的文章</h3>
+	<div class="inner">
+		<ul>
+			
+			<li>
+				<a href="/blog/2014/03/08/qunar-interview">去哪儿笔试题之我答</a>
+				<span class="date">08 Mar 2014</span>
+			</li>
+			
+			<li>
+				<a href="/blog/2014/03/08/csszengarden-4">《CSS禅意花园》读书笔记——文字排布</a>
+				<span class="date">08 Mar 2014</span>
+			</li>
+			
+			<li>
+				<a href="/blog/2014/03/08/csszengarden-3">《CSS禅意花园》读书笔记——图像</a>
+				<span class="date">08 Mar 2014</span>
+			</li>
+			
+			<li>
+				<a href="/blog/2014/03/07/display">对比display布局（clearfix）</a>
+				<span class="date">07 Mar 2014</span>
+			</li>
+			
+			<li>
+				<a href="/blog/2014/03/07/csszengarden-2">《CSS禅意花园》读书笔记——正文布局</a>
+				<span class="date">07 Mar 2014</span>
+			</li>
+			
+		</ul>
+	</div>
+</section>
+<section class="categories">
+	<h3>文章类别</h3>
+	<div class="inner">
+		<ul>
+			
+			<li>
+				<a href="/show_by_category.html?cat=网站建设">网站建设</a>
+				<span class="count">7</span>
+			</li>
+			
+			<li>
+				<a href="/show_by_category.html?cat=前端技术">前端技术</a>
+				<span class="count">15</span>
+			</li>
+			
+			<li>
+				<a href="/show_by_category.html?cat=生活情感">生活情感</a>
+				<span class="count">2</span>
+			</li>
+			
+			<li>
+				<a href="/show_by_category.html?cat=数据库技术">数据库技术</a>
+				<span class="count">1</span>
+			</li>
+			
+			<li>
+				<a href="/show_by_category.html?cat=css禅意花园读书笔记">css禅意花园读书笔记</a>
+				<span class="count">4</span>
+			</li>
+			
+			<li>
+				<a href="/show_by_category.html?cat=笔试面试积累">笔试面试积累</a>
+				<span class="count">1</span>
+			</li>
+			
+		</ul>
+	</div>
+</section>
+<section class="all-tags">
+	<h3>文章标签</h3>
+	<div class="inner">
+		<div class="tags">
+			
+			<a class="tag" href="/show_by_tag.html?tag=WebSocket"> WebSocket</a>
+		    
+			<a class="tag" href="/show_by_tag.html?tag=NodeJs"> NodeJs</a>
+		    
+			<a class="tag" href="/show_by_tag.html?tag=xmpp"> xmpp</a>
+		    
+			<a class="tag" href="/show_by_tag.html?tag=WebIM"> WebIM</a>
+		    
+			<a class="tag" href="/show_by_tag.html?tag=css"> css</a>
+		    
+			<a class="tag" href="/show_by_tag.html?tag=github"> github</a>
+		    
+			<a class="tag" href="/show_by_tag.html?tag=jekyll"> jekyll</a>
+		    
+			<a class="tag" href="/show_by_tag.html?tag=jQuery"> jQuery</a>
+		    
+			<a class="tag" href="/show_by_tag.html?tag=JavaScript"> JavaScript</a>
+		    
+			<a class="tag" href="/show_by_tag.html?tag=生活"> 生活</a>
+		    
+			<a class="tag" href="/show_by_tag.html?tag=思考"> 思考</a>
+		    
+			<a class="tag" href="/show_by_tag.html?tag=HTML"> HTML</a>
+		    
+			<a class="tag" href="/show_by_tag.html?tag=CSS"> CSS</a>
+		    
+			<a class="tag" href="/show_by_tag.html?tag=响应式"> 响应式</a>
+		    
+			<a class="tag" href="/show_by_tag.html?tag=oracle"> oracle</a>
+		    
+			<a class="tag" href="/show_by_tag.html?tag=存储函数"> 存储函数</a>
+		    
+			<a class="tag" href="/show_by_tag.html?tag=grunt"> grunt</a>
+		    
+			<a class="tag" href="/show_by_tag.html?tag=设计"> 设计</a>
+		    
+			<a class="tag" href="/show_by_tag.html?tag=笔试面试题"> 笔试面试题</a>
+		    
+		</div>
+	</div>
+</section>
+		</aside>
+		<footer class="footer">
+			<p>&copy; 2014 天镶 Skyinlayer</p>
+		</footer>
+	</div>
+</body>
+<script src="/js/highlight.pack.js"></script>
+<script type="text/javascript">
+	var duoshuoQuery = {short_name:"skyinlayer"}; (function() {var ds = document.createElement('script'); ds.type = 'text/javascript';ds.async = true; ds.src = 'http://static.duoshuo.com/embed.js'; ds.charset = 'UTF-8'; (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds); })(); $('pre code').each(function(i, e) {hljs.highlightBlock(e); });
+</script>
+</html>
