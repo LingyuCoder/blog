@@ -3,7 +3,7 @@ layout: art
 title: 《CSS禅意花园》读书笔记——文字排布
 subTitle: 《CSS禅意花园》读书笔记系列第四篇
 desc: 最近拜读了网页设计界的名书——《CSS禅意花园》，思考良久，收获颇丰。在这里记录读CSS禅意花园中所归纳出来的重点，方便日后再读、再品
-categories: [CSS禅意花园读书笔记]
+categories: [读书笔记]
 tags: [HTML, CSS, 设计]
 ---
 
