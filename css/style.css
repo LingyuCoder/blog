@@ -272,7 +272,7 @@ a:focus {
 
 .content .post ul,
 .content .post ol {
-  padding: 1em;
+  padding: 0 1em 1em 1em;
   width: 100%;
 }
 

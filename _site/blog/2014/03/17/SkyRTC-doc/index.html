@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8;"/>
+	<title>开源WebRTC库——SkyRTC文档（服务器部分） - 天镶的博客 SkyInlayer`s Blog </title>
+
+	<link rel="stylesheet" media="screen" href="/css/style.min.css">
+	<link rel="stylesheet" media="screen" href="/css/dark.min.css">
+
+	<meta name="keywords" content="天镶, SkyInlayer, 天镶的博客, 博客, 个人博客, 前端, IT, 程序员" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="author" content="Skyinlayer">
+	<meta name="description" content="天镶SkyInlayer的个人博客">
+	<meta name="robots" content="all">
+	<!--[if lt IE 9]>
+	<script src="/js/html5shiv.js"></script>
+	<![endif]-->
+	<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+</head>
+<body>
+	<div class="wrapper">
+		<header class="header">
+			<div class="banner"><h1>天镶的博客</h1></div>
+<div class="desc">学海无涯，回头是岸</div>
+<nav>
+	<ul>
+		<li><a href="/index.html">首页</a></li>
+		<li><a href="/archieves.html">文章</a></li>
+		<li><a href="/items.html">玩意</a></li>
+		<li><a href="/about.html">关于</a></li>
+		<li><a href="/profile.html">简历</a></li>
+	</ul>
+</nav>
+		</header>
+		<div class="content">
+			<article class="post">
+				<header>
+					<h1>开源WebRTC库——SkyRTC文档（服务器部分）</h1>
+					<span class="byline">使用SkyRTC搭建视频、音频聊天室</span>
+				</header>
+				<div class="tags">
+					
+						<a class="tag" href="/show_by_tag.html?tag=WebSocket" class="tag">WebSocket</a>
+					
+						<a class="tag" href="/show_by_tag.html?tag=NodeJs" class="tag">NodeJs</a>
+					
+						<a class="tag" href="/show_by_tag.html?tag=WebIM" class="tag">WebIM</a>
+					
+						<a class="tag" href="/show_by_tag.html?tag=WebRTC" class="tag">WebRTC</a>
+					
+						<a class="tag" href="/show_by_tag.html?tag=JavaScript" class="tag">JavaScript</a>
+					
+				</div>
+				<p>忙了几天终于把SkyRTC库上传到NPM上了，并写了一份详细的使用文档，标明了基本的使用方法和类，修正了几个小bug，更多的bug还需要更多的测试，把文档发一下，具体项目见<a href="https://github.com/LingyuCoder/SkyRTC">我在Github上的SkyRTC项目</a></p>
+
+<h2 id="">简介</h2>
+
+<p>一个Node.js编写的WebRTC服务器端库，为服务器端库，需要配合客户端库<a href="https://github.com/LingyuCoder/SkyRTC-client">SkyRTC-client</a>共同使用，用于搭建基于WebRTC和WebSocket技术的在线音频、视频聊天室</p>
+
+<h2 id="skyrtcskyrtcclient">SkyRTC前端库SkyRTC-client</h2>
+
+<p><a href="https://github.com/LingyuCoder/SkyRTC-client">SkyRTC-client</a></p>
+
+<h2 id="_2">简单示例</h2>
+
+<h3 id="npm">NPM安装</h3>
+
+<p>执行如下命令从npm进行安装：</p>
+
+<pre><code>$ npm install skyrtc</code></pre>
+
+<h3 id="_3">监听服务器</h3>
+
+<pre class="javascript"><code class="javascript">var express = require(&#39;express&#39;);
+var app = express();
+var server = require(&#39;http&#39;).createServer(app);
+var SkyRTC = require(&#39;skyrtc&#39;).listen(server);
+var port = process.env.PORT || 3000;
+server.listen(port);</code></pre>
+
+<h3 id="webrtc">监听WebRTC事件</h3>
+
+<p>SkyRTC继承自EventEmitter, 可以通过如下语法监听事件：</p>
+
+<pre class="javascript"><code class="javascript">SkyRTC.rtc.on(&#39;eventName&#39;, function(params) {
+  //...
+});</code></pre>
+
+<h2 id="_4">内置事件</h2>
+
+<ul>
+<li>new_connect</li>
+
+<li>new_peer</li>
+
+<li>remove_peer</li>
+
+<li>socket_message</li>
+
+<li>ice_candidate</li>
+
+<li>offer</li>
+
+<li>answer</li>
+</ul>
+
+<h3 id="new_connect">new_connect</h3>
+
+<p>新用户与服务器建立WebSocket连接时触发</p>
+
+<p>参数：</p>
+
+<ul>
+<li>socket——新建立的WebSocket连接实例</li>
+</ul>
+
+<h3 id="new_peer">new_peer</h3>
+
+<p>用户加入房间后触发</p>
+
+<p>参数：</p>
+
+<ul>
+<li>socket——用户使用的WebSocket连接实例</li>
+
+<li>room——房间名称</li>
+</ul>
+
+<h3 id="remove_peer">remove_peer</h3>
+
+<p>用户关闭连接后触发</p>
+
+<p>参数：</p>
+
+<ul>
+<li>socket——用户使用的WebSocket连接实例</li>
+</ul>
+
+<h3 id="socket_message">socket_message</h3>
+
+<p>客户端向服务器端发送消息，且非自定义事件格式时触发</p>
+
+<p>参数：</p>
+
+<ul>
+<li>socket——用户使用的WebSocket连接实例</li>
+
+<li>msg——发送的消息内容</li>
+</ul>
+
+<h3 id="ice_candidate">ice_candidate</h3>
+
+<p>接收到ice candidate信令时触发</p>
+
+<p>参数：</p>
+
+<ul>
+<li>socket——用户使用的WebSocket连接实例</li>
+
+<li>candidate——ice candidate信令数据</li>
+</ul>
+
+<h3 id="offer">offer</h3>
+
+<p>接收到offer信令时触发</p>
+
+<p>参数：</p>
+
+<ul>
+<li>socket——用户使用的WebSocket连接实例</li>
+
+<li>offer——offer信令数据</li>
+</ul>
+
+<h3 id="answer">answer</h3>
+
+<p>接收到answer信令时触发</p>
+
+<p>参数：</p>
+
+<ul>
+<li>socket——用户使用的WebSocket连接实例</li>
+
+<li>answer——answer信令数据</li>
+</ul>
+
+<h2 id="_5">接口</h2>
+
+<ul>
+<li>getRooms</li>
+
+<li>broadcastInRoom</li>
+
+<li>broadcast</li>
+
+<li>getSocket</li>
+
+<li>on</li>
+</ul>
+
+<h3 id="getrooms">getRooms</h3>
+
+<p>用户获取当前服务器上所有房间信息</p>
+
+<p>参数：</p>
+
+<p>无</p>
+
+<p>返回值：</p>
+
+<ul>
+<li>rooms——所有房间名称的数组</li>
+</ul>
+
+<h3 id="getsocket">getSocket</h3>
+
+<p>通过socket的id获得socket实例</p>
+
+<p>参数：</p>
+
+<ul>
+<li>id——socket的id</li>
+</ul>
+
+<p>返回值：</p>
+
+<ul>
+<li>socket——WebSocket实例</li>
+</ul>
+
+<h3 id="broadcastinroom">broadcastInRoom</h3>
+
+<p>在房间中广播消息</p>
+
+<p>参数：</p>
+
+<ul>
+<li>room——被广播消息的房间名称</li>
+
+<li>data——消息的具体内容</li>
+
+<li>errorCb——广播失败时的回调函数</li>
+</ul>
+
+<p>返回值：</p>
+
+<p>无</p>
+
+<h3 id="broadcast">broadcast</h3>
+
+<p>向服务器上的所有用户广播消息</p>
+
+<p>参数：</p>
+
+<ul>
+<li>data——消息的具体内容</li>
+
+<li>errorCb——广播失败时的回调函数</li>
+</ul>
+
+<p>返回值：</p>
+
+<p>无</p>
+
+<h3 id="on">on</h3>
+
+<p>向服务器上的事件绑定处理器</p>
+
+<p>参数：</p>
+
+<ul>
+<li>eventName——被绑定的事件名称</li>
+
+<li>callback——被绑定的事件触发时的回调函数</li>
+</ul>
+
+<p>返回值：</p>
+
+<p>无</p>
+
+<h2 id="_6">自定义事件</h2>
+
+<p>在SkyRTC中可以自定义事件，在前端页面使用WebSocket发送信息时，以如下JSON格式发送信息：</p>
+
+<pre class="javascript"><code class="javascript">{
+    &quot;eventName&quot;: &quot;yourOwnEventName&quot;,
+    &quot;data&quot;: {
+        //自定义事件数据
+    }
+}</code></pre>
+
+<p>在后台通过监听同名事件来进行处理：</p>
+
+<pre class="javascript"><code class="javascript">SkyRTC.rtc.on(&quot;yourOwnEventName&quot;, function(data){
+    //data将是前台所传输的数据
+});</code></pre>
+
+<p>自定义事件请不要与上述SkyRTC原生事件重名</p>
+
+<h2 id="_7">项目完整实例</h2>
+
+<p><a href="https://github.com/LingyuCoder/SkyRTC-demo">SkyRTC-demo</a></p>
+				<div class="ds-thread" data-url="http://skyinlayer.com//blog/2014/03/17/SkyRTC-doc" data-thread-key="/blog/2014/03/17/SkyRTC-doc" data-title="开源WebRTC库——SkyRTC文档（服务器部分）" style="min-height:277px"></div>
+			</article>
+		</div>
+		<aside class="aside">
+			<section class="recent">
+	<h3>最近的文章</h3>
+	<div class="inner">
+		<ul>
+			
+			<li>
+				<a href="/blog/2014/03/18/webRTC-2">使用WebRTC搭建前端视频聊天室——信令篇</a>
+				<span class="date">18 Mar 2014</span>
+			</li>
+			
+			<li>
+				<a href="/blog/2014/03/17/SkyRTC-doc">开源WebRTC库——SkyRTC文档（服务器部分）</a>
+				<span class="date">17 Mar 2014</span>
+			</li>
+			
+			<li>
+				<a href="/blog/2014/03/17/SkyRTC-demo">开源WebRTC库——SkyRTC实例</a>
+				<span class="date">17 Mar 2014</span>
+			</li>
+			
+			<li>
+				<a href="/blog/2014/03/17/SkyRTC-client-doc">开源WebRTC库——SkyRTC-client文档(客户端部分)</a>
+				<span class="date">17 Mar 2014</span>
+			</li>
+			
+			<li>
+				<a href="/blog/2014/03/15/webRTC-1">使用WebRTC搭建前端视频聊天室——入门篇</a>
+				<span class="date">15 Mar 2014</span>
+			</li>
+			
+		</ul>
+	</div>
+</section>
+<section class="categories">
+	<h3>文章类别</h3>
+	<div class="inner">
+		<ul>
+			
+			<li>
+				<a href="/show_by_category.html?cat=网站建设">网站建设</a>
+				<span class="count">7</span>
+			</li>
+			
+			<li>
+				<a href="/show_by_category.html?cat=前端技术">前端技术</a>
+				<span class="count">15</span>
+			</li>
+			
+			<li>
+				<a href="/show_by_category.html?cat=生活情感">生活情感</a>
+				<span class="count">2</span>
+			</li>
+			
+			<li>
+				<a href="/show_by_category.html?cat=数据库技术">数据库技术</a>
+				<span class="count">1</span>
+			</li>
+			
+			<li>
+				<a href="/show_by_category.html?cat=读书笔记">读书笔记</a>
+				<span class="count">9</span>
+			</li>
+			
+			<li>
+				<a href="/show_by_category.html?cat=笔试面试积累">笔试面试积累</a>
+				<span class="count">1</span>
+			</li>
+			
+			<li>
+				<a href="/show_by_category.html?cat=即时通信">即时通信</a>
+				<span class="count">5</span>
+			</li>
+			
+		</ul>
+	</div>
+</section>
+<section class="all-tags">
+	<h3>文章标签</h3>
+	<div class="inner">
+		<div class="tags">
+			
+			<a class="tag" href="/show_by_tag.html?tag=WebSocket"> WebSocket</a>
+		    
+			<a class="tag" href="/show_by_tag.html?tag=NodeJs"> NodeJs</a>
+		    
+			<a class="tag" href="/show_by_tag.html?tag=xmpp"> xmpp</a>
+		    
+			<a class="tag" href="/show_by_tag.html?tag=WebIM"> WebIM</a>
+		    
+			<a class="tag" href="/show_by_tag.html?tag=css"> css</a>
+		    
+			<a class="tag" href="/show_by_tag.html?tag=github"> github</a>
+		    
+			<a class="tag" href="/show_by_tag.html?tag=jekyll"> jekyll</a>
+		    
+			<a class="tag" href="/show_by_tag.html?tag=jQuery"> jQuery</a>
+		    
+			<a class="tag" href="/show_by_tag.html?tag=JavaScript"> JavaScript</a>
+		    
+			<a class="tag" href="/show_by_tag.html?tag=生活"> 生活</a>
+		    
+			<a class="tag" href="/show_by_tag.html?tag=思考"> 思考</a>
+		    
+			<a class="tag" href="/show_by_tag.html?tag=HTML"> HTML</a>
+		    
+			<a class="tag" href="/show_by_tag.html?tag=CSS"> CSS</a>
+		    
+			<a class="tag" href="/show_by_tag.html?tag=响应式"> 响应式</a>
+		    
+			<a class="tag" href="/show_by_tag.html?tag=oracle"> oracle</a>
+		    
+			<a class="tag" href="/show_by_tag.html?tag=存储函数"> 存储函数</a>
+		    
+			<a class="tag" href="/show_by_tag.html?tag=grunt"> grunt</a>
+		    
+			<a class="tag" href="/show_by_tag.html?tag=设计"> 设计</a>
+		    
+			<a class="tag" href="/show_by_tag.html?tag=笔试面试题"> 笔试面试题</a>
+		    
+			<a class="tag" href="/show_by_tag.html?tag=WebRTC"> WebRTC</a>
+		    
+		</div>
+	</div>
+</section>
+		</aside>
+		<footer class="footer">
+			<p>&copy; 2014 天镶 Skyinlayer</p>
+		</footer>
+	</div>
+</body>
+<script src="/js/highlight.pack.js"></script>
+<script type="text/javascript">
+	var duoshuoQuery = {short_name:"skyinlayer"}; (function() {var ds = document.createElement('script'); ds.type = 'text/javascript';ds.async = true; ds.src = 'http://static.duoshuo.com/embed.js'; ds.charset = 'UTF-8'; (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds); })(); $('pre code').each(function(i, e) {hljs.highlightBlock(e); });
+</script>
+</html>

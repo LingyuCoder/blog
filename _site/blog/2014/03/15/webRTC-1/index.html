@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8;"/>
-	<title>初探WebRTC - 天镶的博客 SkyInlayer`s Blog </title>
+	<title>使用WebRTC搭建前端视频聊天室——入门篇 - 天镶的博客 SkyInlayer`s Blog </title>
 
 	<link rel="stylesheet" media="screen" href="/css/style.min.css">
 	<link rel="stylesheet" media="screen" href="/css/dark.min.css">
@@ -35,7 +35,7 @@
 		<div class="content">
 			<article class="post">
 				<header>
-					<h1>初探WebRTC</h1>
+					<h1>使用WebRTC搭建前端视频聊天室——入门篇</h1>
 					<span class="byline">使用WebRTC + WebSocket搭建视频聊天室</span>
 				</header>
 				<div class="tags">
@@ -63,7 +63,7 @@
 
 <p><img src="http://skyinlayer.com/images/WebRTC/1.png" alt="WebRTC浏览器兼容性from caniuse.com" /></p>
 
-<p>另外根据35Kr前段时间的新闻<a href="http://www.36kr.com/p/205614.html">Google推出支持WebRTC及Web Audio的Android 版Chrome 29@36kr</a>和<a href="http://www.36kr.com/p/210209.html">Android版Opera开始支持WebRTC，允许用户在没有任何插件的情况下实现语音和视频聊天</a>，Android也开始支持WebRTC</p>
+<p>另外根据36Kr前段时间的新闻<a href="http://www.36kr.com/p/205614.html">Google推出支持WebRTC及Web Audio的Android 版Chrome 29@36kr</a>和<a href="http://www.36kr.com/p/210209.html">Android版Opera开始支持WebRTC，允许用户在没有任何插件的情况下实现语音和视频聊天</a>，Android也开始支持WebRTC</p>
 
 <h2 id="">三个接口</h2>
 
@@ -141,7 +141,7 @@
 &lt;/script&gt;
 &lt;/html&gt;</code></pre>
 
-<p>将这段内容保存在一个HTML文件中，放在服务器上。用教新版本的Opera、Firefox、Chrome打开，在浏览器弹出询问是否允许访问摄像头和话筒，选同意，浏览器上就会出现摄像头所拍摄到的画面了</p>
+<p>将这段内容保存在一个HTML文件中，放在服务器上。用较新版本的Opera、Firefox、Chrome打开，在浏览器弹出询问是否允许访问摄像头和话筒，选同意，浏览器上就会出现摄像头所拍摄到的画面了</p>
 
 <p>注意，HTML文件要放在服务器上，否则会得到一个NavigatorUserMediaError的错误，显示PermissionDeniedError，最简单方法就是cd到HTML文件所在目录下，然后<code>python -m SimpleHTTPServer</code>（装了python的话），然后在浏览器中输入<code>http://localhost:8000/{文件名称}.html</code></p>
 
@@ -156,7 +156,7 @@
 <ul>
 <li>video: 是否接受视频流</li>
 
-<li>audio：时候接受音频流</li>
+<li>audio：是否接受音频流</li>
 
 <li>MinWidth: 视频流的最小宽度</li>
 
@@ -179,7 +179,7 @@
 
 <h2 id="rtcpeerconnection">RTCPeerConnection</h2>
 
-<p>WebRTC使用RTCPeerConnection来在浏览器之间传递流数据，这个流数据通道是点对点的，不需要经过服务器进行中转。但是这并不意味只我们能抛弃服务器，我们仍然需要它来为我们传递信令（signaling）来建立这个信道。WebRTC没有定义用于建立信道的信令的协议：信令并不是RTCPeerConnection API的一部分</p>
+<p>WebRTC使用RTCPeerConnection来在浏览器之间传递流数据，这个流数据通道是点对点的，不需要经过服务器进行中转。但是这并不意味着我们能抛弃服务器，我们仍然需要它来为我们传递信令（signaling）来建立这个信道。WebRTC没有定义用于建立信道的信令的协议：信令并不是RTCPeerConnection API的一部分</p>
 
 <h3 id="_5">信令</h3>
 
@@ -407,7 +407,7 @@ socket.onmessage = function(event){
 
 <li><a href="http://zh.wikipedia.org/wiki/%E4%BA%92%E5%8B%95%E5%BC%8F%E9%80%A3%E6%8E%A5%E5%BB%BA%E7%AB%8B">ICE交互式连接建立</a></li>
 </ul>
-				<div class="ds-thread" data-url="http://skyinlayer.com//blog/2014/03/15/webRTC-1" data-thread-key="/blog/2014/03/15/webRTC-1" data-title="初探WebRTC" style="min-height:277px"></div>
+				<div class="ds-thread" data-url="http://skyinlayer.com//blog/2014/03/15/webRTC-1" data-thread-key="/blog/2014/03/15/webRTC-1" data-title="使用WebRTC搭建前端视频聊天室——入门篇" style="min-height:277px"></div>
 			</article>
 		</div>
 		<aside class="aside">
@@ -417,28 +417,28 @@ socket.onmessage = function(event){
 		<ul>
 			
 			<li>
-				<a href="/blog/2014/03/15/webRTC-1">初探WebRTC</a>
+				<a href="/blog/2014/03/18/webRTC-2">使用WebRTC搭建前端视频聊天室——信令篇</a>
+				<span class="date">18 Mar 2014</span>
+			</li>
+			
+			<li>
+				<a href="/blog/2014/03/17/SkyRTC-doc">开源WebRTC库——SkyRTC文档（服务器部分）</a>
+				<span class="date">17 Mar 2014</span>
+			</li>
+			
+			<li>
+				<a href="/blog/2014/03/17/SkyRTC-demo">开源WebRTC库——SkyRTC实例</a>
+				<span class="date">17 Mar 2014</span>
+			</li>
+			
+			<li>
+				<a href="/blog/2014/03/17/SkyRTC-client-doc">开源WebRTC库——SkyRTC-client文档(客户端部分)</a>
+				<span class="date">17 Mar 2014</span>
+			</li>
+			
+			<li>
+				<a href="/blog/2014/03/15/webRTC-1">使用WebRTC搭建前端视频聊天室——入门篇</a>
 				<span class="date">15 Mar 2014</span>
-			</li>
-			
-			<li>
-				<a href="/blog/2014/03/12/dont-make-me-think-4">《Don`t make me think》读书笔记——大的方面和外界影响</a>
-				<span class="date">12 Mar 2014</span>
-			</li>
-			
-			<li>
-				<a href="/blog/2014/03/12/dont-make-me-think-3">《Don`t make me think》读书笔记——确定你没有做错的几件事</a>
-				<span class="date">12 Mar 2014</span>
-			</li>
-			
-			<li>
-				<a href="/blog/2014/03/12/dont-make-me-think-2">《Don`t make me think》读书笔记——必须正确处理的几个方面</a>
-				<span class="date">12 Mar 2014</span>
-			</li>
-			
-			<li>
-				<a href="/blog/2014/03/12/dont-make-me-think-1">《Don`t make me think》读书笔记——指导原则</a>
-				<span class="date">12 Mar 2014</span>
 			</li>
 			
 		</ul>
@@ -481,7 +481,7 @@ socket.onmessage = function(event){
 			
 			<li>
 				<a href="/show_by_category.html?cat=即时通信">即时通信</a>
-				<span class="count">1</span>
+				<span class="count">5</span>
 			</li>
 			
 		</ul>

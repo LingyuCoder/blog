@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8;"/>
-	<title>《Don`t make me think》读书笔记——大的方面和外界影响 - 天镶的博客 SkyInlayer`s Blog </title>
+	<title>开源WebRTC库——SkyRTC实例 - 天镶的博客 SkyInlayer`s Blog </title>
 
 	<link rel="stylesheet" media="screen" href="/css/style.min.css">
 	<link rel="stylesheet" media="screen" href="/css/dark.min.css">
@@ -35,136 +35,54 @@
 		<div class="content">
 			<article class="post">
 				<header>
-					<h1>《Don`t make me think》读书笔记——大的方面和外界影响</h1>
-					<span class="byline">《Don`t make me think》读书笔记系列第四篇</span>
+					<h1>开源WebRTC库——SkyRTC实例</h1>
+					<span class="byline">使用SkyRTC搭建视频、音频聊天室</span>
 				</header>
 				<div class="tags">
 					
-						<a class="tag" href="/show_by_tag.html?tag=设计" class="tag">设计</a>
+						<a class="tag" href="/show_by_tag.html?tag=WebSocket" class="tag">WebSocket</a>
+					
+						<a class="tag" href="/show_by_tag.html?tag=NodeJs" class="tag">NodeJs</a>
+					
+						<a class="tag" href="/show_by_tag.html?tag=WebIM" class="tag">WebIM</a>
+					
+						<a class="tag" href="/show_by_tag.html?tag=WebRTC" class="tag">WebRTC</a>
+					
+						<a class="tag" href="/show_by_tag.html?tag=JavaScript" class="tag">JavaScript</a>
 					
 				</div>
-				<h2 id="">可用性是礼貌</h2>
+				<p>忙了几天终于把SkyRTC库上传到NPM上了，并写了一份详细的使用文档，标明了基本的使用方法和类，修正了几个小bug，更多的bug还需要更多的测试，把文档发一下，具体见<a href="https://github.com/LingyuCoder/SkyRTC-demo">我在Github上的SkyRTC-demo</a></p>
 
-<h3 id="_2">好感度存储器</h3>
+<h2 id="">简介</h2>
 
-<p>可以想象，我们每次进入一个网站，都从一个好感存储器开始，在网站上遇到的每个问题都会降低好感存储器的高度。这个存储器容量是有限的，如果对用户的态度恶劣，把它消耗殆尽，用户就很可能离开网站。这样的好感存储器，有以下几点值得注意：</p>
+<p>这是一个使用SkyRTC和SkyRTC-client搭建浏览器中音频、视频、文字聊天室的Demo</p>
 
-<ol>
-<li>因个人的特质不同而不同，有的人有耐心，有的人脾气不好</li>
-
-<li>根据情况而定，赶时间或者刚刚在一个另一个网站上得到糟糕的体验，那么进入网站是，好感程度已经很低了</li>
-
-<li>可以重新填满它，即使犯了一些错误，降低了好感，可以通过一些其他事来弥补</li>
-
-<li>有是有一个错误就能清空它</li>
-</ol>
-
-<h3 id="_3">降低好感的几种方式</h3>
+<h2 id="_2">安装和使用</h2>
 
 <ol>
-<li>隐藏用户想要的信息</li>
+<li>安装Node.js及npm环境</li>
 
-<li>没有按照网站的设计行事而惩罚用户，比如表单验证错误后需要重新输入</li>
+<li>下载源码到本地，并解压缩</li>
 
-<li>询问不必要的信息，用户很介意个人信息</li>
+<li>移动到解压后的目录下</li>
 
-<li>敷衍用户、欺骗用户，不需要虚伪的真诚、假意的关心</li>
+<li>使用命令<code>npm install</code>安装所需要的库</li>
 
-<li>为用户设置障碍，不得不等待一个介绍或必须看一些图片，都是为用户设置障碍</li>
+<li>运行命令<code>node server.js</code>，建议配合<code>forever</code></li>
 
-<li>网站看上去不专业，网站看上去凌乱，用户会失去好感</li>
+<li>访问<code>localhost:3000#roomName</code>查看效果，其中<code>roomName</code>为进入的房间名，不同房间的用户无法互相通信</li>
 </ol>
 
-<h3 id="_4">提高好感的几种方式</h3>
+<h2 id="_3">功能说明</h2>
 
-<ol>
-<li>知道人们在你的网站上想做什么，并让他们明白简易</li>
+<p>支持划分房间的在线音频、视频、文字聊天，提供房间内文件共享功能</p>
 
-<li>告诉用户他们想知道的</li>
+<h2 id="skyrtc">SkyRTC项目链接</h2>
 
-<li>尽量减少步骤</li>
+<p><a href="https://github.com/LingyuCoder/SkyRTC">SkyRTC项目</a></p>
 
-<li>花点心思</li>
-
-<li>知道用户肯能有哪些疑问，并给与解答</li>
-
-<li>提供协助，例如打印友好页面</li>
-
-<li>容易从错误中回复</li>
-
-<li>如果不确定，记得道歉</li>
-</ol>
-
-<h2 id="_5">可访问性</h2>
-
-<p>可访问性是可用性的一部分，除非确定了哪些残障人士都不是目标用户，否则如果网站的可访问性不足，就不能说它是可用的</p>
-
-<h3 id="_6">开发人员和设计人员所听到的</h3>
-
-<p>大多数公司里，负责实现可访问性的人是实际上建造网站的人：开发人员和设计师</p>
-
-<p>有很多不太可能让开发人员和设计师相信他们应该支持可访问性的理由，尤其是两点：</p>
-
-<ol>
-<li>他们的世界里主要是健全人，很难让他们相信有相当比例的人会贞德在访问网络时需要帮助</li>
-
-<li>他们怀疑更好的访问性能否能让所有人收益</li>
-</ol>
-
-<p>事实上，支持可访问性的重要理由就是：支持可访问性才是正确的做法</p>
-
-<h3 id="_7">开发人员和设计师们害怕的</h3>
-
-<p>对于可访问性了解更多时，会让他们觉得害怕，因为：</p>
-
-<ol>
-<li>这意味着更大的工作量，特别是对于开发人员而言，实现可访问性就像往他们已经不可能完成的项目计划中再添加一项复杂的新任务，同时还伴随着很多费时费力的报告、评审、特别会议等等</li>
-
-<li>设计折衷，设计师们担心对于网站的大部分目标用户而言，自己不得不让网站的手机变得不那么吸引人</li>
-</ol>
-
-<h3 id="_8">解决方案</h3>
-
-<p>我们可以用一个Bobby那样的检查器来保证网站符合WCAG的标准</p>
-
-<h3 id="_9">能正确实施的五件事</h3>
-
-<ol>
-<li>改正让所有人改到混淆的可用性问题，让网站对我们其他的人更好用，会让残障人士也更好用</li>
-
-<li>读一篇文章， 网站可访问性及可用指南：屏幕阅读器用户观察。绝大多数盲人用户和正常用户一样没耐心，他们希望尽快得到自己需要的信息</li>
-
-<li>看一本书，阅读一本关于Web可访问性的书籍</li>
-
-<li>使用级联样式表，它有以下几个好处
-<ol>
-<li>灵活性</li>
-
-<li>浏览器之间的一致性</li>
-
-<li>序列化内容</li>
-
-<li>允许重新定义文字大小</li>
-</ol>
-</li>
-
-<li>在HTML代码中做一些具体的变更
-<ol>
-<li>为每张图片增加alt文本</li>
-
-<li>让表单配合屏幕阅读器</li>
-
-<li>在每页的最前面添加一个“跳转到主要内容”的链接</li>
-
-<li>让所有内容都可以通过键盘访问</li>
-
-<li>没有充分的理由，不要使用JavaScript</li>
-
-<li>使用客户端的影像地图</li>
-</ol>
-</li>
-</ol>
-				<div class="ds-thread" data-url="http://skyinlayer.com//blog/2014/03/12/dont-make-me-think-4" data-thread-key="/blog/2014/03/12/dont-make-me-think-4" data-title="《Don`t make me think》读书笔记——大的方面和外界影响" style="min-height:277px"></div>
+<p><a href="https://github.com/LingyuCoder/SkyRTC-client">SkyRTC-client项目</a></p>
+				<div class="ds-thread" data-url="http://skyinlayer.com//blog/2014/03/17/SkyRTC-demo" data-thread-key="/blog/2014/03/17/SkyRTC-demo" data-title="开源WebRTC库——SkyRTC实例" style="min-height:277px"></div>
 			</article>
 		</div>
 		<aside class="aside">

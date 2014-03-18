@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8;"/>
+	<title>开源WebRTC库——SkyRTC-client文档(客户端部分) - 天镶的博客 SkyInlayer`s Blog </title>
+
+	<link rel="stylesheet" media="screen" href="/css/style.min.css">
+	<link rel="stylesheet" media="screen" href="/css/dark.min.css">
+
+	<meta name="keywords" content="天镶, SkyInlayer, 天镶的博客, 博客, 个人博客, 前端, IT, 程序员" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="author" content="Skyinlayer">
+	<meta name="description" content="天镶SkyInlayer的个人博客">
+	<meta name="robots" content="all">
+	<!--[if lt IE 9]>
+	<script src="/js/html5shiv.js"></script>
+	<![endif]-->
+	<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+</head>
+<body>
+	<div class="wrapper">
+		<header class="header">
+			<div class="banner"><h1>天镶的博客</h1></div>
+<div class="desc">学海无涯，回头是岸</div>
+<nav>
+	<ul>
+		<li><a href="/index.html">首页</a></li>
+		<li><a href="/archieves.html">文章</a></li>
+		<li><a href="/items.html">玩意</a></li>
+		<li><a href="/about.html">关于</a></li>
+		<li><a href="/profile.html">简历</a></li>
+	</ul>
+</nav>
+		</header>
+		<div class="content">
+			<article class="post">
+				<header>
+					<h1>开源WebRTC库——SkyRTC-client文档(客户端部分)</h1>
+					<span class="byline">使用SkyRTC搭建视频、音频聊天室</span>
+				</header>
+				<div class="tags">
+					
+						<a class="tag" href="/show_by_tag.html?tag=WebSocket" class="tag">WebSocket</a>
+					
+						<a class="tag" href="/show_by_tag.html?tag=NodeJs" class="tag">NodeJs</a>
+					
+						<a class="tag" href="/show_by_tag.html?tag=WebIM" class="tag">WebIM</a>
+					
+						<a class="tag" href="/show_by_tag.html?tag=WebRTC" class="tag">WebRTC</a>
+					
+						<a class="tag" href="/show_by_tag.html?tag=JavaScript" class="tag">JavaScript</a>
+					
+				</div>
+				<p>忙了几天终于把SkyRTC库上传到NPM上了，并写了一份详细的使用文档，标明了基本的使用方法和类，修正了几个小bug，更多的bug还需要更多的测试，把文档发一下，具体项目见<a href="https://github.com/LingyuCoder/SkyRTC-client">我在Github上的SkyRTC-client项目</a></p>
+
+<h2 id="">简介</h2>
+
+<p>一个Node.js编写的WebRTC浏览器端库，为客户端库，需要配合服务器端库<a href="https://github.com/LingyuCoder/SkyRTC">SkyRTC</a>共同使用，用于搭建基于WebRTC和WebSocket技术的在线音频、视频聊天室</p>
+
+<h2 id="skyrtc">SkyRTC客户端库</h2>
+
+<p><a href="https://github.com/LingyuCoder/SkyRTC">SkyRTC</a></p>
+
+<p>可使用npm进行安装：</p>
+
+<pre><code>$ npm install skyrtc</code></pre>
+
+<h2 id="skyrtc_2">SkyRTC实例</h2>
+
+<p><a href="https://github.com/LingyuCoder/SkyRTC-demo">SkyRTC-demo</a>是一个基于SkyRTC搭建的多房间的在线音频、视频、文字聊天室，并能够共享文件</p>
+
+<h2 id="skyrtcclient">SkyRTC-client的使用</h2>
+
+<p>通过在HTML中引入JavaScript文件的方式引入：</p>
+
+<pre class="xml"><code class="xml">&lt;script type=&quot;text/javascript&quot; src=&quot;/SkyRTC-client.js&quot;&gt;&lt;/script&gt;</code></pre>
+
+<p>可通过如下方式监听SkyRTC-client的事件：</p>
+
+<pre class="javascript"><code class="javascript">SkyRTC.on(&#39;someEvent&#39;, function(params) {
+    //...
+});</code></pre>
+
+<p>连接后台WebSocket服务器：</p>
+
+<pre class="javascript"><code class="javascript">SkyRTC.connect(&quot;ws:&quot; + window.location.href.substring(window.location.protocol.length).split(&#39;#&#39;)[0], window.location.hash.slice(1));</code></pre>
+
+<h2 id="_2">方法</h2>
+
+<ul>
+<li>connect</li>
+
+<li>on</li>
+
+<li>sendFile</li>
+
+<li>shareFile</li>
+
+<li>sendMessage</li>
+
+<li>broadcast</li>
+
+<li>sendFileAccept</li>
+
+<li>sendFileRefuse</li>
+
+<li>createStream</li>
+
+<li>attachStream</li>
+</ul>
+
+<h3 id="connect">connect</h3>
+
+<p>连接WebSocket后台服务器，建立信令交互的信道，并加入到一个房间之中</p>
+
+<p>参数：</p>
+
+<ul>
+<li>server——服务器地址</li>
+
+<li>room——房间名称</li>
+</ul>
+
+<p>返回值： 无</p>
+
+<h3 id="on">on</h3>
+
+<p>向SkyRTC-client相关事件绑定回调函数</p>
+
+<p>参数：</p>
+
+<ul>
+<li>eventName——事件名称</li>
+
+<li>callback——事件触发时的回调函数</li>
+</ul>
+
+<p>返回值： 无</p>
+
+<h3 id="sendfile">sendFile</h3>
+
+<p>向所在房间中的某个特定用户请求发送文件</p>
+
+<p>参数：</p>
+
+<ul>
+<li>dom——包含需要被发送的文件的input[type=’file’]的id或者dom对象</li>
+
+<li>socketId——接收文件的用户的id</li>
+</ul>
+
+<h3 id="sharefile">shareFile</h3>
+
+<p>向所在房间中的所有其他用户请求发送文件</p>
+
+<p>参数：</p>
+
+<ul>
+<li>dom——包含需要被发送的文件的input[type=’file’]的id或者dom对象</li>
+</ul>
+
+<p>返回值： 无</p>
+
+<h3 id="sendmessage">sendMessage</h3>
+
+<p>向所在房间内的某个特定用户发送消息</p>
+
+<p>参数：</p>
+
+<ul>
+<li>message——需要被发送的消息内容</li>
+
+<li>socketId——接收消息用户的id</li>
+</ul>
+
+<p>返回值： 无</p>
+
+<h3 id="broadcast">broadcast</h3>
+
+<p>向所在房间中的所有其他用户发送文字消息</p>
+
+<p>参数：</p>
+
+<ul>
+<li>msg——需要被发送的消息字符串</li>
+</ul>
+
+<p>返回值： 无</p>
+
+<h3 id="sendfileaccept">sendFileAccept</h3>
+
+<p>接收到文件发送请求后，同意接收文件</p>
+
+<p>参数：</p>
+
+<ul>
+<li>sendId——发送文件的id</li>
+</ul>
+
+<p>返回值： 无</p>
+
+<h3 id="sendfilerefuse">sendFileRefuse</h3>
+
+<p>接收到文件发送请求后，拒绝接收文件</p>
+
+<p>参数：</p>
+
+<ul>
+<li>sendId——发送文件的id</li>
+</ul>
+
+<p>返回值： 无</p>
+
+<h3 id="createstream">createStream</h3>
+
+<p>创建本地视频流</p>
+
+<p>参数：</p>
+
+<ul>
+<li>constraints——创建的视频流的约束对象</li>
+</ul>
+
+<p>返回值： 无</p>
+
+<h3 id="attachstream">attachStream</h3>
+
+<p>接收到远程视频流后，将视频流绑定到video标签上</p>
+
+<p>参数：</p>
+
+<ul>
+<li>stream——远程视频流对象</li>
+
+<li>domId——需要被绑定的video标签的id</li>
+</ul>
+
+<p>返回值： 无</p>
+
+<h2 id="_3">原生事件</h2>
+
+<h3 id="_4">连接建立</h3>
+
+<ul>
+<li>connected</li>
+
+<li>socket_opened</li>
+
+<li>socket_error</li>
+
+<li>socket_closed</li>
+
+<li>socket_receive_message</li>
+</ul>
+
+<h3 id="_5">信令交换</h3>
+
+<ul>
+<li>get_peers</li>
+
+<li>get_ice_candidate</li>
+
+<li>get_offer</li>
+
+<li>get_answer</li>
+
+<li>new_peer</li>
+
+<li>remove_peer</li>
+</ul>
+
+<h3 id="_6">建立流</h3>
+
+<ul>
+<li>stream_created</li>
+
+<li>stream_created_error</li>
+</ul>
+
+<h3 id="peerconnection">PeerConnection相关事件</h3>
+
+<ul>
+<li>pc_get_ice_candidate</li>
+
+<li>pc_opened</li>
+
+<li>pc_add_stream</li>
+
+<li>pc_add_data_channel</li>
+</ul>
+
+<h3 id="datachannel">DataChannel相关事件</h3>
+
+<ul>
+<li>data_channel_create_error</li>
+
+<li>data_channel_opened</li>
+
+<li>data_channel_closed</li>
+
+<li>data_channel_message</li>
+
+<li>data_channel_error</li>
+</ul>
+
+<h3 id="_7">文件发送相关</h3>
+
+<ul>
+<li>send_file_error</li>
+
+<li>send_file</li>
+
+<li>send_file_refused</li>
+
+<li>send_file_accepted</li>
+
+<li>send_file_chunk</li>
+
+<li>sended_file</li>
+
+<li>receive_file_chunk</li>
+
+<li>receive_file</li>
+
+<li>receive_file_ask</li>
+
+<li>receive_file_error</li>
+</ul>
+
+<h2 id="_8">连接建立事件详解</h2>
+
+<h3 id="connected">connected</h3>
+
+<p>在于后台服务器成功创立WebSocket连接后触发</p>
+
+<p>参数：</p>
+
+<ul>
+<li>socket——与后台连接的WebSocket实例</li>
+</ul>
+
+<h3 id="socket_opened">socket_opened</h3>
+
+<p>WebSocket连接开启后触发</p>
+
+<p>参数：</p>
+
+<ul>
+<li>socket——与后台连接的WebSocket实例</li>
+</ul>
+
+<h3 id="socket_error">socket_error</h3>
+
+<p>WebSocket连接发生错误后触发</p>
+
+<p>参数：</p>
+
+<ul>
+<li>error——错误对象</li>
+
+<li>socket——与后台连接的WebSocket实例</li>
+</ul>
+
+<h3 id="socket_closed">socket_closed</h3>
+
+<p>WebSocket连接关闭后触发</p>
+
+<p>参数：</p>
+
+<ul>
+<li>socket——与后台连接的WebSocket实例</li>
+</ul>
+
+<h3 id="socket_receive_message">socket_receive_message</h3>
+
+<p>WebSocket连接接收到非自定义事件格式的信息时触发</p>
+
+<p>参数：</p>
+
+<ul>
+<li>socket——与后台连接的WebSocket实例</li>
+
+<li>jsonMsg——JSON格式的message</li>
+</ul>
+
+<h2 id="_9">信令交换事件详解</h2>
+
+<h3 id="get_peers">get_peers</h3>
+
+<p>在获取当前房间所有用户的id后调用</p>
+
+<p>参数：</p>
+
+<ul>
+<li>socketIds——房间内其他用户的id字符串列表</li>
+</ul>
+
+<h3 id="get_ice_candidate">get_ice_candidate</h3>
+
+<p>在获得了ICE Candidate信令后调用</p>
+
+<p>参数：</p>
+
+<ul>
+<li>candidate——ICE Candidate信令数据</li>
+</ul>
+
+<h3 id="get_offer">get_offer</h3>
+
+<p>在获得offer信令后调用</p>
+
+<p>参数：</p>
+
+<ul>
+<li>offer——offer信令数据</li>
+</ul>
+
+<h3 id="get_answer">get_answer</h3>
+
+<p>在获得answer信令后调用</p>
+
+<p>参数：</p>
+
+<ul>
+<li>answer——answer信令数据</li>
+</ul>
+
+<h3 id="new_peer">new_peer</h3>
+
+<p>在有新用户加入后调用</p>
+
+<p>参数：</p>
+
+<ul>
+<li>socketId：新用户的id</li>
+</ul>
+
+<h3 id="remove_peer">remove_peer</h3>
+
+<p>有用户断开连接后调用</p>
+
+<p>参数：</p>
+
+<ul>
+<li>socketId：断开连接的用户的socket id</li>
+</ul>
+
+<h2 id="_10">建立流</h2>
+
+<h3 id="stream_created">stream_created</h3>
+
+<p>成功建立本地视频流时触发</p>
+
+<p>参数：</p>
+
+<ul>
+<li>stream——本地视频流对象</li>
+</ul>
+
+<h3 id="stream_created_error">stream_created_error</h3>
+
+<p>建立本地视频流失败时触发</p>
+
+<p>参数：</p>
+
+<ul>
+<li>error——错误对象</li>
+</ul>
+
+<h2 id="peerconnection_2">PeerConnection相关事件</h2>
+
+<h3 id="pc_opened">pc_opened</h3>
+
+<p>PeerConnection成功开启后触发</p>
+
+<p>参数：</p>
+
+<ul>
+<li>socketId——PeerConnection所连接用户的id</li>
+
+<li>pc——成功开启的PeerConnection实例</li>
+</ul>
+
+<h3 id="pc_get_ice_candidate">pc_get_ice_candidate</h3>
+
+<p>获得从ICE Candidate消息时触发</p>
+
+<p>参数：</p>
+
+<ul>
+<li>candidate——ICE Candidate信令内容</li>
+
+<li>socketId——PeerConnection所连接用户的id</li>
+
+<li>pc——获得信令PeerConnection实例</li>
+</ul>
+
+<h3 id="pc_add_stream">pc_add_stream</h3>
+
+<p>通过PeerConnection上接收到视频流后触发</p>
+
+<p>参数：</p>
+
+<ul>
+<li>stream——添加的流对象</li>
+
+<li>socketId——PeerConnection所连接用户的id</li>
+
+<li>pc——增加流的PeerConnection实例</li>
+</ul>
+
+<h3 id="pc_add_data_channel">pc_add_data_channel</h3>
+
+<p>通过PeerConnection上接收到data channel后触发</p>
+
+<p>参数：</p>
+
+<ul>
+<li>channel——添加的data channel</li>
+
+<li>socketId——PeerConnection所连接用户的id</li>
+
+<li>pc——增加data channel的PeerConnection实例</li>
+</ul>
+
+<h2 id="datachannel_2">DataChannel相关事件</h2>
+
+<h3 id="data_channel_create_error">data_channel_create_error</h3>
+
+<p>data channel创建失败时触发</p>
+
+<p>参数：</p>
+
+<ul>
+<li>socketId——data channel所连接用户的id</li>
+
+<li>error——错误对象</li>
+</ul>
+
+<h3 id="data_channel_opened">data_channel_opened</h3>
+
+<p>data channel成功开启后触发</p>
+
+<p>参数：</p>
+
+<ul>
+<li>channel——开启的data channel实例</li>
+
+<li>socketId——data channel所连接用户的id</li>
+</ul>
+
+<h3 id="data_channel_closed">data_channel_closed</h3>
+
+<p>data channel关闭后触发</p>
+
+<p>参数：</p>
+
+<ul>
+<li>channel——被关闭的data channel实例</li>
+
+<li>socketId——data channel所连接用户的id</li>
+</ul>
+
+<h3 id="data_channel_message">data_channel_message</h3>
+
+<p>data channel上接收到数据且非文件信令类型时触发</p>
+
+<p>参数：</p>
+
+<ul>
+<li>channel——接收到数据的data channel实例</li>
+
+<li>socketId——data channel所属用户的id</li>
+
+<li>message——json格式的接收到的具体数据信息</li>
+</ul>
+
+<h3 id="data_channel_error">data_channel_error</h3>
+
+<p>data channel发生错误时触发</p>
+
+<p>参数：</p>
+
+<ul>
+<li>channel——发生错误的data channel实例</li>
+
+<li>socketId——data channel所连接用户的id</li>
+
+<li>error——错误对象</li>
+</ul>
+
+<h2 id="_11">文件发送相关</h2>
+
+<h3 id="send_file">send_file</h3>
+
+<p>读取需要发送的文件完毕，并请求对方接收时触发</p>
+
+<p>参数：</p>
+
+<ul>
+<li>sendId：发送的文件id</li>
+
+<li>socketId：接收者的id</li>
+
+<li>file：被发送的文件对象</li>
+</ul>
+
+<h3 id="send_file_error">send_file_error</h3>
+
+<p>发送方发送文件失败时触发</p>
+
+<p>参数：</p>
+
+<ul>
+<li>error——错误对象</li>
+
+<li>socketId——接收者的id</li>
+
+<li>sendId——发送失败的文件的id，为空则表示获取文件失败</li>
+
+<li>file——发送失败的文件对象，为空则表示获取文件失败</li>
+</ul>
+
+<h3 id="send_file_refused">send_file_refused</h3>
+
+<p>对方拒绝接收文件时触发</p>
+
+<p>参数：</p>
+
+<ul>
+<li>sendId——被拒绝接收的文件id</li>
+
+<li>socketId——接收者的id</li>
+
+<li>file——被拒绝接收的文件</li>
+</ul>
+
+<h3 id="send_file_accepted">send_file_accepted</h3>
+
+<p>对方同意接收文件时触发</p>
+
+<p>参数：</p>
+
+<ul>
+<li>sendId——被同意接收的文件id</li>
+
+<li>socketId——接收者的id</li>
+
+<li>file——被同意接收的文件</li>
+</ul>
+
+<h3 id="send_file_chunk">send_file_chunk</h3>
+
+<p>文件碎片发送后触发</p>
+
+<p>参数：</p>
+
+<ul>
+<li>sendId——文件碎片所属文件的id</li>
+
+<li>socketId——接收者的id</li>
+
+<li>percent——已发送的百分比</li>
+
+<li>file——被发送的文件对象</li>
+</ul>
+
+<h3 id="sended_file">sended_file</h3>
+
+<p>文件发送完成后触发</p>
+
+<p>参数：</p>
+
+<ul>
+<li>sendId——被发送的文件Id</li>
+
+<li>socketId——接收者的id</li>
+
+<li>file——被发送的文件对象</li>
+</ul>
+
+<h3 id="receive_file_chunk">receive_file_chunk</h3>
+
+<p>接收到文件碎片时触发</p>
+
+<p>参数：</p>
+
+<ul>
+<li>sendId——接收的文件的Id</li>
+
+<li>socketId——发送者的id</li>
+
+<li>fileName——文件的名称</li>
+
+<li>percent——文件接收到的百分比</li>
+</ul>
+
+<h3 id="receive_file">receive_file</h3>
+
+<p>接收完整个文件后触发</p>
+
+<p>参数：</p>
+
+<ul>
+<li>sendId——接收的文件的Id</li>
+
+<li>socketId——发送者的id</li>
+
+<li>name——接收到的文件的名称</li>
+</ul>
+
+<h3 id="receive_file_ask">receive_file_ask</h3>
+
+<p>接收到文件发送请求后触发</p>
+
+<p>参数：</p>
+
+<ul>
+<li>sendId——被请求接收的文件的id</li>
+
+<li>socketId——发送者的id</li>
+
+<li>fileName——被请求接收的文件的名称</li>
+
+<li>fileSize——被请求接收的文件的大小</li>
+</ul>
+
+<h3 id="receive_file_error">receive_file_error</h3>
+
+<p>接收文件错误时触发</p>
+
+<p>参数：</p>
+
+<ul>
+<li>error——错误对象</li>
+
+<li>sendId——接收文件的id</li>
+
+<li>socketId——发送者的id</li>
+</ul>
+				<div class="ds-thread" data-url="http://skyinlayer.com//blog/2014/03/17/SkyRTC-client-doc" data-thread-key="/blog/2014/03/17/SkyRTC-client-doc" data-title="开源WebRTC库——SkyRTC-client文档(客户端部分)" style="min-height:277px"></div>
+			</article>
+		</div>
+		<aside class="aside">
+			<section class="recent">
+	<h3>最近的文章</h3>
+	<div class="inner">
+		<ul>
+			
+			<li>
+				<a href="/blog/2014/03/18/webRTC-2">使用WebRTC搭建前端视频聊天室——信令篇</a>
+				<span class="date">18 Mar 2014</span>
+			</li>
+			
+			<li>
+				<a href="/blog/2014/03/17/SkyRTC-doc">开源WebRTC库——SkyRTC文档（服务器部分）</a>
+				<span class="date">17 Mar 2014</span>
+			</li>
+			
+			<li>
+				<a href="/blog/2014/03/17/SkyRTC-demo">开源WebRTC库——SkyRTC实例</a>
+				<span class="date">17 Mar 2014</span>
+			</li>
+			
+			<li>
+				<a href="/blog/2014/03/17/SkyRTC-client-doc">开源WebRTC库——SkyRTC-client文档(客户端部分)</a>
+				<span class="date">17 Mar 2014</span>
+			</li>
+			
+			<li>
+				<a href="/blog/2014/03/15/webRTC-1">使用WebRTC搭建前端视频聊天室——入门篇</a>
+				<span class="date">15 Mar 2014</span>
+			</li>
+			
+		</ul>
+	</div>
+</section>
+<section class="categories">
+	<h3>文章类别</h3>
+	<div class="inner">
+		<ul>
+			
+			<li>
+				<a href="/show_by_category.html?cat=网站建设">网站建设</a>
+				<span class="count">7</span>
+			</li>
+			
+			<li>
+				<a href="/show_by_category.html?cat=前端技术">前端技术</a>
+				<span class="count">15</span>
+			</li>
+			
+			<li>
+				<a href="/show_by_category.html?cat=生活情感">生活情感</a>
+				<span class="count">2</span>
+			</li>
+			
+			<li>
+				<a href="/show_by_category.html?cat=数据库技术">数据库技术</a>
+				<span class="count">1</span>
+			</li>
+			
+			<li>
+				<a href="/show_by_category.html?cat=读书笔记">读书笔记</a>
+				<span class="count">9</span>
+			</li>
+			
+			<li>
+				<a href="/show_by_category.html?cat=笔试面试积累">笔试面试积累</a>
+				<span class="count">1</span>
+			</li>
+			
+			<li>
+				<a href="/show_by_category.html?cat=即时通信">即时通信</a>
+				<span class="count">5</span>
+			</li>
+			
+		</ul>
+	</div>
+</section>
+<section class="all-tags">
+	<h3>文章标签</h3>
+	<div class="inner">
+		<div class="tags">
+			
+			<a class="tag" href="/show_by_tag.html?tag=WebSocket"> WebSocket</a>
+		    
+			<a class="tag" href="/show_by_tag.html?tag=NodeJs"> NodeJs</a>
+		    
+			<a class="tag" href="/show_by_tag.html?tag=xmpp"> xmpp</a>
+		    
+			<a class="tag" href="/show_by_tag.html?tag=WebIM"> WebIM</a>
+		    
+			<a class="tag" href="/show_by_tag.html?tag=css"> css</a>
+		    
+			<a class="tag" href="/show_by_tag.html?tag=github"> github</a>
+		    
+			<a class="tag" href="/show_by_tag.html?tag=jekyll"> jekyll</a>
+		    
+			<a class="tag" href="/show_by_tag.html?tag=jQuery"> jQuery</a>
+		    
+			<a class="tag" href="/show_by_tag.html?tag=JavaScript"> JavaScript</a>
+		    
+			<a class="tag" href="/show_by_tag.html?tag=生活"> 生活</a>
+		    
+			<a class="tag" href="/show_by_tag.html?tag=思考"> 思考</a>
+		    
+			<a class="tag" href="/show_by_tag.html?tag=HTML"> HTML</a>
+		    
+			<a class="tag" href="/show_by_tag.html?tag=CSS"> CSS</a>
+		    
+			<a class="tag" href="/show_by_tag.html?tag=响应式"> 响应式</a>
+		    
+			<a class="tag" href="/show_by_tag.html?tag=oracle"> oracle</a>
+		    
+			<a class="tag" href="/show_by_tag.html?tag=存储函数"> 存储函数</a>
+		    
+			<a class="tag" href="/show_by_tag.html?tag=grunt"> grunt</a>
+		    
+			<a class="tag" href="/show_by_tag.html?tag=设计"> 设计</a>
+		    
+			<a class="tag" href="/show_by_tag.html?tag=笔试面试题"> 笔试面试题</a>
+		    
+			<a class="tag" href="/show_by_tag.html?tag=WebRTC"> WebRTC</a>
+		    
+		</div>
+	</div>
+</section>
+		</aside>
+		<footer class="footer">
+			<p>&copy; 2014 天镶 Skyinlayer</p>
+		</footer>
+	</div>
+</body>
+<script src="/js/highlight.pack.js"></script>
+<script type="text/javascript">
+	var duoshuoQuery = {short_name:"skyinlayer"}; (function() {var ds = document.createElement('script'); ds.type = 'text/javascript';ds.async = true; ds.src = 'http://static.duoshuo.com/embed.js'; ds.charset = 'UTF-8'; (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds); })(); $('pre code').each(function(i, e) {hljs.highlightBlock(e); });
+</script>
+</html>
