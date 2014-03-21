@@ -6,7 +6,7 @@ desc: 这两天在一问一答上刷了不少JavaScript题，也做了一些其�
 tags: [JavaScript, HTML, CSS]
 categories: [笔试面试积累]
 ---
-
+{% raw %}
 ##第一题
 下列关于浏览器对象的说法错误的是：
 * A：location对象相当于IE浏览器中的地址栏，包含关于当前URL地址的信息
@@ -21,7 +21,7 @@ categories: [笔试面试积累]
 ###location对象
 location对象里面存放了当前URL的一些信息：
 
-![Alt text](http://skyinlayer.com/images/fe_interview/1.png)
+![localtion对象存放的信息](http://skyinlayer.com/images/fe_interview/1.png)
 
 location对象同时window对象和window.document对象的子对象：
 ```javascript
@@ -34,7 +34,7 @@ true
 ###history对象
 history对象是window对象的子对象，里面记录了访问历史：
 
-![Alt text](http://skyinlayer.com/images/fe_interview/2.png)
+![history对象存放的信息](http://skyinlayer.com/images/fe_interview/2.png)
 
 history与location对象不同的是，其不存在于window.document对象之中
 ```javascript
@@ -346,7 +346,7 @@ console.log(someObj.deepClone());
 ```
 结果图：
 
-![Alt text](http://skyinlayer.com/images/fe_interview/3.png)
+![深度复制成功](http://skyinlayer.com/images/fe_interview/3.png)
 
 ##第十四题
 动态打印时间，格式为yyyy-MM-dd hh:mm:ss?
@@ -378,4 +378,4 @@ setInterval(function(){
 },1000);
 ```
 
-
+{% endraw %}
