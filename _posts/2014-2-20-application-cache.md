@@ -1,10 +1,10 @@
 ---
 layout: art
-title: 使用应用缓存构建离线应用
-subTitle: Application Cache（应用缓存）学习小记
+title: 前端性能优化（Application Cache篇）
+subTitle: 前端性能优化系列
 desc: 之前在segmentfault上刷问题看到一个关于manifest的问题，很好奇就研究了一下application cache。Application Cache是HTML5的新特性，允许浏览器在本地存储页面所需要的资源，使得页面离线也可以访问。之前研究的目的是为了在博客中使用，将一些不需要改动的CSS、JavaScript、图片文件离线缓存，这样加载速度必然飞起，希望能用在博客上，但是失败了，但还是记录一下学到的知识
 tags: [HTML]
-categories: [前端技术]
+categories: [前端技术, 性能优化]
 ---
 {% raw %}
 

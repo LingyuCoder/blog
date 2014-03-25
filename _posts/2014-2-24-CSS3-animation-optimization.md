@@ -1,10 +1,10 @@
 ---
 layout: art
-title: 如何让CSS3的动画不再卡顿失帧？
-subTitle: 编写高性能的CSS3动画
+title: 前端性能优化（CSS动画篇）
+subTitle: 前端性能优化系列
 desc: 最近拜读了一下html5rocks上几位大神写的一篇关于CSS3动画性能优化的文章，学到了很多，在这里记录一下，其中的知识都是来源于这篇文章，我只是截取了其中比较关注的内容出来
 tags: [css]
-categories: [前端技术]
+categories: [前端技术, 性能优化]
 ---
 {% raw %}
 最近拜读了一下[html5rocks](http://www.html5rocks.com/)上几位大神写的一篇关于CSS3动画性能优化的文章，学到了很多，在这里记录一下，其中的知识都是来源于这俩篇文章，我只是截取了其中比较关注的内容出来，原文地址[High Performance Animations](http://www.html5rocks.com/en/tutorials/speed/high-performance-animations/)及[Accelerated Rendering in Chrome](http://www.html5rocks.com/zh/tutorials/speed/layers/)
