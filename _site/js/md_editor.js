@@ -190,3 +190,71 @@ var Editor = (function() {
 
 	return Editor;
 }());
+
+
+var editor = new Editor(document.getElementById("editor"));
+var saveBtn = document.getElementById("save");
+var newBtn = document.getElementById("new");
+var newestBtn = document.getElementById("newest");
+var historyBtn = document.getElementById("history");
+var downloadBtn = document.getElementById("download");
+var historyDlg = document.getElementById("historyDlg");
+var closeHisDlgBtn = document.getElementById("closeHisBtn");
+var artHistoryOl = document.getElementById("artHistory");
+editor.bindShower(document.getElementById("shower"));
+editor.loadNewest();
+
+downloadBtn.addEventListener("click", function(evt) {
+	editor.download();
+}, false);
+
+saveBtn.addEventListener("click", function(evt) {
+	editor.save();
+	evt.stopPropagation();
+}, false);
+
+newBtn.addEventListener("click", function(evt) {
+	editor.new();
+	evt.stopPropagation();
+}, false);
+
+newestBtn.addEventListener("click", function(evt) {
+	editor.loadNewest();
+	evt.stopPropagation();
+}, false);
+
+artHistoryOl.addEventListener("click", function(evt) {
+	var id;
+	var target = evt.target;
+	if (target.tagName.toLowerCase() === 'li') {
+		id = target.getAttribute("aid");
+		if (id) {
+			editor.load(id);
+			closeHisDlgBtn.click();
+		}
+	}
+	evt.stopPropagation();
+}, false);
+
+historyBtn.addEventListener("click", function(evt) {
+	var artInfos = editor.listAll();
+	var i;
+	var m;
+	var olHtml = "";
+	for (i = 0, m = artInfos.length; i < m; i++) {
+		olHtml += "<li aid='" + artInfos[i].id + "'>" + artInfos[i].title + "</li>"
+	}
+	artHistoryOl.innerHTML = olHtml;
+	historyDlg.className = historyDlg.className.replace(" historyOut", "");
+	if (historyDlg.className.indexOf("historyIn") === -1) {
+		historyDlg.className = historyDlg.className + " historyIn";
+	}
+	evt.stopPropagation();
+}, false);
+
+closeHisDlgBtn.addEventListener("click", function(evt) {
+	historyDlg.className = historyDlg.className.replace(" historyIn", "");
+	if (historyDlg.className.indexOf("historyOut") === -1) {
+		historyDlg.className = historyDlg.className + " historyOut";
+	}
+}, false);
