@@ -29,11 +29,9 @@ module.exports = function(grunt) {
         // Uglify JavaScript
         uglify: {
           my_target: {
-            files: [{
-              expand: true,
-              src: 'js/*.js',
-              dest: ''
-            }]
+            files: {
+              'js/md_editor.min.js': ['js/md_editor.js']
+            }
           }
         },
 
