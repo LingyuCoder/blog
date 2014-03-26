@@ -5,89 +5,348 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" /> 
 	<title>在线markdown编辑器</title>
 	<link rel="stylesheet" type="text/css" href="/css/dark.min.css">
+	<link rel="stylesheet" type="text/css" href="/css/alertify.core.css">
+	<link rel="stylesheet" type="text/css" href="/css/alertify.default.css">
 	<style type="text/css">
+		@import url(http://fonts.googleapis.com/css?family=Fugaz+One);
+
 		html, body {
 			width: 100%;
 			height: 100%;
 			background-color: #f0f0f0;
 			margin: 0;
 			padding: 0;
-		}
-		.left, .right {
-			position: relative;
-			height: 100%;
-			width: 50%;
-		}
-		.left {
-			float: left;
-			overflow: hidden;
+			font-family: Monaco,Menlo,'Ubuntu Mono',Consolas,source-code-pro,SimSun,Song,"宋体","幼圆",Heiti,"黑体",'文泉驿等宽正黑','文泉驿正黑',monospace;
 		}
 
-		.right {
-			overflow: auto;
-			zoom: 1;
-		}
+		.g-l, .g-r {position: relative; height: 100%; width: 50%; }
+		.g-l {float: left; overflow: hidden; }
+		.g-r {overflow: auto; zoom: 1; }
+		.g-m {
+			position: absolute;
+			left: 50%;
+			top: 50%;
+			z-index: 10;
 
-		#shower {
-			width: 94%;
-			height: 94%;
-			padding: 3%;
-			word-wrap: break-word;
-			overflow: auto;
-		}
-		
-		#editor {
-			width: 100%;
-			height: 100%;
-		}
+			padding: 20px;
+			width: 400px;
+			height: 500px;
+			margin-left: -200px;
+			margin-top: -250px;
 
-		#shower {
+			overflow: visible;
+			background-color: rgba(0,0,0,0.8);
+			border-radius: 10% 0 10% 10%;
+			box-shadow: 0 0 5px #000;
+
+			-webkit-transform: translateX(-2000px);
+		    -ms-transform: translateX(-2000px);
+		    transform: translateX(-2000px);
+		}
+			.g-m > .u-clo {
+				position: absolute;
+				right: -15px;
+				top: -15px;
+
+				width: 30px;
+				height: 30px;
+
+				border: 7px solid rgba(0,0,0,0.8);
+				border-radius: 50%;
+				background-color: #f0f0f0;
+				cursor: pointer;
+			}
+				.g-m > .u-clo:after,
+				.g-m > .u-clo:before {
+					position: absolute;
+					left: 50%;
+					top: 50%;
+					
+					width: 4px;
+					height: 20px;
+					margin-left: -2px;
+					margin-top: -10px;
+
+					background-color: rgba(0,0,0,0.8);
+					content: "";
+				}
+				.g-m > .u-clo:after {-webkit-transform: rotate(45deg); }
+				.g-m > .u-clo:before {-webkit-transform: rotate(135deg); }
+			.g-m > .u-hi {
+				width: 100%;
+				height: 100%;
+				overflow: auto;
+				color: #fff;
+				font-size: 1.2em;
+			}
+				.g-m > .u-hi > ol > li{
+					cursor: pointer;
+				}
+					.g-m > .u-hi > ol > li:hover{
+						text-decoration: underline;
+					}
+
+		#shower {width: 94%; height: 94%; padding: 3%; word-wrap: break-word; overflow: auto; }
+		#editor {width: 100%; height: 100%; }
+
+		code {font-family: Monaco,Menlo,'Ubuntu Mono',Consolas,source-code-pro,SimSun,Song,"宋体","幼圆",Heiti,"黑体",'文泉驿等宽正黑','文泉驿正黑',monospace; }
+		pre code {border-radius: 4px; }
+		p code {padding: 3px 4px; color: #d14; background-color: #f7f7f9; border: 1px solid #e1e1e8; border-radius: 4px; }
+	
+		a {text-decoration: none; }
+			a:link {color: #526bf3; text-decoration: none; }
+			a:visited {color: #551a8b; text-decoration: none; }
+			a:hover, 
+			a:active {color: #CFB4E7; text-decoration: underline; }
+
+		.g-hd {
+			position: absolute;
+			top: -100px;
+			left: 0;
+			z-index: 10;
+
+			width: 90%;
+			height: 100px;
+			padding: 0 5%;
+
+			background-color: rgba(0,0,0,0.7);
+			-webkit-transition: all 0.3s ease-out;
+			transition: all 0.3s ease-out;
+			color: #fff;
+			line-height: 100px;
+			box-shadow: 0 0 5px #000;
 			
 		}
+			.g-hd::after {
+				position: absolute;
+				bottom: -30px;
+				left: 50%;
+				width: 0;
+				height: 0;
+				margin-left: -60px;
+				margin-top: 40px;
+				border-top: 30px solid rgba(0,0,0,0.7);
+				border-left: 40px solid transparent;
+				border-right: 40px solid transparent;
+				content: "";
+			}
+			.g-hd:hover {
+				-webkit-transform: translate(0, 100px);
+				transform: translate(0, 100px);
+			}
+			.g-hd > .g-tt {
+				float: left;
+				width: 30%;
+				font-size: 3.5em;
+				font-family: 'Fugaz One', Heiti,"黑体",'文泉驿等宽正黑','文泉驿正黑',monospace;
+				
+			}
+			.g-hd > .g-tt > p {margin: 0; }
+			
+			.g-hd > .g-op {
+				overflow: hidden;
+				zoom: 1;
+			}
+				.g-hd > .g-op > .u-opt {
+					display: inline-block;
+					padding: 0.4em 1em;
+					border-radius: 10%;
+					background-color: rgb(39, 113, 182);
+					cursor: pointer;
+					line-height: normal;
+				}
+
+				.g-hd > .g-op > .u-opt:hover{
+					background-color: rgb(23, 165, 23);
+				}
+				
+				.g-hd > .g-op > .u-opt-r {
+					float: right;
+				}
+
+
+		.historyIn, .historyOut {
+			-webkit-animation-duration: 1s;
+			animation-duration: 1s;
+			-webkit-animation-fill-mode: both;
+			animation-fill-mode: both;
+		}
+
+		@-webkit-keyframes historyIn {
+		  0% {
+		  	opacity: 0;
+		    -webkit-transform: translateY(-2000px);
+		    transform: translateY(-2000px);
+		  }
+
+		  100% {
+		  	opacity: 1;
+		    -webkit-transform: translateY(0);
+		    transform: translateY(0);
+		  }
+		}
+
+		@keyframes historyIn {
+		  0% {
+		  	opacity: 0;
+		    -webkit-transform: translateY(-2000px);
+		    -ms-transform: translateY(-2000px);
+		    transform: translateY(-2000px);
+		  }
+
+		  100% {
+		  	opacity: 1;
+		    -webkit-transform: translateY(0);
+		    -ms-transform: translateY(0);
+		    transform: translateY(0);
+		  }
+		}
+
+		.historyIn {
+		  -webkit-animation-name: historyIn;
+		  animation-name: historyIn;
+		}
+
+		@-webkit-keyframes historyOut {
+		  0% {
+		  	opacity: 1;
+		    -webkit-transform: translateX(0);
+		    transform: translateX(0);
+		  }
+
+		  100% {
+		  	opacity: 0;
+		    -webkit-transform: translateX(-2000px);
+		    transform: translateX(-2000px);
+		  }
+		}
+
+		@keyframes historyOut {
+		  0% {
+		  	opacity: 1;
+		    -webkit-transform: translateX(0);
+		    -ms-transform: translateX(0);
+		    transform: translateX(0);
+		  }
+
+		  100% {
+		  	opacity: 0;
+		    -webkit-transform: translateX(-2000px);
+		    -ms-transform: translateX(-2000px);
+		    transform: translateX(-2000px);
+		  }
+		}
+
+		.historyOut {
+		  -webkit-animation-name: historyOut;
+		  animation-name: historyOut;
+		}
+
+
+		
+
 	</style>
 </head>
 <body>
-	<div class="left">
-		<!-- <textarea id="editor"></textarea> -->
+	<header class="g-hd">
+		<div class="g-tt">
+			<p>Markdown</p>
+		</div>
+		<div class="g-op">
+			<span class="u-opt" id="save">保存</span>
+			<span class="u-opt" id="new">新建</span>
+			<span class="u-opt" id="newest">查看最新</span>
+			<span class="u-opt" id="history">查看历史</span>
+			<span class="u-opt" id="download">下载</span>
+		</div>
+	</header>
+	<section class="g-l">
 		<div id="editor"></div>
-	</div>
-	<div class="right">
+	</section>
+	<section class="g-r">
 		<div id="shower"></div>
-	</div>
+	</section>
+	<section class="g-m" id="historyDlg">
+		<span class="u-clo" id="closeHisBtn"></span>
+		<div class="u-hi">
+			<ol id="artHistory"></ol>
+		</div>
+	</section>
+	<script type="text/javascript" src="/js/alertify.min.js"></script>
 	<script type="text/javascript" src="/js/ace/ace.js"></script>
-	<script type="text/javascript" src="/js/ace/theme-monokai.js"></script>
+	<script type="text/javascript" src="/js/ace/theme-dawn.js"></script>
 	<script type="text/javascript" src="/js/ace/mode-markdown.js"></script>
 	<script type="text/javascript" src="/js/pagedown.js"></script>
 	<script type="text/javascript" src="/js/pagedown-extra.js"></script>
 	<script type="text/javascript" src="/js/highlight.pack.js"></script>
+	<script type="text/javascript" src='/js/md_editor.js'></script>
 	<script type="text/javascript">
-		var editor = ace.edit("editor");
-		var shower = document.getElementById("shower");
-		var converter = new Markdown.Converter();
-		var Mode = ace.require("ace/mode/markdown").Mode;
-		var session = editor.getSession();
-		Markdown.Extra.init(converter);
+		var editor = new Editor(document.getElementById("editor"));
+		var saveBtn = document.getElementById("save");
+		var newBtn = document.getElementById("new");
+		var newestBtn = document.getElementById("newest");
+		var historyBtn = document.getElementById("history");
+		var downloadBtn = document.getElementById("download");
+		var historyDlg = document.getElementById("historyDlg");
+		var closeHisDlgBtn = document.getElementById("closeHisBtn");
+		var artHistoryOl = document.getElementById("artHistory");
+		editor.bindShower(document.getElementById("shower"));
+		editor.loadNewest();
 
-		editor.setTheme("ace/theme/monokai");
-	    editor.setHighlightActiveLine(false);
-	    editor.setHighlightSelectedWord(false);
-	    editor.setShowPrintMargin(false);
-	    editor.setBehavioursEnabled(false);
-	    editor.setFontSize("16px");
+		downloadBtn.addEventListener("click", function(evt){
+			editor.download();
+		}, false);
 
-		session.setMode(new Mode());
+		saveBtn.addEventListener("click", function(evt){
+			editor.save();
+			evt.stopPropagation();
+		}, false);
 
-	    session.setUseWrapMode(true)
-	    session.setWrapLimitRange();
-	    
-	    editor.getSession().on("change", function(){
-	    	shower.innerHTML = converter.makeHtml(session.getValue());
-	    	var codes, i;
-	    	codes = shower.getElementsByTagName("code");
-			for (i = codes.length; i--;) {
-				hljs.highlightBlock(codes[i]);
+		newBtn.addEventListener("click", function(evt){
+			editor.new();
+			evt.stopPropagation();
+		}, false);
+
+		newestBtn.addEventListener("click", function(evt){
+			editor.loadNewest();
+			evt.stopPropagation();
+		}, false);
+
+		artHistoryOl.addEventListener("click", function(evt){
+			var id;
+			var target = evt.target;
+			if(target.tagName.toLowerCase() === 'li') {
+				id = target.getAttribute("aid");
+				if(id){
+					editor.load(id);
+					closeHisDlgBtn.click();
+				}
 			}
-	    });
+			evt.stopPropagation();
+		}, false);
+
+		historyBtn.addEventListener("click", function(evt){
+			var artInfos = editor.listAll();
+			var i;
+			var m;
+			var olHtml = "";
+			for (i = 0, m = artInfos.length; i < m; i++) {
+				olHtml += "<li aid='" + artInfos[i].id + "'>" + artInfos[i].title + "</li>"
+			}
+			artHistoryOl.innerHTML = olHtml;
+			historyDlg.className = historyDlg.className.replace(" historyOut", "");
+			if(historyDlg.className.indexOf("historyIn") === -1){
+				historyDlg.className = historyDlg.className + " historyIn";
+			}
+			evt.stopPropagation();
+		}, false);
+
+		closeHisDlgBtn.addEventListener("click", function(evt){
+			historyDlg.className = historyDlg.className.replace(" historyIn", "");
+			if(historyDlg.className.indexOf("historyOut") === -1){
+				historyDlg.className = historyDlg.className + " historyOut";
+			}
+		}, false);
 	</script>
 </body>
 </html>
