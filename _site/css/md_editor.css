@@ -4,14 +4,11 @@ html,
 body {
   width: 100%;
   height: 100%;
+  min-width: 1000px;
   background-color: #f0f0f0;
   margin: 0;
   padding: 0;
   font-family: Monaco, Menlo, 'Ubuntu Mono', Consolas, source-code-pro, SimSun, Song, "宋体", "幼圆", Heiti, "黑体", '文泉驿等宽正黑', '文泉驿正黑', monospace;
-}
-
-body {
-  min-width: 1024px;
 }
 
 .g-l,
@@ -154,9 +151,9 @@ a:active {
   top: -100px;
   left: 0;
   z-index: 10;
-  width: 90%;
+  width: 100%;
+  min-width: 1024px;
   height: 100px;
-  padding: 0 5%;
   background-color: rgba(0, 0, 0, 0.7);
   -webkit-transition: all 0.3s ease-out;
   transition: all 0.3s ease-out;
@@ -186,23 +183,27 @@ a:active {
   transform: translate(0, 100px);
 }
 
-.g-hd > .g-tt {
+.g-hd > .g-ctn {
+  padding: 0 5%;
+}
+
+.g-hd> .g-ctn > .g-tt {
   float: left;
   padding-right: 1em;
   font-size: 3.5em;
   font-family: 'Fugaz One', Heiti, "黑体", '文泉驿等宽正黑', '文泉驿正黑', monospace;
 }
 
-.g-hd > .g-tt > p {
+.g-hd > .g-ctn > .g-tt > p {
   margin: 0;
 }
 
-.g-hd > .g-op {
+.g-hd > .g-ctn > .g-op {
   overflow: hidden;
   zoom: 1;
 }
 
-.g-hd > .g-op > .u-opt {
+.g-hd > .g-ctn > .g-op > .u-opt {
   display: inline-block;
   padding: 0.4em 1em;
   border-radius: 10%;
@@ -211,11 +212,11 @@ a:active {
   line-height: normal;
 }
 
-.g-hd > .g-op > .u-opt:hover {
+.g-hd > .g-ctn > .g-op > .u-opt:hover {
   background-color: rgb(23, 165, 23);
 }
 
-.g-hd > .g-op > .u-opt-r {
+.g-hd > .g-ctn > .g-op > .u-opt-r {
   float: right;
 }
 
