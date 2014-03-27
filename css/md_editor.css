@@ -10,6 +10,10 @@ body {
   font-family: Monaco, Menlo, 'Ubuntu Mono', Consolas, source-code-pro, SimSun, Song, "宋体", "幼圆", Heiti, "黑体", '文泉驿等宽正黑', '文泉驿正黑', monospace;
 }
 
+body {
+  min-width: 1024px;
+}
+
 .g-l,
 .g-r {
   position: relative;
@@ -184,7 +188,7 @@ a:active {
 
 .g-hd > .g-tt {
   float: left;
-  width: 30%;
+  padding-right: 1em;
   font-size: 3.5em;
   font-family: 'Fugaz One', Heiti, "黑体", '文泉驿等宽正黑', '文泉驿正黑', monospace;
 }
