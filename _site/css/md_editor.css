@@ -297,3 +297,9 @@ a:active {
   -webkit-animation-name: historyOut;
   animation-name: historyOut;
 }
+
+/*修正ace中文换行时重叠问题*/
+
+#editor .ace_layer {
+  white-space: nowrap;
+}
