@@ -677,20 +677,26 @@ a:focus {
   }
 }
 
+@keyframes FADEY {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
 .aside,
-.header {
-  -webkit-animation-name: FADEY;
-  -webkit-animation-duration: 1s;
-  -webkit-animation-timing-function: ease-in-out;
-  -webkit-animation-iteration-count: 1;
+.header,
+.content,
+.post {
+  -webkit-animation: 1s FADEY ease-in-out 1 forwards;
+  animation: 1s FADEY ease-in-out 1 forwards;
 }
 
 .content .post {
-  -webkit-opacity: 0;
-  -webkit-animation-name: FADEY;
-  -webkit-animation-duration: 1s;
-  -webkit-animation-timing-function: ease-in-out;
+  opacity: 0;
   -webkit-animation-delay: 0.5s;
-  -webkit-animation-fill-mode: forwards;
-  -webkit-animation-iteration-count: 1;
+  animation-delay: 0.5s;
 }
