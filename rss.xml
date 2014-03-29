@@ -2,7 +2,7 @@
 layout: none
 ---
 <?xml version="1.0" encoding="utf-8" ?>
-<rss version="2.0">
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
         <title>天镶的博客 SkyInlayer`s Blog</title>
         <link>http://skyinlayer.com/</link>
@@ -13,8 +13,8 @@ layout: none
                 <title><![CDATA[ {{ post.title }} ]]></title>
                 <link>http://skyinlayer.com{{ post.url }}</link>
                 <category>IT技术</category>
-                <author>天镶</author>
-                <pubDate>{{ post.date }}</pubDate>
+                <author>lingyucoder@gmail.com (skyinlayer)</author>
+                <pubDate>{{ post.date | date: "%a, %d %b %Y %H:%M:%S %z"}}</pubDate>
                 <description><![CDATA[ {{ post.desc }} ]]></description>
             </item>
         {% endfor %}
