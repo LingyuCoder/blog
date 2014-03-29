@@ -17,6 +17,7 @@ layout: none
                 <author>lingyucoder@gmail.com (skyinlayer)</author>
                 <pubDate>{{ post.date | date: "%a, %d %b %Y %H:%M:%S %z"}}</pubDate>
                 <description><![CDATA[ {{ post.desc }} ]]></description>
+                <guid isPermaLink="false">http://skyinlayer.com{{ post.url }}</guid>
             </item>
         {% endfor %}
     </channel>
