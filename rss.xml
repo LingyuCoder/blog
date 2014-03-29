@@ -10,12 +10,12 @@ layout: none
         <language>zh-CN</language>
         {% for post in site.posts %}
             <item>
-                <title>{{ post.title }}</title>
-                <link>{{ post.url }}</link>
+                <title><![CDATA[ {{ post.title }} ]]></title>
+                <link>http://skyinlayer.com{{ post.url }}</link>
                 <category>IT技术</category>
                 <author>天镶</author>
-                <pubDate>{{ post.date | date: "%-d/%b/%Y" }}</pubDate>
-                <description>{{ post.desc }}</description>
+                <pubDate>{{ post.date }}</pubDate>
+                <description><![CDATA[ {{ post.desc }} ]]></description>
             </item>
         {% endfor %}
     </channel>
