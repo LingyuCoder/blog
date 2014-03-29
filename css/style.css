@@ -436,6 +436,36 @@ a:focus {
   content: "篇)";
 }
 
+.aside .sub-icon {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  -webkit-background-size: 1em 1em;
+  background-size: 1em 1em;
+  background-repeat: no-repeat;
+  margin-right: 1em;
+}
+
+.aside .sub-feedly {
+  background-image: url(/images/rss/feedly.ico);
+}
+
+.aside .sub-xianguo {
+  background-image: url(/images/rss/xianguo.ico);
+}
+
+.aside .sub-zhuaxia {
+  background-image: url(/images/rss/zhuaxia.ico);
+}
+
+.aside .sub-yahoo {
+  background-image: url(/images/rss/yahoo.ico);
+}
+
+.aside .sub-digg {
+  background-image: url(/images/rss/digg.ico);
+}
+
 .all-tags .tags a {
   display: inline-block;
   width: 40%;
