@@ -1,0 +1,22 @@
+---
+layout: none
+---
+<?xml version="1.0" encoding="utf-8" ?>
+<rss version="2.0">
+    <channel>
+        <title>天镶的博客 SkyInlayer`s Blog</title>
+        <link>http://skyinlayer.com/</link>
+        <description>天镶SkyInlayer的个人博客</description>
+        <language>zh-CN</language>
+        {% for post in site.posts %}
+            <item>
+                <title>{{ post.title }}</title>
+                <link>{{ post.url }}</link>
+                <category>IT技术</category>
+                <author>天镶</author>
+                <pubDate>{{ post.date | date: "%-d/%b/%Y" }}</pubDate>
+                <description>{{ post.desc }}</description>
+            </item>
+        {% endfor %}
+    </channel>
+</rss>
