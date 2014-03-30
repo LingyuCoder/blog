@@ -36,6 +36,36 @@
 			
 <article class="post">
 	<header>
+		<h2>使用jQuery监听DOM元素大小变化</h2>
+		<span class="byline">使用jQuery实现</span>
+	</header>
+	<div class="main">
+		<div class="brief">
+			今天写页面的时候突然有这么个需求，由于父元素（一个DIV）的height是由javascript计算出来的固定的值，而在其中增加了一个多说插件，在用户评论后，子元素（DIV）的height属性增加，导致子元素溢出。但是又不知道如何为多说的评论按钮增加回调函数，于是乎就想到了根据子元素的大小变化来重新计算父元素的height。
+		</div>
+		<div class="info">
+			<div class="replies">
+				<span class='date'> <span class='month'>Jan</span> <span class='day'>28</span> <span class='year'>2014</span> </span>
+				<ul class="stats" data-thread-key="/blog/2014/01/28/jquery-resize">
+					<li class="comment fa fa-comment"></li>
+					<li class="heart fa fa-heart"></li>
+					<li class="weibo fa fa-weibo"></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<a class="to-detail" href="/blog/2014/01/28/jquery-resize"></a>
+	<div class="tags">
+		
+			<a class="tag" href="/show_by_tag.html?tag=jQuery" class="tag">jQuery</a>
+		
+			<a class="tag" href="/show_by_tag.html?tag=JavaScript" class="tag">JavaScript</a>
+		
+	</div>
+</article>
+
+<article class="post">
+	<header>
 		<h2>使用Jekyll在Github上搭建个人博客（博客编写）</h2>
 		<span class="byline">使用jekyll搭建github博客系列</span>
 	</header>
@@ -220,6 +250,11 @@
 		<ul>
 			
 			<li>
+				<a href="/blog/2014/03/30/js-type-convert">JavaScript隐式类型转换</a>
+				<span class="date">30 Mar 2014</span>
+			</li>
+			
+			<li>
 				<a href="/blog/2014/03/28/performance-3">前端性能优化（JavaScript补充篇）</a>
 				<span class="date">28 Mar 2014</span>
 			</li>
@@ -239,11 +274,6 @@
 				<span class="date">25 Mar 2014</span>
 			</li>
 			
-			<li>
-				<a href="/blog/2014/03/25/performance-1">前端性能优化（DOM操作篇）</a>
-				<span class="date">25 Mar 2014</span>
-			</li>
-			
 		</ul>
 	</div>
 </section>
@@ -259,7 +289,7 @@
 			
 			<li>
 				<a href="/show_by_category.html?cat=前端技术">前端技术</a>
-				<span class="count">15</span>
+				<span class="count">16</span>
 			</li>
 			
 			<li>
@@ -269,7 +299,7 @@
 			
 			<li>
 				<a href="/show_by_category.html?cat=笔试面试积累">笔试面试积累</a>
-				<span class="count">7</span>
+				<span class="count">8</span>
 			</li>
 			
 			<li>

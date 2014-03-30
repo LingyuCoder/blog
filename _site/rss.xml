@@ -8,6 +8,16 @@
         <language>zh-CN</language>
         
             <item>
+                <title><![CDATA[ JavaScript隐式类型转换 ]]></title>
+                <link>http://skyinlayer.com/blog/2014/03/30/js-type-convert</link>
+                <category>IT技术</category>
+                <author>lingyucoder@gmail.com (skyinlayer)</author>
+                <pubDate>Sun, 30 Mar 2014 00:00:00 +0800</pubDate>
+                <description><![CDATA[ 从大犀牛上汇总一下隐式类型转换，并配上一些实例帮助理解，希望以后面试的时候不会被坑 ]]></description>
+                <guid isPermaLink="false">http://skyinlayer.com/blog/2014/03/30/js-type-convert</guid>
+            </item>
+        
+            <item>
                 <title><![CDATA[ 前端性能优化（JavaScript补充篇） ]]></title>
                 <link>http://skyinlayer.com/blog/2014/03/28/performance-3</link>
                 <category>IT技术</category>
