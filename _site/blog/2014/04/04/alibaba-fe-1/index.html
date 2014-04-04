@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8;"/>
+	<title>阿里巴巴前端笔试题（1-10） - 天镶的博客 SkyInlayer`s Blog </title>
+
+	<link rel="stylesheet" media="screen" href="/css/style.min.css">
+	<link rel="stylesheet" media="screen" href="/css/dark.min.css">
+
+	<meta name="keywords" content="天镶, SkyInlayer, 天镶的博客, 博客, 个人博客, 前端, IT, 程序员" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="author" content="Skyinlayer">
+	<meta name="description" content="天镶SkyInlayer的个人博客">
+	<meta name="robots" content="all">
+	<!--[if lt IE 9]>
+	<script src="/js/html5shiv.js"></script>
+	<![endif]-->
+	<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+</head>
+<body>
+	<div class="wrapper">
+		<header class="header">
+			<div class="banner"><h1>天镶的博客</h1></div>
+<div class="desc">学海无涯，回头是岸</div>
+<nav>
+	<ul>
+		<li><a href="/index.html">首页</a></li>
+		<li><a href="/archieves.html">文章</a></li>
+		<li><a href="/items.html">玩意</a></li>
+		<li><a href="/about.html">关于</a></li>
+		<li><a href="/profile.html">简历</a></li>
+		<li><a href="/online_markdown.html">编辑器</a></li>
+	</ul>
+</nav>
+		</header>
+		<div class="content">
+			<article class="post">
+				<header>
+					<h1>阿里巴巴前端笔试题（1-10）</h1>
+					<span class="byline">前端面试题积累系列</span>
+				</header>
+				<div class="tags">
+					
+						<a class="tag" href="/show_by_tag.html?tag=JavaScript" class="tag">JavaScript</a>
+					
+						<a class="tag" href="/show_by_tag.html?tag=HTML" class="tag">HTML</a>
+					
+						<a class="tag" href="/show_by_tag.html?tag=CSS" class="tag">CSS</a>
+					
+				</div>
+				<h2 id="">第一题</h2>
+
+<h3 id="_2">题面</h3>
+
+<p>说出以下函数的作用是？空白区域应该填写什么？</p>
+
+<pre class="javascript"><code class="javascript">// define  
+(function (window) {  
+    function fn(str) {  
+        this.str = str;  
+    }  
+    fn.prototype.format = function () {  
+        var arg = ______;  
+        return this.str.replace(_______, function (a, b) {  
+            return arg[b] || &#39;&#39;;  
+        });  
+    }  
+    window.fn = fn;  
+})(window);  
+// use  
+(function(){  
+    var t = new fn(&#39;&lt;p&gt;&lt;a href=&quot;{0}&quot;&gt;{1}&lt;/a&gt;&lt;span&gt;{2}&lt;/span&gt;&lt;/p&gt;&#39;);
+    console.log( t.format(&#39;http://www.alibaba.com&#39;, &#39;Alibaba&#39;, &#39;Welcome&#39;) );  
+})();  </code></pre>
+
+<h3 id="_3">解答</h3>
+
+<p>看题面就是，类似于写一个模板引擎。将模板里的<code>{1}</code>之类的占位符替换成传给它的参数。所以arg应该就是arguments。但是由于arg不是数组，而是一个类数组对象。所以需要进行一些转换，比较常规的转换方式如下：</p>
+
+<pre class="javascript"><code class="javascript">var arg = Array.prototype.slice.call(arguments, 0);</code></pre>
+
+<p>等号右边也就是第一空的答案了</p>
+
+<p>第二空则是要通过正则找出占位符，并根据占位符内的数字将其替换成arg数组内的字符串，说实话replace方法的第二个参数为函数的情况很少遇到，这里就是考的这个，最初想法是直接用全局正则匹配一下：</p>
+
+<pre class="javascript"><code class="javascript">return this.str.replace(/\{\d+\}/g, function (a, b) {  
+    return arg[b] || &#39;&#39;;  
+}); </code></pre>
+
+<p>这样，但是穿进去之后发现不太对，因为b参数是正则匹配到的字符串在完整字符串中的位置。于是去查了一下W3C：</p>
+
+<blockquote>
+<p>该函数的第一个参数是匹配模式的字符串。接下来的参数是与模式中的子表达式匹配的字符串，可以有 0 个或多个这样的参数。接下来的参数是一个整数，声明了匹配在 stringObject 中出现的位置。最后一个参数是 stringObject 本身。</p>
+</blockquote>
+
+<p>这里显然是因为没有子表达式，所以直接b成了声明的匹配在stringObject中出现的位置。这样就好说了，与模式中字表达式匹配，那加一个子表达式进去，变成这样：</p>
+
+<pre class="javascript"><code class="javascript">return this.str.replace(/\{(\d+)\}/g, function (a, b) {  
+    return arg[b] || &#39;&#39;;  
+}); </code></pre>
+
+<p>跑一下，齐活，输出<code>&lt;p&gt;&lt;a href=&quot;http://www.alibaba.com&quot;&gt;Alibaba&lt;/a&gt;&lt;span&gt;Welcome&lt;/span&gt;&lt;/p&gt; </code></p>
+
+<h2 id="_4">第二题</h2>
+
+<h3 id="_5">题面</h3>
+
+<p><img src="data:image,local://1396492547616" alt="Alt text" /></p>
+
+<h3 id="_6">解答</h3>
+
+<p>这题由于时间不太够，就没有写可执行代码，主要是涉及cookie操作。可以分成用户第一次进入检测，用户点击我知道了检测两个行为来分别处理：</p>
+
+<p>第一次进入的时候，首先判断cookie中是否有今天已来过标记，没有记录就写进一个标记，同时由于同一天不显示，所以这个写入带标记的cookie的过期时间应该为1天，这里标记为visited：</p>
+
+<pre class="javascript"><code class="javascript">if(document.cookie.indexOf(visited) === -1){
+    document.cookie = &#39;visited=&#39; + escape(&#39;1&#39;) + &#39;;expires=&#39; + new Date((new Date().getTime() + 24 * 3600 * 1000)).toGMTString();
+    showTips();
+}</code></pre>
+
+<p>点不再访问的时候，应该运行如下代码：</p>
+
+<pre class="javascript"><code class="javascript">document.cookie = &#39;visited=&#39; + escape(&#39;1&#39;) + &#39;;expires=&#39; + new Date((new Date().getTime() +  100 * 365 * 24 * 3600 * 1000)).toGMTString();</code></pre>
+
+<p>这样设定一个100年才过期的cookie，就相当于永久不显示了</p>
+
+<h2 id="_7">第三题</h2>
+
+<h3 id="_8">题面</h3>
+
+<p><img src="data:image,local://1396493054702" alt="Alt text" /></p>
+
+<h3 id="_9">解答</h3>
+
+<p>在ul的li上绑点击事件，典型的事件代理的题，要输出index，所以需要提前进行一些提前处理：</p>
+
+<pre class="javascript"><code class="javascript">(function(){
+    var nav = document.getElementById(&quot;nav&quot;);
+    var liList = nav.children;
+
+    function bindEvent(ele, event, callback) {
+        if (ele.attachEvent) {
+            ele.attachEvent(&quot;on&quot; + event, function(event) {
+                event = event || window.event;
+                event.target = event.target || event.srcElement;
+                callback(event);
+            });
+        } else {
+            ele.addEventListener(event, callback, false);
+        }
+    };
+
+    bindEvent(nav, &quot;click&quot;, function(event) {
+        var target = event.target;
+        var a;
+        var i, m;
+        if (target.tagName.toLowerCase() === &quot;li&quot;) {
+            a = target.children[0];
+            for (i = 0, m = liList.length; i &lt; m; i++) {
+                if (liList[i] === event.target) {
+                    console.log(i + 1);
+                    console.log(a.getAttribute(&quot;href&quot;));
+                    console.log(a.innerText);
+                }
+            }
+        }
+    });
+}());</code></pre>
+
+<p>这个事件代理的思想就是，在ul上采用冒泡机制绑定点击事件，在回调函数中使用event.target(IE底下会说)判断是否是li节点，如果是，则输出需要的数字</p>
+
+<p>这里说要支持（该死的）IE，于是多了好几个点：</p>
+
+<ul>
+<li>IE的事件绑定需要用attachEvent，而不能直接用addEventListener，所以需要额外处理</li>
+
+<li>老版本的event不是又函数传入，而是写在window里面，所以也需要做一个兼容</li>
+
+<li>老版本的IE中，并没有event.target，所以取而代之的是event.srcElement</li>
+
+<li>IE6、7、8使用数组的slice方法会报错，同时也无法使用indexOf，所以要么把这两个方法重新实现，要么直接通过遍历的方式来处理，我这里直接采用遍历的方式（因为重新实现代码加长很多）</li>
+
+<li>去死吧IE</li>
+</ul>
+
+<h2 id="_10">第四题</h2>
+
+<h3 id="_11">题面</h3>
+
+<p><img src="data:image,local://1396510693486" alt="Alt text" /></p>
+
+<h3 id="_12">解答</h3>
+
+<p>妈蛋被坑了，没看到还要写出其框内内容，写了个绝对定位就交了，呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵</p>
+
+<p>及其简单的绝对定位题，里面的内容分成两块，一块是左边的二维码，一块是右边的文字部分。左边浮动，右边触发bfc</p>
+<iframe allowfullscreen='allowfullscreen' frameborder='0' height='600' src='http://jsfiddle.net/skyinlayer/27hGA/1/embedded/result,html,css' width='100%'>&nbsp;</iframe>
+<h2 id="_13">第五题</h2>
+
+<h3 id="_14">题面</h3>
+
+<p><img src="data:image,local://1396511290614" alt="Alt text" /></p>
+
+<h3 id="_15">解答</h3>
+
+<p>这题是作文…完全答不全，这里的答案不一定对，都是网上摘抄的</p>
+
+<p>可以分成两个部分进行阐述： 1. http连接建立 2.对网页及其资源进行请求</p>
+
+<p>http建立经过如下步骤：</p>
+
+<ol>
+<li>浏览器获得url后，对其通过DNS进行解析，转换成ip地址，以及添加上响应的端口（如果没有显式指定，默认80）</li>
+
+<li>浏览器通过三步握手与这个服务器建立TCP连接</li>
+
+<li>在连接建立后，发送一个HTTP请求报文，里面包含了请求的资源的URL，请求方法，参数等等信息</li>
+
+<li>服务器接收到请求报文后进行处理，返回一个包含请求资源内容的响应报文</li>
+
+<li>浏览器关闭这个TCP连接（在HTTP1.1中不会进行关闭，除非进行显式的connection=close，而HTTP1.0中，则会关闭，可以通过keepAlive指定不关闭）</li>
+</ol>
+
+<p>对网页的资源请求：</p>
+
+<ol>
+<li>浏览器的url框获得url后，通过上述的方式获得HTML文档，获得完成后触发document.onload事件</li>
+
+<li>解析HTML文档，然后按照HTML文档结构从上往下开始请求资源（批量4-8）</li>
+
+<li>请求CSS样式表，当样式表到来的时候，将会拿它和之前已经到来的样式表进行合并和解析，修改渲染树，对页面进行回流和重绘</li>
+
+<li><code>&lt;scirpt&gt;</code>所添加的脚本在执行完成之前，会阻塞后续的HTML进行解析。而如果通过src添加外链的方式来引入js脚本，那么在请求、下载、解析、运行所有过程完成之前，都不会进行后续HTML的解析</li>
+
+<li>如果通过javascript添加script标签的方式加载，将会异步进行加载</li>
+</ol>
+
+<h2 id="_16">第六题</h2>
+
+<h3 id="_17">题面</h3>
+
+<p><img src="data:image,local://1396523341811" alt="Alt text" /></p>
+
+<h3 id="_18">解答</h3>
+
+<p>这题本来不难，一个下拉框，可以只用html+css实现，活用一下css的伪类就行了，至于那个小箭头用after伪元素画一下问题不大，代码如下，测试了一下能到IE7：</p>
+<iframe allowfullscreen='allowfullscreen' frameborder='0' height='600' src='http://jsfiddle.net/skyinlayer/ZQ5Jd/1/embedded/result,css,html' width='100%'>&nbsp;</iframe>
+<p>但是底下的要求，直接让我吐血，支持IE6+…就这一句话得加多少乱七八糟的兼容….IE6不支持子元素选择器，去掉之。IE6没hover，去掉之。另外小箭头肯定不能用border画了，懒得弄图片了，补上js代码。结果如下：</p>
+<iframe allowfullscreen='allowfullscreen' frameborder='0' height='600' src='http://jsfiddle.net/skyinlayer/ZQ5Jd/4/embedded/result,css,html' width='100%'>&nbsp;</iframe>
+<h2 id="_19">第七题</h2>
+
+<h3 id="_20">题面</h3>
+
+<p><img src="data:image,local://1396525502426" alt="Alt text" /></p>
+
+<h3 id="_21">解答</h3>
+
+<p>表单序列化，获取表单中的元素然后获取他们的值，拼接成字符串，挺有意思的一道题</p>
+
+<p>通过form.elements可以获得所有的元素，顺序遍历一遍就好，需要注意的是checkbox和radio的checked状态，另外除了input以外，还有select和textarea（这里可能考虑不全）</p>
+
+<pre class="javascript"><code class="javascript">function serialize(form) {
+    var params = [];
+    var elements = form.elements;
+    var i, m;
+    var input;
+    for (i = 0, m = elements.length; i &lt; m; i++) {
+        input = elements[i];
+        if (input.tagName.toLowerCase() === &quot;input&quot;) {
+            switch (input.type) {
+                case &quot;radio&quot;:
+                case &quot;checkbox&quot;:
+                    if (!input.checked) {
+                        break;
+                    }
+                default:
+                    if (input.disabled == false &amp;&amp; input.name.length) {
+                        params.push(encodeURI(input.name) + &quot;=&quot; + encodeURI(input.value));
+                    }
+            }
+        } else if (input.tagName.toLowerCase() === &quot;textarea&quot; || input.tagName.toLowerCase() === &quot;select&quot;) {
+            if (input.disabled == false &amp;&amp; input.name.length) {
+                params.push(encodeURI(input.name) + &quot;=&quot; + encodeURI(input.value));
+            }
+        }
+    }
+    return params.join(&quot;&amp;&quot;);
+};</code></pre>
+
+<h2 id="_22">第八题</h2>
+
+<h3 id="_23">题面</h3>
+
+<p><img src="data:image,local://1396526774435" alt="Alt text" /></p>
+
+<h3 id="_24">解答</h3>
+
+<p>数组去重…这还只是扁平数组，不难，去哪儿那题是嵌套数组。不过它竟然要自己构造数组。去重的话直接用一个Object做标记就行。也可以考虑直接用indexOf判断，不过效率会降低</p>
+
+<pre class="javascript"><code class="javascript">var array = [];
+var i;
+
+function getRandomNumberString() {
+    return Math.floor(Math.random() * 100) + &#39;&#39;;
+};
+
+for (i = 0; i &lt; 100; i++) {
+    array.push(getRandomNumberString());
+}
+
+function unique(array) {
+    var result = [];
+    var uniObj = {};
+    var i, tmp;
+    for (i = array.length; i--;) {
+        tmp = parseInt(array[i]);
+        if (!uniObj[tmp]) {
+            result.push(tmp);
+            uniObj[tmp] = 1;
+        }
+    }
+    return result;
+}
+
+console.log(unique(array));</code></pre>
+
+<h2 id="_25">第九题</h2>
+
+<h3 id="_26">题面</h3>
+
+<p><img src="data:image,local://1396527389769" alt="Alt text" /></p>
+
+<h3 id="_27">解答</h3>
+
+<p>竟然会有这种题，好吧</p>
+
+<p>第一个地方是浏览器嗅探。这里使用了无关属性<code>document.all</code>来嗅探IE，这样并不好。应该直接使用方法来嗅探，所以将其改为<code>window.attachEvent</code></p>
+
+<p>第二个地方是事件对象未处理，我也是后来才知道的，自己只写了第一条就交了。这里由于老式IE对event和event.target不支持，所以需要进行兼容</p>
+
+<p>第三个地方，记得提升变量申明</p>
+
+<p>总体修改代码如下：</p>
+
+<pre class="javascript"><code class="javascript">var addListener;
+if (window.addEventListener) {
+    addListener = function(el, type, listener, useCapture) {
+        el.addEventListener(type, listener, useCapture);
+    };
+} else if (window.attachEvent) {
+    addListener = function(el, type, listener) {
+        el.attachEvent(&quot;on&quot; + type, function(event) {
+            event = event || window.event;
+            event.target = event.target || event.srcElement;
+            listener.apply(el, [event]);
+        });
+    };
+}</code></pre>
+
+<h2 id="_28">第十题</h2>
+
+<h3 id="_29">题面</h3>
+
+<p><img src="data:image,local://1396527798133" alt="Alt text" /></p>
+
+<h3 id="_30">解答</h3>
+
+<p>呵呵，还能不能愉快的答题了<code>(╯‵□′)╯︵┻━┻</code></p>
+				<div class="ds-thread" data-url="http://skyinlayer.com//blog/2014/04/04/alibaba-fe-1" data-thread-key="/blog/2014/04/04/alibaba-fe-1" data-title="阿里巴巴前端笔试题（1-10）" style="min-height:277px"></div>
+			</article>
+		</div>
+		<aside class="aside">
+			<section class="recent">
+	<h3>最近的文章</h3>
+	<div class="inner">
+		<ul>
+			
+			<li>
+				<a href="/blog/2014/04/04/alibaba-fe-1">阿里巴巴前端笔试题（1-10）</a>
+				<span class="date">04 Apr 2014</span>
+			</li>
+			
+			<li>
+				<a href="/blog/2014/04/03/alibaba-fe-interview-1">Alibaba Fe Interview 1</a>
+				<span class="date">03 Apr 2014</span>
+			</li>
+			
+			<li>
+				<a href="/blog/2014/03/31/css-layout">CSS布局相关基础知识</a>
+				<span class="date">31 Mar 2014</span>
+			</li>
+			
+			<li>
+				<a href="/blog/2014/03/30/js-type-convert">JavaScript隐式类型转换</a>
+				<span class="date">30 Mar 2014</span>
+			</li>
+			
+			<li>
+				<a href="/blog/2014/03/28/performance-3">前端性能优化（JavaScript补充篇）</a>
+				<span class="date">28 Mar 2014</span>
+			</li>
+			
+		</ul>
+	</div>
+</section>
+<section class="categories">
+	<h3>文章类别</h3>
+	<div class="inner">
+		<ul>
+			
+			<li>
+				<a href="/show_by_category.html?cat=网站建设">网站建设</a>
+				<span class="count">8</span>
+			</li>
+			
+			<li>
+				<a href="/show_by_category.html?cat=前端技术">前端技术</a>
+				<span class="count">17</span>
+			</li>
+			
+			<li>
+				<a href="/show_by_category.html?cat=生活情感">生活情感</a>
+				<span class="count">2</span>
+			</li>
+			
+			<li>
+				<a href="/show_by_category.html?cat=笔试面试积累">笔试面试积累</a>
+				<span class="count">9</span>
+			</li>
+			
+			<li>
+				<a href="/show_by_category.html?cat=数据库技术">数据库技术</a>
+				<span class="count">1</span>
+			</li>
+			
+			<li>
+				<a href="/show_by_category.html?cat=性能优化">性能优化</a>
+				<span class="count">5</span>
+			</li>
+			
+			<li>
+				<a href="/show_by_category.html?cat=读书笔记">读书笔记</a>
+				<span class="count">9</span>
+			</li>
+			
+			<li>
+				<a href="/show_by_category.html?cat=即时通信">即时通信</a>
+				<span class="count">5</span>
+			</li>
+			
+		</ul>
+	</div>
+</section>
+<section class="all-tags">
+	<h3>文章标签</h3>
+	<div class="inner">
+		<div class="tags">
+			
+			<a class="tag" href="/show_by_tag.html?tag=WebSocket"> WebSocket</a>
+		    
+			<a class="tag" href="/show_by_tag.html?tag=NodeJs"> NodeJs</a>
+		    
+			<a class="tag" href="/show_by_tag.html?tag=xmpp"> xmpp</a>
+		    
+			<a class="tag" href="/show_by_tag.html?tag=WebIM"> WebIM</a>
+		    
+			<a class="tag" href="/show_by_tag.html?tag=css"> css</a>
+		    
+			<a class="tag" href="/show_by_tag.html?tag=github"> github</a>
+		    
+			<a class="tag" href="/show_by_tag.html?tag=jekyll"> jekyll</a>
+		    
+			<a class="tag" href="/show_by_tag.html?tag=jQuery"> jQuery</a>
+		    
+			<a class="tag" href="/show_by_tag.html?tag=JavaScript"> JavaScript</a>
+		    
+			<a class="tag" href="/show_by_tag.html?tag=生活"> 生活</a>
+		    
+			<a class="tag" href="/show_by_tag.html?tag=思考"> 思考</a>
+		    
+			<a class="tag" href="/show_by_tag.html?tag=HTML"> HTML</a>
+		    
+			<a class="tag" href="/show_by_tag.html?tag=CSS"> CSS</a>
+		    
+			<a class="tag" href="/show_by_tag.html?tag=响应式"> 响应式</a>
+		    
+			<a class="tag" href="/show_by_tag.html?tag=oracle"> oracle</a>
+		    
+			<a class="tag" href="/show_by_tag.html?tag=存储函数"> 存储函数</a>
+		    
+			<a class="tag" href="/show_by_tag.html?tag=grunt"> grunt</a>
+		    
+			<a class="tag" href="/show_by_tag.html?tag=设计"> 设计</a>
+		    
+			<a class="tag" href="/show_by_tag.html?tag=笔试面试题"> 笔试面试题</a>
+		    
+			<a class="tag" href="/show_by_tag.html?tag=WebRTC"> WebRTC</a>
+		    
+			<a class="tag" href="/show_by_tag.html?tag=SEO"> SEO</a>
+		    
+		</div>
+	</div>
+</section>
+<section class="subscribe">
+	<h3>RSS订阅</h3>
+	<div class="inner">
+		<ul>
+			<li><a href="http://xianguo.com/subscribe?url=http%3A%2F%2Fskyinlayer.com%2Frss.xml"><span class="sub-icon sub-xianguo"></span>鲜果</a></li>
+			<li><a href="http://www.zhuaxia.com/add_channel.php?sourceid=102&url=http%3A%2F%2Fskyinlayer.com%2Frss.xml"><span class="sub-icon sub-zhuaxia"></span>抓虾</a></li>
+			<li><a href="http://feedly.com/index.html#subscription%2Ffeed%2Fhttp%3A%2F%2Fskyinlayer.com%2Frss.xml"><span class="sub-icon sub-feedly"></span>feedly</a></li>
+			<li><a href="http://e.my.yahoo.com/config/cstore?.opt=content&.url=http%3A%2F%2Fskyinlayer.com%2Frss.xml"><span class="sub-icon sub-yahoo"></span>My Yahoo!</a></li>
+			<li><a href="http://digg.com/reader/search/skyinlayer.com%2Frss.xml"><span class="sub-icon sub-digg"></span>Digg</a></li>
+			<li><a href="http://skyinlayer.com/rss.xml">手动RSS订阅</a></li>
+		</ul>
+	</div>
+</section>
+		</aside>
+		<footer class="footer">
+			<p>&copy; 2014 天镶 Skyinlayer</p>
+		</footer>
+	</div>
+</body>
+<script src="/js/highlight.pack.js"></script>
+<script type="text/javascript">
+	var duoshuoQuery = {short_name:"skyinlayer"}; (function() {var ds = document.createElement('script'); ds.type = 'text/javascript';ds.async = true; ds.src = 'http://static.duoshuo.com/embed.js'; ds.charset = 'UTF-8'; (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds); })(); $('pre code').each(function(i, e) {hljs.highlightBlock(e); });
+</script>
+</html>

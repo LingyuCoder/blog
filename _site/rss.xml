@@ -8,6 +8,36 @@
         <language>zh-CN</language>
         
             <item>
+                <title><![CDATA[ 阿里巴巴前端笔试题（1-10） ]]></title>
+                <link>http://skyinlayer.com/blog/2014/04/04/alibaba-fe-1</link>
+                <category>IT技术</category>
+                <author>lingyucoder@gmail.com (skyinlayer)</author>
+                <pubDate>Fri, 04 Apr 2014 00:00:00 +0800</pubDate>
+                <description><![CDATA[ 最近笔了阿里巴巴的笔试题，有很多细节上的问题需要总结。题目还是不错的 ]]></description>
+                <guid isPermaLink="false">http://skyinlayer.com/blog/2014/04/04/alibaba-fe-1</guid>
+            </item>
+        
+            <item>
+                <title><![CDATA[ Alibaba Fe Interview 1 ]]></title>
+                <link>http://skyinlayer.com/blog/2014/04/03/alibaba-fe-interview-1</link>
+                <category>IT技术</category>
+                <author>lingyucoder@gmail.com (skyinlayer)</author>
+                <pubDate>Thu, 03 Apr 2014 00:00:00 +0800</pubDate>
+                <description><![CDATA[  ]]></description>
+                <guid isPermaLink="false">http://skyinlayer.com/blog/2014/04/03/alibaba-fe-interview-1</guid>
+            </item>
+        
+            <item>
+                <title><![CDATA[ CSS布局相关基础知识 ]]></title>
+                <link>http://skyinlayer.com/blog/2014/03/31/css-layout</link>
+                <category>IT技术</category>
+                <author>lingyucoder@gmail.com (skyinlayer)</author>
+                <pubDate>Mon, 31 Mar 2014 00:00:00 +0800</pubDate>
+                <description><![CDATA[  ]]></description>
+                <guid isPermaLink="false">http://skyinlayer.com/blog/2014/03/31/css-layout</guid>
+            </item>
+        
+            <item>
                 <title><![CDATA[ JavaScript隐式类型转换 ]]></title>
                 <link>http://skyinlayer.com/blog/2014/03/30/js-type-convert</link>
                 <category>IT技术</category>
