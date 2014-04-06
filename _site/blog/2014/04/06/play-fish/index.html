@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8;"/>
-	<title>CSS优先级备忘 - 天镶的博客 SkyInlayer`s Blog </title>
+	<title>Good Good Study, Day Day Upward！ - 天镶的博客 SkyInlayer`s Blog </title>
 
 	<link rel="stylesheet" media="screen" href="/css/style.min.css">
 	<link rel="stylesheet" media="screen" href="/css/dark.min.css">
@@ -36,145 +36,36 @@
 		<div class="content">
 			<article class="post">
 				<header>
-					<h1>CSS优先级备忘</h1>
-					<span class="byline">记录CSS优先级计算的规则，再也不用害怕面试官问了</span>
+					<h1>Good Good Study, Day Day Upward！</h1>
+					<span class="byline">好好学习，天天向上！</span>
 				</header>
 				<div class="tags">
 					
-						<a class="tag" href="/show_by_tag.html?tag=css" class="tag">css</a>
+						<a class="tag" href="/show_by_tag.html?tag=生活" class="tag">生活</a>
 					
 				</div>
-				<h2 id="">常规优先级计算</h2>
+				<p>上周过得特别累，好不容易有个三天假期闲暇下来了。没有了看书和总结之前题目的欲望，于是乎就跑去逛<a href="http://codepen.io/">codepen</a>。看着国外各种大牛在上面发布的效果，就想自己也写一些类似的小效果玩一玩。搭好了grunt环境（autoprefixer+watch），两天的摸鱼旅程就这样开始了</p>
 
-<p>一个选择器的优先级是由如下方式计算的：</p>
+<h3 id="">第一条鱼</h3>
 
-<ul>
-<li>通配符（<code>*</code>）的权重为0</li>
+<p>之前做阿里的在线笔试的时候有遇到让写一个下拉菜单。之前就有考虑有没有方法不使用js去写（世界上没有叫IE的浏览器）。尝试着用纯CSS写了一个，加了些简单的动画效果，丢到codepen上去了</p>
+<iframe allowfullscreen='allowfullscreen' frameborder='0' src='http://cdpn.io/hDbrd' style='width: 100%; height: 600px'>&nbsp;</iframe>
+<h3 id="_2">第二条鱼</h3>
 
-<li>元素选择器(<code>div</code>)、伪元素(<code>::before</code>)的权重为1</li>
+<p>摸完第一条鱼，感觉不够尽兴。于是开始考虑摸第二条，但不知道弄点什么。正好逛codepen有个人实现了一个圆形confirm框，就决定自己实现一个。实现完成之后，加了些动画，于是就有了下面这个</p>
+<iframe allowfullscreen='allowfullscreen' frameborder='0' src='http://cdpn.io/mvdcH' style='width: 100%; height: 600px'>&nbsp;</iframe>
+<h3 id="_3">第三条鱼</h3>
 
-<li>类型选择器(<code>.className</code>)、属性选择器(<code>[someAttr=someValue]</code>)、伪类选择器(<code>:hover</code>)的权重为10</li>
+<p>显然前面两个小玩意还是不能满足我摸鱼的欲望。看到codepen上有个人画了个脸，于是就决定自己画一个更复杂一点的。颜色都是用的别人的配色，不过自己加上了头发的实现以及眼睛和嘴巴的动画。弄出了这么一个快乐的小逗逼</p>
+<iframe allowfullscreen='allowfullscreen' frameborder='0' src='http://cdpn.io/ktcFB' style='width: 100%; height: 800px'>&nbsp;</iframe>
+<h3 id="_4">第四条鱼</h3>
 
-<li>id选择器（<code>#</code>）的权重为100</li>
+<p>今天起床也是啥也不想干，于是就考虑摸第四条鱼。看到网上的自行车照片，觉得画一个简单的卡通自行车也不算难，就开始动手画自行车了。这样就有了最后一条鱼：一个破烂自行车。摸鱼之旅也就告一段落了</p>
+<iframe allowfullscreen='allowfullscreen' frameborder='0' src='http://cdpn.io/EDwsf' style='width: 100%; height: 500px'>&nbsp;</iframe>
+<h3 id="_5">总结</h3>
 
-<li>内联样式（HTML中的<code>style=&quot;blahblah&quot;</code>）为1000</li>
-
-<li>如果权重一样，后声明的优先</li>
-</ul>
-
-<p>需要注意的是这里的10、100、1000并不是十进制的，进制数很大，在W3C上的原话： Concatenating the three numbers a-b-c (in a number system with a large base) gives the specificity.</p>
-
-<p>确定伪元素有哪些：</p>
-
-<ul>
-<li>first-letter</li>
-
-<li>first-line</li>
-
-<li>before</li>
-
-<li>after</li>
-</ul>
-
-<p>确伪类有哪些：</p>
-
-<ul>
-<li>active</li>
-
-<li>focus</li>
-
-<li>hover</li>
-
-<li>link</li>
-
-<li>visited</li>
-
-<li>first-child</li>
-
-<li>lang</li>
-</ul>
-
-<p>需要注意的是伪类和伪元素的差别，伪类的优先级要高于伪元素。伪元素一般使用<code>::first-letter</code>，前面两个冒号，而伪类只有一个。但目前已知处于相互混淆的状态。用一个也是可以的。同时很多人将<code>::before</code>和<code>::after</code>也一起称为伪类，更加混淆了伪类和伪元素。虽然平常使用的时候差别并不大，但在计算优先级权重的时候还是有差别的，需要注意。</p>
-
-<h2 id="_2">特殊规则</h2>
-
-<h3 id="important">!important永远覆盖其他</h3>
-
-<p>当!important规则被用在一个样式声明中，这个样式声明会覆盖任何其他声明，无论在声明列表的那个位置，与优先级无关</p>
-
-<p>如下例所示：</p>
-
-<pre class="xml"><code class="xml">&lt;div class=&quot;outer&quot; style=&quot;color:red&quot;&gt;
-    &lt;p&gt;这是outer中的一段文字&lt;/p&gt;
-&lt;/div&gt;</code></pre>
-
-<p>然后加上outer类的样式：</p>
-
-<pre class="css21"><code class="css21">.outer {
-    color: green !important;
-}</code></pre>
-
-<p>最终结果:</p>
-
-<p><img src="/images/selector_priority/1.png" alt="结果" /></p>
-
-<p>可见!important凌驾于一切之上</p>
-
-<h3 id="not0">:not伪类的优先级为0</h3>
-
-<p>需要注意的是伪类的优先级为0，比如如下例子：</p>
-
-<pre class="xml"><code class="xml">&lt;div class=&quot;outer&quot;&gt;
-    &lt;p&gt;这是outer中的文本，不属于inner&lt;/p&gt;
-    &lt;div class=&quot;inner&quot;&gt;
-        &lt;p&gt;这是inner中的文本&lt;/p&gt;
-    &lt;/div&gt;
-&lt;/div&gt;</code></pre>
-
-<p>给其添加样式如下：</p>
-
-<pre class="css21"><code class="css21">div:not(.outer) p {
-    color: green;
-}
-
-div.outer p{
-    color: red;
-}</code></pre>
-
-<p>结果如图：</p>
-
-<p><img src="/images/selector_priority/2.png" alt="结果" /></p>
-
-<p>可以看到，outer的color属性为red，很好理解</p>
-
-<p>但inner的color也是red，可以检索一下元素发现：</p>
-
-<p><img src="/images/selector_priority/3.png" alt="结果" /></p>
-
-<p>两个样式都被用在了inner上了，但<code>div.outer p</code>被最终采用。说明<code>div:not(.outer) p</code>的优先级不会大于<code>div.outer p</code>。</p>
-
-<p>接下来给两个样式换个顺序：</p>
-
-<pre class="css21"><code class="css21">div.outer p{
-    color: red;
-}
-
-div:not(.outer) p {
-    color: green;
-}</code></pre>
-
-<p>F5看看输出效果，inner的color属性变成green了</p>
-
-<p><img src="/images/selector_priority/4.png" alt="结果" /></p>
-
-<p>由此可以看出<code>div.outer p</code>的优先级也不会大于<code>div:not(.outer) p</code>。这俩优先级一样，会按照最后声明的样式进行加载。这也充分证明了<code>:not</code>伪类是没有优先级的</p>
-
-<h2 id="_3">参考文献</h2>
-
-<p><a href="https://developer.mozilla.org/zh-CN/docs/CSS/Specificity">MDN的CSS优先级文章</a></p>
-
-<p><a href="http://www.w3.org/TR/selectors/#specificity">CSS3 Selectors Specificity</a></p>
-				<div class="ds-thread" data-url="http://skyinlayer.com//blog/2014/02/25/css-selectors-priority" data-thread-key="/blog/2014/02/25/css-selectors-priority" data-title="CSS优先级备忘" style="min-height:277px"></div>
+<p>摸完鱼心情舒畅，该回归正轨了，之前说的总结阿里在线笔试题的工作还没做完呢。等有看到一些其他的我能力范围之内的动画效果时，再继续摸鱼吧</p>
+				<div class="ds-thread" data-url="http://skyinlayer.com//blog/2014/04/06/play-fish" data-thread-key="/blog/2014/04/06/play-fish" data-title="Good Good Study, Day Day Upward！" style="min-height:277px"></div>
 			</article>
 		</div>
 		<aside class="aside">
