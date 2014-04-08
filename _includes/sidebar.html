@@ -11,13 +11,22 @@
 		</ul>
 	</div>
 </section>
+<section class="search">
+	<h3>搜索</h3>
+	<div class="inner">
+		<div class="si">
+			<input type="search" id="searchIpt" placeholder="输入搜索标题"/>
+			<button id="searchBtn">>></button>
+		</div>
+	</div>
+</section>
 <section class="categories">
-	<h3>文章类别</h3>
+	<h3>类别</h3>
 	<div class="inner">
 		<ul>
 			{% for cat in site.categories %}
 			<li>
-				<a href="/show_by_category.html?cat={{ cat | first }}">{{ cat | first }}</a>
+				<a href="/search.html?cat={{ cat[0] }}">{{ cat[0] }}</a>
 				<span class="count">{{ cat | last | size }}</span>
 			</li>
 			{% endfor %}
@@ -25,11 +34,11 @@
 	</div>
 </section>
 <section class="all-tags">
-	<h3>文章标签</h3>
+	<h3>标签</h3>
 	<div class="inner">
 		<div class="tags">
 			{% for tag in site.tags %}
-			<a class="tag" href="/show_by_tag.html?tag={{ tag[0] }}"> {{ tag[0] }}</a>
+			<a class="tag" href="/search.html?tag={{ tag[0] }}"> {{ tag[0] }}</a>
 		    {% endfor %}
 		</div>
 	</div>
@@ -47,3 +56,24 @@
 		</ul>
 	</div>
 </section>
+<script type="text/javascript">
+	var searchIpt = document.getElementById("searchIpt");
+	var searchBtn = document.getElementById("searchBtn");
+	var jumpToSearch = function(){
+		var title = searchIpt.value.replace(/^\s+|\s+$/g, '');
+		if(title){
+			window.location.href = "/search.html?title=" + title;
+		}
+	};
+	searchIpt.onkeydown = function(event){
+		if(event.keyCode === 13){
+			jumpToSearch();
+		}
+		event.stopPropagation();
+	};
+	searchBtn.onclick = function(event){
+		jumpToSearch();
+		event.stopPropagation();
+		event.preventDefault();
+	};
+</script>

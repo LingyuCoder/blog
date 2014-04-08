@@ -34,217 +34,98 @@
 		</header>
 		<div class="content">
 			
-<article class="post">
-	<header>
-		<h2>《Don`t make me think》读书笔记——必须正确处理的几个方面</h2>
-		<span class="byline">《Don`t make me think》读书笔记系列第二篇</span>
-	</header>
-	<div class="main">
-		<div class="brief">
-			正在读一本名为《Don`t make me think》的书，书中介绍了交互设计的思路和原则，这里记录了其中的主要内容
+<section ng-app="archieves">
+	<article class="post" ng-controller="ArchievesCtrl">
+		<header>
+			<h2>所有文章</h2>
+			<span class="byline">{{ archieves.length }}篇文章</span>
+		</header>
+		<div class="condition" id="titleQuery">
+			<span class="label">标题查找:</span>
+			<input type="text" ng-init="titleQuery = urlInfo.query['title']" ng-model="titleQuery" placeholder="请输入查找标题或标题片段"/>
 		</div>
-		<div class="info">
-			<div class="replies">
-				<span class='date'> <span class='month'>Mar</span> <span class='day'>12</span> <span class='year'>2014</span> </span>
-				<ul class="stats" data-thread-key="/blog/2014/03/12/dont-make-me-think-2">
-					<li class="comment fa fa-comment"></li>
-					<li class="heart fa fa-heart"></li>
-					<li class="weibo fa fa-weibo"></li>
-				</ul>
-			</div>
+		<div class="condition" id="tagQuery">
+			<span class="label">标签检索:</span>
+			<select ng-init="tagQuery = urlInfo.query['tag']" ng-model="tagQuery" ng-options="tag for tag in tags"></select>
 		</div>
-	</div>
-	<a class="to-detail" href="/blog/2014/03/12/dont-make-me-think-2"></a>
-	<div class="tags">
-		
-			<a class="tag" href="/show_by_tag.html?tag=设计" class="tag">设计</a>
-		
-	</div>
-</article>
+		<div class="condition" id="catQuery">
+			<span class="label">分类检索:</span>
+			<select ng-init="catQuery = urlInfo.query['cat']"  ng-model="catQuery" ng-options="cat for cat in categories"></select>
+		</div>
+		<ul id="archieves" class="arc-list">
+			<li ng-repeat="arch in archieves | filter: arcFilter">
+				<span class='date'>{{ arch.date }}</span><a href='{{ arch.url }}'>{{ arch.title }}</a></li>
+			</li>
+		</ul>
+	</article>
+</section>
+<script type="text/javascript" src="/js/angular.min.js"></script>
+<script type="text/javascript">
+	angular.module("archieves", [])
+		.controller("ArchievesCtrl", function($scope, $http, $window) {
+			$scope.urlInfo = (function(url) {
+				if (typeof url !== "string") {
+					throw Error("The param is not a string!!!");
+				}
+				if (url === "") {
+					throw Error("The param is an empty string!!!");
+				}
+				var regResult = url.match(/^(?:(\w+)\:\/\/)?([\w\d]+(?:\.[\w]+)*)(?:\:(\d+))?(?:\/([^?#]+))?(?:\?([^#]*))?(?:#(.*))?$/);
+				var result = {
+					url: regResult[0],
+					scheme: regResult[1],
+					host: regResult[2],
+					port: regResult[3],
+					path: regResult[4],
+					query: regResult[5],
+					fragment: regResult[6]
+				};
 
-<article class="post">
-	<header>
-		<h2>《Don`t make me think》读书笔记——指导原则</h2>
-		<span class="byline">《Don`t make me think》读书笔记系列第一篇</span>
-	</header>
-	<div class="main">
-		<div class="brief">
-			正在读一本名为《Don`t make me think》的书，书中介绍了交互设计的思路和原则，这里记录了其中的主要内容
-		</div>
-		<div class="info">
-			<div class="replies">
-				<span class='date'> <span class='month'>Mar</span> <span class='day'>12</span> <span class='year'>2014</span> </span>
-				<ul class="stats" data-thread-key="/blog/2014/03/12/dont-make-me-think-1">
-					<li class="comment fa fa-comment"></li>
-					<li class="heart fa fa-heart"></li>
-					<li class="weibo fa fa-weibo"></li>
-				</ul>
-			</div>
-		</div>
-	</div>
-	<a class="to-detail" href="/blog/2014/03/12/dont-make-me-think-1"></a>
-	<div class="tags">
-		
-			<a class="tag" href="/show_by_tag.html?tag=设计" class="tag">设计</a>
-		
-	</div>
-</article>
+				if (typeof result.query !== "undefined") {
+					var rawParams = result.query.match(/([^=&]+)=([^&=]+)/g);
+					var tmp;
+					result.query = {};
+					if (rawParams) {
+						for (var i = rawParams.length; i--;) {
+							tmp = rawParams[i].split("=");
+							result.query[tmp[0]] = decodeURI(tmp[1]);
+						}
+					}
+				}
+				return result;
+			})($window.location.href);
+			$http.get("/archieves.json").success(function(data) {
+				$scope.archieves = data;
+			});
 
-<article class="post">
-	<header>
-		<h2>《CSS禅意花园》读书笔记——最佳实践</h2>
-		<span class="byline">《CSS禅意花园》读书笔记系列第五篇</span>
-	</header>
-	<div class="main">
-		<div class="brief">
-			最近拜读了网页设计界的名书——《CSS禅意花园》，思考良久，收获颇丰。在这里记录读CSS禅意花园中所归纳出来的重点，方便日后再读、再品
-		</div>
-		<div class="info">
-			<div class="replies">
-				<span class='date'> <span class='month'>Mar</span> <span class='day'>9</span> <span class='year'>2014</span> </span>
-				<ul class="stats" data-thread-key="/blog/2014/03/09/csszengarden-5">
-					<li class="comment fa fa-comment"></li>
-					<li class="heart fa fa-heart"></li>
-					<li class="weibo fa fa-weibo"></li>
-				</ul>
-			</div>
-		</div>
-	</div>
-	<a class="to-detail" href="/blog/2014/03/09/csszengarden-5"></a>
-	<div class="tags">
-		
-			<a class="tag" href="/show_by_tag.html?tag=HTML" class="tag">HTML</a>
-		
-			<a class="tag" href="/show_by_tag.html?tag=CSS" class="tag">CSS</a>
-		
-			<a class="tag" href="/show_by_tag.html?tag=设计" class="tag">设计</a>
-		
-	</div>
-</article>
+			$http.get("/tags.json").success(function(data) {
+				$scope.tags = data;
+			});
 
-<article class="post">
-	<header>
-		<h2>去哪儿笔试题之我答</h2>
-		<span class="byline">专注细节，考查二分、数组操作、正则表达式</span>
-	</header>
-	<div class="main">
-		<div class="brief">
-			之前想报去哪儿的实习，去参加参加笔试，结果因为填报的时间太晚了，没去成。今天全国统一笔试放出来了笔试题，说实话让我现场写基本上都写不出来...深刻感到了自己实力的不足，在这里借助浏览器内部的调试工具试着写了写，把握一下细节，也算是一种积累了
-		</div>
-		<div class="info">
-			<div class="replies">
-				<span class='date'> <span class='month'>Mar</span> <span class='day'>8</span> <span class='year'>2014</span> </span>
-				<ul class="stats" data-thread-key="/blog/2014/03/08/qunar-interview">
-					<li class="comment fa fa-comment"></li>
-					<li class="heart fa fa-heart"></li>
-					<li class="weibo fa fa-weibo"></li>
-				</ul>
-			</div>
-		</div>
-	</div>
-	<a class="to-detail" href="/blog/2014/03/08/qunar-interview"></a>
-	<div class="tags">
-		
-			<a class="tag" href="/show_by_tag.html?tag=笔试面试题" class="tag">笔试面试题</a>
-		
-			<a class="tag" href="/show_by_tag.html?tag=JavaScript" class="tag">JavaScript</a>
-		
-	</div>
-</article>
+			$http.get("/categories.json").success(function(data) {
+				$scope.categories = data;
+			});
 
-<article class="post">
-	<header>
-		<h2>《CSS禅意花园》读书笔记——文字排布</h2>
-		<span class="byline">《CSS禅意花园》读书笔记系列第四篇</span>
-	</header>
-	<div class="main">
-		<div class="brief">
-			最近拜读了网页设计界的名书——《CSS禅意花园》，思考良久，收获颇丰。在这里记录读CSS禅意花园中所归纳出来的重点，方便日后再读、再品
-		</div>
-		<div class="info">
-			<div class="replies">
-				<span class='date'> <span class='month'>Mar</span> <span class='day'>8</span> <span class='year'>2014</span> </span>
-				<ul class="stats" data-thread-key="/blog/2014/03/08/csszengarden-4">
-					<li class="comment fa fa-comment"></li>
-					<li class="heart fa fa-heart"></li>
-					<li class="weibo fa fa-weibo"></li>
-				</ul>
-			</div>
-		</div>
-	</div>
-	<a class="to-detail" href="/blog/2014/03/08/csszengarden-4"></a>
-	<div class="tags">
-		
-			<a class="tag" href="/show_by_tag.html?tag=HTML" class="tag">HTML</a>
-		
-			<a class="tag" href="/show_by_tag.html?tag=CSS" class="tag">CSS</a>
-		
-			<a class="tag" href="/show_by_tag.html?tag=设计" class="tag">设计</a>
-		
-	</div>
-</article>
-
-
-
-
-	<div class="pager">
-	
-	  	<a href="/test/page4" class="pre">上一页</a>
-	
-	
-	
-	  	<a href="/test/page6" class="next">下一页</a>
-	
-	
-		<div class="pages">
-		
-		    
-		      <a href="/index.html">1</a>
-		    
-		
-		    
-		      <a href="/test/page2">2</a>
-		    
-		
-		    
-		      <a href="/test/page3">3</a>
-		    
-		
-		    
-		      <a href="/test/page4">4</a>
-		    
-		
-		    
-		      <span class="active">5</span>
-		    
-		
-		    
-		      <a href="/test/page6">6</a>
-		    
-		
-		    
-		      <a href="/test/page7">7</a>
-		    
-		
-		    
-		      <a href="/test/page8">8</a>
-		    
-		
-		    
-		      <a href="/test/page9">9</a>
-		    
-		
-		    
-		      <a href="/test/page10">10</a>
-		    
-		
-		    
-		      <a href="/test/page11">11</a>
-		    
-		
-		</div>
-	</div>
-
+			$scope.arcFilter = function(arc) {
+				if ($scope.tagQuery) {
+					if (arc.tags.indexOf($scope.tagQuery) === -1) {
+						return false;
+					}
+				}
+				if ($scope.catQuery) {
+					if (arc.categories.indexOf($scope.catQuery) === -1) {
+						return false;
+					}
+				}
+				if ($scope.titleQuery) {
+					if (arc.title.indexOf($scope.titleQuery) === -1) {
+						return false;
+					}
+				}
+				return true;
+			};
+		});
+</script>
 
 		</div>
 		<aside class="aside">
