@@ -27,7 +27,7 @@ title: 首页
 	<a class="to-detail" href="{{ post.url }}"></a>
 	<div class="tags">
 		{% for tag in post.tags %}
-			<a class="tag" href="/show_by_tag.html?tag={{ tag }}" class="tag">{{ tag }}</a>
+			<a class="tag" href="/search.html?tag={{ tag }}" class="tag">{{ tag }}</a>
 		{% endfor %}
 	</div>
 </article>
