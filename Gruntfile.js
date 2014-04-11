@@ -11,7 +11,7 @@ module.exports = function(grunt) {
       multiple_files: {
         expand: true,
         flatten: true,
-        src: 'css/*.css', // -> src/css/file1.css, src/css/file2.css
+        src: 'css/*.min.css', // -> src/css/file1.css, src/css/file2.css
         dest: 'css/' // -> dest/css/file1.css, dest/css/file2.css
       },
     },
@@ -73,7 +73,8 @@ module.exports = function(grunt) {
         base: '.',
         add: true,
         branch: 'gh-pages',
-        message: 'Auto-generated commit',
+        repo: 'git@github.com:LingyuCoder/blog.git',
+        message: '小管家自动提交',
         user: {
           name: 'Skyinlayer',
           email: 'lingyucoder@gmail.com'
@@ -84,7 +85,7 @@ module.exports = function(grunt) {
       src: ['**']
     }
   });
-  grunt.registerTask('publish', ['autoprefixer', 'cssmin', 'uglify', 'gitbook', 'jekyll', 'gh-pages']);
+  grunt.registerTask('publish', ['cssmin', 'autoprefixer', 'uglify', 'gitbook', 'jekyll', 'gh-pages']);
   // 默认执行的任务
-  grunt.registerTask('default', ['autoprefixer', 'cssmin', 'uglify', 'gitbook', 'jekyll']);
+  grunt.registerTask('default', ['cssmin', 'autoprefixer', 'uglify', 'gitbook', 'jekyll']);
 };

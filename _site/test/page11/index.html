@@ -3,18 +3,15 @@
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8;"/>
 	<title>天镶的博客 SkyInlayer`s Blog </title>
-
 	<link rel="stylesheet" media="screen" href="/css/style.min.css">
-
 	<meta name="keywords" content="天镶, SkyInlayer, 天镶的博客, 博客, 个人博客, 前端, IT, 程序员" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="author" content="Skyinlayer">
 	<meta name="description" content="天镶SkyInlayer的个人博客">
 	<meta name="robots" content="all">
 	<!--[if lt IE 9]>
-	<script src="script/html5shiv.js"></script>
+	<script src="http://cdn.staticfile.org/html5shiv/r29/html5.js"></script>
 	<![endif]-->
-	<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
 </head>
 <body>
 	<div class="wrapper">
@@ -375,6 +372,7 @@
 			<p>&copy; 2014 天镶 Skyinlayer</p>
 		</footer>
 	</div>
+	<script src="http://cdn.staticfile.org/jquery/2.1.1-beta1/jquery.min.js"></script>
 	<script type="text/javascript">
 		(function() {var artIds = [], arts = $(".stats"); for (var i = arts.length; i--;) artIds.push($(arts[i]).attr("data-thread-key")); $.ajax({url: 'http://api.duoshuo.com/threads/counts.jsonp?short_name=skyinlayer&threads=' + artIds.join(','), type: "GET", dataType: "jsonp"}).done(function(data) {var response = data.response, id, $stats, artInfo; for (var i = arts.length; i--;) {$stats = $(arts[i]); artInfo = response[$stats.attr("data-thread-key")]; $stats.find(".fa-comment").text(artInfo.comments); $stats.find(".fa-heart").text(artInfo.likes); $stats.find(".fa-weibo").text(artInfo.weibo_reposts); } }).fail(function() {}); })();
 	</script>

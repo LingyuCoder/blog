@@ -3,7 +3,6 @@ var Editor = (function() {
 	var AceMode = ace.require("ace/mode/markdown").Mode;
 	var AceTheme = "ace/theme/dawn";
 	var storage = window.localStorage;
-	Markdown.Extra.init(converter);
 
 	if (!storage.getItem("artList")) {
 		storage.setItem("artList", JSON.stringify([]));

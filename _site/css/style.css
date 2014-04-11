@@ -881,3 +881,51 @@ a:focus {
   -webkit-animation-delay: 0.5s;
   animation-delay: 0.5s;
 }
+
+.totop {
+  position: fixed;
+  right: 1em;
+  bottom: 1em;
+  display: none;
+  width: 6em;
+  height: 6em;
+  border-radius: 2em;
+  background: #bbb;
+  opacity: 0.5;
+  font-size: 10px;
+  cursor: pointer;
+  z-index: 20;
+}
+
+.totop:before {
+  content: "";
+  position: absolute;
+  top: 1em;
+  left: 1.5em;
+  width: 0;
+  border-bottom: 1.5em solid #222;
+  border-right: 1.5em solid transparent;
+  border-left: 1.5em solid transparent;
+}
+
+.totop:after {
+  content: "";
+  position: absolute;
+  top: 2em;
+  left: 2.5em;
+  width: 1em;
+  height: 3em;
+  background-color: #222;
+}
+
+@media screen and (min-width: 48em) {
+  .totop {
+    font-size: 14px;
+  }
+}
+
+@media screen and (min-width: 64em) {
+  .totop {
+    font-size: 16px;
+  }
+}
