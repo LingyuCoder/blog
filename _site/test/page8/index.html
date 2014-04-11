@@ -14,6 +14,7 @@
 	<![endif]-->
 </head>
 <body>
+	<div class="totop" id="totop"></div>
 	<div class="wrapper">
 		<header class="header">
 			<div class="banner"><h1>天镶的博客</h1></div>
@@ -27,7 +28,7 @@
 	</ul>
 </nav>
 		</header>
-		<div class="content">
+		<div class="content" id="content">
 			
 <article class="post">
 	<header>
@@ -438,7 +439,59 @@
 	</div>
 	<script src="http://cdn.staticfile.org/jquery/2.1.1-beta1/jquery.min.js"></script>
 	<script type="text/javascript">
-		(function() {var artIds = [], arts = $(".stats"); for (var i = arts.length; i--;) artIds.push($(arts[i]).attr("data-thread-key")); $.ajax({url: 'http://api.duoshuo.com/threads/counts.jsonp?short_name=skyinlayer&threads=' + artIds.join(','), type: "GET", dataType: "jsonp"}).done(function(data) {var response = data.response, id, $stats, artInfo; for (var i = arts.length; i--;) {$stats = $(arts[i]); artInfo = response[$stats.attr("data-thread-key")]; $stats.find(".fa-comment").text(artInfo.comments); $stats.find(".fa-heart").text(artInfo.likes); $stats.find(".fa-weibo").text(artInfo.weibo_reposts); } }).fail(function() {}); })();
+		(function() {
+			var artIds = [],
+				arts = $(".stats");
+			for (var i = arts.length; i--;) artIds.push($(arts[i]).attr("data-thread-key"));
+			$.ajax({
+				url: 'http://api.duoshuo.com/threads/counts.jsonp?short_name=skyinlayer&threads=' + artIds.join(','),
+				type: "GET",
+				dataType: "jsonp"
+			}).done(function(data) {
+				var response = data.response,
+					id, $stats, artInfo;
+				for (var i = arts.length; i--;) {
+					$stats = $(arts[i]);
+					artInfo = response[$stats.attr("data-thread-key")];
+					$stats.find(".fa-comment").text(artInfo.comments);
+					$stats.find(".fa-heart").text(artInfo.likes);
+					$stats.find(".fa-weibo").text(artInfo.weibo_reposts);
+				}
+			}).fail(function() {});
+
+			var $totop = $("#totop");
+			var $content = $("#content");
+			var $window = $(window);
+			$(document).on("scroll", function(event) {
+				var top = $window.scrollTop();
+				if (top > $content.offset().top) {
+					if ($totop.css("display") !== "block") {
+						$totop.css("opacity", 0);
+						$totop.css("display", "block");
+						$totop.animate({
+							opacity: .5
+						});
+					}
+				} else {
+					$totop.css("display", "none");
+				}
+				event.stopPropagation();
+				event.preventDefault();
+			});
+			$totop.on("click", function(event) {
+				$("html, body").animate({
+					scrollTop: 0
+				}, 800);
+				event.stopPropagation();
+				event.preventDefault();
+			});
+
+			$totop.trigger("scroll");
+
+			$('pre code').each(function(i, e) {
+				hljs.highlightBlock(e);
+			});
+		})();
 	</script>
 </body>
 </html>
