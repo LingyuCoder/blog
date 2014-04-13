@@ -281,6 +281,12 @@ a:focus {
   list-style: decimal inside;
 }
 
+.content .post blockquote {
+  border-left: 5px solid #bbb;
+  padding-left: 1em;
+  font-style: italic;
+}
+
 .content .post p code {
   font: 14px Consolas,Monaco,'Courier New',Courier,'Andale Mono','DejaVu Sans Mono',monospace;
   color: #ea2765;
