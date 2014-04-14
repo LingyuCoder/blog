@@ -4,6 +4,7 @@
 	<meta http-equiv="content-type" content="text/html; charset=utf-8;"/>
 	<title>浅谈V8引擎中的垃圾回收机制 - 天镶的博客 SkyInlayer`s Blog </title>
 	<link rel="stylesheet" media="screen" href="/css/style.min.css">
+	<link rel="stylesheet" media="screen" href="http://cdn.staticfile.org/highlight.js/8.0/styles/dark.min.css">
 	<meta name="keywords" content="天镶, SkyInlayer, 天镶的博客, 博客, 个人博客, 前端, IT, 程序员" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="author" content="Skyinlayer">
@@ -61,7 +62,7 @@
 
 <h3 id="_3">为何限制</h3>
 
-<p>V8之所以限制了内存的大小，表面上的原因是V8最初是作为浏览器的JavaScript引擎而设计，不太可能遇到大量内存的场景，而深层次的原因则是由于V8的垃圾回收机制的限制。由于V8需要保证JavaScript应用逻辑与垃圾回收器所看到的不一样，V8在执行垃圾回收时会阻塞JavaScript应用逻辑，直到垃圾回收结束再重新执行JavaScript应用逻辑，这种行为被称为“全停顿”（stop-the-world）。若V8的堆内存为1.5GB，V8做一次小的垃圾回收需要50ms以上，做一次非增量式的垃圾回收甚至要1秒以上。这样浏览器将在1s内失去对用户的响应，造成假死现象。如果有动画效果的话，动画的展现也将显著受到影响</p>
+<p>V8之所以限制了内存的大小，表面上的原因是V8最初是作为浏览器的JavaScript引擎而设计，不太可能遇到大量内存的场景，而深层次的原因则是由于V8的垃圾回收机制的限制。由于V8需要保证JavaScript应用逻辑与垃圾回收器所看到的一样，V8在执行垃圾回收时会阻塞JavaScript应用逻辑，直到垃圾回收结束再重新执行JavaScript应用逻辑，这种行为被称为“全停顿”（stop-the-world）。若V8的堆内存为1.5GB，V8做一次小的垃圾回收需要50ms以上，做一次非增量式的垃圾回收甚至要1秒以上。这样浏览器将在1s内失去对用户的响应，造成假死现象。如果有动画效果的话，动画的展现也将显著受到影响</p>
 
 <h3 id="_4">突破限制</h3>
 
