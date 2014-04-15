@@ -32,9 +32,9 @@ categories: [前端技术]
     height: 10em;
 }
 ```
-![display: block时的盒子模型](/images/display/1.png)
+![display: block时的盒子模型](/img/display/1.png)
 
-![display: block时的z真正显示的盒子模型](/images/display/2.png)
+![display: block时的z真正显示的盒子模型](/img/display/2.png)
 
 ##display: inline
 ###典型元素
@@ -62,9 +62,9 @@ categories: [前端技术]
     border: 1em solid #FF8686;
 }
 ```
-![display: inline时真正显示的盒子模型](/images/display/3.png)
+![display: inline时真正显示的盒子模型](/img/display/3.png)
 
-![display: inline时的盒子模型](/images/display/4.png)
+![display: inline时的盒子模型](/img/display/4.png)
 
 ##display: inline-block
 ###典型元素
@@ -88,9 +88,9 @@ categories: [前端技术]
     border: 1em solid #FF8686;
 }
 ```
-![display: inline-block时的实际显示的盒子模型](/images/display/5.png)
+![display: inline-block时的实际显示的盒子模型](/img/display/5.png)
 
-![display: inline-block时的盒子模型](/images/display/6.png)
+![display: inline-block时的盒子模型](/img/display/6.png)
 
 ###其他
 可以通过```verticle-align: middle```等属性来对文字与设定了```display:inline-block```来进行布局
@@ -106,7 +106,7 @@ categories: [前端技术]
     vertical-align: middle;
 }
 ```
-![Alt text](/images/display/7.png)
+![Alt text](/img/display/7.png)
 
 ###浏览器兼容性
 兼容ie8+、ff26+、chrome31+、safari7+、opera19+，详见[caniuse.com](http://caniuse.com/#search=inline-block)

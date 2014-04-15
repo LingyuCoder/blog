@@ -76,7 +76,7 @@
     display: inline-block;
 }</code></pre>
 
-<p>效果图如下： <img src="http://skyinlayer.com/images/verticalalign/1.png" alt="Alt text" /></p>
+<p>效果图如下： <img src="http://skyinlayer.com/img/verticalalign/1.png" alt="Alt text" /></p>
 
 <p>可以看到，inline元素只会将其content box用来定位，而inline-block元素则会将将其margin box用来定位。结合inline元素的特性，就很好理解了</p>
 
@@ -86,7 +86,7 @@
 
 <h3 id="baseline_2">什么是baseline</h3>
 
-<p><img src="http://skyinlayer.com/images/verticalalign/2.png" alt="Alt text" /></p>
+<p><img src="http://skyinlayer.com/img/verticalalign/2.png" alt="Alt text" /></p>
 
 <p>这里大写字母<code>G</code>底端的那条线，即为baseline</p>
 
@@ -117,7 +117,7 @@
 
 <p>这里<code>.ctn-block</code>为父元素，<code>.child1</code>为子元素，父元素的baseline根据规则，为最后一个line box的baseline，也就是说其baseline为如下红线：</p>
 
-<p><img src="http://skyinlayer.com/images/verticalalign/3.png" alt="Alt text" /></p>
+<p><img src="http://skyinlayer.com/img/verticalalign/3.png" alt="Alt text" /></p>
 
 <p>而由于子元素为<code>display: inline-block</code>，其内部没有内容，也没有line box，所以根据如下计算规则:</p>
 
@@ -127,7 +127,7 @@
 
 <p>那么，它的baseline就是其margin-bottom边界，如红线所示：</p>
 
-<p><img src="http://skyinlayer.com/images/verticalalign/4.png" alt="Alt text" /></p>
+<p><img src="http://skyinlayer.com/img/verticalalign/4.png" alt="Alt text" /></p>
 
 <h3 id="baseline_3">元素的baseline</h3>
 
@@ -177,13 +177,13 @@
 
 <p>可以看到布局效果如下：</p>
 
-<p><img src="http://skyinlayer.com/images/verticalalign/5.png" alt="Alt text" /></p>
+<p><img src="http://skyinlayer.com/img/verticalalign/5.png" alt="Alt text" /></p>
 
 <p>由于child-1没有内容，其baseline为其margin-bottom外边界，而child-2和child-3的baseline则是其内部最后一个line box的baseline，而由于其设定为<code>vertical-align:baseline</code>，child-1的baseline处在最下面，child-2和child-3的baseline均与child-1的baseline对齐</p>
 
 <p>增加child-3的内容：</p>
 
-<p><img src="http://skyinlayer.com/images/verticalalign/6.png" alt="Alt text" /></p>
+<p><img src="http://skyinlayer.com/img/verticalalign/6.png" alt="Alt text" /></p>
 
 <p>布局发生改变，child-1和child-2的baseline都对齐child-3的baseline了</p>
 
@@ -199,7 +199,7 @@
 
 <p>vertical-align默认就是baseline，所以这里会将子元素和父盒子的baseline对齐：</p>
 
-<p><img src="http://skyinlayer.com/images/verticalalign/7.png" alt="Alt text" /></p>
+<p><img src="http://skyinlayer.com/img/verticalalign/7.png" alt="Alt text" /></p>
 
 <h3 id="middle">middle</h3>
 
@@ -219,7 +219,7 @@
 
 <p>为了方便，将内容换成”Xx”，由于X(无论大小写)下边界都是顶着baseline的，而小写字母”x”这种上下对称的字母，其中点所在的水平直线就是子元素中点所需要对齐的直线了：</p>
 
-<p><img src="http://skyinlayer.com/images/verticalalign/8.png" alt="Alt text" /></p>
+<p><img src="http://skyinlayer.com/img/verticalalign/8.png" alt="Alt text" /></p>
 
 <h3 id="texttop">text-top</h3>
 
@@ -231,15 +231,15 @@
 
 <p>这里盒子的顶端（margin-top上边界）很好确定，而父盒子的文本区域顶端又是哪里？</p>
 
-<p><img src="http://skyinlayer.com/images/verticalalign/9.png" alt="Alt text" /></p>
+<p><img src="http://skyinlayer.com/img/verticalalign/9.png" alt="Alt text" /></p>
 
 <p>审查一下文本，可以看到，蓝色的区域上边界就是文本区域：</p>
 
-<p><img src="http://skyinlayer.com/images/verticalalign/10.png" alt="Alt text" /></p>
+<p><img src="http://skyinlayer.com/img/verticalalign/10.png" alt="Alt text" /></p>
 
 <p>这样就很好理解了，而可以看到对齐结果如下：</p>
 
-<p><img src="http://skyinlayer.com/images/verticalalign/11.png" alt="Alt text" /></p>
+<p><img src="http://skyinlayer.com/img/verticalalign/11.png" alt="Alt text" /></p>
 
 <p>子元素盒子的margin-top上边界很好的和文本区域上边界对齐了</p>
 
@@ -253,7 +253,7 @@
 
 <p>有了上面的text-top的实例，这里就很好理解了，不过换个方向罢了，将子元素的margin-bottom和文本区域的下边界对齐：</p>
 
-<p><img src="http://skyinlayer.com/images/verticalalign/12.png" alt="Alt text" /></p>
+<p><img src="http://skyinlayer.com/img/verticalalign/12.png" alt="Alt text" /></p>
 
 <h3 id="sub">sub</h3>
 
@@ -265,11 +265,11 @@
 
 <p>子元素的baseline已经确定了，就是其margin-bottom下边界，但是父盒子的下标位置不太好理解…首先需要了解下标这个概念，我们可以通过<code>&lt;sub&gt;</code>标签为文字添加下标，将<code>&lt;span&gt;</code>中的内容修改为<code>Gg&lt;sub&gt;Gg&lt;/sub&gt;</code>，就会有如下效果：</p>
 
-<p><img src="http://skyinlayer.com/images/verticalalign/13.png" alt="Alt text" /></p>
+<p><img src="http://skyinlayer.com/img/verticalalign/13.png" alt="Alt text" /></p>
 
 <p>既然下标也是一段文字，其也有上述的三条线，文本区域上边界，文本区域下边界，baseline。这里是根据下标的baseline对齐的，也就是说，对齐下标中<code>G</code>字母的底部:</p>
 
-<p><img src="http://skyinlayer.com/images/verticalalign/14.png" alt="Alt text" /></p>
+<p><img src="http://skyinlayer.com/img/verticalalign/14.png" alt="Alt text" /></p>
 
 <h3 id="super">super</h3>
 
@@ -281,11 +281,11 @@
 
 <p>与sub对应，super提升到上标内容的baseline处，首先通过<code>&lt;sup&gt;</code>标签创建上标：</p>
 
-<p><img src="http://skyinlayer.com/images/verticalalign/15.png" alt="Alt text" /></p>
+<p><img src="http://skyinlayer.com/img/verticalalign/15.png" alt="Alt text" /></p>
 
 <p>也是三条线，和上面基准一样，将子元素的baseline对齐上标的baseline：</p>
 
-<p><img src="http://skyinlayer.com/images/verticalalign/16.png" alt="Alt text" /></p>
+<p><img src="http://skyinlayer.com/img/verticalalign/16.png" alt="Alt text" /></p>
 
 <h3 id="percentagelength">percentage和length</h3>
 
@@ -299,11 +299,11 @@
 
 <p>这个还是相当好理解的，就是相当于baseline升高或降低，具体数值为百分比乘以父盒子的line-height值，比如这里的例子，父盒子的line-height为200px，所以设定为25%的使用应当上移50px:</p>
 
-<p><img src="http://skyinlayer.com/images/verticalalign/17.png" alt="Alt text" /></p>
+<p><img src="http://skyinlayer.com/img/verticalalign/17.png" alt="Alt text" /></p>
 
 <p>并不是很直观，给它加上一个<code>transfrom: translate(0, 50px)</code>（相对下移50px）,它又移到那个熟悉的位置了：</p>
 
-<p><img src="http://skyinlayer.com/images/verticalalign/18.png" alt="Alt text" /></p>
+<p><img src="http://skyinlayer.com/img/verticalalign/18.png" alt="Alt text" /></p>
 
 <p>接下来看看length：</p>
 
@@ -331,7 +331,7 @@
 
 <p>如果设定子元素<code>height: 200px;</code>,<code>vertical-align: baseline</code>，那么可以看到整个父容器被撑开：</p>
 
-<p><img src="http://skyinlayer.com/images/verticalalign/19.png" alt="Alt text" /></p>
+<p><img src="http://skyinlayer.com/img/verticalalign/19.png" alt="Alt text" /></p>
 
 <p>由于根据上面的<code>vertical-align: baseline</code>进行垂直定位，规则并没有变。而由于规则3，line box的高度需要包含所有的内容，所以整个line box被撑开</p>
 
@@ -353,11 +353,11 @@
 
 <p>可以看到效果如下：</p>
 
-<p><img src="http://skyinlayer.com/images/verticalalign/20.png" alt="Alt text" /></p>
+<p><img src="http://skyinlayer.com/img/verticalalign/20.png" alt="Alt text" /></p>
 
 <p>由于规则2的计算，line box被这个big元素撑开，达到400px，如果我们将其降低到200px：</p>
 
-<p><img src="http://skyinlayer.com/images/verticalalign/21.png" alt="Alt text" /></p>
+<p><img src="http://skyinlayer.com/img/verticalalign/21.png" alt="Alt text" /></p>
 
 <p>则会由于其高度不够已有的高度，line box没有被撑开，这个big元素由于<code>vertical-align: top</code>而在line box顶端显示</p>
 
@@ -392,7 +392,7 @@
     background-color: antiquewhite;
 }</code></pre>
 
-<p><img src="http://skyinlayer.com/images/verticalalign/22.png" alt="Alt text" /></p>
+<p><img src="http://skyinlayer.com/img/verticalalign/22.png" alt="Alt text" /></p>
 
 <p>可以看到，big子元素撑开了line box，而child1的margin-top外边界紧贴在line box的顶端</p>
 
@@ -406,7 +406,7 @@
 
 <p>和top类似，由于big用于撑开line box，可以不必修改其<code>vertical-align</code>的值，仅修改child1为<code>vertical-align: bottom;</code>：</p>
 
-<p><img src="http://skyinlayer.com/images/verticalalign/23.png" alt="Alt text" /></p>
+<p><img src="http://skyinlayer.com/img/verticalalign/23.png" alt="Alt text" /></p>
 
 <h2 id="verticalalign_middle">vertical-align: middle让元素下移而不居中的问题分析</h2>
 
@@ -444,7 +444,7 @@
 
 <p>结果却只能得到如下效果：</p>
 
-<p><img src="http://skyinlayer.com/images/verticalalign/24.png" alt="Alt text" /></p>
+<p><img src="http://skyinlayer.com/img/verticalalign/24.png" alt="Alt text" /></p>
 
 <p>child-1元素下移了，但是却没有居中。</p>
 
@@ -460,7 +460,7 @@
 
 <p>综上，大致按照如下方式对齐：</p>
 
-<p><img src="http://skyinlayer.com/images/verticalalign/25.png" alt="Alt text" /></p>
+<p><img src="http://skyinlayer.com/img/verticalalign/25.png" alt="Alt text" /></p>
 
 <h3 id="_3">解决</h3>
 
@@ -608,7 +608,7 @@
 
 <h3 id="_5">题面</h3>
 
-<p><img src="http://skyinlayer.com/images/fe_interview/9.png" alt="第二题题面" /></p>
+<p><img src="http://skyinlayer.com/img/fe_interview/9.png" alt="第二题题面" /></p>
 
 <h3 id="_6">解答</h3>
 
@@ -631,7 +631,7 @@
 
 <h3 id="_8">题面</h3>
 
-<p><img src="http://skyinlayer.com/images/fe_interview/10.png" alt="第3题题面" /></p>
+<p><img src="http://skyinlayer.com/img/fe_interview/10.png" alt="第3题题面" /></p>
 
 <h3 id="_9">解答</h3>
 
@@ -690,7 +690,7 @@
 
 <h3 id="_11">题面</h3>
 
-<p><img src="http://skyinlayer.com/images/fe_interview/11.png" alt="第4题题面" /></p>
+<p><img src="http://skyinlayer.com/img/fe_interview/11.png" alt="第4题题面" /></p>
 
 <h3 id="_12">解答</h3>
 
@@ -702,7 +702,7 @@
 
 <h3 id="_14">题面</h3>
 
-<p><img src="http://skyinlayer.com/images/fe_interview/12.png" alt="第5题题面" /></p>
+<p><img src="http://skyinlayer.com/img/fe_interview/12.png" alt="第5题题面" /></p>
 
 <h3 id="_15">解答</h3>
 
@@ -742,7 +742,7 @@
 
 <h3 id="_17">题面</h3>
 
-<p><img src="http://skyinlayer.com/images/fe_interview/13.png" alt="第6题题面" /></p>
+<p><img src="http://skyinlayer.com/img/fe_interview/13.png" alt="第6题题面" /></p>
 
 <h3 id="_18">解答</h3>
 
@@ -754,7 +754,7 @@
 
 <h3 id="_20">题面</h3>
 
-<p><img src="http://skyinlayer.com/images/fe_interview/14.png" alt="第7题题面" /></p>
+<p><img src="http://skyinlayer.com/img/fe_interview/14.png" alt="第7题题面" /></p>
 
 <h3 id="_21">解答</h3>
 
@@ -794,7 +794,7 @@
 
 <h3 id="_23">题面</h3>
 
-<p><img src="http://skyinlayer.com/images/fe_interview/15.png" alt="第8题题面" /></p>
+<p><img src="http://skyinlayer.com/img/fe_interview/15.png" alt="第8题题面" /></p>
 
 <h3 id="_24">解答</h3>
 
@@ -831,7 +831,7 @@ console.log(unique(array));</code></pre>
 
 <h3 id="_26">题面</h3>
 
-<p><img src="http://skyinlayer.com/images/fe_interview/16.png" alt="第9题题面" /></p>
+<p><img src="http://skyinlayer.com/img/fe_interview/16.png" alt="第9题题面" /></p>
 
 <h3 id="_27">解答</h3>
 
@@ -864,7 +864,7 @@ if (window.addEventListener) {
 
 <h3 id="_29">题面</h3>
 
-<p><img src="http://skyinlayer.com/images/fe_interview/17.png" alt="第10题题面" /></p>
+<p><img src="http://skyinlayer.com/img/fe_interview/17.png" alt="第10题题面" /></p>
 
 <h3 id="_30">解答</h3>
 
@@ -938,11 +938,11 @@ if (window.addEventListener) {
 
 <p>另外使用clear清除浮动或由于被挤压而到下面时，设置margin-top是无效的，需要先使用一个div清除浮动，或是在上面一个元素设定margin-bottom</p>
 
-<p><img src="http://skyinlayer.com/images/layout/1.png" alt="清除浮动元素margin-top无效的解释1" /></p>
+<p><img src="http://skyinlayer.com/img/layout/1.png" alt="清除浮动元素margin-top无效的解释1" /></p>
 
-<p><img src="http://skyinlayer.com/images/layout/2.png" alt="清除浮动元素margin-top无效的解释2" /></p>
+<p><img src="http://skyinlayer.com/img/layout/2.png" alt="清除浮动元素margin-top无效的解释2" /></p>
 
-<p><img src="http://skyinlayer.com/images/layout/3.png" alt="清除浮动元素margin-top无效的解释3" /></p>
+<p><img src="http://skyinlayer.com/img/layout/3.png" alt="清除浮动元素margin-top无效的解释3" /></p>
 
 <h2 id="_2">定位</h2>
 
@@ -1104,7 +1104,7 @@ if (window.addEventListener) {
 <li>否则，将运用display属性</li>
 </ol>
 
-<p><img src="http://skyinlayer.com/images/layout/4.png" alt="display属性转换表" /></p> ]]></description>
+<p><img src="http://skyinlayer.com/img/layout/4.png" alt="display属性转换表" /></p> ]]></description>
                 <guid isPermaLink="false">http://skyinlayer.com/blog/2014/03/31/css-layout</guid>
             </item>
         
@@ -2913,7 +2913,7 @@ child.addEventListener(&quot;click&quot;, clickHandler, false);</code></pre>
 
 <p>点击子元素后可以看到console框中出现如下结果</p>
 
-<p><img src="http://skyinlayer.com/images/fe_interview/6.png" alt="console中显示parent元素和child元素都被点击了" /></p>
+<p><img src="http://skyinlayer.com/img/fe_interview/6.png" alt="console中显示parent元素和child元素都被点击了" /></p>
 
 <p>修改处理函数，添加<code>stopPropagaton()</code>方法：</p>
 
@@ -2924,7 +2924,7 @@ child.addEventListener(&quot;click&quot;, clickHandler, false);</code></pre>
 
 <p>再次点击子元素，console中将是如下结果</p>
 
-<p><img src="http://skyinlayer.com/images/fe_interview/7.png" alt="console中仅显示child元素都被点击了" /></p>
+<p><img src="http://skyinlayer.com/img/fe_interview/7.png" alt="console中仅显示child元素都被点击了" /></p>
 
 <h3 id="_17">阻止事件的默认行为</h3>
 
@@ -2957,7 +2957,7 @@ ul.addEventListener(&quot;click&quot;, function(evt){
 
 <p>点击各个li查看效果：</p>
 
-<p><img src="http://skyinlayer.com/images/fe_interview/8.png" alt="各个li元素被点击时都会触发事件并显示哪个li元素被点击" /></p>
+<p><img src="http://skyinlayer.com/img/fe_interview/8.png" alt="各个li元素被点击时都会触发事件并显示哪个li元素被点击" /></p>
 
 <p>这样我们就可以通过为ul增加一个事件代理来处理所有li元素的点击事件了。同理，我们可以使用事件代理让一个元素下的不同子元素共享一个事件处理逻辑</p>
 
@@ -3000,7 +3000,7 @@ ul.addEventListener(&quot;click&quot;, function(evt){
 
 <p>绘制一个如图红色十字架，方块长150px，宽50px：</p>
 
-<p><img src="http://skyinlayer.com/images/fe_interview/4.png" alt="一个长为150px大小的红十字架" /></p>
+<p><img src="http://skyinlayer.com/img/fe_interview/4.png" alt="一个长为150px大小的红十字架" /></p>
 
 <p>要求：</p>
 
@@ -3363,7 +3363,7 @@ DOMStringMap {first: &quot;asdfasdf&quot;, second: &quot;123&quot;, third: &quot
 
 <p>另外在设置了<code>display: none</code>和<code>visibility: hidden</code>的时候，将图片放在背景中将不会加载图片，而放在<code>&lt;img&gt;</code>标签中将会加载图片：</p>
 
-<p><img src="http://skyinlayer.com/images/fe_interview/5.png" alt="图片加载规则" /></p>
+<p><img src="http://skyinlayer.com/img/fe_interview/5.png" alt="图片加载规则" /></p>
 
 <h2 id="_15">第二十五题</h2>
 
@@ -3451,7 +3451,7 @@ function getComputedSize(dom){
 
 <p>location对象里面存放了当前URL的一些信息：</p>
 
-<p><img src="http://skyinlayer.com/images/fe_interview/1.png" alt="localtion对象存放的信息" /></p>
+<p><img src="http://skyinlayer.com/img/fe_interview/1.png" alt="localtion对象存放的信息" /></p>
 
 <p>location对象同时window对象和window.document对象的子对象：</p>
 
@@ -3464,7 +3464,7 @@ true</code></pre>
 
 <p>history对象是window对象的子对象，里面记录了访问历史：</p>
 
-<p><img src="http://skyinlayer.com/images/fe_interview/2.png" alt="history对象存放的信息" /></p>
+<p><img src="http://skyinlayer.com/img/fe_interview/2.png" alt="history对象存放的信息" /></p>
 
 <p>history与location对象不同的是，其不存在于window.document对象之中</p>
 
@@ -3782,7 +3782,7 @@ console.log(someObj.deepClone());</code></pre>
 
 <p>结果图：</p>
 
-<p><img src="http://skyinlayer.com/images/fe_interview/3.png" alt="深度复制成功" /></p>
+<p><img src="http://skyinlayer.com/img/fe_interview/3.png" alt="深度复制成功" /></p>
 
 <h2 id="_14">第十四题</h2>
 
@@ -4155,7 +4155,7 @@ scanPtr  </code></pre>
 <li>JSEP的架构同时也避免了在浏览器上保存连接的状态，防止其像一个状态机一样工作。由于页面经常被频繁的刷新，如果连接的状态保存在浏览器中，每次刷新都会丢失。使用JSEP能使得状态被保存在服务器上</li>
 </ol>
 
-<p><img src="http://skyinlayer.com/images/WebRTC/2.png" alt="JSEP的架构图" /></p>
+<p><img src="http://skyinlayer.com/img/WebRTC/2.png" alt="JSEP的架构图" /></p>
 
 <h2 id="session_description_protocol">会话描述协议（Session Description Protocol）</h2>
 
@@ -5474,7 +5474,7 @@ server.listen(port);</code></pre>
 
 <p>这么好的功能，各大浏览器厂商自然不会置之不理。现在WebRTC已经可以在较新版的Chrome、Opera和Firefox中使用了，著名的浏览器兼容性查询网站caniuse上给出了一份详尽的浏览器兼容情况</p>
 
-<p><img src="http://skyinlayer.com/images/WebRTC/1.png" alt="WebRTC浏览器兼容性from caniuse.com" /></p>
+<p><img src="http://skyinlayer.com/img/WebRTC/1.png" alt="WebRTC浏览器兼容性from caniuse.com" /></p>
 
 <p>另外根据36Kr前段时间的新闻<a href="http://www.36kr.com/p/205614.html">Google推出支持WebRTC及Web Audio的Android 版Chrome 29@36kr</a>和<a href="http://www.36kr.com/p/210209.html">Android版Opera开始支持WebRTC，允许用户在没有任何插件的情况下实现语音和视频聊天</a>，Android也开始支持WebRTC</p>
 
@@ -5610,7 +5610,7 @@ server.listen(port);</code></pre>
 
 <p>这些信息的交换应该在点对点的流传输之前就全部完成，一个大致的架构图如下：</p>
 
-<p><img src="http://skyinlayer.com/images/WebRTC/2.png" alt="JSEP架构" /></p>
+<p><img src="http://skyinlayer.com/img/WebRTC/2.png" alt="JSEP架构" /></p>
 
 <h3 id="_6">通过服务器建立信道</h3>
 
@@ -5634,7 +5634,7 @@ server.listen(port);</code></pre>
 
 <p>我们可以使用Google的STUN服务器：<code>stun:stun.l.google.com:19302</code>，于是乎，一个整合了ICE框架的架构应该长这个样子</p>
 
-<p><img src="http://skyinlayer.com/images/WebRTC/3.png" alt="整合了ICE框架的WebRTC应用架构" /></p>
+<p><img src="http://skyinlayer.com/img/WebRTC/3.png" alt="整合了ICE框架的WebRTC应用架构" /></p>
 
 <h3 id="_7">浏览器兼容</h3>
 
@@ -7470,9 +7470,9 @@ if (rawParams) {
     height: 10em;
 }</code></pre>
 
-<p><img src="/images/display/1.png" alt="display: block时的盒子模型" /></p>
+<p><img src="/img/display/1.png" alt="display: block时的盒子模型" /></p>
 
-<p><img src="/images/display/2.png" alt="display: block时的z真正显示的盒子模型" /></p>
+<p><img src="/img/display/2.png" alt="display: block时的z真正显示的盒子模型" /></p>
 
 <h2 id="display_inline">display: inline</h2>
 
@@ -7505,9 +7505,9 @@ if (rawParams) {
     border: 1em solid #FF8686;
 }</code></pre>
 
-<p><img src="/images/display/3.png" alt="display: inline时真正显示的盒子模型" /></p>
+<p><img src="/img/display/3.png" alt="display: inline时真正显示的盒子模型" /></p>
 
-<p><img src="/images/display/4.png" alt="display: inline时的盒子模型" /></p>
+<p><img src="/img/display/4.png" alt="display: inline时的盒子模型" /></p>
 
 <h2 id="display_inlineblock">display: inline-block</h2>
 
@@ -7536,9 +7536,9 @@ if (rawParams) {
     border: 1em solid #FF8686;
 }</code></pre>
 
-<p><img src="/images/display/5.png" alt="display: inline-block时的实际显示的盒子模型" /></p>
+<p><img src="/img/display/5.png" alt="display: inline-block时的实际显示的盒子模型" /></p>
 
-<p><img src="/images/display/6.png" alt="display: inline-block时的盒子模型" /></p>
+<p><img src="/img/display/6.png" alt="display: inline-block时的盒子模型" /></p>
 
 <h3 id="_13">其他</h3>
 
@@ -7554,7 +7554,7 @@ if (rawParams) {
     vertical-align: middle;
 }</code></pre>
 
-<p><img src="/images/display/7.png" alt="Alt text" /></p>
+<p><img src="/img/display/7.png" alt="Alt text" /></p>
 
 <h3 id="_14">浏览器兼容性</h3>
 
@@ -8674,7 +8674,7 @@ grunt.loadNpmTasks(&#39;grunt-contrib-cssmin&#39;);</code></pre>
 
 <p>效果图：</p>
 
-<p><img src="/images/BFC/1.png" alt="不触发BFC时垂直margin重叠" /></p>
+<p><img src="/img/BFC/1.png" alt="不触发BFC时垂直margin重叠" /></p>
 
 <p>可以看到，子元素inner和父元素outer的<code>margin-top</code>重叠了</p>
 
@@ -8693,7 +8693,7 @@ grunt.loadNpmTasks(&#39;grunt-contrib-cssmin&#39;);</code></pre>
 		background-color: blue;
 	}</code></pre>
 
-<p>效果图： <img src="/images/BFC/2.png" alt="触发BFC后垂直margin不重叠" /></p>
+<p>效果图： <img src="/img/BFC/2.png" alt="触发BFC后垂直margin不重叠" /></p>
 
 <p>在触发了父元素的BFC，于是乎margin不再重叠</p>
 
@@ -8723,11 +8723,11 @@ grunt.loadNpmTasks(&#39;grunt-contrib-cssmin&#39;);</code></pre>
 
 <p>效果图：</p>
 
-<p><img src="/images/BFC/3.png" alt="两个矩形重叠" /></p>
+<p><img src="/img/BFC/3.png" alt="两个矩形重叠" /></p>
 
-<p><img src="/images/BFC/4.png" alt="检索left元素" /></p>
+<p><img src="/img/BFC/4.png" alt="检索left元素" /></p>
 
-<p><img src="/images/BFC/5.png" alt="检索top元素" /></p>
+<p><img src="/img/BFC/5.png" alt="检索top元素" /></p>
 
 <p>可以从上面三张图看到，两个长方形被重叠了</p>
 
@@ -8753,7 +8753,7 @@ grunt.loadNpmTasks(&#39;grunt-contrib-cssmin&#39;);</code></pre>
 
 <p>效果图：</p>
 
-<p><img src="/images/BFC/6.png" alt="浮动元素与非浮动元素不再重叠" /></p>
+<p><img src="/img/BFC/6.png" alt="浮动元素与非浮动元素不再重叠" /></p>
 
 <p>两个矩形不再重叠，不过需要注意在非浮动元素上触发BFC</p>
 
@@ -8784,7 +8784,7 @@ grunt.loadNpmTasks(&#39;grunt-contrib-cssmin&#39;);</code></pre>
 
 <p>效果图：</p>
 
-<p><img src="/images/BFC/7.png" alt="outer没有被浮动元素撑开" /></p>
+<p><img src="/img/BFC/7.png" alt="outer没有被浮动元素撑开" /></p>
 
 <p>可以看到，outer并没有被撑开，查看元素发现其高度为0px</p>
 
@@ -8811,7 +8811,7 @@ grunt.loadNpmTasks(&#39;grunt-contrib-cssmin&#39;);</code></pre>
 
 <p>效果图：</p>
 
-<p><img src="/images/BFC/8.png" alt="触发BFC后outer被浮动元素撑开" /></p>
+<p><img src="/img/BFC/8.png" alt="触发BFC后outer被浮动元素撑开" /></p>
 
 <p>在outer上触发BFC后可以看到，outer的高度变成了100px，被left和right两个浮动元素撑开了</p>
 
@@ -8957,7 +8957,7 @@ grunt.loadNpmTasks(&#39;grunt-contrib-cssmin&#39;);</code></pre>
 
 <p>最终结果:</p>
 
-<p><img src="/images/selector_priority/1.png" alt="结果" /></p>
+<p><img src="/img/selector_priority/1.png" alt="结果" /></p>
 
 <p>可见!important凌驾于一切之上</p>
 
@@ -8984,13 +8984,13 @@ div.outer p{
 
 <p>结果如图：</p>
 
-<p><img src="/images/selector_priority/2.png" alt="结果" /></p>
+<p><img src="/img/selector_priority/2.png" alt="结果" /></p>
 
 <p>可以看到，outer的color属性为red，很好理解</p>
 
 <p>但inner的color也是red，可以检索一下元素发现：</p>
 
-<p><img src="/images/selector_priority/3.png" alt="结果" /></p>
+<p><img src="/img/selector_priority/3.png" alt="结果" /></p>
 
 <p>两个样式都被用在了inner上了，但<code>div.outer p</code>被最终采用。说明<code>div:not(.outer) p</code>的优先级不会大于<code>div.outer p</code>。</p>
 
@@ -9006,7 +9006,7 @@ div:not(.outer) p {
 
 <p>F5看看输出效果，inner的color属性变成green了</p>
 
-<p><img src="/images/selector_priority/4.png" alt="结果" /></p>
+<p><img src="/img/selector_priority/4.png" alt="结果" /></p>
 
 <p>由此可以看出<code>div.outer p</code>的优先级也不会大于<code>div:not(.outer) p</code>。这俩优先级一样，会按照最后声明的样式进行加载。这也充分证明了<code>:not</code>伪类是没有优先级的</p>
 
@@ -10014,7 +10014,7 @@ pip row(v_row);</code></pre>
                 <category>IT技术</category>
                 <author>lingyucoder@gmail.com (skyinlayer)</author>
                 <pubDate>Fri, 14 Feb 2014 00:00:00 +0800</pubDate>
-                <description><![CDATA[ <p><span class='image image-full'><img alt='响应式Web设计' src='/images/responsive.png' /></span></p>
+                <description><![CDATA[ <p><span class='image image-full'><img alt='响应式Web设计' src='/img/responsive.png' /></span></p>
 
 <p>总是在各个地方看到响应式Web设计。一直对其很感兴趣，也只是零零散散的接触，但并没有系统的去学习响应式。这两天读了Ben Frain著（王永强 译）的《响应式Web设计-HTML5和CSS3实践》，收获颇多，在这里记录一下</p>
 
@@ -11255,13 +11255,13 @@ $ git push origin gh-pages</code></pre>
 
 <p>希望实现的效果：</p>
 
-<p><img src="/images/mario.jpg" alt="马里奥" /></p>
+<p><img src="/img/mario.jpg" alt="马里奥" /></p>
 
 <h2 id="boxshadow">box-shadow属性</h2>
 
 <p>首先了解一下CSS3的box-shadow属性</p>
 
-<p><img src="/images/box-shadow.jpg" alt="box-shadow" /></p>
+<p><img src="/img/box-shadow.jpg" alt="box-shadow" /></p>
 
 <p>可以看到浏览器的支持还是相当不错的，就连IE也从9就支持了</p>
 

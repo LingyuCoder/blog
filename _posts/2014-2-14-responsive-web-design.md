@@ -2,13 +2,13 @@
 layout: art
 title: 聊聊响应式网页设计
 subTitle: 读《响应式Web设计-HTML5和CSS3实践》有感（响应式网页设计部分）
-desc: <span class="image image-full"><img src="/images/responsive.png"/></span>总是在各个地方看到响应式Web设计。一直对其很感兴趣，也只是零零散散的接触，但并没有系统的去学习响应式。这两天读了Ben Frain著（王永强 译）的《响应式Web设计-HTML5和CSS3实践》，收获颇多，在这里记录一下
+desc: <span class="image image-full"><img src="/img/responsive.png"/></span>总是在各个地方看到响应式Web设计。一直对其很感兴趣，也只是零零散散的接触，但并没有系统的去学习响应式。这两天读了Ben Frain著（王永强 译）的《响应式Web设计-HTML5和CSS3实践》，收获颇多，在这里记录一下
 tags: [JavaScript, HTML, CSS, 响应式]
 categories: [前端技术]
 ---
 {% raw %}
 
-<span class="image image-full">![响应式Web设计](/images/responsive.png)</span>
+<span class="image image-full">![响应式Web设计](/img/responsive.png)</span>
 
 总是在各个地方看到响应式Web设计。一直对其很感兴趣，也只是零零散散的接触，但并没有系统的去学习响应式。这两天读了Ben Frain著（王永强 译）的《响应式Web设计-HTML5和CSS3实践》，收获颇多，在这里记录一下
 

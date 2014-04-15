@@ -45,11 +45,11 @@ clear清除浮动，意思是确定当前元素不能与哪个方向的浮动元
 
 另外使用clear清除浮动或由于被挤压而到下面时，设置margin-top是无效的，需要先使用一个div清除浮动，或是在上面一个元素设定margin-bottom
 
-![清除浮动元素margin-top无效的解释1](http://skyinlayer.com/images/layout/1.png)
+![清除浮动元素margin-top无效的解释1](http://skyinlayer.com/img/layout/1.png)
 
-![清除浮动元素margin-top无效的解释2](http://skyinlayer.com/images/layout/2.png)
+![清除浮动元素margin-top无效的解释2](http://skyinlayer.com/img/layout/2.png)
 
-![清除浮动元素margin-top无效的解释3](http://skyinlayer.com/images/layout/3.png)
+![清除浮动元素margin-top无效的解释3](http://skyinlayer.com/img/layout/3.png)
 
 ##定位
 CSS中一个盒子的定位可以通过如下三种定位模式：
@@ -154,6 +154,6 @@ line box的高度有如下计算方式：
 4. 否则，如果盒子是根元素，display属性将按照如下表格确定
 5. 否则，将运用display属性
 
-![display属性转换表](http://skyinlayer.com/images/layout/4.png)
+![display属性转换表](http://skyinlayer.com/img/layout/4.png)
 
 {% endraw %}

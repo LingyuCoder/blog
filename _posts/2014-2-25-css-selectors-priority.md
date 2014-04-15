@@ -54,7 +54,7 @@ categories: [前端技术]
 ```
 最终结果:
 
-![结果](/images/selector_priority/1.png)
+![结果](/img/selector_priority/1.png)
 
 可见!important凌驾于一切之上
 
@@ -80,13 +80,13 @@ div.outer p{
 ```
 结果如图：
 
-![结果](/images/selector_priority/2.png)
+![结果](/img/selector_priority/2.png)
 
 可以看到，outer的color属性为red，很好理解
 
 但inner的color也是red，可以检索一下元素发现：
 
-![结果](/images/selector_priority/3.png)
+![结果](/img/selector_priority/3.png)
 
 两个样式都被用在了inner上了，但```div.outer p```被最终采用。说明```div:not(.outer) p```的优先级不会大于```div.outer p```。
 
@@ -102,7 +102,7 @@ div:not(.outer) p {
 ```
 F5看看输出效果，inner的color属性变成green了
 
-![结果](/images/selector_priority/4.png)
+![结果](/img/selector_priority/4.png)
 
 由此可以看出```div.outer p```的优先级也不会大于```div:not(.outer) p```。这俩优先级一样，会按照最后声明的样式进行加载。这也充分证明了```:not```伪类是没有优先级的
 

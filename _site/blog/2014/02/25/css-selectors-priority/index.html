@@ -112,7 +112,7 @@
 
 <p>最终结果:</p>
 
-<p><img src="/images/selector_priority/1.png" alt="结果" /></p>
+<p><img src="/img/selector_priority/1.png" alt="结果" /></p>
 
 <p>可见!important凌驾于一切之上</p>
 
@@ -139,13 +139,13 @@ div.outer p{
 
 <p>结果如图：</p>
 
-<p><img src="/images/selector_priority/2.png" alt="结果" /></p>
+<p><img src="/img/selector_priority/2.png" alt="结果" /></p>
 
 <p>可以看到，outer的color属性为red，很好理解</p>
 
 <p>但inner的color也是red，可以检索一下元素发现：</p>
 
-<p><img src="/images/selector_priority/3.png" alt="结果" /></p>
+<p><img src="/img/selector_priority/3.png" alt="结果" /></p>
 
 <p>两个样式都被用在了inner上了，但<code>div.outer p</code>被最终采用。说明<code>div:not(.outer) p</code>的优先级不会大于<code>div.outer p</code>。</p>
 
@@ -161,7 +161,7 @@ div:not(.outer) p {
 
 <p>F5看看输出效果，inner的color属性变成green了</p>
 
-<p><img src="/images/selector_priority/4.png" alt="结果" /></p>
+<p><img src="/img/selector_priority/4.png" alt="结果" /></p>
 
 <p>由此可以看出<code>div.outer p</code>的优先级也不会大于<code>div:not(.outer) p</code>。这俩优先级一样，会按照最后声明的样式进行加载。这也充分证明了<code>:not</code>伪类是没有优先级的</p>
 
@@ -331,7 +331,7 @@ div:not(.outer) p {
 	<h3>其他</h3>
 	<div class="inner">
 		<ul>
-			<li><a href="/online_markdown.html">在线编辑器</a></li>
+			<li><a href="/editor.html">在线编辑器</a></li>
 			<li><a href="/gitbook">读书笔记</a></li>
 			<li><a href="/about.html">关于我</a></li>
 		</ul>

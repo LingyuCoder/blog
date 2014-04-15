@@ -286,7 +286,7 @@ child.addEventListener("click", clickHandler, false);
 
 点击子元素后可以看到console框中出现如下结果
 
-![console中显示parent元素和child元素都被点击了](http://skyinlayer.com/images/fe_interview/6.png)
+![console中显示parent元素和child元素都被点击了](http://skyinlayer.com/img/fe_interview/6.png)
 
 修改处理函数，添加`stopPropagaton()`方法：
 ```javascript
@@ -298,7 +298,7 @@ var clickHandler = function(evt){
 
 再次点击子元素，console中将是如下结果
 
-![console中仅显示child元素都被点击了](http://skyinlayer.com/images/fe_interview/7.png)
+![console中仅显示child元素都被点击了](http://skyinlayer.com/img/fe_interview/7.png)
 
 ###阻止事件的默认行为
 在平常我们经常会遇到一个表单中有个提交按钮（type为submit），用于提交表单，但是我们不希望它直接提交，而是希望将其元素值提取之后进行ajax交互，于是就需要屏蔽提交按钮默认行为
@@ -333,7 +333,7 @@ ul.addEventListener("click", function(evt){
 
 点击各个li查看效果：
 
-![各个li元素被点击时都会触发事件并显示哪个li元素被点击](http://skyinlayer.com/images/fe_interview/8.png)
+![各个li元素被点击时都会触发事件并显示哪个li元素被点击](http://skyinlayer.com/img/fe_interview/8.png)
 
 这样我们就可以通过为ul增加一个事件代理来处理所有li元素的点击事件了。同理，我们可以使用事件代理让一个元素下的不同子元素共享一个事件处理逻辑
 

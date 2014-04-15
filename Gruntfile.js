@@ -8,10 +8,13 @@ module.exports = function(grunt) {
 
     // Auto-prefix CSS properties using Can I Use?
     autoprefixer: {
+      options: {
+        browsers: ['last 2 version', 'ie 9']
+      },
       multiple_files: {
         expand: true,
         flatten: true,
-        src: 'css/*.min.css', // -> src/css/file1.css, src/css/file2.css
+        src: 'src/css/*.css', // -> src/css/file1.css, src/css/file2.css
         dest: 'css/' // -> dest/css/file1.css, dest/css/file2.css
       },
     },
@@ -31,7 +34,7 @@ module.exports = function(grunt) {
     uglify: {
       my_target: {
         files: {
-          'js/md_editor.min.js': ['js/md_editor.js']
+          'js/editor.min.js': ['src/js/editor.js']
         }
       }
     },
@@ -51,8 +54,8 @@ module.exports = function(grunt) {
     //generate gitbook
     gitbook: {
       development: {
-        output: path.join(__dirname, "gitbook"),
-        input: "./gitbook-src",
+        output: path.join(__dirname, "/gitbook"),
+        input: "src/gitbook",
         title: "天镶的读书笔记",
         description: "这里记录了天镶读书时的收获和感悟",
         github: "LingyuCoder/blog"
@@ -85,7 +88,7 @@ module.exports = function(grunt) {
       src: ['**']
     }
   });
-  grunt.registerTask('publish', ['cssmin', 'autoprefixer', 'uglify', 'gitbook', 'jekyll', 'gh-pages']);
+  grunt.registerTask('publish', ['autoprefixer', 'cssmin', 'uglify', 'gitbook', 'jekyll', 'gh-pages']);
   // 默认执行的任务
-  grunt.registerTask('default', ['cssmin', 'autoprefixer', 'uglify', 'gitbook', 'jekyll']);
+  grunt.registerTask('default', ['autoprefixer', 'cssmin', 'uglify', 'gitbook', 'jekyll']);
 };

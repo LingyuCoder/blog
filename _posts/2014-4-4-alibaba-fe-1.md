@@ -58,7 +58,7 @@ return this.str.replace(/\{(\d+)\}/g, function (a, b) {
 
 ##第二题
 ###题面
-![第二题题面](http://skyinlayer.com/images/fe_interview/9.png)
+![第二题题面](http://skyinlayer.com/img/fe_interview/9.png)
 
 ###解答
 这题由于时间不太够，就没有写可执行代码，主要是涉及cookie操作。可以分成用户第一次进入检测，用户点击我知道了检测两个行为来分别处理：
@@ -79,7 +79,7 @@ document.cookie = 'visited=' + escape('1') + ';expires=' + new Date((new Date().
 
 ##第三题
 ###题面
-![第3题题面](http://skyinlayer.com/images/fe_interview/10.png)
+![第3题题面](http://skyinlayer.com/img/fe_interview/10.png)
 
 ###解答
 在ul的li上绑点击事件，典型的事件代理的题，要输出index，所以需要提前进行一些提前处理：
@@ -128,7 +128,7 @@ document.cookie = 'visited=' + escape('1') + ';expires=' + new Date((new Date().
 
 ##第四题
 ###题面
-![第4题题面](http://skyinlayer.com/images/fe_interview/11.png)
+![第4题题面](http://skyinlayer.com/img/fe_interview/11.png)
 
 ###解答
 妈蛋被坑了，没看到还要写出其框内内容，写了个绝对定位就交了，呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵
@@ -140,7 +140,7 @@ document.cookie = 'visited=' + escape('1') + ';expires=' + new Date((new Date().
 
 ##第五题
 ###题面
-![第5题题面](http://skyinlayer.com/images/fe_interview/12.png)
+![第5题题面](http://skyinlayer.com/img/fe_interview/12.png)
 
 ###解答
 这题是作文...完全答不全，这里的答案不一定对，都是网上摘抄的
@@ -164,7 +164,7 @@ http建立经过如下步骤：
 
 ##第六题
 ###题面
-![第6题题面](http://skyinlayer.com/images/fe_interview/13.png)
+![第6题题面](http://skyinlayer.com/img/fe_interview/13.png)
 ###解答
 这题本来不难，一个下拉框，可以只用html+css实现，活用一下css的伪类就行了，至于那个小箭头用after伪元素画一下问题不大，代码如下，测试了一下能到IE7：
 
@@ -176,7 +176,7 @@ http建立经过如下步骤：
 
 ##第七题
 ###题面
-![第7题题面](http://skyinlayer.com/images/fe_interview/14.png)
+![第7题题面](http://skyinlayer.com/img/fe_interview/14.png)
 
 ###解答
 表单序列化，获取表单中的元素然后获取他们的值，拼接成字符串，挺有意思的一道题
@@ -215,7 +215,7 @@ function serialize(form) {
 
 ##第八题
 ###题面
-![第8题题面](http://skyinlayer.com/images/fe_interview/15.png)
+![第8题题面](http://skyinlayer.com/img/fe_interview/15.png)
 ###解答
 数组去重...这还只是扁平数组，不难，去哪儿那题是嵌套数组。不过它竟然要自己构造数组。去重的话直接用一个Object做标记就行。也可以考虑直接用indexOf判断，不过效率会降低
 ```javascript
@@ -249,7 +249,7 @@ console.log(unique(array));
 
 ##第九题
 ###题面
-![第9题题面](http://skyinlayer.com/images/fe_interview/16.png)
+![第9题题面](http://skyinlayer.com/img/fe_interview/16.png)
 
 ###解答
 竟然会有这种题，好吧
@@ -280,7 +280,7 @@ if (window.addEventListener) {
 
 ##第十题
 ###题面
-![第10题题面](http://skyinlayer.com/images/fe_interview/17.png)
+![第10题题面](http://skyinlayer.com/img/fe_interview/17.png)
 
 ###解答
 呵呵，还能不能愉快的答题了`(╯‵□′)╯︵┻━┻`

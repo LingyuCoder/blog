@@ -13,12 +13,12 @@ tags: [css]
 
 希望实现的效果：
 
-![马里奥](/images/mario.jpg)
+![马里奥](/img/mario.jpg)
 
 ##box-shadow属性
 首先了解一下CSS3的box-shadow属性
 
-![box-shadow](/images/box-shadow.jpg)
+![box-shadow](/img/box-shadow.jpg)
 
 可以看到浏览器的支持还是相当不错的，就连IE也从9就支持了
 

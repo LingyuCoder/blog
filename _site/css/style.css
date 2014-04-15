@@ -71,7 +71,7 @@ a:hover {
 }
 
 body {
-  background-image: url(/images/i/sos.png);
+  background-image: url(/img/i/sos.png);
   background-color: #ECECEC;
   font-family: "Microsoft YaHei", Helvetica, Arial, sans-serif;
   color: #333;
@@ -110,8 +110,8 @@ a {
   position: relative;
   letter-spacing: 0.1em;
   font-weight: bold;
-  transition: all 0.25s linear;
   -webkit-transition: all 0.25s linear;
+  transition: all 0.25s linear;
 }
 
 a:after,
@@ -152,7 +152,7 @@ a:focus {
 }
 
 .content {
-  background: transparent url(/images/i/sep.png) no-repeat 50% 0;
+  background: transparent url(/img/i/sep.png) no-repeat 50% 0;
   margin: 0 0 1em;
   overflow: visible;
 }
@@ -331,11 +331,12 @@ a:focus {
 .content .post pre {
   position: relative;
   background-color: #424242;
-  background-image: url(/images/i/codeback.png);
+  background-image: url(/img/i/codeback.png);
   padding: 1em;
   border-radius: 0 0 1.5em 1.5em;
   margin: 60px 0 1em 0;
   font-size: .9em;
+  white-space: pre-wrap;
 }
 
 .content .post pre code {
@@ -501,7 +502,7 @@ a:focus {
 }
 
 .aside {
-  background: transparent url(/images/i/sep.png) no-repeat 50% 0;
+  background: transparent url(/img/i/sep.png) no-repeat 50% 0;
 }
 
 .aside section {
@@ -597,30 +598,29 @@ a:focus {
   display: inline-block;
   width: 1em;
   height: 1em;
-  -webkit-background-size: 1em 1em;
   background-size: 1em 1em;
   background-repeat: no-repeat;
   margin-right: 1em;
 }
 
 .aside .sub-feedly {
-  background-image: url(/images/rss/feedly.ico);
+  background-image: url(/img/rss/feedly.ico);
 }
 
 .aside .sub-xianguo {
-  background-image: url(/images/rss/xianguo.ico);
+  background-image: url(/img/rss/xianguo.ico);
 }
 
 .aside .sub-zhuaxia {
-  background-image: url(/images/rss/zhuaxia.ico);
+  background-image: url(/img/rss/zhuaxia.ico);
 }
 
 .aside .sub-yahoo {
-  background-image: url(/images/rss/yahoo.ico);
+  background-image: url(/img/rss/yahoo.ico);
 }
 
 .aside .sub-digg {
-  background-image: url(/images/rss/digg.ico);
+  background-image: url(/img/rss/digg.ico);
 }
 
 .all-tags .tags a {
@@ -749,7 +749,7 @@ a:focus {
     display: block;
     width: 30%;
     float: left;
-    background: transparent url(/images/i/waves.png) no-repeat 0 100%;
+    background: transparent url(/img/i/waves.png) no-repeat 0 100%;
     padding-bottom: 1em;
   }
 
@@ -827,7 +827,7 @@ a:focus {
   .content {
     float: right;
     width: 75%;
-    background: transparent url(/images/i/sep.png) no-repeat 0 0;
+    background: transparent url(/img/i/sep.png) no-repeat 0 0;
     display: inline-block;
     padding: 0;
     overflow: hidden;
@@ -876,16 +876,9 @@ a:focus {
 
 .aside,
 .header,
-.content,
-.post {
+.content {
   -webkit-animation: 1s FADEY ease-in-out 1 forwards;
   animation: 1s FADEY ease-in-out 1 forwards;
-}
-
-.content .post {
-  opacity: 0;
-  -webkit-animation-delay: 0.5s;
-  animation-delay: 0.5s;
 }
 
 .totop {

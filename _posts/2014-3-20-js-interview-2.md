@@ -10,7 +10,7 @@ categories: [笔试面试积累]
 ##第十五题
 绘制一个如图红色十字架，方块长150px，宽50px：
 
-![一个长为150px大小的红十字架](http://skyinlayer.com/images/fe_interview/4.png)
+![一个长为150px大小的红十字架](http://skyinlayer.com/img/fe_interview/4.png)
 
 要求：
 1. 使用2个div完成
@@ -330,7 +330,7 @@ HTML5提供了两种客户端存储数据的新方法的另一种，它不是针
 
 另外在设置了`display: none`和`visibility: hidden`的时候，将图片放在背景中将不会加载图片，而放在`<img>`标签中将会加载图片：
 
-![图片加载规则](http://skyinlayer.com/images/fe_interview/5.png)
+![图片加载规则](http://skyinlayer.com/img/fe_interview/5.png)
 
 ##第二十五题
 有两个盒子A、B，B在A盒子中，俩盒子的CSS如下：

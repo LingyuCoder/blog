@@ -61,7 +61,6 @@
   width: 100%;
   height: 100%;
   background-position: left;
-  -webkit-background-size: 600px 700px;
   background-size: 600px 700px;
   background-repeat: no-repeat;
   background-color: white;
@@ -111,7 +110,6 @@
   width: 100%;
   height: 100%;
   background-position: left;
-  -webkit-background-size: 240px 700px;
   background-size: 240px 700px;
   background-repeat: no-repeat;
   background-color: white;
@@ -151,7 +149,6 @@
   width: 100%;
   height: 100%;
   background-position: left;
-  -webkit-background-size: 600px 700px;
   background-size: 600px 700px;
   background-repeat: no-repeat;
   background-color: white;
@@ -168,7 +165,6 @@
   width: 30px;
   height: 100%;
   background-position: left;
-  -webkit-background-size: 30px 700px;
   background-size: 30px 700px;
   background-repeat: no-repeat;
   background-color: white;
@@ -240,7 +236,6 @@
   -webkit-transform: translateZ(13px) rotateY(0deg);
   -ms-transform: translateZ(13px) rotateY(0deg);
   transform: translateZ(13px) rotateY(0deg);
-  -webkit-box-shadow: inset 0px 0px 5px #f0f0f0;
   box-shadow: inset 0px 0px 5px #f0f0f0;
   z-index: 5;
 }
@@ -257,7 +252,6 @@
   -webkit-transform: translateZ(-13px) rotateY(180deg);
   -ms-transform: translateZ(-13px) rotateY(180deg);
   transform: translateZ(-13px) rotateY(180deg);
-  -webkit-box-shadow: inset 0px 0px 10px #f0f0f0;
   box-shadow: inset 0px 0px 10px #f0f0f0;
 }
 
@@ -273,7 +267,6 @@
   -webkit-transform: rotateY(90deg) translateZ(579px);
   -ms-transform: rotateY(90deg) translateZ(579px);
   transform: rotateY(90deg) translateZ(579px);
-  -webkit-box-shadow: inset 0px 0px 10px #f0f0f0;
   box-shadow: inset 0px 0px 10px #f0f0f0;
   z-index: 5;
 }
@@ -289,7 +282,6 @@
   -webkit-transform: rotateX(90deg) translateZ(10px);
   -ms-transform: rotateX(90deg) translateZ(10px);
   transform: rotateX(90deg) translateZ(10px);
-  -webkit-box-shadow: inset 0px 0px 10px #f0f0f0;
   box-shadow: inset 0px 0px 10px #f0f0f0;
 }
 
@@ -304,6 +296,5 @@
   -webkit-transform: rotateX(-90deg) translateZ(680px);
   -ms-transform: rotateX(-90deg) translateZ(680px);
   transform: rotateX(-90deg) translateZ(680px);
-  -webkit-box-shadow: inset 0px 0px 10px #f0f0f0;
   box-shadow: inset 0px 0px 10px #f0f0f0;
 }
