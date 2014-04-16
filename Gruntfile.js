@@ -83,7 +83,7 @@ module.exports = function(grunt) {
     jekyll: {
       options: {
         src: "build/",
-        dest: "_site/"
+        dest: "build/_site/"
       },
       build: {
         dist: {}
@@ -116,7 +116,7 @@ module.exports = function(grunt) {
   
   grunt.registerTask('build', ['autoprefixer', 'cssmin', 'uglify', 'gitbook', 'copy']);
 
-  grunt.registerTask('default', ['clean:initClean', 'build', 'jekyll:build']);
+  grunt.registerTask('default', ['clean:initClean', 'build', 'jekyll:build','clean:doneClean']);
 
   grunt.registerTask('server', ['clean:initClean', 'build', 'jekyll:server']);
 
