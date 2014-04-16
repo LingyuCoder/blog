@@ -1,0 +1,59 @@
+---
+layout: default
+cur: home
+title: 首页
+---
+{% for post in paginator.posts %}
+<article class="post">
+	<header>
+		<h2>{{ post.title }}</h2>
+		<span class="byline">{{ post.subTitle }}</span>
+	</header>
+	<div class="main">
+		<div class="brief">
+			{{ post.desc }}
+		</div>
+		<div class="info">
+			<div class="replies">
+				{{ post.date | date: "<span class='date'> <span class='month'>%b</span> <span class='day'>%-d</span> <span class='year'>%Y</span> </span>" }}
+				<ul class="stats" data-thread-key="{{ post.id | md5 }}">
+					<li class="comment fa fa-comment"></li>
+					<li class="heart fa fa-heart"></li>
+					<li class="weibo fa fa-weibo"></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<a class="to-detail" href="{{ post.url }}"></a>
+	<div class="tags">
+		{% for tag in post.tags %}
+			<a class="tag" href="/search.html?tag={{ tag }}" class="tag">{{ tag }}</a>
+		{% endfor %}
+	</div>
+</article>
+{% endfor %}
+
+
+{% if paginator.total_pages > 1 %}
+	<div class="pager">
+	{% if paginator.previous_page %}
+	  	<a href="{{ paginator.previous_page_path | prepend: site.baseurl | replace: '//', '/' }}" class="pre">上一页</a>
+	{% endif %}
+	
+	{% if paginator.next_page %}
+	  	<a href="{{ paginator.next_page_path | prepend: site.baseurl | replace: '//', '/' }}" class="next">下一页</a>
+	{% endif %}
+	
+		<div class="pages">
+		{% for page in (1..paginator.total_pages) %}
+		    {% if page == paginator.page %}
+		      <span class="active">{{ page }}</span>
+		    {% elsif page == 1 %}
+		      <a href="{{ '/index.html' | prepend: site.baseurl | replace: '//', '/' }}">{{ page }}</a>
+		    {% else %}
+		      <a href="{{ site.paginate_path | prepend: site.baseurl | replace: '//', '/' | replace: ':num', page }}">{{ page }}</a>
+		    {% endif %}
+		{% endfor %}
+		</div>
+	</div>
+{% endif %}

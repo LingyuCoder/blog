@@ -253,47 +253,47 @@ ulNode.addEventListener(&quot;click&quot;, function(evt){
 	<div class="inner">
 		<div class="tags">
 			
-			<a class="tag" href="/search.html?tag=WebSocket"> WebSocket</a>
+			<a class="tag" href="/search.html?tag=WebSocket" count="6"> WebSocket</a>
 		    
-			<a class="tag" href="/search.html?tag=NodeJs"> NodeJs</a>
+			<a class="tag" href="/search.html?tag=NodeJs" count="7"> NodeJs</a>
 		    
-			<a class="tag" href="/search.html?tag=xmpp"> xmpp</a>
+			<a class="tag" href="/search.html?tag=xmpp" count="1"> xmpp</a>
 		    
-			<a class="tag" href="/search.html?tag=WebIM"> WebIM</a>
+			<a class="tag" href="/search.html?tag=WebIM" count="6"> WebIM</a>
 		    
-			<a class="tag" href="/search.html?tag=css"> css</a>
+			<a class="tag" href="/search.html?tag=css" count="8"> css</a>
 		    
-			<a class="tag" href="/search.html?tag=github"> github</a>
+			<a class="tag" href="/search.html?tag=github" count="5"> github</a>
 		    
-			<a class="tag" href="/search.html?tag=jekyll"> jekyll</a>
+			<a class="tag" href="/search.html?tag=jekyll" count="5"> jekyll</a>
 		    
-			<a class="tag" href="/search.html?tag=jQuery"> jQuery</a>
+			<a class="tag" href="/search.html?tag=jQuery" count="1"> jQuery</a>
 		    
-			<a class="tag" href="/search.html?tag=JavaScript"> JavaScript</a>
+			<a class="tag" href="/search.html?tag=JavaScript" count="21"> JavaScript</a>
 		    
-			<a class="tag" href="/search.html?tag=生活"> 生活</a>
+			<a class="tag" href="/search.html?tag=生活" count="2"> 生活</a>
 		    
-			<a class="tag" href="/search.html?tag=思考"> 思考</a>
+			<a class="tag" href="/search.html?tag=思考" count="1"> 思考</a>
 		    
-			<a class="tag" href="/search.html?tag=HTML"> HTML</a>
+			<a class="tag" href="/search.html?tag=HTML" count="18"> HTML</a>
 		    
-			<a class="tag" href="/search.html?tag=CSS"> CSS</a>
+			<a class="tag" href="/search.html?tag=CSS" count="16"> CSS</a>
 		    
-			<a class="tag" href="/search.html?tag=响应式"> 响应式</a>
+			<a class="tag" href="/search.html?tag=响应式" count="3"> 响应式</a>
 		    
-			<a class="tag" href="/search.html?tag=oracle"> oracle</a>
+			<a class="tag" href="/search.html?tag=oracle" count="1"> oracle</a>
 		    
-			<a class="tag" href="/search.html?tag=存储函数"> 存储函数</a>
+			<a class="tag" href="/search.html?tag=存储函数" count="1"> 存储函数</a>
 		    
-			<a class="tag" href="/search.html?tag=grunt"> grunt</a>
+			<a class="tag" href="/search.html?tag=grunt" count="1"> grunt</a>
 		    
-			<a class="tag" href="/search.html?tag=设计"> 设计</a>
+			<a class="tag" href="/search.html?tag=设计" count="9"> 设计</a>
 		    
-			<a class="tag" href="/search.html?tag=笔试面试题"> 笔试面试题</a>
+			<a class="tag" href="/search.html?tag=笔试面试题" count="1"> 笔试面试题</a>
 		    
-			<a class="tag" href="/search.html?tag=WebRTC"> WebRTC</a>
+			<a class="tag" href="/search.html?tag=WebRTC" count="5"> WebRTC</a>
 		    
-			<a class="tag" href="/search.html?tag=SEO"> SEO</a>
+			<a class="tag" href="/search.html?tag=SEO" count="1"> SEO</a>
 		    
 		</div>
 	</div>
@@ -321,35 +321,14 @@ ulNode.addEventListener(&quot;click&quot;, function(evt){
 		</ul>
 	</div>
 </section>
-<script type="text/javascript">
-	var searchIpt = document.getElementById("searchIpt");
-	var searchBtn = document.getElementById("searchBtn");
-	var jumpToSearch = function(){
-		var title = searchIpt.value.replace(/^\s+|\s+$/g, '');
-		if(title){
-			window.location.href = "/search.html?title=" + title;
-		}
-	};
-	searchIpt.onkeydown = function(event){
-		if(event.keyCode === 13){
-			jumpToSearch();
-		}
-		event.stopPropagation();
-	};
-	searchBtn.onclick = function(event){
-		jumpToSearch();
-		event.stopPropagation();
-		event.preventDefault();
-	};
-</script>
 		</aside>
 		<footer class="footer">
 			<p>&copy; 2014 天镶 Skyinlayer</p>
 		</footer>
 	</div>
 </body>
-<script src="http://cdn.staticfile.org/jquery/2.1.1-beta1/jquery.min.js"></script>
-<script src="http://cdn.staticfile.org/highlight.js/8.0/highlight.min.js"></script>
+<script type="text/javascript" src="http://cdn.staticfile.org/jquery/2.1.1-beta1/jquery.min.js"></script>
+<script type="text/javascript" src="http://cdn.staticfile.org/highlight.js/8.0/highlight.min.js"></script>
 <script type="text/javascript">
 	$(function() {
 		var $totop = $("#totop");
@@ -384,6 +363,26 @@ ulNode.addEventListener(&quot;click&quot;, function(evt){
 		$('pre code').each(function(i, e) {
 			hljs.highlightBlock(e);
 		});
+		var $searchIpt = $("#searchIpt");
+		var $searchBtn = $("#searchBtn");
+		var jumpToSearch = function(){
+			var title = $searchIpt.val().replace(/^\s+|\s+$/g, '');
+			if(title){
+				window.location.href = "/search.html?title=" + title;
+			}
+		};
+		$searchIpt.on("keydown", function(event) {
+			if (event.keyCode === 13) {
+				jumpToSearch();
+			}
+			event.stopPropagation();
+		});
+		$searchBtn.on("click", function(event){
+			jumpToSearch();
+			event.stopPropagation();
+			event.preventDefault();
+		});
+
 
 	});
 	var duoshuoQuery = {
