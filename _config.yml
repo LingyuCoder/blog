@@ -1,0 +1,6 @@
+baseurl: /
+encoding: utf-8
+paginate: 5
+paginate_path: "test/page:num"
+permalink: /blog/:year/:month/:day/:title
+exclude: ["node_modules", "Gruntfile.js", "package.json", "src"]

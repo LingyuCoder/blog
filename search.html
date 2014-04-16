@@ -1,0 +1,99 @@
+---
+layout: default
+cur: search
+title: 文章分类
+---
+{% raw %}
+<section ng-app="archieves">
+	<article class="post" ng-controller="ArchievesCtrl">
+		<header>
+			<h2>所有文章</h2>
+			<span class="byline">{{ archieves.length }}篇文章</span>
+		</header>
+		<div class="condition" id="titleQuery">
+			<span class="label">标题查找:</span>
+			<input type="text" ng-init="titleQuery = urlInfo.query['title']" ng-model="titleQuery" placeholder="请输入查找标题或标题片段"/>
+		</div>
+		<div class="condition" id="tagQuery">
+			<span class="label">标签检索:</span>
+			<select ng-init="tagQuery = urlInfo.query['tag']" ng-model="tagQuery" ng-options="tag for tag in tags"></select>
+		</div>
+		<div class="condition" id="catQuery">
+			<span class="label">分类检索:</span>
+			<select ng-init="catQuery = urlInfo.query['cat']"  ng-model="catQuery" ng-options="cat for cat in categories"></select>
+		</div>
+		<ul id="archieves" class="arc-list">
+			<li ng-repeat="arch in archieves | filter: arcFilter">
+				<span class='date'>{{ arch.date }}</span><a href='{{ arch.url }}'>{{ arch.title }}</a></li>
+			</li>
+		</ul>
+	</article>
+</section>
+<script type="text/javascript" src="http://cdn.staticfile.org/angular.js/1.3.0-beta.3/angular.min.js"></script>
+<script type="text/javascript">
+	angular.module("archieves", [])
+		.controller("ArchievesCtrl", function($scope, $http, $window) {
+			$scope.urlInfo = (function(url) {
+				if (typeof url !== "string") {
+					throw Error("The param is not a string!!!");
+				}
+				if (url === "") {
+					throw Error("The param is an empty string!!!");
+				}
+				var regResult = url.match(/^(?:(\w+)\:\/\/)?([\w\d]+(?:\.[\w]+)*)(?:\:(\d+))?(?:\/([^?#]+))?(?:\?([^#]*))?(?:#(.*))?$/);
+				var result = {
+					url: regResult[0],
+					scheme: regResult[1],
+					host: regResult[2],
+					port: regResult[3],
+					path: regResult[4],
+					query: regResult[5],
+					fragment: regResult[6]
+				};
+
+				if (typeof result.query !== "undefined") {
+					var rawParams = result.query.match(/([^=&]+)=([^&=]+)/g);
+					var tmp;
+					result.query = {};
+					if (rawParams) {
+						for (var i = rawParams.length; i--;) {
+							tmp = rawParams[i].split("=");
+							result.query[tmp[0]] = decodeURI(tmp[1]);
+						}
+					}
+				}
+				return result;
+			})($window.location.href);
+			$http.get("/archieves.json").success(function(data) {
+				$scope.archieves = data;
+			});
+
+			$http.get("/tags.json").success(function(data) {
+				$scope.tags = data;
+			});
+
+			$http.get("/categories.json").success(function(data) {
+				$scope.categories = data;
+			});
+
+			$scope.arcFilter = function(arc) {
+				if ($scope.tagQuery) {
+					if (arc.tags.indexOf($scope.tagQuery) === -1) {
+						return false;
+					}
+				}
+				if ($scope.catQuery) {
+					if (arc.categories.indexOf($scope.catQuery) === -1) {
+						return false;
+					}
+				}
+				if ($scope.titleQuery) {
+					if (arc.title.indexOf($scope.titleQuery) === -1) {
+						return false;
+					}
+				}
+				return true;
+			};
+		});
+</script>
+{% endraw %}
