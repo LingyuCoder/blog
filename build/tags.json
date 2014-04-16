@@ -1,4 +1,0 @@
----
-layout: nil
----
-[{% for tag in site.tags %} "{{tag[0]}}"{% if forloop.last == false %},{% endif %}{% endfor %}]
