@@ -132,11 +132,10 @@ blockquote {font-size: 1.25em;line-height: 1.25em;}
     .m-mn .pager .u-next:after{border-top: 1rem solid transparent; border-bottom: 1rem solid transparent; }
     .m-mn .pager .u-pre:after,
     .m-mn .pager .u-next:before {border-top: 1rem solid #16a085; border-bottom: 1rem solid #16a085; }
-  .m-mn .content {line-height: 1.5rem;}
+  /* .m-mn .content {line-height: 1.5rem;}
   .m-mn .content th,
   .m-mn .content td {border: 1px solid #555; padding: .2em 2em; }
   .m-mn .content th {font-weight: bold;}
-  .m-mn .content img{max-width: 100%;}
   .m-mn .content p {margin-bottom: .5rem}
   .m-mn .content h1{ color: #222;}
   .m-mn .content h2{ color: #222;}
@@ -147,14 +146,15 @@ blockquote {font-size: 1.25em;line-height: 1.25em;}
   .m-mn .content ul{ list-style: disc}
   .m-mn .content blockquote {padding: .3em 1em .2em 1em; border-left: 8px solid #707070; background-color: #CCC; font-style: italic; font-size: .9rem; line-height: 1.5rem; }
   .m-mn .content ol li,
-  .m-mn .content ul li{ line-height: 1.4em;margin-bottom: .7em;}
+  .m-mn .content ul li{ line-height: 1.4em;margin-bottom: .7em;}*/
+  .m-mn .content img{max-width: 100%;}
   .m-mn .content pre {position:relative;margin-bottom:.5rem;background: #222 url(http://skyinlayerblog.qiniudn.com/img/back/b_hd_ft.png);padding: 2.2rem 1rem 1rem;border-radius: 1rem 0 1rem 1rem;}
     .m-mn .content pre:before {content: "code"; position: absolute; padding: .2em 1em .2em 1.3em; background-color: #16a085; right: 0; top: 0; color: #fff; border-bottom-left-radius: 1rem; opacity: 0.7; font-size: .8rem }
   .m-mn .content pre.javascript:before {content: "JavaScript"; }
   .m-mn .content pre.css21:before {content: "CSS";}
   .m-mn .content pre.xml:before {content: "HTML/XML";}
   .m-mn .content pre code{display: block; font: 14px Consolas,Monaco,'Courier New',Courier,'Andale Mono','DejaVu Sans Mono',monospace; color: #fff; margin: 0; padding: 0; white-space: pre-wrap; border: none; background: none; border-radius: 0; }
-  .m-mn .content code {font: 14px Consolas,Monaco,'Courier New',Courier,'Andale Mono','DejaVu Sans Mono',monospace; color: #ea2765; margin: 0 2px; padding: 1px 4px; white-space: normal; border: 1px solid #ccc; background-color: #f8f8f8; border-radius: 3px; }
+  .m-mn .content code {font: 14px Consolas,Monaco,'Courier New',Courier,'Andale Mono','DejaVu Sans Mono',monospace; color: #ea2765; margin: 0 2px; padding: 1px 4px; white-space: normal; border: 1px solid #ccc; background-color: #f8f8f8; border-radius: 3px; } 
  
 .m-sd { background-color: #222; color: #fff; font-weight: bold;  text-align: left; box-shadow: 0 0 5px rgba(0, 0, 0, .2); }
   .m-sd a {text-decoration: none; color: #fff; }
