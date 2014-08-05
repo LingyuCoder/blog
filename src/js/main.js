@@ -144,6 +144,7 @@ BlogModule.controller("BlogController", function($scope, $http, $filter, $locati
 		for (i = 0, len = archieves.length; i < len; i++) {
 			archieve = archieves[i];
 			artInfo = dsInfos[archieve.id];
+			console.log(archieve, dsInfos, artInfo);
 			archieve.comment = artInfo.comments;
 			archieve.like = artInfo.likes;
 			archieve.weibo = artInfo.weibo_reposts;
