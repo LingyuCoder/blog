@@ -1,10 +1,6 @@
 {
   "name": "skyinlayer-blog",
-<<<<<<< HEAD
   "version": "1.5.4",
-=======
-  "version": "1.6.0",
->>>>>>> 008f00d1a6f9cbefc3dfe66afcc28a261599e57c
   "private": true,
   "author": {
     "name": "lingyucoder",

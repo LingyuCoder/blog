@@ -19,11 +19,7 @@ module.exports = function(grunt) {
         expand: true,
         flatten: true,
         src: 'src/css/*.css', // -> src/css/file1.css, src/css/file2.css
-<<<<<<< HEAD
         dest: 'build/css/' // -> dest/css/file1.css, dest/css/file2.css
-=======
-        dest: 'css/' // -> dest/css/file1.css, dest/css/file2.css
->>>>>>> 008f00d1a6f9cbefc3dfe66afcc28a261599e57c
       },
     },
 
@@ -31,11 +27,7 @@ module.exports = function(grunt) {
     cssmin: {
       minify: {
         expand: true,
-<<<<<<< HEAD
         cwd: 'build/css/',
-=======
-        cwd: 'css/',
->>>>>>> 008f00d1a6f9cbefc3dfe66afcc28a261599e57c
         src: ['*.css', '!*.min.css'],
         dest: 'build/css/',
         ext: '.min.css'
@@ -76,27 +68,19 @@ module.exports = function(grunt) {
     copy: {
       main: {
         files: [
-<<<<<<< HEAD
           {src: 'src/js/main.js', dest: 'build/js/main.min.js'},
-=======
->>>>>>> 008f00d1a6f9cbefc3dfe66afcc28a261599e57c
           {expand: true, flatten: true, src: ['src/include/*'], dest: 'build/_includes/', filter: 'isFile'},
           {expand: true, flatten: true, src: ['src/template/*'], dest: 'build/_layouts/', filter: 'isFile'},
           {expand: true, flatten: true, src: ['src/json/*'], dest: 'build/', filter: 'isFile'},
           {expand: true, flatten: true, src: ['src/page/*'], dest: 'build/', filter: 'isFile'},
           {expand: true, flatten: true, src: ['src/achieve/*'], dest: 'build/_posts/', filter: 'isFile'},
           {expand: true, flatten: true, src: ['src/other/*'], dest: 'build/', filter: 'isFile'},
-<<<<<<< HEAD
           {expand: true, flatten: true, src: ['src/font/*'], dest: 'build/font/', filter: 'isFile'},
           {expand: true, cwd: 'src/img', src: ['**'], dest: 'build/img/'},
         ]
       },
       buildToPublish: {
           files: [{expand: true, cwd: 'build/', src: ['**'], dest: 'publish/'}]
-=======
-          {expand: true, cwd: 'src/img', src: ['**'], dest: 'build/img/'},
-        ]
->>>>>>> 008f00d1a6f9cbefc3dfe66afcc28a261599e57c
       }
     },
 
@@ -104,11 +88,7 @@ module.exports = function(grunt) {
     jekyll: {
       options: {
         src: "build/",
-<<<<<<< HEAD
         dest: "build/_site/"
-=======
-        dest: "_site/"
->>>>>>> 008f00d1a6f9cbefc3dfe66afcc28a261599e57c
       },
       build: {
         dist: {}
@@ -123,12 +103,7 @@ module.exports = function(grunt) {
 
     'gh-pages': {
       options: {
-<<<<<<< HEAD
         base: 'build',
-=======
-        base: '.',
-        add: true,
->>>>>>> 008f00d1a6f9cbefc3dfe66afcc28a261599e57c
         branch: 'gh-pages',
         repo: 'git@github.com:LingyuCoder/blog.git',
         message: '小管家自动提交',
@@ -136,10 +111,7 @@ module.exports = function(grunt) {
           name: 'Skyinlayer',
           email: 'lingyucoder@gmail.com'
         },
-<<<<<<< HEAD
         clone: 'publish',
-=======
->>>>>>> 008f00d1a6f9cbefc3dfe66afcc28a261599e57c
         tag: 'v<%= pkg.version %>',
         push: true,
       },
@@ -149,17 +121,9 @@ module.exports = function(grunt) {
   
   grunt.registerTask('build', ['autoprefixer', 'cssmin', 'uglify', 'gitbook', 'copy']);
 
-<<<<<<< HEAD
   grunt.registerTask('default', ['clean:initClean', 'build', 'jekyll:build']);
 
   grunt.registerTask('server', ['clean:initClean', 'build', 'jekyll:server']);
 
   grunt.registerTask('publish', ['default', 'copy:buildToPublish','gh-pages']);
-=======
-  grunt.registerTask('default', ['clean:initClean', 'build', 'jekyll:build','clean:doneClean']);
-
-  grunt.registerTask('server', ['clean:initClean', 'build', 'jekyll:server']);
-
-  grunt.registerTask('publish', ['default', 'gh-pages']);
->>>>>>> 008f00d1a6f9cbefc3dfe66afcc28a261599e57c
 };
