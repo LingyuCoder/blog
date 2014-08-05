@@ -59,7 +59,7 @@ categories: [前端技术]
 }
 ```
 效果图如下：
-![Alt text](http://skyinlayer.com/img/verticalalign/1.png)
+![Alt text](http://lingyu.wang/img/verticalalign/1.png)
 
 可以看到，inline元素只会将其content box用来定位，而inline-block元素则会将将其margin box用来定位。结合inline元素的特性，就很好理解了
 
@@ -67,7 +67,7 @@ categories: [前端技术]
 
 ##baseline的确定
 ###什么是baseline
-![Alt text](http://skyinlayer.com/img/verticalalign/2.png)
+![Alt text](http://lingyu.wang/img/verticalalign/2.png)
 
 这里大写字母`G`底端的那条线，即为baseline
 
@@ -100,7 +100,7 @@ categories: [前端技术]
 
 这里`.ctn-block`为父元素，`.child1`为子元素，父元素的baseline根据规则，为最后一个line box的baseline，也就是说其baseline为如下红线：
 
-![Alt text](http://skyinlayer.com/img/verticalalign/3.png)
+![Alt text](http://lingyu.wang/img/verticalalign/3.png)
 
 而由于子元素为`display: inline-block`，其内部没有内容，也没有line box，所以根据如下计算规则:
 
@@ -108,7 +108,7 @@ categories: [前端技术]
 
 那么，它的baseline就是其margin-bottom边界，如红线所示：
 
-![Alt text](http://skyinlayer.com/img/verticalalign/4.png)
+![Alt text](http://lingyu.wang/img/verticalalign/4.png)
 
 ###元素的baseline
 inline-table元素的baseline是它table第一行的baseline
@@ -159,13 +159,13 @@ CSS 2.1没有定义baseline具体的位置。但经过测试，在chrome中，li
 
 可以看到布局效果如下：
 
-![Alt text](http://skyinlayer.com/img/verticalalign/5.png)
+![Alt text](http://lingyu.wang/img/verticalalign/5.png)
 
 由于child-1没有内容，其baseline为其margin-bottom外边界，而child-2和child-3的baseline则是其内部最后一个line box的baseline，而由于其设定为`vertical-align:baseline`，child-1的baseline处在最下面，child-2和child-3的baseline均与child-1的baseline对齐
 
 增加child-3的内容：
 
-![Alt text](http://skyinlayer.com/img/verticalalign/6.png)
+![Alt text](http://lingyu.wang/img/verticalalign/6.png)
 
 布局发生改变，child-1和child-2的baseline都对齐child-3的baseline了
 
@@ -177,7 +177,7 @@ CSS 2.1没有定义baseline具体的位置。但经过测试，在chrome中，li
 
 vertical-align默认就是baseline，所以这里会将子元素和父盒子的baseline对齐：
 
-![Alt text](http://skyinlayer.com/img/verticalalign/7.png)
+![Alt text](http://lingyu.wang/img/verticalalign/7.png)
 
 ###middle
 将子元素盒子的垂直中点与 父盒子的baseline加上父盒子的x-height的一半位置 对齐
@@ -192,7 +192,7 @@ vertical-align默认就是baseline，所以这里会将子元素和父盒子的b
 
 为了方便，将内容换成"Xx"，由于X(无论大小写)下边界都是顶着baseline的，而小写字母"x"这种上下对称的字母，其中点所在的水平直线就是子元素中点所需要对齐的直线了：
 
-![Alt text](http://skyinlayer.com/img/verticalalign/8.png)
+![Alt text](http://lingyu.wang/img/verticalalign/8.png)
 
 ###text-top
 将盒子的顶端（margin-top边界）与父盒子的文本区域顶端对齐
@@ -201,15 +201,15 @@ vertical-align默认就是baseline，所以这里会将子元素和父盒子的b
 
 这里盒子的顶端（margin-top上边界）很好确定，而父盒子的文本区域顶端又是哪里？
 
-![Alt text](http://skyinlayer.com/img/verticalalign/9.png)
+![Alt text](http://lingyu.wang/img/verticalalign/9.png)
 
 审查一下文本，可以看到，蓝色的区域上边界就是文本区域：
 
-![Alt text](http://skyinlayer.com/img/verticalalign/10.png)
+![Alt text](http://lingyu.wang/img/verticalalign/10.png)
 
 这样就很好理解了，而可以看到对齐结果如下：
 
-![Alt text](http://skyinlayer.com/img/verticalalign/11.png)
+![Alt text](http://lingyu.wang/img/verticalalign/11.png)
 
 子元素盒子的margin-top上边界很好的和文本区域上边界对齐了
 
@@ -220,7 +220,7 @@ vertical-align默认就是baseline，所以这里会将子元素和父盒子的b
 
 有了上面的text-top的实例，这里就很好理解了，不过换个方向罢了，将子元素的margin-bottom和文本区域的下边界对齐：
 
-![Alt text](http://skyinlayer.com/img/verticalalign/12.png)
+![Alt text](http://lingyu.wang/img/verticalalign/12.png)
 
 ###sub
 将子元素盒子的baseline降低，到适当的父盒子的下标位置
@@ -229,11 +229,11 @@ vertical-align默认就是baseline，所以这里会将子元素和父盒子的b
 
 子元素的baseline已经确定了，就是其margin-bottom下边界，但是父盒子的下标位置不太好理解...首先需要了解下标这个概念，我们可以通过`<sub>`标签为文字添加下标，将`<span>`中的内容修改为`Gg<sub>Gg</sub>`，就会有如下效果：
 
-![Alt text](http://skyinlayer.com/img/verticalalign/13.png)
+![Alt text](http://lingyu.wang/img/verticalalign/13.png)
 
 既然下标也是一段文字，其也有上述的三条线，文本区域上边界，文本区域下边界，baseline。这里是根据下标的baseline对齐的，也就是说，对齐下标中`G`字母的底部:
 
-![Alt text](http://skyinlayer.com/img/verticalalign/14.png)
+![Alt text](http://lingyu.wang/img/verticalalign/14.png)
 
 ###super
 将子元素盒子的baseline升高，到适当的父盒子的上标位置
@@ -242,11 +242,11 @@ vertical-align默认就是baseline，所以这里会将子元素和父盒子的b
 
 与sub对应，super提升到上标内容的baseline处，首先通过`<sup>`标签创建上标：
 
-![Alt text](http://skyinlayer.com/img/verticalalign/15.png)
+![Alt text](http://lingyu.wang/img/verticalalign/15.png)
 
 也是三条线，和上面基准一样，将子元素的baseline对齐上标的baseline：
 
-![Alt text](http://skyinlayer.com/img/verticalalign/16.png)
+![Alt text](http://lingyu.wang/img/verticalalign/16.png)
 
 ###percentage和length
 首先看看percentage（百分比）：
@@ -256,11 +256,11 @@ vertical-align默认就是baseline，所以这里会将子元素和父盒子的b
 
 这个还是相当好理解的，就是相当于baseline升高或降低，具体数值为百分比乘以父盒子的line-height值，比如这里的例子，父盒子的line-height为200px，所以设定为25%的使用应当上移50px:
 
-![Alt text](http://skyinlayer.com/img/verticalalign/17.png)
+![Alt text](http://lingyu.wang/img/verticalalign/17.png)
 
 并不是很直观，给它加上一个`transfrom: translate(0, 50px)`（相对下移50px）,它又移到那个熟悉的位置了：
 
-![Alt text](http://skyinlayer.com/img/verticalalign/18.png)
+![Alt text](http://lingyu.wang/img/verticalalign/18.png)
 
 接下来看看length：
 
@@ -281,7 +281,7 @@ vertical-align默认就是baseline，所以这里会将子元素和父盒子的b
 
 如果设定子元素`height: 200px;`,`vertical-align: baseline`，那么可以看到整个父容器被撑开：
 
-![Alt text](http://skyinlayer.com/img/verticalalign/19.png)
+![Alt text](http://lingyu.wang/img/verticalalign/19.png)
 
 由于根据上面的`vertical-align: baseline`进行垂直定位，规则并没有变。而由于规则3，line box的高度需要包含所有的内容，所以整个line box被撑开
 
@@ -305,11 +305,11 @@ vertical-align默认就是baseline，所以这里会将子元素和父盒子的b
 
 可以看到效果如下：
 
-![Alt text](http://skyinlayer.com/img/verticalalign/20.png)
+![Alt text](http://lingyu.wang/img/verticalalign/20.png)
 
 由于规则2的计算，line box被这个big元素撑开，达到400px，如果我们将其降低到200px：
 
-![Alt text](http://skyinlayer.com/img/verticalalign/21.png)
+![Alt text](http://lingyu.wang/img/verticalalign/21.png)
 
 则会由于其高度不够已有的高度，line box没有被撑开，这个big元素由于`vertical-align: top`而在line box顶端显示
 
@@ -344,7 +344,7 @@ vertical-align默认就是baseline，所以这里会将子元素和父盒子的b
 }
 ```
 
-![Alt text](http://skyinlayer.com/img/verticalalign/22.png)
+![Alt text](http://lingyu.wang/img/verticalalign/22.png)
 
 可以看到，big子元素撑开了line box，而child1的margin-top外边界紧贴在line box的顶端
 
@@ -355,7 +355,7 @@ vertical-align默认就是baseline，所以这里会将子元素和父盒子的b
 
 和top类似，由于big用于撑开line box，可以不必修改其`vertical-align`的值，仅修改child1为`vertical-align: bottom;`：
 
-![Alt text](http://skyinlayer.com/img/verticalalign/23.png)
+![Alt text](http://lingyu.wang/img/verticalalign/23.png)
 
 ##vertical-align: middle让元素下移而不居中的问题分析
 ###问题
@@ -394,7 +394,7 @@ vertical-align默认就是baseline，所以这里会将子元素和父盒子的b
 
 结果却只能得到如下效果：
 
-![Alt text](http://skyinlayer.com/img/verticalalign/24.png)
+![Alt text](http://lingyu.wang/img/verticalalign/24.png)
 
 child-1元素下移了，但是却没有居中。
 
@@ -409,7 +409,7 @@ child-1元素下移了，但是却没有居中。
 
 综上，大致按照如下方式对齐：
 
-![Alt text](http://skyinlayer.com/img/verticalalign/25.png)
+![Alt text](http://lingyu.wang/img/verticalalign/25.png)
 
 ###解决
 一种方式是将最高的元素设为`vertical-align: middle`

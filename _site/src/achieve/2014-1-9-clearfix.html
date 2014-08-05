@@ -1,0 +1,12 @@
+
+<p>传统方法：
+<code>css
+.clear{clear:both;height:0;overflow:hidden;}
+</code>
+这样在需要闭合的地方加一个div.clear就行了，但是会改变html文档结构，所以建议使用以下方式：
+<code>css
+.clearfix:after{content:".";display:block;height:0;clear:both;visibility:hidden}
+.clearfix{*+height:1%;}
+</code>
+使用after伪类后可以不用改变html文档结构即完成浮动闭合,加在浮动元素的父元素上就可以了</p>
+

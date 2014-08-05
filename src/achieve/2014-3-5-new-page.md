@@ -16,7 +16,7 @@ tags: [HTML, CSS]
 这个页面是参考了[CSS禅意花园的220号作品](http://www.csszengarden.com/220//)。不过CSS文件并不是照搬他的，都是自己重写的（压缩后的大小8KB）。不过用了它的两个图片（都很小，2.79K+1.77K）。之前也是使用了禅意花园上的那种“文字配合mask-image”的形式，后来发现除了Chrome都不兼容（我勒个血槽，连FF都不兼容）于是乎就转而去网上寻找纹理。在一个非常不错的纹理网站[Subtle Patterns](http://subtlepatterns.com/) 上找到了两个纹理，分别作为博客中的背景以及文章中代码块的背景（一个113B，一个128B，注意是B不是KB），简直爽歪歪。瞬间感觉之前的60K的背景纹理就是渣渣啊。于是乎就剩jQuery比较大了，但是jQuery可以放在CDN上，这里使用的是百度提供的CDN（速度杠杠的，400ms）。如果后续有时间，我会抛弃jQuery，重写博客中的JS部分，这样就更快了（其实压根就没有几行js代码）
 
 ##设计
-这个页面的设计也是[响应式设计](http://skyinlayer.com/blog/2014/02/14/responsive-web-design/)的[移动先行策略](http://skyinlayer.com/blog/2014/02/25/design-strategies/)的产物。贯彻其从小到大的方针。
+这个页面的设计也是[响应式设计](http://lingyu.wang#/art/blog/2014/02/14/responsive-web-design/)的[移动先行策略](http://lingyu.wang#/art/blog/2014/02/25/design-strategies/)的产物。贯彻其从小到大的方针。
 ###小视口出发
 从小型视口出发（这里我定义的小型视口是宽度小于768px的视口，准确来说是48em，font-size为初始的16px，为什么呢，因为我的ipad mini竖屏分辨率是768...）。定义了一套布局，最上面是header，里面有主要导航条，下面是内容，再下面是一些其他链接（以后成为侧边栏），再下面是footer
 

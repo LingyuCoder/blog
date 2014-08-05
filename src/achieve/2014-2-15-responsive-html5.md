@@ -10,7 +10,7 @@ categories: [前端技术]
 
 系列文章：
 
-[《聊聊响应式网页设计》](http://skyinlayer.com/blog/2014/02/14/responsive-web-design/)
+[《聊聊响应式网页设计》](http://lingyu.wang#/art/blog/2014/02/14/responsive-web-design/)
 
 继上一篇《聊聊响应式网页设计》。这一篇记录了响应式网页设计中的HTML5部分。
 

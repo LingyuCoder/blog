@@ -8,7 +8,7 @@ categories: [源码阅读]
 ---
 
 {% raw %}
-接上一篇 [jQuery的事件机制——核心篇](http://skyinlayer.com/#/art/blog/2014/05/12/read-jq-src-3)
+接上一篇 [jQuery的事件机制——核心篇](http://lingyu.wang/#/art/blog/2014/05/12/read-jq-src-3)
 
 ##事件对象
 jq中使用自己创立的对象传递给回调函数，这里解析一下这个事件对象：
