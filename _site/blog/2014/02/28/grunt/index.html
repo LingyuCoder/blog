@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8;"/>
+	<title>初识Grunt - 天镶的博客 SkyInlayer`s Blog </title>
+	<link rel="stylesheet" media="screen" href="/css/style.min.css">
+	<link rel="stylesheet" media="screen" href="http://cdn.staticfile.org/highlight.js/8.0/styles/dark.min.css">
+	<meta name="keywords" content="天镶, SkyInlayer, 天镶的博客, 博客, 个人博客, 前端, IT, 程序员" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="author" content="Skyinlayer">
+	<meta name="description" content="天镶SkyInlayer的个人博客">
+	<meta name="robots" content="all">
+	<!--[if lt IE 9]>
+	<script src="http://cdn.staticfile.org/html5shiv/r29/html5.js"></script>
+	<![endif]-->
+</head>
+<body>
+	<div class="totop" id="totop"></div>
+	<div class="wrapper">
+		<header class="header">
+			<div class="banner"><h1>天镶的博客</h1></div>
+<div class="desc">学海无涯，回头是岸</div>
+<nav>
+	<ul>
+		<li><a href="/index.html">首页</a></li>
+		<li><a href="/search.html">文章</a></li>
+		<li><a href="/items.html">玩意</a></li>
+		<li><a href="/profile.html">简历</a></li>
+	</ul>
+</nav>
+		</header>
+		<div class="content" id="content">
+			<article class="post">
+				<header>
+					<h1>初识Grunt</h1>
+					<span class="byline">运用Grunt构建前端项目开发流程自动化</span>
+				</header>
+				<div class="tags">
+					
+						<a class="tag" href="/show_by_tag.html?tag=grunt" class="tag">grunt</a>
+					
+				</div>
+				<p>最近总是看到各种推荐使用Grunt的文章，说其对前端项目开发的自动化程度提升到一个新的流程。之前开发也是苦于各种文件的处理，比如之前写less的时候，每次改动都得手动去调用命令编译一次，效率很低。而Grunt正解决了这个问题，于是乎乘着这两天闲下来了，乘机学习了一下Grunt的基础用法</p>
+
+<h2 id="grunt">什么是Grunt？</h2>
+
+<p>Grunt官网首页上，最显眼的一句话就是：“Grunt JavaScript世界的构建工具”，它运行于Node.js平台</p>
+
+<h2 id="grunt_2">为什么要用Grunt？</h2>
+
+<p>面对以下一些常见的前端开发中的问题，Grunt都可以大展拳脚</p>
+
+<h3 id="">文件的压缩与合并</h3>
+
+<p>在平常的前端项目开发中，最需要顾忌的就是效率问题。为了提升用户体验，页面的加载不能过长，这也就使得“优化”在前端开发中永远是个说不完道不尽的话题。一些比较常见的优化方式有这么几种：</p>
+
+<ul>
+<li>JavaScript文件的优化：将多个JS文件合并成一个文件，以减少请求次数。对JavaScript文件采用压缩，消除掉所有缩进和换行，减小文件体积。使用类似uglify的压缩工具压缩JavaScript代码内部变量名称长度，减少文件体积等等</li>
+
+<li>CSS文件的优化：将多个CSS文件合并成一个文件，并进行压缩。道理同JS文件的合并及压缩</li>
+
+<li>图片文件的合并：sprite技术，也是为了减少请求次数</li>
+
+<li>等等等等</li>
+</ul>
+
+<p>这些文件的压缩合并都可以交给Grunt进行处理</p>
+
+<h3 id="_2">代码提示</h3>
+
+<p>无论CSS、JavaScript、HTML都是在快速发展的，这也导致了API及一些属性功能的变化。同时这些代码不像Java那样有一套完善的编码时错误提示，这也是JSHint，CSSHint等代码提示出现的原因。这些编码提示也可以通过Grunt来进行处理</p>
+
+<h3 id="_3">预处理</h3>
+
+<p>众所周知，现在出现了很多以提升开发效率为目的的前端语言预处理方案：</p>
+
+<ul>
+<li>CSS相关：Less和Sass，通过简洁的语法，来提升代码的复用性</li>
+
+<li>JavaScript相关：CoffeeScript，类似Python的语法，友好而高效</li>
+
+<li>HTML：一些模板引擎如Jade</li>
+</ul>
+
+<p>这些预处理也可以交给Grunt来进行</p>
+
+<h3 id="_4">一些额外的处理</h3>
+
+<p>有时候还会需要一些额外的需求，比如添加版本自动更新注释，CSS前缀自动补全等等。这些Grunt也提供了很多插件进行处理，方便快捷</p>
+
+<h2 id="grunt_3">安装Grunt</h2>
+
+<h3 id="xxx">首先你得有一个xxx</h3>
+
+<p>想要使用Grunt，首先你得有一个Node.js环境和一个npm。这俩网上教程一大把，安装也很简单，就不说了。这里只提及Grunt如何安装</p>
+
+<p>另外这里介绍的是Grunt 0.4.x，要求Node.js的版本在0.8.0以上，如果已经使用了Grunt 0.3.x版本的，可以先卸载，然后重新安装0.4.x版本</p>
+
+<h3 id="npmgrunt">使用npm安装Grunt命令行</h3>
+
+<p>执行如下代码：</p>
+
+<pre class="shell"><code class="shell">$ npm install -g grunt-cli</code></pre>
+
+<p>这样就可以在命令行使用<code>grunt</code>命令。需要注意的是，安装了grunt-cli并不等同于安装了Grunt，它只是一个命令行命令，用来调用与gruntfile文件在同一目录下的grunt的，如果没有grunt，将会给一个错误提示并退出。之所以这么设计的主要原因是，这样可以在同一个系统上安装多个版本的grunt了</p>
+
+<h3 id="grunt_4">安装Grunt</h3>
+
+<p>使用过Node.js做过项目的人应该都对<code>package.json</code>这个文件不陌生了。Grunt安装也是通过npm安装，所以只要将其加入到<code>devDependencies</code>中就可以了。一个简单的package.json文件大概长这个样子：</p>
+
+<pre class="javascript"><code class="javascript">{
+  &quot;name&quot;: &quot;your project name&quot;,
+  &quot;version&quot;: &quot;x.x.x&quot;,
+  &quot;devDependencies&quot;: {
+    &quot;grunt&quot;: &quot;~0.4.2&quot;,
+    &quot;grunt-autoprefixer&quot;: &quot;~0.4.0&quot;,
+    &quot;grunt-contrib-watch&quot;: &quot;~0.5.3&quot;,
+    &quot;grunt-contrib-concat&quot;: &quot;~0.3.0&quot;,
+    &quot;grunt-contrib-cssmin&quot;: &quot;~0.8.0&quot;,
+    &quot;load-grunt-tasks&quot;: &quot;~0.2.0&quot;
+  }
+}</code></pre>
+
+<p>在写完类似的<code>package.json</code>（或添加完Grunt依赖后），运行<code>npm install</code>就可以从npm自动安装了，下面几个都是grunt的可选查件，大致上介绍几个可选查件（包括上面出现的和没出现的）:</p>
+
+<ul>
+<li>grunt-contrib-watch: 自动监听指定文件改变并执行相关任务流的插件</li>
+
+<li>grunt-contrib-concat: 文本合并插件</li>
+
+<li>grunt-contrib-cssmin: CSS代码压缩插件</li>
+
+<li>grunt-autoprefixer: 为CSS属性自动添加前缀，兼容信息来自著名的<a href="http://caniuse.com/">Can I Use</a>网站</li>
+
+<li>grunt-contrib-jshint：JavaScript代码提示插件</li>
+
+<li>grunt-contrib-uglify：JavaScript代码压缩插件</li>
+
+<li>load-grunt-tasks：自动加载Grunt插件的插件（好绕口）</li>
+
+<li>还有一大堆请参见<a href="http://gruntjs.com/plugins">Grunt plugins</a>，这个是官网上的，但是我显示不出来,无止境的loading，所以可以去<a href="https://npmjs.org/">npm官网</a>上搜gruntplugin关键字</li>
+</ul>
+
+<p>这些插件的安装也是一样写在devDependencies中，定好需要的版本号后直接使用<code>npm install</code>命令安装可以了。或者也可以反过来，先使用<code>npm install grunt --save-dev</code>安装，然后再将依赖加入到package.json的devDependencies中</p>
+
+<h2 id="grunt_5">配置项目中的Grunt</h2>
+
+<p>Grunt的配置都写在一个名为<code>Gruntfile.js</code>的文件中（当然，在这里面可以通过引入外部文件的方式来加载自己的配置文件），这个文件必须在项目的根目录下，也就是和<code>package.json</code>同一路径下，一个简单的<code>Gruntfile.js</code>文件大概长这个样子：</p>
+
+<pre class="javascript"><code class="javascript">module.exports = function(grunt) {
+  grunt.initConfig({
+    //确定需要加载的package.json文件的路径
+    pkg: grunt.file.readJSON(&#39;package.json&#39;),
+    //定义任务
+    concat: {
+      dist: {
+        src: [
+          &#39;src/css/*.css&#39;
+        ],
+        dest: &#39;skyinlayer.css&#39;
+      }
+    }
+  });
+  //加载插件
+  grunt.loadNpmTasks(&#39;grunt-contrib-concat&#39;);
+  //定义默认任务列表
+  grunt.registerTask(&#39;default&#39;, [&#39;concat&#39;]);
+};</code></pre>
+
+<h3 id="packagejson">引入package.json中的配置</h3>
+
+<p>通过<code>pkg</code>引入的<code>package.json</code>文件的JSON数据可以通过<code>&lt;% %&gt;</code>模板字符串来进行引用</p>
+
+<h3 id="_5">定义任务</h3>
+
+<p>定义任务部分则是定义了一个任务所需要的相关配置，比如这里定义了合并文件（concat）任务，相关配置确定了需要被合并的文件为<code>src/css/</code>下的所有后缀为<code>.css</code>的文件，合并完成的文件输出到根目录下的<code>skyinlayer.css</code>文件中。</p>
+
+<p>在定义任务部分可以定义多个任务，比如我写一个纯CSS的项目，也需要经过合并、添加前缀、压缩等任务，，所以可以将其修改为如下：</p>
+
+<pre class="javascript"><code class="javascript">concat: {
+  dist: {
+    src: [
+      &#39;src/base.css&#39;,
+      &#39;src/**/*.css&#39;
+    ],
+    dest: &#39;skyinlayer.css&#39;
+  }
+},
+
+autoprefixer: {
+  no_dest: {
+    src: &#39;skyinlayer.css&#39;
+  },
+},
+
+cssmin: {
+  minify: {
+    src: [&#39;skyinlayer.css&#39;],
+    dest: &#39;skyinlayer.min.css&#39;,
+  },
+}</code></pre>
+
+<h3 id="_6">加载插件</h3>
+
+<p>由于Grunt的任务都是通过npm插件的形式被引入的，所以需要进行查件加载，通过如下语句加载：</p>
+
+<pre class="javascript"><code class="javascript">grunt.loadNpmTasks(&#39;grunt-contrib-concat&#39;);
+grunt.loadNpmTasks(&#39;grunt-autoprefixer&#39;);
+grunt.loadNpmTasks(&#39;grunt-contrib-cssmin&#39;);</code></pre>
+
+<p>这样就加载了三个插件，分别用来指向上面定义的三个任务，值得注意的是可以使用<code>load-grunt-tasks</code>来自动加载所有在<code>package.json</code>中被依赖的grunt插件，其检测的标准是插件名称以<code>grunt-</code>字符串开头。如果使用了<code>load-grunt-tasks</code>，加载就变得很简单了，一句代码搞定：</p>
+
+<pre class="javascript"><code class="javascript">require(&#39;load-grunt-tasks&#39;)(grunt);</code></pre>
+
+<h3 id="_7">定义默认任务流程</h3>
+
+<p>在定义完任务以及加载完插件之后，我们需要定义任务流程，确定任务执行的顺序。使用如下代码定义任务流程：</p>
+
+<pre class="javascript"><code class="javascript">grunt.registerTask(&#39;default&#39;, [&#39;concat&#39;,&#39;autoprefixer&#39;,&#39;cssmin&#39;]);</code></pre>
+
+<p>这样定义完后，每次执行<code>grunt</code>命令，就会制动执行代码合并，添加前缀和CSS代码压缩三项任务了</p>
+
+<h3 id="_8">监听文件变化</h3>
+
+<p>一般情况下，我们需要多次改动代码来查看效果，有时候改动很小甚至只是一个数字。这样每次改动都需要手动执行grunt命令太麻烦了，<code>grunt-contrib-watch</code>这个插件帮我们解决了这个问题。引入<code>grunt-contrib-watch</code>插件和上面一样（如果使用了<code>load-grunt-tasks</code>，不需要额外的引入过程）。定义watch任务：</p>
+
+<pre class="javascript"><code class="javascript">watch: {
+  css: {
+    files: [
+      &#39;src/**/*&#39;,
+      &#39;!node_modules&#39;
+    ],
+    tasks: [&#39;concat&#39;, &#39;autoprefixer&#39;, &#39;cssmin&#39;],
+  }
+}</code></pre>
+
+<p>其中，files属性可以定义哪些文件需要监听改变，哪些不需要，而tasks则定义了文件改变后需要执行的任务流程。这样定义的话，比如我的<code>src/css/base.css</code>文件进行了变更，在保存的时候，将自动执行代码合并，前缀添加及代码压缩等任务</p>
+
+<h2 id="_9">总结</h2>
+
+<p>Grunt其实还有很多更加深入的用法，比如读取json问价作为配置文件、根据配置文件动态的进行处理等等（比如<a href="https://github.com/daneden/animate.css">daneden的animate.css项目</a>），这里就只是介绍了一下基础的用法。学好了Grunt，以后也可以出去和别人吹牛逼说自己的项目工作流是自动化的啦（括弧笑）</p>
+
+<h2 id="_10">更多详细请参考</h2>
+
+<p><a href="http://www.gruntjs.net/">Grunt官网</a></p>
+
+<p><a href="http://www.w3cplus.com/blog/tags/372.html">W3CPlus的Grunt相关文章</a></p>
+				<div class="ds-thread" data-url="http://skyinlayer.com//blog/2014/02/28/grunt" data-thread-key="/blog/2014/02/28/grunt" data-title="初识Grunt" style="min-height:277px"></div>
+			</article>
+		</div>
+		<aside class="aside">
+			<section class="recent">
+	<h3>最近的文章</h3>
+	<div class="inner">
+		<ul>
+			
+			<li>
+				<a href="/blog/2014/04/13/vertical-align">垂直居中之vertical-align详解</a>
+				<span class="date">13 Apr 2014</span>
+			</li>
+			
+			<li>
+				<a href="/blog/2014/04/06/play-fish">Good Good Study, Day Day Upward！</a>
+				<span class="date">06 Apr 2014</span>
+			</li>
+			
+			<li>
+				<a href="/blog/2014/04/04/alibaba-fe-1">阿里巴巴前端笔试题（1-10）</a>
+				<span class="date">04 Apr 2014</span>
+			</li>
+			
+			<li>
+				<a href="/blog/2014/03/31/css-layout">CSS布局相关基础知识</a>
+				<span class="date">31 Mar 2014</span>
+			</li>
+			
+			<li>
+				<a href="/blog/2014/03/30/js-type-convert">JavaScript隐式类型转换</a>
+				<span class="date">30 Mar 2014</span>
+			</li>
+			
+		</ul>
+	</div>
+</section>
+<section class="search">
+	<h3>搜索</h3>
+	<div class="inner">
+		<div class="si">
+			<input type="search" id="searchIpt" placeholder="输入搜索标题"/>
+			<button id="searchBtn">>></button>
+		</div>
+	</div>
+</section>
+<section class="categories">
+	<h3>类别</h3>
+	<div class="inner">
+		<ul>
+			
+			<li>
+				<a href="/search.html?cat=网站建设">网站建设</a>
+				<span class="count">8</span>
+			</li>
+			
+			<li>
+				<a href="/search.html?cat=前端技术">前端技术</a>
+				<span class="count">18</span>
+			</li>
+			
+			<li>
+				<a href="/search.html?cat=生活情感">生活情感</a>
+				<span class="count">3</span>
+			</li>
+			
+			<li>
+				<a href="/search.html?cat=笔试面试积累">笔试面试积累</a>
+				<span class="count">9</span>
+			</li>
+			
+			<li>
+				<a href="/search.html?cat=数据库技术">数据库技术</a>
+				<span class="count">1</span>
+			</li>
+			
+			<li>
+				<a href="/search.html?cat=性能优化">性能优化</a>
+				<span class="count">5</span>
+			</li>
+			
+			<li>
+				<a href="/search.html?cat=读书笔记">读书笔记</a>
+				<span class="count">9</span>
+			</li>
+			
+			<li>
+				<a href="/search.html?cat=即时通信">即时通信</a>
+				<span class="count">5</span>
+			</li>
+			
+		</ul>
+	</div>
+</section>
+<section class="all-tags">
+	<h3>标签</h3>
+	<div class="inner">
+		<div class="tags">
+			
+			<a class="tag" href="/search.html?tag=WebSocket" count="6"> WebSocket</a>
+		    
+			<a class="tag" href="/search.html?tag=NodeJs" count="7"> NodeJs</a>
+		    
+			<a class="tag" href="/search.html?tag=xmpp" count="1"> xmpp</a>
+		    
+			<a class="tag" href="/search.html?tag=WebIM" count="6"> WebIM</a>
+		    
+			<a class="tag" href="/search.html?tag=css" count="8"> css</a>
+		    
+			<a class="tag" href="/search.html?tag=github" count="5"> github</a>
+		    
+			<a class="tag" href="/search.html?tag=jekyll" count="5"> jekyll</a>
+		    
+			<a class="tag" href="/search.html?tag=jQuery" count="1"> jQuery</a>
+		    
+			<a class="tag" href="/search.html?tag=JavaScript" count="21"> JavaScript</a>
+		    
+			<a class="tag" href="/search.html?tag=生活" count="2"> 生活</a>
+		    
+			<a class="tag" href="/search.html?tag=思考" count="1"> 思考</a>
+		    
+			<a class="tag" href="/search.html?tag=HTML" count="18"> HTML</a>
+		    
+			<a class="tag" href="/search.html?tag=CSS" count="16"> CSS</a>
+		    
+			<a class="tag" href="/search.html?tag=响应式" count="3"> 响应式</a>
+		    
+			<a class="tag" href="/search.html?tag=oracle" count="1"> oracle</a>
+		    
+			<a class="tag" href="/search.html?tag=存储函数" count="1"> 存储函数</a>
+		    
+			<a class="tag" href="/search.html?tag=grunt" count="1"> grunt</a>
+		    
+			<a class="tag" href="/search.html?tag=设计" count="9"> 设计</a>
+		    
+			<a class="tag" href="/search.html?tag=笔试面试题" count="1"> 笔试面试题</a>
+		    
+			<a class="tag" href="/search.html?tag=WebRTC" count="5"> WebRTC</a>
+		    
+			<a class="tag" href="/search.html?tag=SEO" count="1"> SEO</a>
+		    
+		</div>
+	</div>
+</section>
+<section class="subscribe">
+	<h3>RSS订阅</h3>
+	<div class="inner">
+		<ul>
+			<li><a href="http://xianguo.com/subscribe?url=http%3A%2F%2Fskyinlayer.com%2Frss.xml"><span class="sub-icon sub-xianguo"></span>鲜果</a></li>
+			<li><a href="http://www.zhuaxia.com/add_channel.php?sourceid=102&url=http%3A%2F%2Fskyinlayer.com%2Frss.xml"><span class="sub-icon sub-zhuaxia"></span>抓虾</a></li>
+			<li><a href="http://feedly.com/index.html#subscription%2Ffeed%2Fhttp%3A%2F%2Fskyinlayer.com%2Frss.xml"><span class="sub-icon sub-feedly"></span>feedly</a></li>
+			<li><a href="http://e.my.yahoo.com/config/cstore?.opt=content&.url=http%3A%2F%2Fskyinlayer.com%2Frss.xml"><span class="sub-icon sub-yahoo"></span>My Yahoo!</a></li>
+			<li><a href="http://digg.com/reader/search/skyinlayer.com%2Frss.xml"><span class="sub-icon sub-digg"></span>Digg</a></li>
+			<li><a href="http://skyinlayer.com/rss.xml">手动RSS订阅</a></li>
+		</ul>
+	</div>
+</section>
+<section class="other">
+	<h3>其他</h3>
+	<div class="inner">
+		<ul>
+			<li><a href="/editor.html">在线编辑器</a></li>
+			<li><a href="/gitbook">读书笔记</a></li>
+			<li><a href="/about.html">关于我</a></li>
+		</ul>
+	</div>
+</section>
+		</aside>
+		<footer class="footer">
+			<p>&copy; 2014 天镶 Skyinlayer</p>
+		</footer>
+	</div>
+</body>
+<script type="text/javascript" src="http://cdn.staticfile.org/jquery/2.1.1-beta1/jquery.min.js"></script>
+<script type="text/javascript" src="http://cdn.staticfile.org/highlight.js/8.0/highlight.min.js"></script>
+<script type="text/javascript">
+	$(function() {
+		var $totop = $("#totop");
+		var $content = $("#content");
+		var $window = $(window);
+		$(document).on("scroll", function(event) {
+			var top = $window.scrollTop();
+			if (top > $content.offset().top) {
+				if ($totop.css("display") !== "block") {
+					$totop.css("opacity", 0);
+					$totop.css("display", "block");
+					$totop.animate({
+						opacity: .5
+					});
+				}
+			} else {
+				$totop.css("display", "none");
+			}
+			event.stopPropagation();
+			event.preventDefault();
+		});
+		$totop.on("click", function(event) {
+			$("html, body").animate({
+				scrollTop: 0
+			}, 800);
+			event.stopPropagation();
+			event.preventDefault();
+		});
+
+		$totop.trigger("scroll");
+
+		$('pre code').each(function(i, e) {
+			hljs.highlightBlock(e);
+		});
+		var $searchIpt = $("#searchIpt");
+		var $searchBtn = $("#searchBtn");
+		var jumpToSearch = function(){
+			var title = $searchIpt.val().replace(/^\s+|\s+$/g, '');
+			if(title){
+				window.location.href = "/search.html?title=" + title;
+			}
+		};
+		$searchIpt.on("keydown", function(event) {
+			if (event.keyCode === 13) {
+				jumpToSearch();
+			}
+			event.stopPropagation();
+		});
+		$searchBtn.on("click", function(event){
+			jumpToSearch();
+			event.stopPropagation();
+			event.preventDefault();
+		});
+
+
+	});
+	var duoshuoQuery = {
+		short_name: "skyinlayer"
+	};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';
+		ds.async = true;
+		ds.src = 'http://static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+</script>
+</html>

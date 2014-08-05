@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8;"/>
+	<title>前端面试题（15-25） - 天镶的博客 SkyInlayer`s Blog </title>
+	<link rel="stylesheet" media="screen" href="/css/style.min.css">
+	<link rel="stylesheet" media="screen" href="http://cdn.staticfile.org/highlight.js/8.0/styles/dark.min.css">
+	<meta name="keywords" content="天镶, SkyInlayer, 天镶的博客, 博客, 个人博客, 前端, IT, 程序员" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="author" content="Skyinlayer">
+	<meta name="description" content="天镶SkyInlayer的个人博客">
+	<meta name="robots" content="all">
+	<!--[if lt IE 9]>
+	<script src="http://cdn.staticfile.org/html5shiv/r29/html5.js"></script>
+	<![endif]-->
+</head>
+<body>
+	<div class="totop" id="totop"></div>
+	<div class="wrapper">
+		<header class="header">
+			<div class="banner"><h1>天镶的博客</h1></div>
+<div class="desc">学海无涯，回头是岸</div>
+<nav>
+	<ul>
+		<li><a href="/index.html">首页</a></li>
+		<li><a href="/search.html">文章</a></li>
+		<li><a href="/items.html">玩意</a></li>
+		<li><a href="/profile.html">简历</a></li>
+	</ul>
+</nav>
+		</header>
+		<div class="content" id="content">
+			<article class="post">
+				<header>
+					<h1>前端面试题（15-25）</h1>
+					<span class="byline">前端面试题积累系列</span>
+				</header>
+				<div class="tags">
+					
+						<a class="tag" href="/show_by_tag.html?tag=JavaScript" class="tag">JavaScript</a>
+					
+						<a class="tag" href="/show_by_tag.html?tag=HTML" class="tag">HTML</a>
+					
+						<a class="tag" href="/show_by_tag.html?tag=CSS" class="tag">CSS</a>
+					
+				</div>
+				<h2 id="">第十五题</h2>
+
+<p>绘制一个如图红色十字架，方块长150px，宽50px：</p>
+
+<p><img src="http://skyinlayer.com/img/fe_interview/4.png" alt="一个长为150px大小的红十字架" /></p>
+
+<p>要求：</p>
+
+<ol>
+<li>使用2个div完成</li>
+
+<li>使用3个div完成</li>
+
+<li>使用5个div完成</li>
+</ol>
+
+<h3 id="div">两个div实现：</h3>
+<iframe allowfullscreen='allowfullscreen' frameborder='0' height='500' src='http://jsfiddle.net/skyinlayer/Nak3p/embedded/result,html,css' width='100%'>&nbsp;</iframe>
+<h3 id="div_2">三个div实现</h3>
+<iframe allowfullscreen='allowfullscreen' frameborder='0' height='500' src='http://jsfiddle.net/skyinlayer/Nak3p/1/embedded/result,html,css' width='100%'>&nbsp;</iframe>
+<h3 id="5div">5个div实现</h3>
+<iframe allowfullscreen='allowfullscreen' frameborder='0' height='500' src='http://jsfiddle.net/skyinlayer/Nak3p/2/embedded/result,html,css' width='100%'>&nbsp;</iframe>
+<h3 id="div_3">（附送）一个div实现</h3>
+<iframe allowfullscreen='allowfullscreen' frameborder='0' height='500' src='http://jsfiddle.net/skyinlayer/Nak3p/3/embedded/result,html,css' width='100%'>&nbsp;</iframe>
+<h2 id="_2">第十六题</h2>
+
+<p>请将优化如下CSS属性：</p>
+
+<h3 id="border">border</h3>
+
+<pre class="css21"><code class="css21">border-width: 1px;
+border-color: #000;
+border-style: solid;</code></pre>
+
+<h3 id="background">background</h3>
+
+<pre class="css21"><code class="css21">background-position:0 0;
+background-repeat:no-repeat;
+background-attachment:fixed;
+background-color:#f00;
+background-image:url(background.gif);</code></pre>
+
+<h3 id="font">font</h3>
+
+<pre class="css21"><code class="css21">font-style:italic;
+font-family:&quot;Lucida Grande&quot;,sans-serif;
+font-size:1em;
+font-weight:bold;
+font-variant:small-caps;
+line-height:140%;</code></pre>
+
+<h3 id="liststyle">list-style</h3>
+
+<pre class="css21"><code class="css21">list-style-position:inside;
+list-style-type:square;
+list-style-image:url(image.gif);</code></pre>
+
+<h3 id="color">color</h3>
+
+<pre class="css21"><code class="css21">color:#336699;
+color:#ffcc00;</code></pre>
+
+<h3 id="_3">答案</h3>
+
+<p>首先看border的格式：</p>
+
+<pre class="css21"><code class="css21">border：[ border-width ] || [ border-style ] || [ border-color ]</code></pre>
+
+<p>所以答案应该是：</p>
+
+<pre class="css21"><code class="css21">border: 1px solid #000;</code></pre>
+<hr />
+<p>然后看看background：</p>
+
+<pre class="css21"><code class="css21">background：[ &lt;bg-layer&gt;, ]* &lt;final-bg-layer&gt; 
+
+&lt;bg-layer&gt; = [ background-image ] || [ background-position ] [ / background-size ]? || [ background-repeat ] || [ background-attachment ] || [ [ background-origin ] || [ background-clip ] ]{1,2}
+
+&lt;final-bg-layer&gt; = [ background-color ] || [ background-image ] || [ background-position ] [ / background-size ]? || [ background-repeat ] || [ background-attachment ] || [ [ background-origin ] || [ background-clip ] ]{1,2}</code></pre>
+
+<p>我去，这么长…可以看到如果是多重背景，除了最后一组规则以外，其他的都没有背景色，其他属性的排列顺序是：</p>
+
+<ol>
+<li>background-image</li>
+
+<li>background-position/background-size</li>
+
+<li>background-repeat</li>
+
+<li>background-attachment</li>
+
+<li>background-origin background-clip</li>
+</ol>
+
+<p>这样，可以得到答案为</p>
+
+<pre class="css21"><code class="css21">background: #f00 url(background.gif) 0 0 no-repeat fixed;</code></pre>
+<hr />
+<p>然后看看font：</p>
+
+<pre class="css21"><code class="css21">font：[ [ &lt;font-style&gt; || &lt;font-variant&gt; || &lt;font-weight&gt; ]? &lt;font-size&gt; [ / &lt;line-height&gt; ]? &lt;font-family&gt; ] | caption | icon | menu | message-box | small-caption | status-bar</code></pre>
+
+<p>可以看到其排列顺序：</p>
+
+<ol>
+<li>font-style:</li>
+
+<li>font-variant</li>
+
+<li>font-weight</li>
+
+<li>font-size/line-height</li>
+
+<li>font-family</li>
+
+<li>…</li>
+</ol>
+
+<p>所以可以得到的答案为：</p>
+
+<pre class="css21"><code class="css21">font: italic bold small-caps 1em/140% &quot;Lucida Grande&quot;,sans-serif;</code></pre>
+<hr />
+<p>看看list-style：</p>
+
+<pre class="css21"><code class="css21">list-style：[ list-style-image ] || [ list-style-position ] || [ list-style-type ]</code></pre>
+
+<p>这个简单很多，而且没有什么特殊规则，所以答案是：</p>
+
+<pre class="css21"><code class="css21">list-style: url(image.gif) inside square;</code></pre>
+<hr />
+<p>最后看看color，color只有当使用hex表示且形式是<code>#aabbcc</code>时可以简写，所以答案是：</p>
+
+<pre class="css21"><code class="css21">color:#369;
+color:#fc0;</code></pre>
+
+<h2 id="_4">第十七题</h2>
+
+<p>如何设置CSS强制不换行/不截断单词换行/截断单词换行?</p>
+
+<p>首先明确几个相关属性：</p>
+
+<ol>
+<li>word-break: 设置或检索对象内文本的字内换行行为</li>
+
+<li>word-wrap：设置或检索当内容超过指定容器边界时是否断行</li>
+
+<li>white-space：设置或检索对象内空格的处理方式</li>
+</ol>
+
+<h3 id="wordbreak">word-break</h3>
+
+<p>设置或检索对象内文本的字内换行行为</p>
+
+<ol>
+<li>normal：依照亚洲语言和非亚洲语言规则，允许在字内换行</li>
+
+<li>keep-all：与所有非亚洲语言的normal相同，对于中文、韩文、日文，不允许字断开。适合包含少量亚洲文本的非亚洲文本。</li>
+
+<li>break-all：与亚洲语言的normal相同，允许非亚洲语言在任意字内断开。该值适合包含一些非亚洲文本的亚洲文本，比如使连续的英文字母间断行。</li>
+</ol>
+
+<p>chrome、opera不支持keep-all</p>
+
+<h3 id="wordwrap">word-wrap</h3>
+
+<p>设置或检索当内容超过指定容器边界时是否断行</p>
+
+<ol>
+<li>normal：允许内容顶开或溢出指定的容器边界</li>
+
+<li>break-word：内容将在边界内换行，如果需要，单词内部允许断行</li>
+</ol>
+
+<h3 id="whitespace">white-space</h3>
+
+<p>设置或检索对象内空格的处理方式</p>
+
+<ol>
+<li>normal：默认处理方式</li>
+
+<li>用等宽字体显示预先格式化的文本，不合并文字间的空白距离，当文字超出边界时不换行。可查阅pre对象</li>
+
+<li>强制在同一行内显示所有文本，合并文本间的多余空白，直到文本结束或者遭遇br对象。</li>
+
+<li>用等宽字体显示预先格式化的文本，不合并文字间的空白距离，当文字碰到边界时发生换行。</li>
+
+<li>保持文本的换行，不保留文字间的空白距离，当文字碰到边界时发生换行。</li>
+</ol>
+
+<h3 id="_5">强制不换行</h3>
+
+<pre class="css21"><code class="css21">.no-wrap {
+    white-space: nowrap;
+}</code></pre>
+
+<h3 id="_6">不截断单词换行</h3>
+
+<pre class="css21"><code class="css21">.wrap {
+    white-space: normal;
+    word-wrap: break-word;
+    word-break: normal;
+}</code></pre>
+
+<h3 id="_7">强制英文单词断行</h3>
+
+<pre class="css21"><code class="css21">.wrap-break-word {
+    white-space: normal;
+    word-wrap: break-wrod;
+    word-break: break-all;
+}</code></pre>
+
+<h2 id="_8">第十八题</h2>
+
+<p>如果需要给<code>&lt;a&gt;</code>设置伪类，应该按照何种顺序进行设置？</p>
+
+<p>解答：如《CSS禅意花园》中的爱恨原则，使用<code>LoVe/HAte</code>方式来记忆，设置的顺序为：</p>
+
+<ol>
+<li>L——link: 适用于未被访问的链接</li>
+
+<li>V——visited：适用于已经访问过的链接</li>
+
+<li>H——hover：适用于光标（鼠标指针）指向一个元素，但还未激活它时</li>
+
+<li>A——active：适用于一个元素被用户激活时</li>
+</ol>
+
+<p>如果还需要加入focus，规则则变为<code>LVHFA</code></p>
+
+<h2 id="_9">第十九题</h2>
+
+<p>媒体查询中的<code>only</code>属性是干什么的？</p>
+
+<p>解答：<code>only</code>用来将样式应用于某种特定的媒体类型，可以用来排除不支持媒体查询的浏览器。其实<code>only</code>属性很多时候是用来对支持<code>Media Type</code>但不支持<code>Media Query</code>的设备隐藏样式表的。</p>
+
+<p>其主要有：</p>
+
+<ol>
+<li>若设备支持媒体查询（Media Query），正常调用样式，<code>only</code>就当不存在</li>
+
+<li>若设备不支持媒体查询（Media Query），但支持媒体类型（Media Type），样式将不会被调用</li>
+
+<li>如果媒体查询和媒体类型都不支持，样式自然不会被调用</li>
+</ol>
+
+<h2 id="_10">第二十题</h2>
+
+<p>HTML中的文档类型是什么？尽可能多的写出文档类型</p>
+
+<p>解答：Web 世界中存在许多不同的文档。只有了解文档的类型，浏览器才能正确地显示文档。</p>
+
+<pre class="xml"><code class="xml">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.01 Transitional//EN&quot; &quot;http://www.w3.org/TR/html4/loose.dtd&quot;&gt;
+&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.01//EN&quot; &quot;http://www.w3.org/TR/html4/strict.dtd&quot;&gt;
+&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD XHTML 1.0 Transitional//EN&quot; &quot;http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd&quot;&gt;
+&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD XHTML 1.0 Strict//EN&quot; &quot;http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd&quot;&gt;
+&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD XHTML 1.0 Frameset//EN&quot; &quot;http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd&quot;&gt;
+&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD XHTML 1.1//EN&quot; &quot;http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd&quot;&gt;</code></pre>
+
+<h2 id="_11">第二十一题</h2>
+
+<p><code>data-</code>属性是干什么的？</p>
+
+<p>解答：HTML5中可以使用<code>data-</code>来为元素添加自定义的合法属性，然后我们可以通过dom节点进行取值,比如如下节点：</p>
+
+<pre class="xml"><code class="xml">&lt;div id=&quot;some-dom&quot; data-first=&quot;asdfasdf&quot; data-second=123 data-third=true&gt;&lt;/div&gt;</code></pre>
+
+<p>然后我们可以通过DOM的<code>dataset</code>属性取到它们：</p>
+
+<pre class="javascript"><code class="javascript">&gt; var div = document.getElementById(&quot;some-dom&quot;);
+&gt; var divDataSet = div.dataset;
+&gt; console.log(divDataSet);
+DOMStringMap {first: &quot;asdfasdf&quot;, second: &quot;123&quot;, third: &quot;true&quot;} </code></pre>
+
+<p>需要注意一点事，所有的值都是字符串类型</p>
+
+<p>当然如果我们使用<code>getAttribute()</code>方法也是同样可行的：</p>
+
+<pre class="javascript"><code class="javascript">&gt; div.getAttribute(&quot;data-first&quot;);
+&quot;asdfasdf&quot;</code></pre>
+
+<p>在获得了dataset对象之后，我们可以利用这个对象进行CRUD操作：</p>
+
+<pre class="javascript"><code class="javascript">//修改属性值
+&gt; divDataSet.second = 999;
+&gt; div.outerHTML
+&#39;&lt;div id=&quot;some-dom&quot; data-first=&quot;asdfasdf&quot; data-second=&quot;999&quot; data-third=&quot;true&quot;&gt;&lt;/div&gt;&#39;
+//增加新属性
+&gt; divDataSet.newProperty = &quot;skyinlayer&quot;;
+&gt; div.outerHTML
+&#39;&lt;div id=&quot;some-dom&quot; data-first=&quot;asdfasdf&quot; data-second=&quot;999&quot; data-third=&quot;true&quot; data-new-property=&quot;skyinlayer&quot;&gt;&lt;/div&gt;&#39;
+//删除属性
+&gt; delete divDataSet.first
+&gt; div.outerHTML
+&#39;&lt;div id=&quot;some-dom&quot; data-second=&quot;999&quot; data-third=&quot;true&quot; data-new-property=&quot;skyinlayer&quot;&gt;&lt;/div&gt;&#39;</code></pre>
+
+<h2 id="_12">第二十二题</h2>
+
+<p>简述一下cookie，sessionStorage，localStorage的区别</p>
+
+<h3 id="cookie">cookie</h3>
+
+<p>标准的客户端浏览器状态保存方式，cookie每次发送请求的时候都会被带回到服务器，从而保证了服务器可以知道浏览器当前的状态，但同时也意味着其容量不能太大，最多不能超过4k</p>
+
+<h3 id="sessionstorage">sessionStorage</h3>
+
+<p>HTML5提供的两种客户端存储数据的新方法（localStorage、sessionStorage）之一，是针对一个session的数据进行存储，有时间限制。sessionStorage数据的存储金特定于某个绘画中，也就是说数据只会保存到浏览器关闭，但浏览器如果是刷新或重新打开页面，数据还是存在的。每在新标签或者新窗口开启一个新页面，都会初始化一个新的会话。Chrome、Safari、Android版的Webkit对其限制是2.5MB，IE8+和Opera限制是5MB</p>
+
+<h3 id="localstroage">localStroage</h3>
+
+<p>HTML5提供了两种客户端存储数据的新方法的另一种，它不是针对session的数据进行存储，而是用于持久化的本地存储，除非主动删除数据，否则数据永远不会过期。它的存储空间比cookie要大得多，大多数桌面浏览器会设置每个来源5MB的限制，Chrome和Safari和Android版的Wekit限制则是2.5MB</p>
+
+<h2 id="_13">第二十三题</h2>
+
+<p>优化以下CSS：</p>
+
+<pre class="css21"><code class="css21">.style {
+    margin-top: 4px;
+    margin-right: 12px;
+    padding: 10px 0px 10px 0px;
+    background-color: #ff9800;
+    background-image: url(/img/logo.png);
+    background-size: 240px 80px;
+    border-width: 2px;
+    border-style: dashed;
+    border-color: #ff8800;
+}</code></pre>
+
+<p>答案：</p>
+
+<pre class="css21"><code class="css21">.style {
+    margin: 4px 12px 0 0;
+    padding: 10px 0;
+    background: #ff9800 url(/img/logo.png) 240px 80px;
+    border: 2px dashed #f80;
+}</code></pre>
+
+<h2 id="_14">第二十四题</h2>
+
+<p>请列举出CSS中用于隐藏元素的两个属性？两者的差异？还有什么其他方式吗？</p>
+
+<p>这题很有意思，之前曾经在禅意花园上看到过类似的隐藏元素方案</p>
+
+<p>首先两个属性，不用说分别是<code>display: none</code>和<code>visibility: hidden</code>,区别就是前者不会在文档流中占据位置，而后者会，如下例所示</p>
+<iframe allowfullscreen='allowfullscreen' frameborder='0' height='300' src='http://jsfiddle.net/skyinlayer/b5qPx/embedded/result,css,html' width='100%'>&nbsp;</iframe>
+<p>至于还有什么其他方式，禅意花园上的一种方式就是，将元素的<code>width</code>、<code>height</code>属性设置成0（块状元素），这样自然就隐藏了</p>
+
+<p>还有一些比较YD的方法，比如说将其移位到屏幕外</p>
+
+<pre class="css21"><code class="css21">.hide {
+    /*这样不会占据空间*/
+    position: absolute;
+    top: -9999em;
+}
+.hide {
+    /*占据空间*/
+    position: relative;
+    top: -9999em;
+}
+.hide {
+    /*占据空间，且可以点击*/
+    opacity: 0;
+}</code></pre>
+
+<p>等等</p>
+
+<p>另外在设置了<code>display: none</code>和<code>visibility: hidden</code>的时候，将图片放在背景中将不会加载图片，而放在<code>&lt;img&gt;</code>标签中将会加载图片：</p>
+
+<p><img src="http://skyinlayer.com/img/fe_interview/5.png" alt="图片加载规则" /></p>
+
+<h2 id="_15">第二十五题</h2>
+
+<p>有两个盒子A、B，B在A盒子中，俩盒子的CSS如下：</p>
+
+<pre class="css21"><code class="css21">#A {
+    position: relative;
+    width: 500px;
+    height: 500px;
+    background: green;
+}
+
+#B {
+    position: absolute;
+    max-width: 300px;
+    max-height: 300px;
+    background-color: blue;
+}</code></pre>
+
+<p>请实现B在A中的水平方向和垂直方向居中</p>
+
+<p>解答：这题想简单了以为直接设置负数的<code>margin-top</code>和<code>margin-left</code>就行了，现在发现不是这么回事，因为它给的是<code>max-width</code>和<code>max-height</code>，并不能确定元素当前的大小是多少，而且B元素是绝对定位，所以用内联元素的垂直居中方式也不可能，<code>margin: auto</code>也不行…所以这里的解法应该是通过JavaScript算出当前元素的大小，然后设定相应的负数<code>margin</code></p>
+
+<p>思路确定后就是要获取元素的<code>width</code>和<code>height</code>属性，如果有jQuery的话直接<code>$().width()</code>或<code>$().height()</code>就行了，但是一般情况下笔试都是写原生的JavaScript，所以需要通过原生的方式计算出元素的宽度和高度</p>
+
+<p>也许会想到使用<code>dom.style.height</code>和<code>dom.style.width</code>来获取高度和宽度，但是这样只适合获取内联样式，并不适合获取计算后的样式，所以我们需要通过其他的方法：</p>
+
+<pre class="javascript"><code class="javascript">
+var B = document.getElementById(&quot;B&quot;);
+var A = document.getElementById(&quot;A&quot;);
+var bSize = getComputedSize(B);
+B.style.marginTop = &quot;-&quot; + bSize.height/2 + &quot;px&quot;;
+B.style.marginLeft = &quot;-&quot; + bSize.width/2 + &quot;px&quot;;
+B.style.left = &quot;50%&quot;;
+B.style.top = &quot;50%&quot;;
+
+function getComputedSize(dom){
+    var size = {},
+        tmp;
+    if(dom.currentStyle) {
+        //IE提供currentStyle查询
+        size.height = dom.currentStyle.height;
+        size.width = dom.currentStyle.width;
+    } else {
+        //其他浏览器使用window.getComputedStyle方法
+        tmp = window.getComputedStyle(dom, null);
+        size.height = tmp.height;
+        size.width = tmp.width;
+    }
+    //删除末尾的px并转换成数字
+    size.height = Number(size.height.replace(&quot;px&quot;, &quot;&quot;));
+    size.width = Number(size.width.replace(&quot;px&quot;, &quot;&quot;));
+    return size;
+}</code></pre>
+
+<p>这样就可以了</p>
+				<div class="ds-thread" data-url="http://skyinlayer.com//blog/2014/03/20/js-interview-2" data-thread-key="/blog/2014/03/20/js-interview-2" data-title="前端面试题（15-25）" style="min-height:277px"></div>
+			</article>
+		</div>
+		<aside class="aside">
+			<section class="recent">
+	<h3>最近的文章</h3>
+	<div class="inner">
+		<ul>
+			
+			<li>
+				<a href="/blog/2014/04/13/vertical-align">垂直居中之vertical-align详解</a>
+				<span class="date">13 Apr 2014</span>
+			</li>
+			
+			<li>
+				<a href="/blog/2014/04/06/play-fish">Good Good Study, Day Day Upward！</a>
+				<span class="date">06 Apr 2014</span>
+			</li>
+			
+			<li>
+				<a href="/blog/2014/04/04/alibaba-fe-1">阿里巴巴前端笔试题（1-10）</a>
+				<span class="date">04 Apr 2014</span>
+			</li>
+			
+			<li>
+				<a href="/blog/2014/03/31/css-layout">CSS布局相关基础知识</a>
+				<span class="date">31 Mar 2014</span>
+			</li>
+			
+			<li>
+				<a href="/blog/2014/03/30/js-type-convert">JavaScript隐式类型转换</a>
+				<span class="date">30 Mar 2014</span>
+			</li>
+			
+		</ul>
+	</div>
+</section>
+<section class="search">
+	<h3>搜索</h3>
+	<div class="inner">
+		<div class="si">
+			<input type="search" id="searchIpt" placeholder="输入搜索标题"/>
+			<button id="searchBtn">>></button>
+		</div>
+	</div>
+</section>
+<section class="categories">
+	<h3>类别</h3>
+	<div class="inner">
+		<ul>
+			
+			<li>
+				<a href="/search.html?cat=网站建设">网站建设</a>
+				<span class="count">8</span>
+			</li>
+			
+			<li>
+				<a href="/search.html?cat=前端技术">前端技术</a>
+				<span class="count">18</span>
+			</li>
+			
+			<li>
+				<a href="/search.html?cat=生活情感">生活情感</a>
+				<span class="count">3</span>
+			</li>
+			
+			<li>
+				<a href="/search.html?cat=笔试面试积累">笔试面试积累</a>
+				<span class="count">9</span>
+			</li>
+			
+			<li>
+				<a href="/search.html?cat=数据库技术">数据库技术</a>
+				<span class="count">1</span>
+			</li>
+			
+			<li>
+				<a href="/search.html?cat=性能优化">性能优化</a>
+				<span class="count">5</span>
+			</li>
+			
+			<li>
+				<a href="/search.html?cat=读书笔记">读书笔记</a>
+				<span class="count">9</span>
+			</li>
+			
+			<li>
+				<a href="/search.html?cat=即时通信">即时通信</a>
+				<span class="count">5</span>
+			</li>
+			
+		</ul>
+	</div>
+</section>
+<section class="all-tags">
+	<h3>标签</h3>
+	<div class="inner">
+		<div class="tags">
+			
+			<a class="tag" href="/search.html?tag=WebSocket" count="6"> WebSocket</a>
+		    
+			<a class="tag" href="/search.html?tag=NodeJs" count="7"> NodeJs</a>
+		    
+			<a class="tag" href="/search.html?tag=xmpp" count="1"> xmpp</a>
+		    
+			<a class="tag" href="/search.html?tag=WebIM" count="6"> WebIM</a>
+		    
+			<a class="tag" href="/search.html?tag=css" count="8"> css</a>
+		    
+			<a class="tag" href="/search.html?tag=github" count="5"> github</a>
+		    
+			<a class="tag" href="/search.html?tag=jekyll" count="5"> jekyll</a>
+		    
+			<a class="tag" href="/search.html?tag=jQuery" count="1"> jQuery</a>
+		    
+			<a class="tag" href="/search.html?tag=JavaScript" count="21"> JavaScript</a>
+		    
+			<a class="tag" href="/search.html?tag=生活" count="2"> 生活</a>
+		    
+			<a class="tag" href="/search.html?tag=思考" count="1"> 思考</a>
+		    
+			<a class="tag" href="/search.html?tag=HTML" count="18"> HTML</a>
+		    
+			<a class="tag" href="/search.html?tag=CSS" count="16"> CSS</a>
+		    
+			<a class="tag" href="/search.html?tag=响应式" count="3"> 响应式</a>
+		    
+			<a class="tag" href="/search.html?tag=oracle" count="1"> oracle</a>
+		    
+			<a class="tag" href="/search.html?tag=存储函数" count="1"> 存储函数</a>
+		    
+			<a class="tag" href="/search.html?tag=grunt" count="1"> grunt</a>
+		    
+			<a class="tag" href="/search.html?tag=设计" count="9"> 设计</a>
+		    
+			<a class="tag" href="/search.html?tag=笔试面试题" count="1"> 笔试面试题</a>
+		    
+			<a class="tag" href="/search.html?tag=WebRTC" count="5"> WebRTC</a>
+		    
+			<a class="tag" href="/search.html?tag=SEO" count="1"> SEO</a>
+		    
+		</div>
+	</div>
+</section>
+<section class="subscribe">
+	<h3>RSS订阅</h3>
+	<div class="inner">
+		<ul>
+			<li><a href="http://xianguo.com/subscribe?url=http%3A%2F%2Fskyinlayer.com%2Frss.xml"><span class="sub-icon sub-xianguo"></span>鲜果</a></li>
+			<li><a href="http://www.zhuaxia.com/add_channel.php?sourceid=102&url=http%3A%2F%2Fskyinlayer.com%2Frss.xml"><span class="sub-icon sub-zhuaxia"></span>抓虾</a></li>
+			<li><a href="http://feedly.com/index.html#subscription%2Ffeed%2Fhttp%3A%2F%2Fskyinlayer.com%2Frss.xml"><span class="sub-icon sub-feedly"></span>feedly</a></li>
+			<li><a href="http://e.my.yahoo.com/config/cstore?.opt=content&.url=http%3A%2F%2Fskyinlayer.com%2Frss.xml"><span class="sub-icon sub-yahoo"></span>My Yahoo!</a></li>
+			<li><a href="http://digg.com/reader/search/skyinlayer.com%2Frss.xml"><span class="sub-icon sub-digg"></span>Digg</a></li>
+			<li><a href="http://skyinlayer.com/rss.xml">手动RSS订阅</a></li>
+		</ul>
+	</div>
+</section>
+<section class="other">
+	<h3>其他</h3>
+	<div class="inner">
+		<ul>
+			<li><a href="/editor.html">在线编辑器</a></li>
+			<li><a href="/gitbook">读书笔记</a></li>
+			<li><a href="/about.html">关于我</a></li>
+		</ul>
+	</div>
+</section>
+		</aside>
+		<footer class="footer">
+			<p>&copy; 2014 天镶 Skyinlayer</p>
+		</footer>
+	</div>
+</body>
+<script type="text/javascript" src="http://cdn.staticfile.org/jquery/2.1.1-beta1/jquery.min.js"></script>
+<script type="text/javascript" src="http://cdn.staticfile.org/highlight.js/8.0/highlight.min.js"></script>
+<script type="text/javascript">
+	$(function() {
+		var $totop = $("#totop");
+		var $content = $("#content");
+		var $window = $(window);
+		$(document).on("scroll", function(event) {
+			var top = $window.scrollTop();
+			if (top > $content.offset().top) {
+				if ($totop.css("display") !== "block") {
+					$totop.css("opacity", 0);
+					$totop.css("display", "block");
+					$totop.animate({
+						opacity: .5
+					});
+				}
+			} else {
+				$totop.css("display", "none");
+			}
+			event.stopPropagation();
+			event.preventDefault();
+		});
+		$totop.on("click", function(event) {
+			$("html, body").animate({
+				scrollTop: 0
+			}, 800);
+			event.stopPropagation();
+			event.preventDefault();
+		});
+
+		$totop.trigger("scroll");
+
+		$('pre code').each(function(i, e) {
+			hljs.highlightBlock(e);
+		});
+		var $searchIpt = $("#searchIpt");
+		var $searchBtn = $("#searchBtn");
+		var jumpToSearch = function(){
+			var title = $searchIpt.val().replace(/^\s+|\s+$/g, '');
+			if(title){
+				window.location.href = "/search.html?title=" + title;
+			}
+		};
+		$searchIpt.on("keydown", function(event) {
+			if (event.keyCode === 13) {
+				jumpToSearch();
+			}
+			event.stopPropagation();
+		});
+		$searchBtn.on("click", function(event){
+			jumpToSearch();
+			event.stopPropagation();
+			event.preventDefault();
+		});
+
+
+	});
+	var duoshuoQuery = {
+		short_name: "skyinlayer"
+	};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';
+		ds.async = true;
+		ds.src = 'http://static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+</script>
+</html>

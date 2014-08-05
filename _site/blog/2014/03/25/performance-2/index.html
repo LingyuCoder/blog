@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8;"/>
+	<title>前端性能优化（JavaScript篇） - 天镶的博客 SkyInlayer`s Blog </title>
+	<link rel="stylesheet" media="screen" href="/css/style.min.css">
+	<link rel="stylesheet" media="screen" href="http://cdn.staticfile.org/highlight.js/8.0/styles/dark.min.css">
+	<meta name="keywords" content="天镶, SkyInlayer, 天镶的博客, 博客, 个人博客, 前端, IT, 程序员" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="author" content="Skyinlayer">
+	<meta name="description" content="天镶SkyInlayer的个人博客">
+	<meta name="robots" content="all">
+	<!--[if lt IE 9]>
+	<script src="http://cdn.staticfile.org/html5shiv/r29/html5.js"></script>
+	<![endif]-->
+</head>
+<body>
+	<div class="totop" id="totop"></div>
+	<div class="wrapper">
+		<header class="header">
+			<div class="banner"><h1>天镶的博客</h1></div>
+<div class="desc">学海无涯，回头是岸</div>
+<nav>
+	<ul>
+		<li><a href="/index.html">首页</a></li>
+		<li><a href="/search.html">文章</a></li>
+		<li><a href="/items.html">玩意</a></li>
+		<li><a href="/profile.html">简历</a></li>
+	</ul>
+</nav>
+		</header>
+		<div class="content" id="content">
+			<article class="post">
+				<header>
+					<h1>前端性能优化（JavaScript篇）</h1>
+					<span class="byline">前端性能优化系列</span>
+				</header>
+				<div class="tags">
+					
+						<a class="tag" href="/show_by_tag.html?tag=JavaScript" class="tag">JavaScript</a>
+					
+						<a class="tag" href="/show_by_tag.html?tag=HTML" class="tag">HTML</a>
+					
+						<a class="tag" href="/show_by_tag.html?tag=CSS" class="tag">CSS</a>
+					
+				</div>
+				<h2 id="">优化循环</h2>
+
+<p>如果现在有个一个<code>data[]</code>数组，需要对其进行遍历，应当怎么做？最简单的代码是：</p>
+
+<pre class="javascript"><code class="javascript">for (var i = 0; i &lt; data.length; i++) {
+    //do someting
+}</code></pre>
+
+<p>这里每次循环开始前都需要判断i是否小于<code>data.length</code>，JavaScript并不会对<code>data.length</code>进行缓存，而是每次比较都会进行一次取值。如我们所知，JavaScript数组其实是一个对象，里面有个length属性，所以这里实际上就是取得对象的属性。如果直接使用变量的话就会少一次索引对象，如果数组的元素很多，效率提升还是很可观的。所以我们通常将代码改成如下所示：</p>
+
+<pre class="javascript"><code class="javascript">for(var i = 0, m = data.length; i &lt; m; i++) {
+    //do someting
+}</code></pre>
+
+<p>这里多加了一个变量m用于存放<code>data.length</code>属性，这样就可以在每次循环时，减少一次索引对象，但是代价是增加了一个变量的空间，如果遍历不要求顺序，我们甚至可以不用m这个变量存储长度，在不要求顺序的时候可以使用如下代码：</p>
+
+<pre class="javascript"><code class="javascript">for(var i = data.length; i--; ) {
+    //do someting
+}</code></pre>
+
+<p>当然我们可以使用while来替代：</p>
+
+<pre class="javascript"><code class="javascript">var i = data.length;
+while(i--) {
+    //do someting
+}</code></pre>
+
+<p>这样就可只使用一个变量了</p>
+
+<h2 id="_2">运算结果缓存</h2>
+
+<p>由于JavaScript中的函数也是对象（JavaScript中一切都是对象），所以我们可以给函数添加任意的属性。这也就为我们提供符合备忘录模式的缓存运算结果的功能，比如我们有一个需要大量运算才能得出结果的函数如下：</p>
+
+<pre class="javascript"><code class="javascript">function calculator(params) {
+    //大量的耗时的计算 
+    return result;
+}</code></pre>
+
+<p>如果其中不涉及随机，参数一样时所返回的结果一致，我们就可以将运算结果进行缓存从而避免重复的计算：</p>
+
+<pre class="javascript"><code class="javascript">function calculator(params) {
+    var cacheKey = JSON.stringify(params);
+    var cache = calculator.cache = calculator.cache || {};
+    if(typeof cache[cacheKey] !== &#39;undefined&#39;) {
+        return cache[cacheKey];
+    }
+    //大量耗时的计算
+    cache[cacheKey] = result;
+    return result;
+}</code></pre>
+
+<p>这里将参数转化为JSON字符串作为key，如果这个参数已经被计算过，那么就直接返回，否则进行计算。计算完毕后再添加入cache中，如果需要，可以直接查看cache的内容：<code>calculator.cache</code></p>
+
+<p>这是一种典型的空间换时间的方式，由于浏览器的页面存活时间一般不会很长，占用的内存会很快被释放（当然也有例外，比如一些WEB应用），所以可以通过这种空间换时间的方式来减少响应时间，提升用户体验。这种方式并不适用于如下场合：</p>
+
+<ol>
+<li>相同参数可能产生不同结果的情况（包含随机数之类的）</li>
+
+<li>运算结果占用特别多内存的情况</li>
+</ol>
+
+<h2 id="_3">不要在循环中创建函数</h2>
+
+<p>这个很好理解，每创建一个函数对象是需要大批量空间的。所以在一个循环中创建函数是很不明智的，尽量将函数移动到循环之前创建，比如如下代码：</p>
+
+<pre class="javascript"><code class="javascript">for(var i = 0, m = data.length; i &lt; m; i++) {
+    handlerData(data[i], function(data){
+        //do something
+    });
+}</code></pre>
+
+<p>就可以修改为：</p>
+
+<pre class="javascript"><code class="javascript">var handler = function(data){
+    //do something
+};
+for(var i = 0, m = data.length; i &lt; m; i++) {
+    handlerData(data[i], handler);
+}</code></pre>
+
+<h2 id="_4">让垃圾回收器回收那些不再需要的对象</h2>
+
+<p>之前我曾在 <a href="http://skyinlayer.com/blog/2014/03/19/v8-gc/">浅谈V8引擎中的垃圾回收机制</a> 中讲到了V8引擎如何进行垃圾回收。可以从中看到，如果长时间保存对象，老生代中占用的空间将增大，每次在老生代中的垃圾回收过程将会相当漫长。而垃圾回收器判断一个对象为活对象还是死对象，是按照是否有活对象或根对象含有对它的引用来判定的。如果有根对象或者活对象引用了这个对象，它将被判定为活对象。所以我们需要通过手动消除这些引用来让垃圾回收器对回收这些对象。</p>
+
+<h3 id="delete">delete</h3>
+
+<p>一种方式是通过<code>delete</code>方式来消除对象中的键值对，从而消除引用。但这种方式并不提倡，它会改变对象的结构，可能导致引擎中对对象的存储方式变更，降级为字典方式进行存储（详细请见<a href="http://newhtml.net/v8-object-representation/">V8 之旅：对象表示</a>），不利于JavaScript引擎的优化，所以尽量减少使用</p>
+
+<h3 id="null">null</h3>
+
+<p>另一种方式是通过将值设为null来消除引用。通过将变量或对象的属性设为null，可以消除引用，使原本引用的对象成为一个“孤岛”，然后在垃圾回收的时候对其进行回收。这种方式不会改变对象的结构，比使用<code>delete</code>要好</p>
+
+<h3 id="_5">全局对象</h3>
+
+<p>另外需要注意的是，垃圾回收器认为根对象永远是活对象，永远不会对其进行垃圾回收。而全局对象就是根对象，所以全局作用域中的变量将会一直存在</p>
+
+<h3 id="_6">事件处理器的回收</h3>
+
+<p>在平常写代码的时候，我们经常会给一个DOM节点绑定事件处理器，但有时候我们不需要这些事件处理器后，就不管它们了，它们默默的在内存中保存着。所以在某些DOM节点绑定的事件处理器不需要后，我们应当销毁它们。同时绑定的时候也尽量使用事件代理的方式进行绑定，以免造成多次重复的绑定导致内存空间的浪费，事件代理可见<a href="http://skyinlayer.com/blog/2014/03/25/performance-1/">前端性能优化（DOM操作篇）</a></p>
+
+<h3 id="_7">闭包导致的内存泄露</h3>
+
+<p>JavaScript的闭包可以说即是“天使”又是“魔鬼”，它“天使”的一面是我们可以通过它突破作用域的限制，而其魔鬼的一面就是和容易导致内存泄露，比如如下情况：</p>
+
+<pre class="javascript"><code class="javascript">var result = (function() {
+    var small = {};
+    var big = new Array(10000000);
+    //do something
+    return function(){
+        if(big.indexOf(&quot;someValue&quot;) !== -1) {
+            return null;
+        } else {
+            return small;
+        }
+    }
+})();</code></pre>
+
+<p>这里，创建了一个闭包。使得返回的函数存储在result中，而result函数能够访问其作用域内的small对象和big对象。由于big对象和small对象都可能被访问，所以垃圾回收器不会去碰这两个对象，它们不会被回收。我们将上述代码改成如下形式：</p>
+
+<pre class="javascript"><code class="javascript">var result = (function() {
+    var small = {};
+    var big = new Array(10000000);
+    var hasSomeValue;
+    //do something
+    hasSomeValue = big.indexOf(&quot;someValue&quot;) !== -1;
+    return function(){
+        if(hasSomeValue) {
+            return null;
+        } else {
+            return small;
+        }
+    }
+})();</code></pre>
+
+<p>这样，函数内部只能够访问到hasSomeValue变量和small变量了，big没有办法通过任何形式被访问到，垃圾回收器将会对其进行回收，节省了大量的内存。</p>
+
+<h2 id="evalwith">慎用eval和with</h2>
+
+<p>Douglas Crockford将eval比作魔鬼，确实在很多方面我们可以找到更好地替代方式。使用它时需要在运行时调用解释引擎对<code>eval()</code>函数内部的字符串进行解释运行，这需要消耗大量的时间。像<code>Function</code>、<code>setInterval</code>、<code>setTimeout</code>也是类似的</p>
+
+<p>Douglas Crockford也不建议使用with，with会降低性能，通过with包裹的代码块，作用域链将会额外增加一层，降低索引效率</p>
+
+<h2 id="_8">对象的优化</h2>
+
+<h3 id="_9">缓存需要被使用的对象</h3>
+
+<p>JavaScript获取数据的性能有如下顺序（从快到慢）：变量获取 &gt; 数组下标获取（对象的整数索引获取） &gt; 对象属性获取（对象非整数索引获取）。我们可以通过最快的方式代替最慢的方式：</p>
+
+<pre class="javascript"><code class="javascript">var body = document.body;
+var maxLength = someArray.length;
+//...</code></pre>
+
+<p>需要考虑，作用域链和原型链中的对象索引。如果作用域链和原型链较长，也需要对所需要的变量继续缓存，否则沿着作用域链和原型链向上查找时也会额外消耗时间</p>
+
+<h3 id="_10">缓存正则表达式对象</h3>
+
+<p>需要注意，正则表达式对象的创建非常消耗时间，尽量不要在循环中创建正则表达式，尽可能多的对正则表达式对象进行复用</p>
+
+<h3 id="_11">考虑对象和数组</h3>
+
+<p>在JavaScript中我们可以使用两种存放数据：对象和数组。由于JavaScript数组可以存放任意类型数据这样的灵活性，导致我们经常需要考虑何时使用数组，何时使用对象。我们应当在如下情况下做出考虑：</p>
+
+<ol>
+<li>存储一串相同类型的对象，应当使用数组</li>
+
+<li>存储一堆键值对，值的类型多样，应当使用对象</li>
+
+<li>所有值都是通过整数索引，应当使用数组</li>
+</ol>
+
+<h3 id="_12">数组使用时的优化</h3>
+
+<ol>
+<li>往数组中插入混合类型很容易降低数组使用的效率，尽量保持数组中元素的类型一致</li>
+
+<li>如果使用稀疏数组，它的元素访问将远慢于满数组的元素访问。因为V8为了节省空间，会将稀疏数组通过字典方式保存在内存中，节约了空间，但增加了访问时间</li>
+</ol>
+
+<h3 id="_13">对象的拷贝</h3>
+
+<p>需要注意的是，JavaScript遍历对象和数组时，使用<code>for...in</code>的效率相当低，所以在拷贝对象时，如果已知需要被拷贝的对象的属性，通过直接赋值的方式比使用<code>for...in</code>方式要来得快，我们可以通过定一个拷贝构造函数来实现，比如如下代码：</p>
+
+<pre class="javascript"><code class="javascript">function copy(source){
+    var result = {};
+    var item;
+    for(item in source) {
+        result[item] = source[item];
+    }
+    return result;
+}
+var backup = copy(source);</code></pre>
+
+<p>可修改为：</p>
+
+<pre class="javascript"><code class="javascript">function copy(source){
+    this.property1 = source.property1;
+    this.property2 = source.property2;
+    this.property3 = source.property3;
+    //...
+}
+var backup = new copy(source);</code></pre>
+
+<h3 id="_14">字面量代替构造函数</h3>
+
+<p>JavaScript可以通过字面量来构造对象，比如通过<code>[]</code>构造一个数组，<code>{}</code>构造一个对象，<code>/regexp/</code>构造一个正则表达式，我们应当尽力使用字面量来构造对象，因为字面量是引擎直接解释执行的，而如果使用构造函数的话，需要调用一个内部构造器，所以字面量略微要快一点点。</p>
+
+<h2 id="ajax">缓存AJAX</h2>
+
+<p>曾经听过一个访问时间比较（当然不精确）：</p>
+
+<ul>
+<li>cpu cache ≈ 100 * 寄存器</li>
+
+<li>内存 ≈ 100 * cpu cache</li>
+
+<li>外存 ≈ 100 * 内存</li>
+
+<li>网络 ≈ 100 * 外存</li>
+</ul>
+
+<p>可看到访问网络资源是相当慢的，而AJAX就是JavaScript访问网络资源的方式，所以对一些AJAX结果进行缓存，可以大大减少响应时间。那么如何缓存AJAX结果呢</p>
+
+<h3 id="_15">函数缓存</h3>
+
+<p>我们可以使用前面缓存复杂计算函数结果的方式进行缓存，通过在函数对象上构造cache对象，原理一样，这里略过。这种方式是精确到函数，而不精确到请求</p>
+
+<h3 id="_16">本地缓存</h3>
+
+<p>HTML5提供了本地缓存sessionStorage和localStorage，区别就是前者在浏览器关闭后会自动释放，而后者则是永久的，不会被释放。它提供的缓存大小以MB为单位，比cookie（4KB）要大得多，所以我们可以根据AJAX数据的存活时间来判断是存放在sessionStorage还是localStorage当中，在这里以存储到sessionStorage中为例(localStorage只需把第一行的<code>window.sessionStorage</code>修改为<code>window.localStorage</code>)：</p>
+
+<pre class="javascript"><code class="javascript">function(data, url, type, callback){
+    var storage = window.sessionStorage;
+    var key = JSON.stringify({
+        url : url,
+        type : type,
+        data : data
+    });
+    var result = storage.getItem(key);
+    var xhr;
+    if (result) {
+        callback.call(null, result);
+    } else {
+        xhr.onreadystatechange = function(){
+            if(xhr.readyState === 4){
+                if(xhr.status === 200){
+                    storage.setItem(key, xhr.responseText);
+                    callback.call(null, xhr.responseText);
+                } else {
+                }
+            }
+        };
+        xhr.open(type, url, async);
+        xhr.send(data);
+    }
+};</code></pre>
+
+<h2 id="_17">使用布尔表达式的短路</h2>
+
+<p>在很多语言中，如果bool表达式的值已经能通过前面的条件确定，那么后面的判断条件将不再会执行，比如如下代码</p>
+
+<pre class="javascript"><code class="javascript">function calCondition(params) {
+    var result;
+    //do lots of work
+    return !!result;
+}
+
+if(otherCondition &amp;&amp; calCondition(someParams)) {
+    console.log(true);
+} else {
+    console.log(false);
+}</code></pre>
+
+<p>这里首先会计算<code>otherCondition</code>的值，如果它为false，那么整个正则表达式就为false了，后续的需要消耗大量时间的<code>calCondition()</code>函数就不会被调用和计算了，节省了时间</p>
+
+<h2 id="_18">使用原生方法</h2>
+
+<p>在JavaScript中，大多数原生方法是使用C++编写的，比js写的方法要快得多，所以尽量使用诸如<code>Math</code>之类的原生对象和方法</p>
+
+<h2 id="_19">字符串拼接</h2>
+
+<p>在IE和FF下，使用直接<code>+=</code>的方式或是<code>+</code>的方式进行字符串拼接，将会很慢。我们可以通过Array的<code>join()</code>方法进行字符串拼接。不过并不是所有浏览器都是这样，现在很多浏览器使用<code>+=</code>比join()方法还要快</p>
+
+<h2 id="web_worker">使用web worker</h2>
+
+<p>web worker是HTML5提出的一项新技术，通过多线程的方式为JavaScript提供并行计算的能力，通过message的方式进行相互之间的信息传递，我还没有仔细研究过</p>
+
+<h2 id="javascript">JavaScript文件的优化</h2>
+
+<h3 id="cdn">使用CDN</h3>
+
+<p>在编写JavaScript代码中，我们经常会使用库（jQuery等等），这些JS库通常不会对其进行更改，我们可以将这些库文件放在CDN（内容分发网络上），这样能大大减少响应时间</p>
+
+<h3 id="javascript_2">压缩与合并JavaScript文件</h3>
+
+<p>在网络中传输JS文件，文件越长，需要的时间越多。所以在上线前，通常都会对JS文件进行压缩，去掉其中的注释、回车、不必要的空格等多余内容，如果通过uglify的算法，还可以缩减变量名和函数名，从而将JS代码压缩，节约传输时的带宽。另外经常也会将JavaScript代码合并，使所有代码在一个文件之中，这样就能够减少HTTP的请求次数。合并的原理和sprite技术相同</p>
+
+<h3 id="application_cache">使用Application Cache缓存</h3>
+
+<p>这个在之前的文章<a href="http://skyinlayer.com/blog/2014/02/20/application-cache/">前端性能优化（Application Cache篇）</a>中已有描述，就不赘述了</p>
+				<div class="ds-thread" data-url="http://skyinlayer.com//blog/2014/03/25/performance-2" data-thread-key="/blog/2014/03/25/performance-2" data-title="前端性能优化（JavaScript篇）" style="min-height:277px"></div>
+			</article>
+		</div>
+		<aside class="aside">
+			<section class="recent">
+	<h3>最近的文章</h3>
+	<div class="inner">
+		<ul>
+			
+			<li>
+				<a href="/blog/2014/04/13/vertical-align">垂直居中之vertical-align详解</a>
+				<span class="date">13 Apr 2014</span>
+			</li>
+			
+			<li>
+				<a href="/blog/2014/04/06/play-fish">Good Good Study, Day Day Upward！</a>
+				<span class="date">06 Apr 2014</span>
+			</li>
+			
+			<li>
+				<a href="/blog/2014/04/04/alibaba-fe-1">阿里巴巴前端笔试题（1-10）</a>
+				<span class="date">04 Apr 2014</span>
+			</li>
+			
+			<li>
+				<a href="/blog/2014/03/31/css-layout">CSS布局相关基础知识</a>
+				<span class="date">31 Mar 2014</span>
+			</li>
+			
+			<li>
+				<a href="/blog/2014/03/30/js-type-convert">JavaScript隐式类型转换</a>
+				<span class="date">30 Mar 2014</span>
+			</li>
+			
+		</ul>
+	</div>
+</section>
+<section class="search">
+	<h3>搜索</h3>
+	<div class="inner">
+		<div class="si">
+			<input type="search" id="searchIpt" placeholder="输入搜索标题"/>
+			<button id="searchBtn">>></button>
+		</div>
+	</div>
+</section>
+<section class="categories">
+	<h3>类别</h3>
+	<div class="inner">
+		<ul>
+			
+			<li>
+				<a href="/search.html?cat=网站建设">网站建设</a>
+				<span class="count">8</span>
+			</li>
+			
+			<li>
+				<a href="/search.html?cat=前端技术">前端技术</a>
+				<span class="count">18</span>
+			</li>
+			
+			<li>
+				<a href="/search.html?cat=生活情感">生活情感</a>
+				<span class="count">3</span>
+			</li>
+			
+			<li>
+				<a href="/search.html?cat=笔试面试积累">笔试面试积累</a>
+				<span class="count">9</span>
+			</li>
+			
+			<li>
+				<a href="/search.html?cat=数据库技术">数据库技术</a>
+				<span class="count">1</span>
+			</li>
+			
+			<li>
+				<a href="/search.html?cat=性能优化">性能优化</a>
+				<span class="count">5</span>
+			</li>
+			
+			<li>
+				<a href="/search.html?cat=读书笔记">读书笔记</a>
+				<span class="count">9</span>
+			</li>
+			
+			<li>
+				<a href="/search.html?cat=即时通信">即时通信</a>
+				<span class="count">5</span>
+			</li>
+			
+		</ul>
+	</div>
+</section>
+<section class="all-tags">
+	<h3>标签</h3>
+	<div class="inner">
+		<div class="tags">
+			
+			<a class="tag" href="/search.html?tag=WebSocket" count="6"> WebSocket</a>
+		    
+			<a class="tag" href="/search.html?tag=NodeJs" count="7"> NodeJs</a>
+		    
+			<a class="tag" href="/search.html?tag=xmpp" count="1"> xmpp</a>
+		    
+			<a class="tag" href="/search.html?tag=WebIM" count="6"> WebIM</a>
+		    
+			<a class="tag" href="/search.html?tag=css" count="8"> css</a>
+		    
+			<a class="tag" href="/search.html?tag=github" count="5"> github</a>
+		    
+			<a class="tag" href="/search.html?tag=jekyll" count="5"> jekyll</a>
+		    
+			<a class="tag" href="/search.html?tag=jQuery" count="1"> jQuery</a>
+		    
+			<a class="tag" href="/search.html?tag=JavaScript" count="21"> JavaScript</a>
+		    
+			<a class="tag" href="/search.html?tag=生活" count="2"> 生活</a>
+		    
+			<a class="tag" href="/search.html?tag=思考" count="1"> 思考</a>
+		    
+			<a class="tag" href="/search.html?tag=HTML" count="18"> HTML</a>
+		    
+			<a class="tag" href="/search.html?tag=CSS" count="16"> CSS</a>
+		    
+			<a class="tag" href="/search.html?tag=响应式" count="3"> 响应式</a>
+		    
+			<a class="tag" href="/search.html?tag=oracle" count="1"> oracle</a>
+		    
+			<a class="tag" href="/search.html?tag=存储函数" count="1"> 存储函数</a>
+		    
+			<a class="tag" href="/search.html?tag=grunt" count="1"> grunt</a>
+		    
+			<a class="tag" href="/search.html?tag=设计" count="9"> 设计</a>
+		    
+			<a class="tag" href="/search.html?tag=笔试面试题" count="1"> 笔试面试题</a>
+		    
+			<a class="tag" href="/search.html?tag=WebRTC" count="5"> WebRTC</a>
+		    
+			<a class="tag" href="/search.html?tag=SEO" count="1"> SEO</a>
+		    
+		</div>
+	</div>
+</section>
+<section class="subscribe">
+	<h3>RSS订阅</h3>
+	<div class="inner">
+		<ul>
+			<li><a href="http://xianguo.com/subscribe?url=http%3A%2F%2Fskyinlayer.com%2Frss.xml"><span class="sub-icon sub-xianguo"></span>鲜果</a></li>
+			<li><a href="http://www.zhuaxia.com/add_channel.php?sourceid=102&url=http%3A%2F%2Fskyinlayer.com%2Frss.xml"><span class="sub-icon sub-zhuaxia"></span>抓虾</a></li>
+			<li><a href="http://feedly.com/index.html#subscription%2Ffeed%2Fhttp%3A%2F%2Fskyinlayer.com%2Frss.xml"><span class="sub-icon sub-feedly"></span>feedly</a></li>
+			<li><a href="http://e.my.yahoo.com/config/cstore?.opt=content&.url=http%3A%2F%2Fskyinlayer.com%2Frss.xml"><span class="sub-icon sub-yahoo"></span>My Yahoo!</a></li>
+			<li><a href="http://digg.com/reader/search/skyinlayer.com%2Frss.xml"><span class="sub-icon sub-digg"></span>Digg</a></li>
+			<li><a href="http://skyinlayer.com/rss.xml">手动RSS订阅</a></li>
+		</ul>
+	</div>
+</section>
+<section class="other">
+	<h3>其他</h3>
+	<div class="inner">
+		<ul>
+			<li><a href="/editor.html">在线编辑器</a></li>
+			<li><a href="/gitbook">读书笔记</a></li>
+			<li><a href="/about.html">关于我</a></li>
+		</ul>
+	</div>
+</section>
+		</aside>
+		<footer class="footer">
+			<p>&copy; 2014 天镶 Skyinlayer</p>
+		</footer>
+	</div>
+</body>
+<script type="text/javascript" src="http://cdn.staticfile.org/jquery/2.1.1-beta1/jquery.min.js"></script>
+<script type="text/javascript" src="http://cdn.staticfile.org/highlight.js/8.0/highlight.min.js"></script>
+<script type="text/javascript">
+	$(function() {
+		var $totop = $("#totop");
+		var $content = $("#content");
+		var $window = $(window);
+		$(document).on("scroll", function(event) {
+			var top = $window.scrollTop();
+			if (top > $content.offset().top) {
+				if ($totop.css("display") !== "block") {
+					$totop.css("opacity", 0);
+					$totop.css("display", "block");
+					$totop.animate({
+						opacity: .5
+					});
+				}
+			} else {
+				$totop.css("display", "none");
+			}
+			event.stopPropagation();
+			event.preventDefault();
+		});
+		$totop.on("click", function(event) {
+			$("html, body").animate({
+				scrollTop: 0
+			}, 800);
+			event.stopPropagation();
+			event.preventDefault();
+		});
+
+		$totop.trigger("scroll");
+
+		$('pre code').each(function(i, e) {
+			hljs.highlightBlock(e);
+		});
+		var $searchIpt = $("#searchIpt");
+		var $searchBtn = $("#searchBtn");
+		var jumpToSearch = function(){
+			var title = $searchIpt.val().replace(/^\s+|\s+$/g, '');
+			if(title){
+				window.location.href = "/search.html?title=" + title;
+			}
+		};
+		$searchIpt.on("keydown", function(event) {
+			if (event.keyCode === 13) {
+				jumpToSearch();
+			}
+			event.stopPropagation();
+		});
+		$searchBtn.on("click", function(event){
+			jumpToSearch();
+			event.stopPropagation();
+			event.preventDefault();
+		});
+
+
+	});
+	var duoshuoQuery = {
+		short_name: "skyinlayer"
+	};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';
+		ds.async = true;
+		ds.src = 'http://static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+</script>
+</html>

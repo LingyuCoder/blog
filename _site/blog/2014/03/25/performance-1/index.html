@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8;"/>
+	<title>前端性能优化（DOM操作篇） - 天镶的博客 SkyInlayer`s Blog </title>
+	<link rel="stylesheet" media="screen" href="/css/style.min.css">
+	<link rel="stylesheet" media="screen" href="http://cdn.staticfile.org/highlight.js/8.0/styles/dark.min.css">
+	<meta name="keywords" content="天镶, SkyInlayer, 天镶的博客, 博客, 个人博客, 前端, IT, 程序员" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="author" content="Skyinlayer">
+	<meta name="description" content="天镶SkyInlayer的个人博客">
+	<meta name="robots" content="all">
+	<!--[if lt IE 9]>
+	<script src="http://cdn.staticfile.org/html5shiv/r29/html5.js"></script>
+	<![endif]-->
+</head>
+<body>
+	<div class="totop" id="totop"></div>
+	<div class="wrapper">
+		<header class="header">
+			<div class="banner"><h1>天镶的博客</h1></div>
+<div class="desc">学海无涯，回头是岸</div>
+<nav>
+	<ul>
+		<li><a href="/index.html">首页</a></li>
+		<li><a href="/search.html">文章</a></li>
+		<li><a href="/items.html">玩意</a></li>
+		<li><a href="/profile.html">简历</a></li>
+	</ul>
+</nav>
+		</header>
+		<div class="content" id="content">
+			<article class="post">
+				<header>
+					<h1>前端性能优化（DOM操作篇）</h1>
+					<span class="byline">前端性能优化系列</span>
+				</header>
+				<div class="tags">
+					
+						<a class="tag" href="/show_by_tag.html?tag=JavaScript" class="tag">JavaScript</a>
+					
+						<a class="tag" href="/show_by_tag.html?tag=HTML" class="tag">HTML</a>
+					
+						<a class="tag" href="/show_by_tag.html?tag=CSS" class="tag">CSS</a>
+					
+				</div>
+				<h2 id="dom">缓存DOM对象</h2>
+
+<p>JavaScript的DOM操作可以说是JavaScript最重要的功能，我们经常要根据用户的操作来动态的增加和删除元素，或是通过AJAX返回的数据动态生成元素。比如我们获得了一个很多元素的数组<code>data[]</code>，需要将其每个值生成一个li元素插入到一个id为container的ul元素中，最简单（最慢）的方式是：</p>
+
+<pre class="javascript"><code class="javascript">var liNode, i, m;
+for (i = 0, m = data.length; i &lt; m; i++) {
+    liNode = document.createElement(&quot;li&quot;);
+    liNode.innerText = data[i];
+    document.getElementById(&quot;container&quot;).appendChild(liNode);
+}</code></pre>
+
+<p>这里每一次循环都会去查找id为container的元素，效率自然非常低，所以我们需要将元素在循环前查询完毕，在循环中仅仅是引用就行了，修改代码为：</p>
+
+<pre class="javascript"><code class="javascript">var ulNode = document.getElementById(&quot;container&quot;);
+var liNode, i, m;
+for (i = 0, m = data.length; i &lt; m; i++) {
+    liNode = document.createElement(&quot;li&quot;);
+    liNode.innerText = data[i];
+    ulNode.appendChild(liNode);
+}</code></pre>
+
+<p>缓存DOM对象的方式也经常被用在元素的查找中，查找元素应该是DOM操作中最频繁的操作了，其效率优化也是大头。在一般情况下，我们会根据需要，将一些频繁被查找的元素缓存起来，在查找它或查找它的子孙元素时，以它为起点进行查找，就能提高查找效率了。</p>
+
+<h2 id="">在内存中操作元素</h2>
+
+<p>由于DOM操作会导致浏览器的回流，回流需要花费大量的时间进行样式计算和节点重绘与渲染，所以应当尽量减少回流次数。一种可靠的方法就是加入元素时不要修改页面上已经存在的元素，而是在内存中的节点进行大量的操作，最后再一并将修改运用到页面上。DOM操作本身提供一个创建内存节点片段的功能:<code>document.createDocumentFragment()</code>，我们可以将其运用于上述代码中：</p>
+
+<pre class="javascript"><code class="javascript">var ulNode = document.getElementById(&quot;container&quot;);
+var liNode, i, m;
+var fragment = document.createDocumentFragment();
+for (i = 0, m = data.length; i &lt; m; i++) {
+    liNode = document.createElement(&quot;li&quot;);
+    liNode.innerText = data[i];
+    fragment.appendChild(liNode);
+}
+ulNode.appendChild(fragment);</code></pre>
+
+<p>这样就只会触发一次回流，效率会得到很大的提升。如果需要对一个元素进行复杂的操作（删减、添加子节点），那么我们应当先将元素从页面中移除，然后再对其进行操作，或者将其复制一个（<code>cloneNode()</code>），在内存中进行操作后再替换原来的节点</p>
+
+<h2 id="dom_2">一次性DOM节点生成</h2>
+
+<p>在这里我们每次都需要生成节点（<code>document.createElement(&quot;li&quot;)</code>），然后将其加入到内存片段中，我们可以通过<code>innerHTML</code>属性来一次性生成节点，具体的思路就是使用字符串拼接的方式，先生成相应的HTML字符串，最后一次性写入到ul的innerHTML中。修改代码为：</p>
+
+<pre class="javascript"><code class="javascript">var ulNode = document.getElementById(&quot;container&quot;);
+var fragmentHtml = &quot;&quot;, i, m;
+for (i = 0, m = data.length; i &lt; m; i++) {
+    fragmentHtml += &quot;&lt;li&gt;&quot; + data[i] + &quot;&lt;/li&gt;&quot;;
+}
+ulNode.innerHTML = fragmentHtml;</code></pre>
+
+<p>这样效率也会有提升，不过手动拼写字符串是相当麻烦的一件事</p>
+
+<h2 id="_2">通过类修改样式</h2>
+
+<p>有时候我们需要通过JavaScript给元素增加样式，比如如下代码：</p>
+
+<pre class="javascript"><code class="javascript">element.style.fontWeight = &#39;bold&#39;;
+element.style.backgroundImage = &#39;url(back.gif)&#39;;
+element.style.backgroundColor = &#39;white&#39;;
+element.style.color = &#39;white&#39;;
+//...</code></pre>
+
+<p>这样效率很低，每次修改style属性后都会触发元素的重绘，如果修改了的属性涉及大小和位置，将会导致回流。所以我们应当尽量避免多次为一个元素设置style属性，应当通过给其添加新的CSS类，来修改其CSS</p>
+
+<pre class="css21"><code class="css21">.element {
+    background-image: url(back.gif);
+    background-color: #fff;
+    color: #fff;
+    font-weight: &#39;bold&#39;;
+    /*...*/
+}</code></pre>
+
+<pre class="javascript"><code class="javascript">element.className += &quot; element&quot;;</code></pre>
+
+<h2 id="_3">通过事件代理批量操作事件</h2>
+
+<p>还是之前那个ul和添加li，如果我们需要给每个li都绑定一个click事件，就可能写出类似如下代码：</p>
+
+<pre class="javascript"><code class="javascript">var ulNode = document.getElementById(&quot;container&quot;);
+var fragment = document.createDocumentFragment();
+var liNode, i, m;
+var liFnCb = function(evt){
+    //do something
+};
+for (i = 0, m = data.length; i &lt; m; i++) {
+    liNode = document.createElement(&quot;li&quot;);
+    liNode.innerText = data[i];
+    liNode.addEventListener(&quot;click&quot;, liFnCb, false);
+    fragment.appendChild(liNode);
+}
+ulNode.appendChild(fragment);</code></pre>
+
+<p>这里每个li元素都需要执行一次<code>addEventListener()</code>方法，如果li元素数量一多，就会降低效率。所以我们可以通过事件代理的方式，将事件绑定在ul上，然后通过<code>event.target</code>来确定被点击的元素是否是li元素，同时我们也可以使用<code>innerHTML</code>属性一次性创建节点了，修改代码为：</p>
+
+<pre class="javascript"><code class="javascript">var ulNode = document.getElementById(&quot;container&quot;);
+var fragmentHtml = &quot;&quot;, i, m;
+var liFnCb = function(evt){
+    //do something
+};
+for (i = 0, m = data.length; i &lt; m; i++) {
+    fragmentHtml += &quot;&lt;li&gt;&quot; + data[i] + &quot;&lt;/li&gt;&quot;;
+}
+ulNode.innerHTML = fragmentHtml;
+ulNode.addEventListener(&quot;click&quot;, function(evt){
+    if(evt.target.tagName.toLowerCase() === &#39;li&#39;) {
+        liFnCb.call(evt.target, evt);
+    }
+}, false);</code></pre>
+
+<p>这样事件绑定的代码就只要执行一次，可以监听所有li元素的事件了。当然如果需要移除事件回调函数，我们也不需要循环遍历所有的li元素，只需要移除ul元素上的事件处理就行了</p>
+				<div class="ds-thread" data-url="http://skyinlayer.com//blog/2014/03/25/performance-1" data-thread-key="/blog/2014/03/25/performance-1" data-title="前端性能优化（DOM操作篇）" style="min-height:277px"></div>
+			</article>
+		</div>
+		<aside class="aside">
+			<section class="recent">
+	<h3>最近的文章</h3>
+	<div class="inner">
+		<ul>
+			
+			<li>
+				<a href="/blog/2014/04/13/vertical-align">垂直居中之vertical-align详解</a>
+				<span class="date">13 Apr 2014</span>
+			</li>
+			
+			<li>
+				<a href="/blog/2014/04/06/play-fish">Good Good Study, Day Day Upward！</a>
+				<span class="date">06 Apr 2014</span>
+			</li>
+			
+			<li>
+				<a href="/blog/2014/04/04/alibaba-fe-1">阿里巴巴前端笔试题（1-10）</a>
+				<span class="date">04 Apr 2014</span>
+			</li>
+			
+			<li>
+				<a href="/blog/2014/03/31/css-layout">CSS布局相关基础知识</a>
+				<span class="date">31 Mar 2014</span>
+			</li>
+			
+			<li>
+				<a href="/blog/2014/03/30/js-type-convert">JavaScript隐式类型转换</a>
+				<span class="date">30 Mar 2014</span>
+			</li>
+			
+		</ul>
+	</div>
+</section>
+<section class="search">
+	<h3>搜索</h3>
+	<div class="inner">
+		<div class="si">
+			<input type="search" id="searchIpt" placeholder="输入搜索标题"/>
+			<button id="searchBtn">>></button>
+		</div>
+	</div>
+</section>
+<section class="categories">
+	<h3>类别</h3>
+	<div class="inner">
+		<ul>
+			
+			<li>
+				<a href="/search.html?cat=网站建设">网站建设</a>
+				<span class="count">8</span>
+			</li>
+			
+			<li>
+				<a href="/search.html?cat=前端技术">前端技术</a>
+				<span class="count">18</span>
+			</li>
+			
+			<li>
+				<a href="/search.html?cat=生活情感">生活情感</a>
+				<span class="count">3</span>
+			</li>
+			
+			<li>
+				<a href="/search.html?cat=笔试面试积累">笔试面试积累</a>
+				<span class="count">9</span>
+			</li>
+			
+			<li>
+				<a href="/search.html?cat=数据库技术">数据库技术</a>
+				<span class="count">1</span>
+			</li>
+			
+			<li>
+				<a href="/search.html?cat=性能优化">性能优化</a>
+				<span class="count">5</span>
+			</li>
+			
+			<li>
+				<a href="/search.html?cat=读书笔记">读书笔记</a>
+				<span class="count">9</span>
+			</li>
+			
+			<li>
+				<a href="/search.html?cat=即时通信">即时通信</a>
+				<span class="count">5</span>
+			</li>
+			
+		</ul>
+	</div>
+</section>
+<section class="all-tags">
+	<h3>标签</h3>
+	<div class="inner">
+		<div class="tags">
+			
+			<a class="tag" href="/search.html?tag=WebSocket" count="6"> WebSocket</a>
+		    
+			<a class="tag" href="/search.html?tag=NodeJs" count="7"> NodeJs</a>
+		    
+			<a class="tag" href="/search.html?tag=xmpp" count="1"> xmpp</a>
+		    
+			<a class="tag" href="/search.html?tag=WebIM" count="6"> WebIM</a>
+		    
+			<a class="tag" href="/search.html?tag=css" count="8"> css</a>
+		    
+			<a class="tag" href="/search.html?tag=github" count="5"> github</a>
+		    
+			<a class="tag" href="/search.html?tag=jekyll" count="5"> jekyll</a>
+		    
+			<a class="tag" href="/search.html?tag=jQuery" count="1"> jQuery</a>
+		    
+			<a class="tag" href="/search.html?tag=JavaScript" count="21"> JavaScript</a>
+		    
+			<a class="tag" href="/search.html?tag=生活" count="2"> 生活</a>
+		    
+			<a class="tag" href="/search.html?tag=思考" count="1"> 思考</a>
+		    
+			<a class="tag" href="/search.html?tag=HTML" count="18"> HTML</a>
+		    
+			<a class="tag" href="/search.html?tag=CSS" count="16"> CSS</a>
+		    
+			<a class="tag" href="/search.html?tag=响应式" count="3"> 响应式</a>
+		    
+			<a class="tag" href="/search.html?tag=oracle" count="1"> oracle</a>
+		    
+			<a class="tag" href="/search.html?tag=存储函数" count="1"> 存储函数</a>
+		    
+			<a class="tag" href="/search.html?tag=grunt" count="1"> grunt</a>
+		    
+			<a class="tag" href="/search.html?tag=设计" count="9"> 设计</a>
+		    
+			<a class="tag" href="/search.html?tag=笔试面试题" count="1"> 笔试面试题</a>
+		    
+			<a class="tag" href="/search.html?tag=WebRTC" count="5"> WebRTC</a>
+		    
+			<a class="tag" href="/search.html?tag=SEO" count="1"> SEO</a>
+		    
+		</div>
+	</div>
+</section>
+<section class="subscribe">
+	<h3>RSS订阅</h3>
+	<div class="inner">
+		<ul>
+			<li><a href="http://xianguo.com/subscribe?url=http%3A%2F%2Fskyinlayer.com%2Frss.xml"><span class="sub-icon sub-xianguo"></span>鲜果</a></li>
+			<li><a href="http://www.zhuaxia.com/add_channel.php?sourceid=102&url=http%3A%2F%2Fskyinlayer.com%2Frss.xml"><span class="sub-icon sub-zhuaxia"></span>抓虾</a></li>
+			<li><a href="http://feedly.com/index.html#subscription%2Ffeed%2Fhttp%3A%2F%2Fskyinlayer.com%2Frss.xml"><span class="sub-icon sub-feedly"></span>feedly</a></li>
+			<li><a href="http://e.my.yahoo.com/config/cstore?.opt=content&.url=http%3A%2F%2Fskyinlayer.com%2Frss.xml"><span class="sub-icon sub-yahoo"></span>My Yahoo!</a></li>
+			<li><a href="http://digg.com/reader/search/skyinlayer.com%2Frss.xml"><span class="sub-icon sub-digg"></span>Digg</a></li>
+			<li><a href="http://skyinlayer.com/rss.xml">手动RSS订阅</a></li>
+		</ul>
+	</div>
+</section>
+<section class="other">
+	<h3>其他</h3>
+	<div class="inner">
+		<ul>
+			<li><a href="/editor.html">在线编辑器</a></li>
+			<li><a href="/gitbook">读书笔记</a></li>
+			<li><a href="/about.html">关于我</a></li>
+		</ul>
+	</div>
+</section>
+		</aside>
+		<footer class="footer">
+			<p>&copy; 2014 天镶 Skyinlayer</p>
+		</footer>
+	</div>
+</body>
+<script type="text/javascript" src="http://cdn.staticfile.org/jquery/2.1.1-beta1/jquery.min.js"></script>
+<script type="text/javascript" src="http://cdn.staticfile.org/highlight.js/8.0/highlight.min.js"></script>
+<script type="text/javascript">
+	$(function() {
+		var $totop = $("#totop");
+		var $content = $("#content");
+		var $window = $(window);
+		$(document).on("scroll", function(event) {
+			var top = $window.scrollTop();
+			if (top > $content.offset().top) {
+				if ($totop.css("display") !== "block") {
+					$totop.css("opacity", 0);
+					$totop.css("display", "block");
+					$totop.animate({
+						opacity: .5
+					});
+				}
+			} else {
+				$totop.css("display", "none");
+			}
+			event.stopPropagation();
+			event.preventDefault();
+		});
+		$totop.on("click", function(event) {
+			$("html, body").animate({
+				scrollTop: 0
+			}, 800);
+			event.stopPropagation();
+			event.preventDefault();
+		});
+
+		$totop.trigger("scroll");
+
+		$('pre code').each(function(i, e) {
+			hljs.highlightBlock(e);
+		});
+		var $searchIpt = $("#searchIpt");
+		var $searchBtn = $("#searchBtn");
+		var jumpToSearch = function(){
+			var title = $searchIpt.val().replace(/^\s+|\s+$/g, '');
+			if(title){
+				window.location.href = "/search.html?title=" + title;
+			}
+		};
+		$searchIpt.on("keydown", function(event) {
+			if (event.keyCode === 13) {
+				jumpToSearch();
+			}
+			event.stopPropagation();
+		});
+		$searchBtn.on("click", function(event){
+			jumpToSearch();
+			event.stopPropagation();
+			event.preventDefault();
+		});
+
+
+	});
+	var duoshuoQuery = {
+		short_name: "skyinlayer"
+	};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';
+		ds.async = true;
+		ds.src = 'http://static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+</script>
+</html>

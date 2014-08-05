@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8;"/>
+	<title>使用box-shadow绘制像素画 - 天镶的博客 SkyInlayer`s Blog </title>
+	<link rel="stylesheet" media="screen" href="/css/style.min.css">
+	<link rel="stylesheet" media="screen" href="http://cdn.staticfile.org/highlight.js/8.0/styles/dark.min.css">
+	<meta name="keywords" content="天镶, SkyInlayer, 天镶的博客, 博客, 个人博客, 前端, IT, 程序员" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="author" content="Skyinlayer">
+	<meta name="description" content="天镶SkyInlayer的个人博客">
+	<meta name="robots" content="all">
+	<!--[if lt IE 9]>
+	<script src="http://cdn.staticfile.org/html5shiv/r29/html5.js"></script>
+	<![endif]-->
+</head>
+<body>
+	<div class="totop" id="totop"></div>
+	<div class="wrapper">
+		<header class="header">
+			<div class="banner"><h1>天镶的博客</h1></div>
+<div class="desc">学海无涯，回头是岸</div>
+<nav>
+	<ul>
+		<li><a href="/index.html">首页</a></li>
+		<li><a href="/search.html">文章</a></li>
+		<li><a href="/items.html">玩意</a></li>
+		<li><a href="/profile.html">简历</a></li>
+	</ul>
+</nav>
+		</header>
+		<div class="content" id="content">
+			<article class="post">
+				<header>
+					<h1>使用box-shadow绘制像素画</h1>
+					<span class="byline">使用CSS3属性box-shadow，绘制超级玛丽</span>
+				</header>
+				<div class="tags">
+					
+						<a class="tag" href="/show_by_tag.html?tag=css" class="tag">css</a>
+					
+				</div>
+				<h2 id="">前面的话</h2>
+
+<p>曾经在codepen.io上看到很多像素画，都是css3实现的，点进去看才知道是使用box-shadow实现的，但是当时并不了解CSS3的box-shadow属性。如今稍微了解了box-shadow属性，并自己绘制了一个超级玛丽</p>
+
+<p>希望实现的效果：</p>
+
+<p><img src="/img/mario.jpg" alt="马里奥" /></p>
+
+<h2 id="boxshadow">box-shadow属性</h2>
+
+<p>首先了解一下CSS3的box-shadow属性</p>
+
+<p><img src="/img/box-shadow.jpg" alt="box-shadow" /></p>
+
+<p>可以看到浏览器的支持还是相当不错的，就连IE也从9就支持了</p>
+
+<p>既然需要画像素画，当然主要是绘制矩形，而使用box-shadow可以很方便的实现。box-shadow属性的值可以为[水平偏移, 垂直偏移 , 阴影颜色]、[水平偏移, 垂直偏移 , 阴影模糊值 ,阴影颜色]或者[水平偏移, 垂直偏移 , 阴影模糊值 , 阴影延长值,阴影颜色]。由于绘制像素画不需要使用模糊效果，所以只要使用第一种格式[水平偏移, 垂直偏移 , 阴影颜色]就可以了。</p>
+
+<p>那使用box-shadow如何绘制多个方块？</p>
+
+<h3 id="_2">定义基础元素</h3>
+
+<p>定义一个div用于作为box-shadow的拥有者：</p>
+
+<pre class="xml"><code class="xml">&lt;div class=&quot;pix&quot;&gt;&lt;/div&gt;</code></pre>
+
+<pre class="css21"><code class="css21">.pix {
+    width: 100px;
+    height: 100px;
+    background-color: red;
+}</code></pre>
+
+<p>将它作为最左上角的方块，由于被元素覆盖的box-shadow将不会被显示（就算元素本身的background-color为transparent也不行），颜色直接由background-color属性来确定。关键是定义它的width和height属性，这两个属性决定了每个方块的宽和高。</p>
+
+<p>效果很简单：</p>
+<iframe allowfullscreen='allowfullscreen' frameborder='0' height='300' src='http://jsfiddle.net/skyinlayer/56pgb/12/embedded/result' width='100%'>&nbsp;</iframe>
+<h3 id="_3">在其四周绘制方块</h3>
+
+<p>首先在其右侧绘制一个与原始大小等大的方块，这就要使用box-shadow属性了。给元素添加box-shadow，并添加一个阴影值<code>100px 0 blue</code>，这样就相当于在该元素的左边100px，绘制了一个与元素等大的颜色为blue的方块。</p>
+
+<p>css代码修改为：</p>
+
+<pre class="css21"><code class="css21">.pix {
+    width: 100px;
+    height: 100px;
+    background-color: red;
+    box-shadow: 100px 0 blue
+}</code></pre>
+
+<p>效果如下：</p>
+<iframe allowfullscreen='allowfullscreen' frameborder='0' height='300' src='http://jsfiddle.net/skyinlayer/56pgb/10/embedded/result' width='100%'>&nbsp;</iframe>
+<p>在元素下面绘制一个等大的方块类似，再给box-shadow添加一个值：<code>0 100px blue</code>，css代码修改为：</p>
+
+<pre class="css21"><code class="css21">.pix {
+    width: 100px;
+    height: 100px;
+    background-color: red;
+    box-shadow: 100px 0 blue, 0 100px blue
+}</code></pre>
+
+<p>效果如下：</p>
+<iframe allowfullscreen='allowfullscreen' frameborder='0' height='300' src='http://jsfiddle.net/skyinlayer/56pgb/13/embedded/result' width='100%'>&nbsp;</iframe>
+<p>再添加几个，比如以原始元素为[0,0]，添加[2,0],[1,1],[0,2],背景为绿色： 分别在box-shadow中添加三个属性分别表示这三个方块：</p>
+
+<pre class="css21"><code class="css21">.pix {
+    width: 100px;
+    height: 100px;
+    background-color: red;
+    box-shadow: 
+        100px 0 blue, 
+        0 100px blue,
+        200px 0 green
+        100px 100px green,
+        0 200px green;
+}</code></pre>
+
+<p>效果如下：</p>
+<iframe allowfullscreen='allowfullscreen' frameborder='0' height='300' src='http://jsfiddle.net/skyinlayer/56pgb/14/embedded/result' width='100%'>&nbsp;</iframe>
+<p>这里可以看到，完全可以使用box-shadow绘制像素画，每个像素（方块）用一行box-shadow的值表示就可以了</p>
+
+<h2 id="_4">画超级玛丽</h2>
+
+<p>一般画像素画之前需要做点准备：</p>
+
+<ol>
+<li>首先需要确定每个像素（格子）的真正大小，一般为方块，这里我取了32X32大小。</li>
+
+<li>然后需要确定整幅图需要格子的行数和列数，可以数一数，横向12格，纵向16格。</li>
+
+<li>如果有范本可以直接一行一行添加格子的box-shadow值，如果直接凭空画，可以把整张图拆分成多个部分进行绘制。甚至拆成多个div，每个div定义自己的box-shadow值</li>
+</ol>
+
+<p>既然已经知道使用box-shadow画方块的方法了，自然就可以画超级玛丽了。看最上面的图就可以知道8-bit时代的超级玛丽都是由方块组成，主要有三个颜色：</p>
+
+<ol>
+<li>帽子和肚兜（？）的红色：#E6002E</li>
+
+<li>身体的黄色：#F8B600</li>
+
+<li>头发、胡须、衣服、鞋子的深绿色：#808A27 这里通过一行一行的方式进行绘制：</li>
+</ol>
+
+<p>一步一步话，先画帽子：</p>
+<iframe allowfullscreen='allowfullscreen' frameborder='0' height='600' src='http://jsfiddle.net/skyinlayer/s36mK/embedded/result,css,html' width='100%'>&nbsp;</iframe>
+<p>接着绘制脸：</p>
+<iframe allowfullscreen='allowfullscreen' frameborder='0' height='600' src='http://jsfiddle.net/skyinlayer/s36mK/1/embedded/result,css,html' width='100%'>&nbsp;</iframe>
+<p>然后绘制身体：</p>
+<iframe allowfullscreen='allowfullscreen' frameborder='0' height='600' src='http://jsfiddle.net/skyinlayer/s36mK/2/embedded/result,css,html' width='100%'>&nbsp;</iframe>
+<p>最后把脚画上：</p>
+<iframe allowfullscreen='allowfullscreen' frameborder='0' height='600' src='http://jsfiddle.net/skyinlayer/s36mK/3/embedded/result,css,html' width='100%'>&nbsp;</iframe>
+<p>这样就齐活了，以前dos系统或者fc游戏机中的像素画都可以通过这种方式绘制</p>
+
+<p>完整的代码：</p>
+
+<pre class="css21"><code class="css21">.pix {
+    width: 32px;
+    height: 32px;
+    background-color: transparent;
+    box-shadow: 
+    /*帽子*/ 
+    96px 0 #E6002E, 128px 0 #E6002E, 160px 0 #E6002E, 192px 0 #E6002E, 224px 0 #E6002E, 64px 32px #E6002E, 96px 32px #E6002E, 128px 32px #E6002E, 160px 32px #E6002E, 192px 32px #E6002E, 224px 32px #E6002E, 256px 32px #E6002E, 288px 32px #E6002E, 320px 32px #E6002E, 
+    /*头*/ 
+    64px 64px #808A27, 96px 64px #808A27, 128px 64px #808A27, 160px 64px #F8B600, 192px 64px #F8B600, 224px 64px #808A27, 256px 64px #F8B600, 32px 96px #808A27, 64px 96px #F8B600, 96px 96px #808A27, 128px 96px #F8B600, 160px 96px #F8B600, 192px 96px #F8B600, 224px 96px #808A27, 256px 96px #F8B600, 288px 96px #F8B600, 320px 96px #F8B600, 32px 128px #808A27, 64px 128px #F8B600, 96px 128px #808A27, 128px 128px #808A27, 160px 128px #F8B600, 192px 128px #F8B600, 224px 128px #F8B600, 256px 128px #808A27, 288px 128px #F8B600, 320px 128px #F8B600, 352px 128px #F8B600, 32px 160px #808A27, 64px 160px #808A27, 96px 160px #F8B600, 128px 160px #F8B600, 160px 160px #F8B600, 192px 160px #F8B600, 224px 160px #808A27, 256px 160px #808A27, 288px 160px #808A27, 320px 160px #808A27, 96px 192px #F8B600, 128px 192px #F8B600, 160px 192px #F8B600, 192px 192px #F8B600, 224px 192px #F8B600, 256px 192px #F8B600, 288px 192px #F8B600, 
+    /*身体*/ 
+    64px 224px #808A27, 96px 224px #808A27, 128px 224px #E6002E, 160px 224px #808A27, 192px 224px #808A27, 224px 224px #808A27, 32px 256px #808A27, 64px 256px #808A27, 96px 256px #808A27, 128px 256px #E6002E, 160px 256px #808A27, 192px 256px #808A27, 224px 256px #E6002E, 256px 256px #808A27, 288px 256px #808A27, 320px 256px #808A27, 0px 288px #808A27, 32px 288px #808A27, 64px 288px #808A27, 96px 288px #808A27, 128px 288px #E6002E, 160px 288px #E6002E, 192px 288px #E6002E, 224px 288px #E6002E, 256px 288px #808A27, 288px 288px #808A27, 320px 288px #808A27, 352px 288px #808A27, 0px 320px #F8B600, 32px 320px #F8B600, 64px 320px #808A27, 96px 320px #E6002E, 128px 320px #F8B600, 160px 320px #E6002E, 192px 320px #E6002E, 224px 320px #F8B600, 256px 320px #E6002E, 288px 320px #808A27, 320px 320px #F8B600, 352px 320px #F8B600, 0px 352px #F8B600, 32px 352px #F8B600, 64px 352px #F8B600, 96px 352px #E6002E, 128px 352px #E6002E, 160px 352px #E6002E, 192px 352px #E6002E, 224px 352px #E6002E, 256px 352px #E6002E, 288px 352px #F8B600, 320px 352px #F8B600, 352px 352px #F8B600, 0px 384px #F8B600, 32px 384px #F8B600, 64px 384px #E6002E, 96px 384px #E6002E, 128px 384px #E6002E, 160px 384px #E6002E, 192px 384px #E6002E, 224px 384px #E6002E, 256px 384px #E6002E, 288px 384px #E6002E, 320px 384px #F8B600, 352px 384px #F8B600, 64px 416px #E6002E, 96px 416px #E6002E, 128px 416px #E6002E, 224px 416px #E6002E, 256px 416px #E6002E, 288px 416px #E6002E, 
+    /*脚*/ 
+    32px 448px #808A27, 64px 448px #808A27, 96px 448px #808A27, 256px 448px #808A27, 288px 448px #808A27, 320px 448px #808A27, 0px 480px #808A27, 32px 480px #808A27, 64px 480px #808A27, 96px 480px #808A27, 256px 480px #808A27, 288px 480px #808A27, 320px 480px #808A27, 352px 480px #808A27;
+}</code></pre>
+
+<h2 id="_5">总结</h2>
+
+<p>使用box-shadow绘制像素画好处就是思路很简单，易于实现</p>
+
+<p>但坏处也很多，绘制精细的绘画肯定是要完蛋的。同时庞大的css代码量导致加载速度变得很慢。所以一般情况下，可以直接通过div+css等现行进行大体的绘制，需要一些特殊小图形的时候才使用像素画绘制。同时像素画也可以通过写脚本动态的生成。免去了手动敲CSS的麻烦</p>
+				<div class="ds-thread" data-url="http://skyinlayer.com//blog/2014/02/09/box-shadow-pix-image" data-thread-key="/blog/2014/02/09/box-shadow-pix-image" data-title="使用box-shadow绘制像素画" style="min-height:277px"></div>
+			</article>
+		</div>
+		<aside class="aside">
+			<section class="recent">
+	<h3>最近的文章</h3>
+	<div class="inner">
+		<ul>
+			
+			<li>
+				<a href="/blog/2014/04/13/vertical-align">垂直居中之vertical-align详解</a>
+				<span class="date">13 Apr 2014</span>
+			</li>
+			
+			<li>
+				<a href="/blog/2014/04/06/play-fish">Good Good Study, Day Day Upward！</a>
+				<span class="date">06 Apr 2014</span>
+			</li>
+			
+			<li>
+				<a href="/blog/2014/04/04/alibaba-fe-1">阿里巴巴前端笔试题（1-10）</a>
+				<span class="date">04 Apr 2014</span>
+			</li>
+			
+			<li>
+				<a href="/blog/2014/03/31/css-layout">CSS布局相关基础知识</a>
+				<span class="date">31 Mar 2014</span>
+			</li>
+			
+			<li>
+				<a href="/blog/2014/03/30/js-type-convert">JavaScript隐式类型转换</a>
+				<span class="date">30 Mar 2014</span>
+			</li>
+			
+		</ul>
+	</div>
+</section>
+<section class="search">
+	<h3>搜索</h3>
+	<div class="inner">
+		<div class="si">
+			<input type="search" id="searchIpt" placeholder="输入搜索标题"/>
+			<button id="searchBtn">>></button>
+		</div>
+	</div>
+</section>
+<section class="categories">
+	<h3>类别</h3>
+	<div class="inner">
+		<ul>
+			
+			<li>
+				<a href="/search.html?cat=网站建设">网站建设</a>
+				<span class="count">8</span>
+			</li>
+			
+			<li>
+				<a href="/search.html?cat=前端技术">前端技术</a>
+				<span class="count">18</span>
+			</li>
+			
+			<li>
+				<a href="/search.html?cat=生活情感">生活情感</a>
+				<span class="count">3</span>
+			</li>
+			
+			<li>
+				<a href="/search.html?cat=笔试面试积累">笔试面试积累</a>
+				<span class="count">9</span>
+			</li>
+			
+			<li>
+				<a href="/search.html?cat=数据库技术">数据库技术</a>
+				<span class="count">1</span>
+			</li>
+			
+			<li>
+				<a href="/search.html?cat=性能优化">性能优化</a>
+				<span class="count">5</span>
+			</li>
+			
+			<li>
+				<a href="/search.html?cat=读书笔记">读书笔记</a>
+				<span class="count">9</span>
+			</li>
+			
+			<li>
+				<a href="/search.html?cat=即时通信">即时通信</a>
+				<span class="count">5</span>
+			</li>
+			
+		</ul>
+	</div>
+</section>
+<section class="all-tags">
+	<h3>标签</h3>
+	<div class="inner">
+		<div class="tags">
+			
+			<a class="tag" href="/search.html?tag=WebSocket" count="6"> WebSocket</a>
+		    
+			<a class="tag" href="/search.html?tag=NodeJs" count="7"> NodeJs</a>
+		    
+			<a class="tag" href="/search.html?tag=xmpp" count="1"> xmpp</a>
+		    
+			<a class="tag" href="/search.html?tag=WebIM" count="6"> WebIM</a>
+		    
+			<a class="tag" href="/search.html?tag=css" count="8"> css</a>
+		    
+			<a class="tag" href="/search.html?tag=github" count="5"> github</a>
+		    
+			<a class="tag" href="/search.html?tag=jekyll" count="5"> jekyll</a>
+		    
+			<a class="tag" href="/search.html?tag=jQuery" count="1"> jQuery</a>
+		    
+			<a class="tag" href="/search.html?tag=JavaScript" count="21"> JavaScript</a>
+		    
+			<a class="tag" href="/search.html?tag=生活" count="2"> 生活</a>
+		    
+			<a class="tag" href="/search.html?tag=思考" count="1"> 思考</a>
+		    
+			<a class="tag" href="/search.html?tag=HTML" count="18"> HTML</a>
+		    
+			<a class="tag" href="/search.html?tag=CSS" count="16"> CSS</a>
+		    
+			<a class="tag" href="/search.html?tag=响应式" count="3"> 响应式</a>
+		    
+			<a class="tag" href="/search.html?tag=oracle" count="1"> oracle</a>
+		    
+			<a class="tag" href="/search.html?tag=存储函数" count="1"> 存储函数</a>
+		    
+			<a class="tag" href="/search.html?tag=grunt" count="1"> grunt</a>
+		    
+			<a class="tag" href="/search.html?tag=设计" count="9"> 设计</a>
+		    
+			<a class="tag" href="/search.html?tag=笔试面试题" count="1"> 笔试面试题</a>
+		    
+			<a class="tag" href="/search.html?tag=WebRTC" count="5"> WebRTC</a>
+		    
+			<a class="tag" href="/search.html?tag=SEO" count="1"> SEO</a>
+		    
+		</div>
+	</div>
+</section>
+<section class="subscribe">
+	<h3>RSS订阅</h3>
+	<div class="inner">
+		<ul>
+			<li><a href="http://xianguo.com/subscribe?url=http%3A%2F%2Fskyinlayer.com%2Frss.xml"><span class="sub-icon sub-xianguo"></span>鲜果</a></li>
+			<li><a href="http://www.zhuaxia.com/add_channel.php?sourceid=102&url=http%3A%2F%2Fskyinlayer.com%2Frss.xml"><span class="sub-icon sub-zhuaxia"></span>抓虾</a></li>
+			<li><a href="http://feedly.com/index.html#subscription%2Ffeed%2Fhttp%3A%2F%2Fskyinlayer.com%2Frss.xml"><span class="sub-icon sub-feedly"></span>feedly</a></li>
+			<li><a href="http://e.my.yahoo.com/config/cstore?.opt=content&.url=http%3A%2F%2Fskyinlayer.com%2Frss.xml"><span class="sub-icon sub-yahoo"></span>My Yahoo!</a></li>
+			<li><a href="http://digg.com/reader/search/skyinlayer.com%2Frss.xml"><span class="sub-icon sub-digg"></span>Digg</a></li>
+			<li><a href="http://skyinlayer.com/rss.xml">手动RSS订阅</a></li>
+		</ul>
+	</div>
+</section>
+<section class="other">
+	<h3>其他</h3>
+	<div class="inner">
+		<ul>
+			<li><a href="/editor.html">在线编辑器</a></li>
+			<li><a href="/gitbook">读书笔记</a></li>
+			<li><a href="/about.html">关于我</a></li>
+		</ul>
+	</div>
+</section>
+		</aside>
+		<footer class="footer">
+			<p>&copy; 2014 天镶 Skyinlayer</p>
+		</footer>
+	</div>
+</body>
+<script type="text/javascript" src="http://cdn.staticfile.org/jquery/2.1.1-beta1/jquery.min.js"></script>
+<script type="text/javascript" src="http://cdn.staticfile.org/highlight.js/8.0/highlight.min.js"></script>
+<script type="text/javascript">
+	$(function() {
+		var $totop = $("#totop");
+		var $content = $("#content");
+		var $window = $(window);
+		$(document).on("scroll", function(event) {
+			var top = $window.scrollTop();
+			if (top > $content.offset().top) {
+				if ($totop.css("display") !== "block") {
+					$totop.css("opacity", 0);
+					$totop.css("display", "block");
+					$totop.animate({
+						opacity: .5
+					});
+				}
+			} else {
+				$totop.css("display", "none");
+			}
+			event.stopPropagation();
+			event.preventDefault();
+		});
+		$totop.on("click", function(event) {
+			$("html, body").animate({
+				scrollTop: 0
+			}, 800);
+			event.stopPropagation();
+			event.preventDefault();
+		});
+
+		$totop.trigger("scroll");
+
+		$('pre code').each(function(i, e) {
+			hljs.highlightBlock(e);
+		});
+		var $searchIpt = $("#searchIpt");
+		var $searchBtn = $("#searchBtn");
+		var jumpToSearch = function(){
+			var title = $searchIpt.val().replace(/^\s+|\s+$/g, '');
+			if(title){
+				window.location.href = "/search.html?title=" + title;
+			}
+		};
+		$searchIpt.on("keydown", function(event) {
+			if (event.keyCode === 13) {
+				jumpToSearch();
+			}
+			event.stopPropagation();
+		});
+		$searchBtn.on("click", function(event){
+			jumpToSearch();
+			event.stopPropagation();
+			event.preventDefault();
+		});
+
+
+	});
+	var duoshuoQuery = {
+		short_name: "skyinlayer"
+	};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';
+		ds.async = true;
+		ds.src = 'http://static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+</script>
+</html>

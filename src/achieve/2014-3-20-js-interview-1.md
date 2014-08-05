@@ -34,15 +34,9 @@ true
 ###history对象
 history对象是window对象的子对象，里面记录了访问历史：
 
-![history对象存放的信息](http://lingyu.wang/img/fe_interview/2.png)
-
 history与location对象不同的是，其不存在于window.document对象之中
 ```javascript
-> window.document.history
 undefined
-```
-
-history对象有三个比较常用的跳转方法：
 * back()：移动到当前页面的在历史记录中的上一个页面
 * forward()：移动到当前页面在历史记录中的下一个页面
 * go(n)：接收一个参数n如果参数为正整数或0，移动到当前页面后的第n个页面（0的效果为刷新），如果为负数，移动到当前页面前的第n个页面，超出范围的话将被忽略
