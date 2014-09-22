@@ -1,4 +1,0 @@
----
-layout: nil
----
-[{% for cat in site.categories %} "{{cat[0]}}"{% if forloop.last == false %},{% endif %}{% endfor %}]

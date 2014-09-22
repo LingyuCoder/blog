@@ -1,0 +1,14 @@
+.btn {
+    border: none;
+    color: #fff;
+    padding: .3em 1.2em;
+    cursor: pointer;
+    font-size: 16px;
+}
+.btn-open {
+    background: cornflowerblue;
+}
+.btn-close {
+    background-color: chocolate;
+}
+

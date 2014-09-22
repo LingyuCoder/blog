@@ -1,3 +1,7 @@
 /node_modules/
 /publish/
 /build/
+blog.iml
+/.idea/
+db.json
+debug.log

@@ -1,0 +1,5 @@
+@font-face{font-family:jq-plu-font;src:url(http://at.alicdn.com/t/font_1409486224_0824313.eot);src:url(http://at.alicdn.com/t/font_1409486224_0824313.eot?#iefix) format('embedded-opentype'),url(http://at.alicdn.com/t/font_1409486224_0824313.woff) format('woff'),url(http://at.alicdn.com/t/font_1409486224_0824313.ttf) format('truetype'),url(http://at.alicdn.com/t/font_1409486224_0824313.svg#iconfont) format('svg')}
+.wd-ui-tp-close,.wd-ui-tp-max,.wd-ui-tp-min{float:right;border:none;background:0 0;color:#fff;cursor:pointer;padding:.3em;font-family:jq-plu-font;line-height:1.2em;text-align:center}
+.wd-ui-tp-close{background-color:brown}
+.wd-ui-tp-min{background-color:#deb887}
+.wd-ui-tp-max{background-color:#8fbc8f}

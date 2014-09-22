@@ -1,0 +1,97 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="author" content="天镶"><meta name="description"><title>渲染树的构建，布局和绘制 | 天镶的博客</title><link href="/favicon.png" rel="icon"><link rel="stylesheet" media="screen" href="/stylesheets/plugins/typo/typo-1.1.css"><link rel="stylesheet" media="screen" href="/stylesheets/plugins/highlight/highlight-8.0-dark.css"><link rel="stylesheet" media="screen" href="/stylesheets/app.css"></head><body><a id="totop" href="#page-header" class="iconfont">&#xe60b;</a><header id="page-header"><div class="wrapper"><a href="/page/profile.html"><img alt="avatar" src="/images/avatar.jpg" class="avatar"></a><div class="title"> <a href="/">天镶的博客</a></div><nav class="nav"><ul class="links"><li><a href="/"> 首页</a></li><li><a href="/archives"> 归档</a></li><li><a href="/page/profile.html"> 关于</a></li><li><a href="/page/gitbook/index.html"> 笔记</a></li></ul><div class="icons"><a href="/atom.xml" class="icon rss"><i class="iconfont">&#xe602;</i></a><a href="http://github.com/lingyucoder" class="icon weibo"><i class="iconfont">&#xe600;</i></a><a href="http://weibo.com/lingyucoder" class="icon github"><i class="iconfont">&#xe604;</i></a><a href="http://twitter.com/lingyucoder" class="icon twitter"><i class="iconfont">&#xe607;</i></a></div></nav></div></header><section id="wrapper"><div id="main"><article class="post"><div class="content desc typo"><h1 class="blog-title">渲染树的构建，布局和绘制</h1><div class="toc-index"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#长话短说"><span class="toc-number">1.</span> <span class="toc-text">长话短说</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#构建渲染树"><span class="toc-number">2.</span> <span class="toc-text">构建渲染树</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#布局阶段"><span class="toc-number">3.</span> <span class="toc-text">布局阶段</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#绘制阶段"><span class="toc-number">4.</span> <span class="toc-text">绘制阶段</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#总结"><span class="toc-number">5.</span> <span class="toc-text">总结</span></a></li></ol></div><p>CSSOM树和DOM树组合生成渲染树，渲染树将决定每一个可见元素的计算样式，并作为输入交给绘制线程，绘制线程将会把他们渲染成像素打到屏幕上。优化这些步骤将是提升渲染性能的关键所在。</p>
+<a id="more"></a>
+
+<p>上一章节介绍了如何构建对象模型。我们从HTML和CSS构建出了DOM树和CSSOM树。但是，他们描述的是文档的不同方面：DOM树描述的是页面内容，而CSSOM树则描述的是需要被使用到页面内容上的样式规则，由此可见，他们是相互独立的数据结构。那么我们应当如何去合并这两棵树来让浏览器渲染像素到屏幕呢？</p>
+<h3 id="长话短说">长话短说</h3>
+<ul>
+<li>DOM树和CSSOM树结合组成了渲染树</li>
+<li>渲染树（Render tree）只会包含需要绘制到页面上的节点</li>
+<li>布局（Layout）会计算出每一个对象的具体位置和大小</li>
+<li>绘制（Paint）是最后异步，将会将渲染树渲染成像素，显示到屏幕上</li>
+</ul>
+<h3 id="构建渲染树">构建渲染树</h3>
+<p>浏览器首先需要结合DOM树和CSSOM树到渲染树，渲染树获取所有页面上可见的DOM内容，再吧CSSOM中的样式信息附着到每一个节点上</p>
+<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-5-20/7.png" alt="组合DOM树和CSSOM树，生成渲染树"></p>
+<p>为了构建渲染树，浏览器所做的工作大致如下：</p>
+<ol>
+<li>从DOM树的根节点开始，遍历每个可见的节点<ul>
+<li>有些节点本身不可见（比如script、meta等等）</li>
+<li>有些节点被CSS隐藏了，这些节点也会被渲染树忽略</li>
+</ul>
+</li>
+<li>对于每一个可见节点，会从CSSOM中找并应用到其对应的样式信息</li>
+<li>提交可见的节点和他们的内容和样式</li>
+</ol>
+<p><strong>需要注意的是，<code>visibility:hidden</code>和<code>display:none</code>是不同的。前者会将元素隐藏，但元素依旧在页面中占据空间（会被绘制成空的盒子），所以需要递交给布局阶段进行处理。而后者会从渲染树中移除元素及所有子元素，他们被递交给布局阶段</strong></p>
+<p>这个阶段完毕后，会生成一个包含所有可见节点的内容和样式信息的渲染树。接下来可以进行布局阶段了</p>
+<h3 id="布局阶段">布局阶段</h3>
+<p>目前为止，我们已经获取了可见节点的计算样式，但我们还没有计算元素在设备视口中的最终的位置和尺寸——计算这些就是布局阶段的工作，它还有另外一个我们熟知的名称：回流（reflow）</p>
+<p>为了计算每个节点的最终位置和尺寸，需要从根节点开始遍历渲染树，计算渲染树中每个对象在页面上的几何图形。比如如下例子：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="title">html</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="title">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="title">meta</span> <span class="attribute">name</span>=<span class="value">"viewport"</span> <span class="attribute">content</span>=<span class="value">"width=device-width,initial-scale=1.0"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="title">title</span>&gt;</span>Critial Path: Hello world!<span class="tag">&lt;/<span class="title">title</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="title">head</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="title">body</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="title">div</span> <span class="attribute">style</span>=<span class="value">"width: 50%"</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="title">div</span> <span class="attribute">style</span>=<span class="value">"width: 50%"</span>&gt;</span>Hello world!<span class="tag">&lt;/<span class="title">div</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="title">div</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="title">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="title">html</span>&gt;</span></div></pre></td></tr></table></figure>
+
+<p>上面的页面的body元素包含两个嵌套的div，第一个div（父元素）其节点的宽度为视口宽度的50%，第二个div在第一个div之中，宽度是第一个元素的50%，也就是视口宽的的50%。</p>
+<p>布局阶段输出的是一个盒子模型，它精确地描述了元素在视口中的确切位置和尺寸：所有相对单位都会被转变为屏幕上的绝对像素值，等等</p>
+<p>现在我们知道了哪些元素可见，他们的计算样式，以及他们的几何图形，我们终于能够将这些信息传递给最终阶段。这个阶段将渲染树中的每个节点绘制成屏幕上像素。通常这个阶段叫做绘制阶段（painting）或是光栅化（rasterizing）</p>
+<h3 id="绘制阶段">绘制阶段</h3>
+<p>这里面每个步骤都需要浏览器惊醒一定量的工作，也就说会花费一定的时间。我们可以通过Chrome开发者工具看我们上面所说到的三个阶段。</p>
+<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-5-20/8.png" alt="开发者工具中查看布局阶段"></p>
+<ul>
+<li>Timeline中的Layout事件包含渲染树的构建阶段和位置尺寸的计算阶段</li>
+<li>一旦布局阶段完成，浏览器会开启“Paint Setup”和“Paint”事件，用来将渲染树转变成屏幕上的像素</li>
+</ul>
+<p>上面所说的渲染树构建、布局阶段、绘制阶段所需要的事件会根据文档的大小、样式的多少、设备的配置有关。文档越大，浏览器需要做更多的工作。样式越复杂，浏览器需要考虑更多的绘制（绘制一个固定颜色代价很低，但绘制一个阴影代价很大）。</p>
+<p>这些都完成后，我们的页面终于展示在视口里了</p>
+<h3 id="总结">总结</h3>
+<p>我们来重温一下所有的步骤：</p>
+<ol>
+<li>处理HTML标记，构建DOM树</li>
+<li>处理CSS标记，构建CSSOM树</li>
+<li>合并DOM树和CSSOM树，构建渲染树</li>
+<li>在渲染树上运行布局阶段，计算每个可见节点的几何图形</li>
+<li>绘制每个独立的节点到屏幕上</li>
+</ol>
+<p>考虑如果DOM或CSSOM发生改变时，会发生些什么？我们需要重复这些工作来确定如何回执到屏幕上</p>
+<p>优化渲染的关键就是减少这5步所花费的时间。减少这5步所花费的事件能够让页面尽可能快的展示到页面上。在首次页面渲染之后，每次更新后的渲染效率也会提高。</p>
+<hr><div class="tags"><a href="/tags/HTML/" class="blog-tag">HTML</a><a href="/tags/CSS/" class="blog-tag">CSS</a></div><hr><div class="jia"><div class="jiathis_style_32x32"><a class="jiathis_button_qzone"></a><a class="jiathis_button_tsina"></a><a class="jiathis_button_tqq"></a><a class="jiathis_button_weixin"></a><a class="jiathis_button_renren"></a><a href="http://www.jiathis.com/share?uid=1409314953297200" target="_blank" class="jiathis jiathis_txt jtico jtico_jiathis"></a></div><script type="text/javascript">var jiathis_config = {data_track_clickback:'true'};    </script><script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1409314953297200" charset="utf-8"></script></div><hr><div id="duoshuo" data-url="http://lingyu.wang/2014/05/20/google-render-tree-construction-layout-and-paint/" data-thread-key="/blog/2014/05/20/google-render-tree-construction-layout-and-paint/" data-title="渲染树的构建，布局和绘制" class="ds-thread"></div><script type="text/javascript">var duoshuoQuery = {short_name:'skyinlayer'};
+(function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+})();</script></div></article><div class="pager"><a href="/2014/05/21/google-measuring-the-critical-rendering-path-with-navigation-timing/" title="使用导航计时监测渲染关键路径" class="pre">上一页</a><a href="/2014/05/20/google-constructing-the-object-model/" title="构建对象模型" class="next">下一页</a></div></div><aside id="aside"><section class="recent"><h3 class="title iconfont">最新文章<i>&#xe601;</i></h3><div class="links"><ul><li><a href="/2014/03/17/SkyRTC-client-doc/">开源WebRTC库——SkyRTC-client文档(客户端部分)</a></li><li><a href="/2014/02/26/BFC/">深入浅出BFC（Block formatting contexts）</a></li><li><a href="/2014/02/24/CSS3-animation-optimization/">前端性能优化（CSS动画篇）</a></li><li><a href="/2014/03/17/SkyRTC-demo/">开源WebRTC库——SkyRTC实例</a></li><li><a href="/2014/03/17/SkyRTC-doc/">开源WebRTC库——SkyRTC文档（服务器部分）</a></li></ul></div></section><section class="categories"><h3 class="title iconfont">分类<i>&#xe605;</i></h3><div class="links"><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/前端技术/">前端技术</a><span class="category-list-count">33</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/前端技术/性能优化/">性能优化</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端技术/笔试面试积累/">笔试面试积累</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端技术/网站建设/">网站建设</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/即时通信/">即时通信</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/性能优化/">性能优化</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库技术/">数据库技术</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/源码阅读/">源码阅读</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/生活情感/">生活情感</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/笔试面试积累/">笔试面试积累</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/网站建设/">网站建设</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/读书笔记/">读书笔记</a><span class="category-list-count">9</span></li></ul></div></section><section class="tags"><h3 class="title iconfont">标签<i>&#xe603;</i></h3><div class="links"><ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS/">CSS</a><span class="tag-list-count">34</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ES6/">ES6</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Generator/">Generator</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/">HTML</a><span class="tag-list-count">28</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/">HTTP</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a><span class="tag-list-count">33</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kissy/">Kissy</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NodeJs/">NodeJs</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SEO/">SEO</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WebIM/">WebIM</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WebRTC/">WebRTC</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WebSocket/">WebSocket</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/grunt/">grunt</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jQuery/">jQuery</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/oracle/">oracle</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/xmpp/">xmpp</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/动画/">动画</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/响应式/">响应式</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/存储函数/">存储函数</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/思考/">思考</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/生活/">生活</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/笔试面试题/">笔试面试题</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/设计/">设计</a><span class="tag-list-count">9</span></li></ul></div></section><section class="archives"><h3 class="title iconfont"> 归档<i>&#xe60a;</i></h3><div class="links"><ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07">2014年7月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05">2014年5月</a><span class="archive-list-count">15</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/04">2014年4月</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/03">2014年3月</a><span class="archive-list-count">29</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02">2014年2月</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/01">2014年1月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/12">2013年12月</a><span class="archive-list-count">1</span></li></ul></div></section></aside></section><footer id="page-footer"><span style="float:right"><script type="text/javascript">(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-51090540-1', 'http://plugins.lingyu.wang');
+ga('send', 'pageview');</script></span><span style="float:right"><script type="text/javascript">var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3Fa5aa4945a04cc5a5a4cd6835ccb7d419' type='text/javascript'%3E%3C/script%3E"));</script></span><p>&copy;Powered by<a href="http://hexo.io" target="_blank" title="hexo">&nbsp;hexo&nbsp;</a>and Theme by<a href="https://github.com/LingyuCoder/lingyu-theme">&nbsp;LingyuCoder</a></p></footer><script type="text/javascript" src="http://cdn.staticfile.org/jquery/2.1.1-rc2/jquery.min.js"></script><script type="text/javascript">$(function(){
+    var duoshuoIds = [];
+    var map = {};
+    $('.meta').each(function(){
+        var $this = $(this);
+        var id = $this.attr('thread');
+        duoshuoIds.push(id);
+        map[id] = $this;
+    });
+    duoshuoIds.length && $.ajax({
+        url: 'http://api.duoshuo.com/threads/counts.jsonp',
+        data: {
+            threads: duoshuoIds.join(','),
+            short_name: 'skyinlayer'
+        },
+        success: function(data){
+            $.each(data.response, function(key, value){
+                var $el = map[key];
+                if($el) {
+                    $.each(['comments','likes', 'reposts'], function(index, type){
+                        $el.find('.' + type).append('<span>' + value[type] + '</span>');
+                    });
+                }
+            });
+        },
+        dataType: 'jsonp'
+    });
+});</script></body></html>

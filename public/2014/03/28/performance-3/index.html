@@ -1,0 +1,209 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="author" content="天镶"><meta name="description"><title>前端性能优化（JavaScript补充篇） | 天镶的博客</title><link href="/favicon.png" rel="icon"><link rel="stylesheet" media="screen" href="/stylesheets/plugins/typo/typo-1.1.css"><link rel="stylesheet" media="screen" href="/stylesheets/plugins/highlight/highlight-8.0-dark.css"><link rel="stylesheet" media="screen" href="/stylesheets/app.css"></head><body><a id="totop" href="#page-header" class="iconfont">&#xe60b;</a><header id="page-header"><div class="wrapper"><a href="/page/profile.html"><img alt="avatar" src="/images/avatar.jpg" class="avatar"></a><div class="title"> <a href="/">天镶的博客</a></div><nav class="nav"><ul class="links"><li><a href="/"> 首页</a></li><li><a href="/archives"> 归档</a></li><li><a href="/page/profile.html"> 关于</a></li><li><a href="/page/gitbook/index.html"> 笔记</a></li></ul><div class="icons"><a href="/atom.xml" class="icon rss"><i class="iconfont">&#xe602;</i></a><a href="http://github.com/lingyucoder" class="icon weibo"><i class="iconfont">&#xe600;</i></a><a href="http://weibo.com/lingyucoder" class="icon github"><i class="iconfont">&#xe604;</i></a><a href="http://twitter.com/lingyucoder" class="icon twitter"><i class="iconfont">&#xe607;</i></a></div></nav></div></header><section id="wrapper"><div id="main"><article class="post"><div class="content desc typo"><h1 class="blog-title">前端性能优化（JavaScript补充篇）</h1><div class="toc-index"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#JavaScript性能优化补充篇"><span class="toc-number">1.</span> <span class="toc-text">JavaScript性能优化补充篇</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#JavaScript文件加载"><span class="toc-number">1.1.</span> <span class="toc-text">JavaScript文件加载</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#将JS文件放在页面底部"><span class="toc-number">1.1.1.</span> <span class="toc-text">将JS文件放在页面底部</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#将JS文件打包"><span class="toc-number">1.1.2.</span> <span class="toc-text">将JS文件打包</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用非阻塞方式下载"><span class="toc-number">1.1.3.</span> <span class="toc-text">使用非阻塞方式下载</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数据访问"><span class="toc-number">1.2.</span> <span class="toc-text">数据访问</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#四种访问方式"><span class="toc-number">1.2.1.</span> <span class="toc-text">四种访问方式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#作用域链和闭包的访问速度"><span class="toc-number">1.2.2.</span> <span class="toc-text">作用域链和闭包的访问速度</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#原型链访问"><span class="toc-number">1.2.3.</span> <span class="toc-text">原型链访问</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DOM"><span class="toc-number">1.3.</span> <span class="toc-text">DOM</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#何时触发回流"><span class="toc-number">1.3.1.</span> <span class="toc-text">何时触发回流</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#查询并刷新渲染树的改变"><span class="toc-number">1.3.2.</span> <span class="toc-text">查询并刷新渲染树的改变</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#判断"><span class="toc-number">1.4.</span> <span class="toc-text">判断</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#if-else"><span class="toc-number">1.4.1.</span> <span class="toc-text">if-else</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#switch"><span class="toc-number">1.4.2.</span> <span class="toc-text">switch</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#打表法"><span class="toc-number">1.4.3.</span> <span class="toc-text">打表法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#递归"><span class="toc-number">1.5.</span> <span class="toc-text">递归</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#字符串"><span class="toc-number">1.6.</span> <span class="toc-text">字符串</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#不同的拼接方法"><span class="toc-number">1.6.1.</span> <span class="toc-text">不同的拼接方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用加号拼接"><span class="toc-number">1.6.2.</span> <span class="toc-text">使用加号拼接</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#浏览器优化"><span class="toc-number">1.6.3.</span> <span class="toc-text">浏览器优化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#IE7-中的字符串连接"><span class="toc-number">1.6.4.</span> <span class="toc-text">IE7-中的字符串连接</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#String-concat"><span class="toc-number">1.6.5.</span> <span class="toc-text">String.concat</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#正则表达式优化"><span class="toc-number">1.7.</span> <span class="toc-text">正则表达式优化</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#正则表达式的工作原理"><span class="toc-number">1.7.1.</span> <span class="toc-text">正则表达式的工作原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#回溯失控"><span class="toc-number">1.7.2.</span> <span class="toc-text">回溯失控</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#嵌套量词导致性能下降"><span class="toc-number">1.7.3.</span> <span class="toc-text">嵌套量词导致性能下降</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#一些建议"><span class="toc-number">1.7.4.</span> <span class="toc-text">一些建议</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#UI线程相关"><span class="toc-number">1.8.</span> <span class="toc-text">UI线程相关</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#AJAX"><span class="toc-number">1.9.</span> <span class="toc-text">AJAX</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#多部分XHR（MXHR）"><span class="toc-number">1.9.1.</span> <span class="toc-text">多部分XHR（MXHR）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#IMG灯标"><span class="toc-number">1.9.2.</span> <span class="toc-text">IMG灯标</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#数据格式"><span class="toc-number">1.9.3.</span> <span class="toc-text">数据格式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#其他"><span class="toc-number">1.10.</span> <span class="toc-text">其他</span></a></li></ol></li></ol></div><p>最近准备笔试面试题的时候看到很多关于前端性能优化的问题，所以提前调研做做准备，加上我之前写的两篇博客，组成一个新系列</p>
+<a id="more"></a>
+
+<h1 id="JavaScript性能优化补充篇">JavaScript性能优化补充篇</h1>
+<p>来自《高性能JavaScript》</p>
+<h2 id="JavaScript文件加载">JavaScript文件加载</h2>
+<p>管理浏览器中的JavaScript代码是一个棘手的问题，因为代码执行会阻塞浏览器，比如界面绘制。每次遇到<code>&lt;script&gt;</code>标签，浏览器都会停下来等待代码下载并执行，然偶再继续处理其他部分。我们可以通过如下几种方法来减少JavaScript文件对性能的影响</p>
+<h3 id="将JS文件放在页面底部">将JS文件放在页面底部</h3>
+<p>将所有<code>&lt;script&gt;</code>标签放置在页面的底部，紧靠body关闭标签<code>&lt;/body&gt;</code>的上方。这样可以保证页面在脚本运行之前完成解析</p>
+<h3 id="将JS文件打包">将JS文件打包</h3>
+<p>将JS文件打包，页面的<code>&lt;script&gt;</code>标签越少，页面的加载速度越快，响应也越迅速。无论外部脚本文件还是内敛代码都是如此</p>
+<h3 id="使用非阻塞方式下载">使用非阻塞方式下载</h3>
+<ol>
+<li>在<code>&lt;script&gt;</code>标签中添加<code>defer</code>属性</li>
+<li>动态创建<code>&lt;script&gt;</code>元素，用它下载并执行代码</li>
+<li>用XHR对象下载代码，并注入到页面中</li>
+</ol>
+<h2 id="数据访问">数据访问</h2>
+<h3 id="四种访问方式">四种访问方式</h3>
+<p>在JavaScript中，数据存储位置可以对代码整体性能产生重要影响，有四种数据访问类型：直接量，变量，数组项，对象成员，这些访问方式性能不同</p>
+<p>直接量和局部变量访问速度很快，而数组项和对象成员需要更长的时间</p>
+<h3 id="作用域链和闭包的访问速度">作用域链和闭包的访问速度</h3>
+<p>在函数内部访问变量时，会顺着作用域链向上查找，直到找到为止，这也意味着作用域链越长，平均的查找时间也就越长。而像with和try-catch会增加作用域链的长度，所以也会降低性能。由此可以得知，访问全局变量很慢，因为他们在作用域链的最后一环</p>
+<h3 id="原型链访问">原型链访问</h3>
+<p>访问对象的属性的时候，我们有时候会需要遍历原型链，这也意味着原型链越长，查找元素的平均效率就越低，变量所在的原型在原型链中越深，访问越慢</p>
+<h2 id="DOM">DOM</h2>
+<p>当浏览器下载完所有的HTML、JavaScript、CSS、图片之后，它会解析文件并创建两个内部数据结构：一棵DOM树和一棵渲染树</p>
+<p>每个需要被显示的DOM树节点在渲染树中至少有一个节点（隐藏的DOM节点自然在渲染树中没有节点），渲染树上的点被称为框或者盒，根据CSS模型定义，将页面元素看做一个具有填充、边距、边框和位置的盒。一旦DOM树和渲染树构造完毕，浏览器就可以绘制页面上的元素了。</p>
+<p>当DOM改变影响到元素的几何属性（宽和高），浏览器就需要重新计算元素的几何属性。如果这个元素的改变影响到其他元素，浏览器会使渲染树上收到影响的部分失效，然后重构渲染树。这就是回流（也叫重排版）。重排版完成时，浏览器在一个重绘进程中重新绘制屏幕上受影响的部分</p>
+<p>当然并不是所有DOM改变都会影响到几何属性，比如改变背景颜色之类的，这种情况下就只会触发重绘</p>
+<p>回流和重绘都是负担很重的操作，会导致浏览器阻塞，所以需要尽可能避免</p>
+<h3 id="何时触发回流">何时触发回流</h3>
+<ol>
+<li>添加或删除可见的DOM元素</li>
+<li>元素位置的改变</li>
+<li>元素尺寸的改变（border、padding、margin、height、width）</li>
+<li>内容改变</li>
+<li>最初页面渲染</li>
+<li>浏览器窗口改变尺寸</li>
+</ol>
+<h3 id="查询并刷新渲染树的改变">查询并刷新渲染树的改变</h3>
+<p>因为计算量与每次回流有关，大多数浏览器会通过一个渲染队列来进行优化。但是用JavaScript获取一些DOM属性时，会（不由自主地）强迫队列中的所有渲染事件前不完成。比如获取如下属性：</p>
+<ul>
+<li>offsetTop, offsetLeft, offsetWidth, offsetHeight</li>
+<li>scrollTop, scrollLeft, scrollWidth, scrollHeight</li>
+<li>clientTop, clientLeft, clientWidth, clientHeight</li>
+<li>getComputedStyle() （在IE中为currentStyle）</li>
+</ul>
+<p>为了让这些属性返回正确的值，浏览器不得不运行渲染队列中所有的渲染事件，这样才能保证值的正确。所以尽量减少这些属性的访问</p>
+<h2 id="判断">判断</h2>
+<h3 id="if-else">if-else</h3>
+<p>多个if-else执行的时候，其会顺序检索每一个条件，直到所有条件检索完或检索到匹配的条件。所以我们可以通过树的形式组织if语句，如下面代码：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span>(con === <span class="number">1</span>) {<span class="keyword">return</span> result1;}</div><div class="line"><span class="keyword">else</span> <span class="keyword">if</span>(con === <span class="number">2</span>) {<span class="keyword">return</span> result2;}</div><div class="line"><span class="keyword">else</span> <span class="keyword">if</span>(con === <span class="number">3</span>) {<span class="keyword">return</span> result3;}</div><div class="line"><span class="keyword">else</span> <span class="keyword">if</span>(con === <span class="number">4</span>) {<span class="keyword">return</span> result4;}</div><div class="line"><span class="keyword">else</span> <span class="keyword">if</span>(con === <span class="number">5</span>) {<span class="keyword">return</span> result5;}</div><div class="line"><span class="keyword">else</span> <span class="keyword">if</span>(con === <span class="number">6</span>) {<span class="keyword">return</span> result6;}</div><div class="line"><span class="keyword">else</span> <span class="keyword">if</span>(con === <span class="number">7</span>) {<span class="keyword">return</span> result7;}</div><div class="line"><span class="keyword">else</span> <span class="keyword">if</span>(con === <span class="number">8</span>) {<span class="keyword">return</span> result8;}</div><div class="line"><span class="keyword">else</span> <span class="keyword">if</span>(con === <span class="number">9</span>) {<span class="keyword">return</span> result9;}</div></pre></td></tr></table></figure>
+
+<p>这段代码就会依次判断con是否等于1,2,3,4,5,6,7,8,9，如果是9的话，就会判断9次，我们可以将其改为：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> (con &lt;= <span class="number">3</span>){</div><div class="line">    <span class="keyword">if</span>(con === <span class="number">1</span>) {<span class="keyword">return</span> result1;}</div><div class="line">    <span class="keyword">else</span> <span class="keyword">if</span>(con === <span class="number">2</span>) {<span class="keyword">return</span> result2;}</div><div class="line">    <span class="keyword">else</span> {<span class="keyword">return</span> result3;}</div><div class="line">} <span class="keyword">else</span> <span class="keyword">if</span>(con &gt; <span class="number">3</span> && con &lt;= <span class="number">6</span>){</div><div class="line">    <span class="keyword">if</span>(con === <span class="number">4</span>) {<span class="keyword">return</span> result4;}</div><div class="line">    <span class="keyword">else</span> <span class="keyword">if</span>(con === <span class="number">5</span>) {<span class="keyword">return</span> result5;}</div><div class="line">    <span class="keyword">else</span> {<span class="keyword">return</span> result6;}</div><div class="line">} <span class="keyword">else</span> <span class="keyword">if</span>(con &lt;= <span class="number">9</span>){</div><div class="line">    <span class="keyword">if</span>(con === <span class="number">7</span>) {<span class="keyword">return</span> result7;}</div><div class="line">    <span class="keyword">else</span> <span class="keyword">if</span>(con === <span class="number">8</span>) {<span class="keyword">return</span> result8;}</div><div class="line">    <span class="keyword">else</span> {<span class="keyword">return</span> result9;}</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p>这样我们通过三叉树的形式，就可以减少查找次数了，比如这里查找9次，分别判断 0~3,3~6,6~9,7,8,9，只需要6次</p>
+<p>if-else除了通过这种树形组织编码以外，还有一个优化的地方。由于其顺序判断的逻辑，我们可以根据概率来，将概率比较大的判断放在前面，概率较小的放在后面，这样也可以减少平均查找长度</p>
+<h3 id="switch">switch</h3>
+<p>事实证明，大多数情况下switch比if-else更快，但是只有条件题数量很大的时候，才能明显更快。if-else在条件增加时，所带来的性能负担要高于switch，因此建议使用switch。不过switch只是用来判断几个不同的离散值，并没有if-else能判断离散值或值域那样的灵活性</p>
+<h3 id="打表法">打表法</h3>
+<p>可以使用打表的形式来做，把所有的处理函数放在一个数组中，然后将条件作为键，这种方法比switch和if-else都要快，而且在新增条件时，不会带来额外的性能开销</p>
+<h2 id="递归">递归</h2>
+<p>很多算法都是递归实现，由于递归会多次触发函数调用，而函数调用也是需要开销的（比如创建运行期上下文、压运行期栈、创建AO、复制作用域链、销毁AO、弾栈等等），所以尽量将递归转变为循环。而运行期栈在很多浏览器中也有深度限制，当到达运行期栈的最大深度时，浏览器有各自的处理方式，但都是按照错误进行处理</p>
+<h2 id="字符串">字符串</h2>
+<h3 id="不同的拼接方法">不同的拼接方法</h3>
+<p>字符串拼接有很多不同的方法：</p>
+<ol>
+<li>使用<code>+</code>直接拼接</li>
+<li>使用<code>+=</code>拼接</li>
+<li>使用<code>Array.join()</code>拼接</li>
+<li>使用<code>String.concat()</code>拼接<h3 id="使用加号拼接">使用加号拼接</h3>
+使用<code>+</code>和<code>+=</code>时，不同的浏览器会做不同程度的优化，如果在IE7和他之前的浏览器，优化做的不好，比如如下操作：</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">str += <span class="string">"one"</span> + <span class="string">"two"</span></div></pre></td></tr></table></figure>
+
+<p>实际上会执行如下步骤：</p>
+<ol>
+<li>内存中创建一个临时变量</li>
+<li>将这个临时变量赋值成”onetow”</li>
+<li>临时字符串与str拼接</li>
+<li>将结果赋予str</li>
+</ol>
+<p>而如果改成如下这样：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">str += <span class="string">"one"</span></div><div class="line">str += <span class="string">"two"</span></div></pre></td></tr></table></figure>
+
+<p>这样就可以避免创建临时字符串，可一定程度加快性能</p>
+<p>或者使用如下方式：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">str = str + <span class="string">"one"</span> + <span class="string">"two"</span></div></pre></td></tr></table></figure>
+
+<p>但是如果使用下面这种方式：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">str = <span class="string">"one"</span> + str + <span class="string">"two"</span></div></pre></td></tr></table></figure>
+
+<p>则无法确定是否有优化。不同的浏览器分配内存方式不一样，IE以外的浏览器，会尝试扩展表达式左端字符串的内存，然后简单的将第二个字符串拷到它的尾部，这样就会创建一个临时字符串存放<code>one{str原本内容}</code>,导致性能降低</p>
+<h3 id="浏览器优化">浏览器优化</h3>
+<p>很多浏览器会在编译时对连续相加的字符串进行拼接，以此来对运行时优化，比如：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">str += <span class="string">"one"</span> + <span class="string">"two"</span></div></pre></td></tr></table></figure>
+
+<p>会被优化成</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">str += <span class="string">"onetwo"</span></div></pre></td></tr></table></figure>
+
+<h3 id="IE7-中的字符串连接">IE7-中的字符串连接</h3>
+<p>IE7-中使用<code>+</code>和<code>+=</code>连接很慢，而使用<code>Array.join()</code>方式则快得多，这也是IE7-浏览器中唯一高效的连接大量字符串的途径</p>
+<h3 id="String-concat">String.concat</h3>
+<p>这种方法很慢，尽量不要使用</p>
+<h2 id="正则表达式优化">正则表达式优化</h2>
+<h3 id="正则表达式的工作原理">正则表达式的工作原理</h3>
+<p>正则表达式处理经过如下几个步骤：</p>
+<ol>
+<li>编译</li>
+<li>设置起始位置</li>
+<li>匹配每个正则表达式的字元</li>
+<li>匹配成功或失败</li>
+</ol>
+<p>正则表达式实现中，回溯是基本组成部分。它代价昂贵，且容易失控。回溯是正则表达式性能的唯一因素</p>
+<p>正则表达式在匹配时，会在一个有多个分支的地方建立标记点，然后从左到右遍历所有的分支，如果分支符合，就会前进道下一个标记点，如果所有分支都不符合，就会回溯到上一个标记点，尝试上一标记点的其他分支。在尝试上一标记点的其它分支时，这一标记点如果需要，还会全部重新尝试</p>
+<h3 id="回溯失控">回溯失控</h3>
+<p>当一个正则表达式占用浏览器上秒，或者更长时间，很有肯那个就是回溯失控了，原因很有可能是出现了<code>.*?</code>这种非贪婪匹配，导致几乎每一个字符都会被作为标记点进行尝试</p>
+<p>此类问题的解决办法是尽可能具体地指出分隔符之间的字符匹配形式，或者使用前瞻表达式</p>
+<h3 id="嵌套量词导致性能下降">嵌套量词导致性能下降</h3>
+<p>嵌套量词可能极大的加大分支的数量，比如一个正则表达式<code>A+A+B</code>显然没有<code>AA+B</code>好，比如匹配<code>AAAAAAAAAAAAAAB</code>时，前者产生的分支要比后者多得多</p>
+<h3 id="一些建议">一些建议</h3>
+<ol>
+<li>关注如何让匹配更快失败：正则表达式慢往往不是因为成功慢，而是失败慢，因为失败会查找所有的情况</li>
+<li>以简单的，必须的字元开始：这样可以加快失败的匹配，如果这个开始字元都不匹配，后面的标记点就不会被匹配了</li>
+<li>编写两次模板，使他们后面的资源互相排斥：当字元与邻近的子表达式能够重叠匹配时，路径将显著正价，所以需要将其具体化</li>
+<li>减少分之数量，缩小它们的范围：直接使用正则表达式中已有的类（如<code>\w</code>,<code>\d</code>）比使用<code>|</code>要快</li>
+<li>使用非捕获分组：捕获分组花费时间和内存用于记录后向引用，而使用后非捕获性分组则避免这种开销</li>
+<li>将正则表达式分层，先捕获感兴趣的文字，然后再使用新的正则表达式处理</li>
+<li>暴露所需的字元，尽量简单地判断出那些必须的字元</li>
+<li>使用适当的量词，贪婪量词和懒惰量词在匹配同样字符串时过程是不同的，在确保正确的前提下，选择回溯次数更少的量词可以提高性能</li>
+<li>将正则表达式赋给变量，以重用他们。正则表达式创建时，需要对他们进行编译，这个编译也会有额外的开销</li>
+<li>将复杂的正则表达式拆分成简单的片段，避免使用一个表达式做太多的工作，可以通过两个或多个正则表达式来解决</li>
+</ol>
+<h2 id="UI线程相关">UI线程相关</h2>
+<p>建议的一次JavaScript执行时间不超过100ms（最好在50ms）以内，可以通过setTimeout和setInterval来将任务进行分解，加入到UI线程中。其实这个思想和JavaScript引擎的垃圾回收器的迭代处理相似</p>
+<h2 id="AJAX">AJAX</h2>
+<p>AJAX获取数据时，可以使用POST或者GET方法</p>
+<p>如果请求不改变服务器状态指示返回数据，应该使用GET。GET请求会被缓存，如果多次提取相同的数据会提高性能</p>
+<p>而当URL和请求的参数长度超过2048个字符的时候才使用POST提取数据</p>
+<h3 id="多部分XHR（MXHR）">多部分XHR（MXHR）</h3>
+<p>多部分XHR允许使用一个HTTP请求获取多个资源，我们可以将资源打包成一个特定分隔符定界的大字符串，从服务器发送到客户端，JavaScript处理这些大字符串，然后根据它自身的类型和信息解析出每个资源</p>
+<p>需要注意的是AJAX不会在浏览器中进行缓存，自然使用MXHR也不会缓存，在一些静态资源上使用这种方式其实并不太好。但是如果每次都确实需要去获取，分多个请求发送会更慢。</p>
+<h3 id="IMG灯标">IMG灯标</h3>
+<p>我们可以通过创建一个Image对象，将src设为一个脚本文件的URL，img元素我们并不需要插入到DOM中，这种形式称为IMG灯标</p>
+<p>这种方式适用于GET请求，且服务器获得数据后不必返回数据给浏览器的情况</p>
+<p>同时我们可以在Image的load事件中监听服务端是否成功接受了数据</p>
+<h3 id="数据格式">数据格式</h3>
+<ul>
+<li>XML：支持广泛但解析效率低，而且相当冗长</li>
+<li>JSON： 小巧，轻便，解析速度较快</li>
+<li>JSONP：使用JavaScript解释器进行解析，解析速度极快，数据量只比JSON多一点点（函数名称和括号）</li>
+<li>HTML：无需解析，数据冗长</li>
+<li>自定义格式：自己解析，慢而易出错，数据长度可以很短</li>
+</ul>
+<h2 id="其他">其他</h2>
+<ul>
+<li>不要使用eval以及其类似</li>
+<li>使用字面量</li>
+<li>避免重复工作，检测浏览器时，保存首次检测结果即可</li>
+<li>考虑位操作</li>
+<li>使用原声方法，因为他们是C++写的</li>
+<li>文件预处理，压缩（gzip）、合并、uglify</li>
+<li>尝试CDN</li>
+</ul>
+<hr><div class="tags"><a href="/tags/JavaScript/" class="blog-tag">JavaScript</a><a href="/tags/HTML/" class="blog-tag">HTML</a><a href="/tags/CSS/" class="blog-tag">CSS</a></div><hr><div class="jia"><div class="jiathis_style_32x32"><a class="jiathis_button_qzone"></a><a class="jiathis_button_tsina"></a><a class="jiathis_button_tqq"></a><a class="jiathis_button_weixin"></a><a class="jiathis_button_renren"></a><a href="http://www.jiathis.com/share?uid=1409314953297200" target="_blank" class="jiathis jiathis_txt jtico jtico_jiathis"></a></div><script type="text/javascript">var jiathis_config = {data_track_clickback:'true'};    </script><script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1409314953297200" charset="utf-8"></script></div><hr><div id="duoshuo" data-url="http://lingyu.wang/2014/03/28/performance-3/" data-thread-key="/blog/2014/03/28/performance-3/" data-title="前端性能优化（JavaScript补充篇）" class="ds-thread"></div><script type="text/javascript">var duoshuoQuery = {short_name:'skyinlayer'};
+(function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+})();</script></div></article><div class="pager"><a href="/2014/03/30/js-type-convert/" title="JavaScript隐式类型转换" class="pre">上一页</a><a href="/2014/03/28/js-basis/" title="JavaScript一些基础知识简介" class="next">下一页</a></div></div><aside id="aside"><section class="recent"><h3 class="title iconfont">最新文章<i>&#xe601;</i></h3><div class="links"><ul><li><a href="/2014/03/17/SkyRTC-client-doc/">开源WebRTC库——SkyRTC-client文档(客户端部分)</a></li><li><a href="/2014/02/26/BFC/">深入浅出BFC（Block formatting contexts）</a></li><li><a href="/2014/02/24/CSS3-animation-optimization/">前端性能优化（CSS动画篇）</a></li><li><a href="/2014/03/17/SkyRTC-demo/">开源WebRTC库——SkyRTC实例</a></li><li><a href="/2014/03/17/SkyRTC-doc/">开源WebRTC库——SkyRTC文档（服务器部分）</a></li></ul></div></section><section class="categories"><h3 class="title iconfont">分类<i>&#xe605;</i></h3><div class="links"><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/前端技术/">前端技术</a><span class="category-list-count">33</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/前端技术/性能优化/">性能优化</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端技术/笔试面试积累/">笔试面试积累</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端技术/网站建设/">网站建设</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/即时通信/">即时通信</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/性能优化/">性能优化</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库技术/">数据库技术</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/源码阅读/">源码阅读</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/生活情感/">生活情感</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/笔试面试积累/">笔试面试积累</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/网站建设/">网站建设</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/读书笔记/">读书笔记</a><span class="category-list-count">9</span></li></ul></div></section><section class="tags"><h3 class="title iconfont">标签<i>&#xe603;</i></h3><div class="links"><ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS/">CSS</a><span class="tag-list-count">34</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ES6/">ES6</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Generator/">Generator</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/">HTML</a><span class="tag-list-count">28</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/">HTTP</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a><span class="tag-list-count">33</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kissy/">Kissy</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NodeJs/">NodeJs</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SEO/">SEO</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WebIM/">WebIM</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WebRTC/">WebRTC</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WebSocket/">WebSocket</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/grunt/">grunt</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jQuery/">jQuery</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/oracle/">oracle</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/xmpp/">xmpp</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/动画/">动画</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/响应式/">响应式</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/存储函数/">存储函数</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/思考/">思考</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/生活/">生活</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/笔试面试题/">笔试面试题</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/设计/">设计</a><span class="tag-list-count">9</span></li></ul></div></section><section class="archives"><h3 class="title iconfont"> 归档<i>&#xe60a;</i></h3><div class="links"><ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07">2014年7月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05">2014年5月</a><span class="archive-list-count">15</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/04">2014年4月</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/03">2014年3月</a><span class="archive-list-count">29</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02">2014年2月</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/01">2014年1月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/12">2013年12月</a><span class="archive-list-count">1</span></li></ul></div></section></aside></section><footer id="page-footer"><span style="float:right"><script type="text/javascript">(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-51090540-1', 'http://plugins.lingyu.wang');
+ga('send', 'pageview');</script></span><span style="float:right"><script type="text/javascript">var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3Fa5aa4945a04cc5a5a4cd6835ccb7d419' type='text/javascript'%3E%3C/script%3E"));</script></span><p>&copy;Powered by<a href="http://hexo.io" target="_blank" title="hexo">&nbsp;hexo&nbsp;</a>and Theme by<a href="https://github.com/LingyuCoder/lingyu-theme">&nbsp;LingyuCoder</a></p></footer><script type="text/javascript" src="http://cdn.staticfile.org/jquery/2.1.1-rc2/jquery.min.js"></script><script type="text/javascript">$(function(){
+    var duoshuoIds = [];
+    var map = {};
+    $('.meta').each(function(){
+        var $this = $(this);
+        var id = $this.attr('thread');
+        duoshuoIds.push(id);
+        map[id] = $this;
+    });
+    duoshuoIds.length && $.ajax({
+        url: 'http://api.duoshuo.com/threads/counts.jsonp',
+        data: {
+            threads: duoshuoIds.join(','),
+            short_name: 'skyinlayer'
+        },
+        success: function(data){
+            $.each(data.response, function(key, value){
+                var $el = map[key];
+                if($el) {
+                    $.each(['comments','likes', 'reposts'], function(index, type){
+                        $el.find('.' + type).append('<span>' + value[type] + '</span>');
+                    });
+                }
+            });
+        },
+        dataType: 'jsonp'
+    });
+});</script></body></html>

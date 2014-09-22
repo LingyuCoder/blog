@@ -1,24 +1,14 @@
 {
-  "name": "skyinlayer-blog",
-  "version": "1.5.4",
+  "name": "lingyu-jquery-plugins",
+  "version": "2.8.2",
   "private": true,
-  "author": {
-    "name": "lingyucoder",
-    "email": "lingyucoder@gmail.com",
-    "url": "http://skyinlayer.com"
-  },
-  "devDependencies": {
-    "grunt": "~0.4.2",
-    "grunt-autoprefixer": "~0.4.0",
-    "grunt-contrib-watch": "~0.5.3",
-    "grunt-contrib-concat": "~0.3.0",
-    "grunt-contrib-cssmin": "~0.8.0",
-    "grunt-contrib-uglify": "~0.4.0",
-    "grunt-contrib-copy": "^0.5.0",
-    "grunt-contrib-clean": "^0.5.0",
-    "grunt-jekyll": "~0.4.1",
-    "grunt-gitbook": "0.1.2",
-    "grunt-gh-pages": "0.9.1",
-    "load-grunt-tasks": "~0.2.0"
+  "dependencies": {
+    "hexo-admin": "^0.1.3",
+    "hexo-generator-feed": "^0.2.1",
+    "hexo-renderer-ejs": "*",
+    "hexo-renderer-jade": "^0.1.0",
+    "hexo-renderer-less": "^0.1.2",
+    "hexo-renderer-marked": "*",
+    "hexo-renderer-stylus": "*"
   }
 }

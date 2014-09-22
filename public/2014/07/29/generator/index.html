@@ -1,0 +1,179 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="author" content="天镶"><meta name="description"><title>细说Generator | 天镶的博客</title><link href="/favicon.png" rel="icon"><link rel="stylesheet" media="screen" href="/stylesheets/plugins/typo/typo-1.1.css"><link rel="stylesheet" media="screen" href="/stylesheets/plugins/highlight/highlight-8.0-dark.css"><link rel="stylesheet" media="screen" href="/stylesheets/app.css"></head><body><a id="totop" href="#page-header" class="iconfont">&#xe60b;</a><header id="page-header"><div class="wrapper"><a href="/page/profile.html"><img alt="avatar" src="/images/avatar.jpg" class="avatar"></a><div class="title"> <a href="/">天镶的博客</a></div><nav class="nav"><ul class="links"><li><a href="/"> 首页</a></li><li><a href="/archives"> 归档</a></li><li><a href="/page/profile.html"> 关于</a></li><li><a href="/page/gitbook/index.html"> 笔记</a></li></ul><div class="icons"><a href="/atom.xml" class="icon rss"><i class="iconfont">&#xe602;</i></a><a href="http://github.com/lingyucoder" class="icon weibo"><i class="iconfont">&#xe600;</i></a><a href="http://weibo.com/lingyucoder" class="icon github"><i class="iconfont">&#xe604;</i></a><a href="http://twitter.com/lingyucoder" class="icon twitter"><i class="iconfont">&#xe607;</i></a></div></nav></div></header><section id="wrapper"><div id="main"><article class="post"><div class="content desc typo"><h1 class="blog-title">细说Generator</h1><div class="toc-index"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Generator函数"><span class="toc-number">1.</span> <span class="toc-text">Generator函数</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#yield的行为"><span class="toc-number">2.</span> <span class="toc-text">yield的行为</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#return行为"><span class="toc-number">3.</span> <span class="toc-text">return行为</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Generator对象的私有属性"><span class="toc-number">4.</span> <span class="toc-text">Generator对象的私有属性</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#外部接口"><span class="toc-number">5.</span> <span class="toc-text">外部接口</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#next"><span class="toc-number">5.1.</span> <span class="toc-text">next</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#send"><span class="toc-number">5.2.</span> <span class="toc-text">send</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#throw"><span class="toc-number">5.3.</span> <span class="toc-text">throw</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#close"><span class="toc-number">5.4.</span> <span class="toc-text">close</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#iterate"><span class="toc-number">5.5.</span> <span class="toc-text">iterate</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#小结"><span class="toc-number">5.6.</span> <span class="toc-text">小结</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#状态定义"><span class="toc-number">6.</span> <span class="toc-text">状态定义</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#内部方法"><span class="toc-number">7.</span> <span class="toc-text">内部方法</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#send方法"><span class="toc-number">7.1.</span> <span class="toc-text">send方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#throw-1"><span class="toc-number">7.2.</span> <span class="toc-text">throw</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#close-1"><span class="toc-number">7.3.</span> <span class="toc-text">close</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Resume(EC,_completionType,_V)"><span class="toc-number">7.4.</span> <span class="toc-text">Resume(EC, completionType, V)</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#NodeJs上的不同"><span class="toc-number">8.</span> <span class="toc-text">NodeJs上的不同</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#资料"><span class="toc-number">8.1.</span> <span class="toc-text">资料</span></a></li></ol></li></ol></div><p>好久没写东西了，今天看了下ES6的Generator的相关知识，在这里记录一下。主要内容翻译自规范，并加入了自己的理解和总结</p>
+<a id="more"></a>
+
+<p>文章中有很多关于运行时上下文（Execution Context，以下简称EC）的操作，关于EC，作用域链的基础知识请移步<a href="http://lingyu.wang/#/art/blog/2014/03/28/js-basis" target="_blank" rel="external">JavaScript一些基础知识简介</a></p>
+<h1 id="Generator函数">Generator函数</h1>
+<p>generator函数执行的时候，会进行如下动作：</p>
+<ol>
+<li>创建一个VO，与当前EC（Execution Context，以下简称EC）的作用域链组成新的作用域链</li>
+<li>创建一个generator对象，其有如下值：<ul>
+<li>Scope：新建的作用域链</li>
+<li>Code：generator function内部的代码</li>
+<li>ExecutionContext：EC，目前值为null</li>
+<li>State：”newborn”</li>
+<li>Handler：默认的generator的处理器</li>
+</ul>
+</li>
+</ol>
+<p>这里可以看到，Generator函数的执行，函数体内部的代码是不会动的，而是创建一个generator对象，将代码存入其中，并给予相关的上下文</p>
+<h1 id="yield的行为">yield的行为</h1>
+<p>当执行到<code>yield e</code>时：</p>
+<ol>
+<li>计算出表达式e的值</li>
+<li>获取当前的EC，并从中获取currentGenerator，也就是yield所在的generator对象</li>
+<li>使这个generator对象的ExecutionContext指向当前EC，并将其state修改为suspended</li>
+<li>从EC栈弹出当前的EC</li>
+<li>返回(normal, 1中的结果值, null)</li>
+</ol>
+<p>可以看到，yield本身会先获得表达式的值后，将EC从栈顶弹出，交予generator对象。最后会返回一个结构，其含有三个属性，分别为运行结果、计算的结果值和null，Resume在检测到这个结构后，将停止代码的运行</p>
+<p>这里yield之后将会返回到当前函数之外，作用域将发生改变，EC栈中的栈顶也会随之改变。而我们在generator function的函数体内部的这个EC，在下一次回来继续执行时依旧需要使用，所以这里就要交给generator对象代为管理一下，等下次回来，将重新压入EC栈的栈顶</p>
+<h1 id="return行为">return行为</h1>
+<p>当执行到<code>return e</code>时：</p>
+<ol>
+<li>计算出表达式e的值</li>
+<li>获取当前EC，并从中获取currentGenerator，也就是return所在的generator对象</li>
+<li>将这个generator对象的状态修改为closed</li>
+<li>创建一个class为StopIteration的新对象，并使其value属性为1中计算的结果值</li>
+<li>throw这个对象</li>
+</ol>
+<p>return也是一样，它同样需要先计算出表达式的值。但之后它获得了generator对象并不是为了做EC栈的维护，而是为了修改generator对象的状态</p>
+<h1 id="Generator对象的私有属性">Generator对象的私有属性</h1>
+<ul>
+<li>prototype：Object.prototype</li>
+<li>code：generator函数的函数体</li>
+<li>ExecutionContext：内部代码运行使用的EC</li>
+<li>Scope：作用域链</li>
+<li>Handler：标准的generator句柄</li>
+<li>State：newborn、executing、suspended、closed</li>
+<li>Send：看内部方法部分</li>
+<li>Throw：看内部方法部分</li>
+<li>Close：看内部方法部分</li>
+</ul>
+<h1 id="外部接口">外部接口</h1>
+<h2 id="next">next</h2>
+<ol>
+<li>如果this指向的不是generator对象，抛异常</li>
+<li>调用this.send，传入一个undefined</li>
+<li>返回结果</li>
+</ol>
+<p>调用私有send方法</p>
+<h2 id="send">send</h2>
+<p>send方法允许指定一个值，作为上一次yield的返回值</p>
+<ol>
+<li>如果this指向的不是generator对象，抛异常</li>
+<li>调用this.send，传入当前第一个参数</li>
+<li>返回结果</li>
+</ol>
+<p>同样是调用私有send方法，不过传入了参数</p>
+<h2 id="throw">throw</h2>
+<ol>
+<li>如果this指向的不是generator对象，抛异常</li>
+<li>调用this.throw，传入当前第一个参数</li>
+<li>返回结果</li>
+</ol>
+<h2 id="close">close</h2>
+<p>调用close方法可以直接以当前的value作为Generator的返回值</p>
+<ol>
+<li>如果this指向的不是generator对象，抛异常</li>
+<li>调用this.close，不传入任何参数</li>
+<li>返回结果</li>
+</ol>
+<h2 id="iterate">iterate</h2>
+<p>由于每个generator对象都是一个iterator对象，直接<code>return this</code>就可以了</p>
+<h2 id="小结">小结</h2>
+<p>接口都是内部方法的一层封装，可以看到next和send实际上都是send内部方法的包装</p>
+<h1 id="状态定义">状态定义</h1>
+<ul>
+<li>newborn：Code不为null，EC为null</li>
+<li>executing：Code为null，EC不为null，且generator对象的EC为当前EC</li>
+<li>suspended：Code为null，EC不为null，且generator对象的EC不为当前EC</li>
+<li>closed：Code为null，EC为null</li>
+</ul>
+<p>调用了generator function后，生成的generator对象状态即为newborn。也就表明当前generator对象刚刚新建，还没有运行里面的任何代码。同时可以看到EC为null，说明内部运行时的EC并不存在</p>
+<p>调用了send方法后，状态会修改为executing，send方法会使用Resume去执行代码，直到遇到yield或者return。遇到yield后，代码停止继续执行，状态修改为suspended，等待下次send。遇到return后，状态将被修改为closed，说明执行完毕。</p>
+<p>当然也可以通过close方法，手动修改状态为closed</p>
+<h1 id="内部方法">内部方法</h1>
+<h2 id="send方法">send方法</h2>
+<ol>
+<li>判断generator对象的state，如果是executing或者closed，就报错。已经在运行了不能重复运行，已经关闭的自然不能运行</li>
+<li>如果state为newborn<ol>
+<li>将判断传入的参数是否为undefined（外部接口next传入undefined，send则传入给的参数）。这里如果不是undefined，就报错。也就是说刚创建的generator对象不能调用<strong>含有参数的send</strong>外部接口。</li>
+<li>创建一个新的EC，这个新的EC的currentGenerator执行这个generator对象，其作用域链为这个generator对象的作用域链</li>
+<li>将这个EC压入EC栈中</li>
+<li>执行generator中的代码，并返回或得到的结果</li>
+</ol>
+</li>
+<li>能到这，说明state只能是suspended。将state修改为executing，通过Resume(generator的ExecutionContext, normal, 传入的参数)获取结果并返回</li>
+</ol>
+<p>generator对象的next和send方法的真正实现，其只处理newborn和suspended状态</p>
+<p>在newborn状态下，这个generator内部的代码还没有被执行，其内部代码执行时的EC也没有被创建。所以需要创建一个EC并压入EC栈中</p>
+<p>而state为suspended就没有这个EC初始化的过程了，内部代码执行时的EC已经在generator的ExecutionContext上了，所以只要修改状态为executing，然后使用Resume执行代码就好</p>
+<h2 id="throw-1">throw</h2>
+<ol>
+<li>获取generator对象的state，如果为executing或者closed，无法抛异常，报错</li>
+<li>如果state为newborn，那么state修改为closed，code修改为null，返回一个包含传入参数的异常</li>
+<li>到这里说明state为suspended，修改state为executing，然后通过Resume(generator.ExectionContext, throw, 传入的参数)获得结果，并返回</li>
+</ol>
+<p>这里如果是suspended，那么需要通过Resume，且completionType为throw来进行抛错</p>
+<h2 id="close-1">close</h2>
+<ol>
+<li>获取generator对象的state，如果state为executing，那说明代码正在运行，为了防止出现错误，禁止close。</li>
+<li>如果state已经是closed了，那直接return就好</li>
+<li>如果state为newborn，state修改为closed，code修改为null，然后返回(normal, undefined, null)</li>
+<li>如果state为suspended，将其修改为executing，通过Resume(generator.ExecutionContext, return, undefined)获得结果，然后修改状态为closed，返回Resume获得的结果</li>
+</ol>
+<p>调用close方法可以直接以当前的value作为Generator的返回值，当为newborn时，还没有value，自然是undeinfed。而如果是suspended，就有value了，那么就需要通过Resume，且completionType为return来立即返回</p>
+<h2 id="Resume(EC,_completionType,_V)">Resume(EC, completionType, V)</h2>
+<ol>
+<li>将这个传入的EC（generator的ExecutionContext）压入到EC栈中</li>
+<li>从EC通过currentGenerator获取单签generator对象</li>
+<li>设置当前作用域链为当前generator对象的作用域链</li>
+<li>继续执行代码，并根据completionType做相应的处理</li>
+</ol>
+<h1 id="NodeJs上的不同">NodeJs上的不同</h1>
+<p>目前，NodeJs的generator对象上还没有close方法和send方法，但NodeJs中如果next方法传入了参数，行为将和send一样</p>
+<h2 id="资料">资料</h2>
+<p><a href="http://wiki.ecmascript.org/doku.php?id=harmony:generators" target="_blank" rel="external">harmony generators ES Wiki</a></p>
+<hr><div class="tags"><a href="/tags/JavaScript/" class="blog-tag">JavaScript</a><a href="/tags/ES6/" class="blog-tag">ES6</a><a href="/tags/Generator/" class="blog-tag">Generator</a><a href="/tags/NodeJs/" class="blog-tag">NodeJs</a></div><hr><div class="jia"><div class="jiathis_style_32x32"><a class="jiathis_button_qzone"></a><a class="jiathis_button_tsina"></a><a class="jiathis_button_tqq"></a><a class="jiathis_button_weixin"></a><a class="jiathis_button_renren"></a><a href="http://www.jiathis.com/share?uid=1409314953297200" target="_blank" class="jiathis jiathis_txt jtico jtico_jiathis"></a></div><script type="text/javascript">var jiathis_config = {data_track_clickback:'true'};    </script><script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1409314953297200" charset="utf-8"></script></div><hr><div id="duoshuo" data-url="http://lingyu.wang/2014/07/29/generator/" data-thread-key="/blog/2014/07/29/generator/" data-title="细说Generator" class="ds-thread"></div><script type="text/javascript">var duoshuoQuery = {short_name:'skyinlayer'};
+(function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+})();</script></div></article><div class="pager"><a href="/2014/05/31/kissy-anime-plugin/" title="如何写一个KISSY动画插件" class="next">下一页</a></div></div><aside id="aside"><section class="recent"><h3 class="title iconfont">最新文章<i>&#xe601;</i></h3><div class="links"><ul><li><a href="/2014/03/17/SkyRTC-client-doc/">开源WebRTC库——SkyRTC-client文档(客户端部分)</a></li><li><a href="/2014/02/26/BFC/">深入浅出BFC（Block formatting contexts）</a></li><li><a href="/2014/02/24/CSS3-animation-optimization/">前端性能优化（CSS动画篇）</a></li><li><a href="/2014/03/17/SkyRTC-demo/">开源WebRTC库——SkyRTC实例</a></li><li><a href="/2014/03/17/SkyRTC-doc/">开源WebRTC库——SkyRTC文档（服务器部分）</a></li></ul></div></section><section class="categories"><h3 class="title iconfont">分类<i>&#xe605;</i></h3><div class="links"><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/前端技术/">前端技术</a><span class="category-list-count">33</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/前端技术/性能优化/">性能优化</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端技术/笔试面试积累/">笔试面试积累</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端技术/网站建设/">网站建设</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/即时通信/">即时通信</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/性能优化/">性能优化</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库技术/">数据库技术</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/源码阅读/">源码阅读</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/生活情感/">生活情感</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/笔试面试积累/">笔试面试积累</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/网站建设/">网站建设</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/读书笔记/">读书笔记</a><span class="category-list-count">9</span></li></ul></div></section><section class="tags"><h3 class="title iconfont">标签<i>&#xe603;</i></h3><div class="links"><ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS/">CSS</a><span class="tag-list-count">34</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ES6/">ES6</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Generator/">Generator</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/">HTML</a><span class="tag-list-count">28</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/">HTTP</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a><span class="tag-list-count">33</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kissy/">Kissy</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NodeJs/">NodeJs</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SEO/">SEO</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WebIM/">WebIM</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WebRTC/">WebRTC</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WebSocket/">WebSocket</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/grunt/">grunt</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jQuery/">jQuery</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/oracle/">oracle</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/xmpp/">xmpp</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/动画/">动画</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/响应式/">响应式</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/存储函数/">存储函数</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/思考/">思考</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/生活/">生活</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/笔试面试题/">笔试面试题</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/设计/">设计</a><span class="tag-list-count">9</span></li></ul></div></section><section class="archives"><h3 class="title iconfont"> 归档<i>&#xe60a;</i></h3><div class="links"><ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07">2014年7月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05">2014年5月</a><span class="archive-list-count">15</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/04">2014年4月</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/03">2014年3月</a><span class="archive-list-count">29</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02">2014年2月</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/01">2014年1月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/12">2013年12月</a><span class="archive-list-count">1</span></li></ul></div></section></aside></section><footer id="page-footer"><span style="float:right"><script type="text/javascript">(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-51090540-1', 'http://plugins.lingyu.wang');
+ga('send', 'pageview');</script></span><span style="float:right"><script type="text/javascript">var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3Fa5aa4945a04cc5a5a4cd6835ccb7d419' type='text/javascript'%3E%3C/script%3E"));</script></span><p>&copy;Powered by<a href="http://hexo.io" target="_blank" title="hexo">&nbsp;hexo&nbsp;</a>and Theme by<a href="https://github.com/LingyuCoder/lingyu-theme">&nbsp;LingyuCoder</a></p></footer><script type="text/javascript" src="http://cdn.staticfile.org/jquery/2.1.1-rc2/jquery.min.js"></script><script type="text/javascript">$(function(){
+    var duoshuoIds = [];
+    var map = {};
+    $('.meta').each(function(){
+        var $this = $(this);
+        var id = $this.attr('thread');
+        duoshuoIds.push(id);
+        map[id] = $this;
+    });
+    duoshuoIds.length && $.ajax({
+        url: 'http://api.duoshuo.com/threads/counts.jsonp',
+        data: {
+            threads: duoshuoIds.join(','),
+            short_name: 'skyinlayer'
+        },
+        success: function(data){
+            $.each(data.response, function(key, value){
+                var $el = map[key];
+                if($el) {
+                    $.each(['comments','likes', 'reposts'], function(index, type){
+                        $el.find('.' + type).append('<span>' + value[type] + '</span>');
+                    });
+                }
+            });
+        },
+        dataType: 'jsonp'
+    });
+});</script></body></html>

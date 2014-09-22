@@ -1,0 +1,29 @@
+.demo-base {
+	margin: 1.5em auto 0;
+	width: 100px;
+	height: 100px;
+	background-color: cornflowerblue;
+}
+.demo-node {
+	position: absolute;
+	padding: 1em;
+	color: #fff;
+	background-color: chocolate;
+}
+.btn-show,
+.btn-hide {
+	padding: .5em 1.5em;
+	margin: 1em 1em 0 0;
+	color: #fff;
+	border: none;
+	outline: none;
+	font-weight: bolder;
+	font-size: 110%;
+	cursor: pointer;
+}
+.btn-show {
+	background-color: cornflowerblue;
+}
+.btn-hide {
+	background-color: chocolate;
+}

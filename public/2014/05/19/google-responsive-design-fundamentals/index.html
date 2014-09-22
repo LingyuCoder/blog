@@ -1,0 +1,130 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="author" content="天镶"><meta name="description"><title>响应式Web设计基础 | 天镶的博客</title><link href="/favicon.png" rel="icon"><link rel="stylesheet" media="screen" href="/stylesheets/plugins/typo/typo-1.1.css"><link rel="stylesheet" media="screen" href="/stylesheets/plugins/highlight/highlight-8.0-dark.css"><link rel="stylesheet" media="screen" href="/stylesheets/app.css"></head><body><a id="totop" href="#page-header" class="iconfont">&#xe60b;</a><header id="page-header"><div class="wrapper"><a href="/page/profile.html"><img alt="avatar" src="/images/avatar.jpg" class="avatar"></a><div class="title"> <a href="/">天镶的博客</a></div><nav class="nav"><ul class="links"><li><a href="/"> 首页</a></li><li><a href="/archives"> 归档</a></li><li><a href="/page/profile.html"> 关于</a></li><li><a href="/page/gitbook/index.html"> 笔记</a></li></ul><div class="icons"><a href="/atom.xml" class="icon rss"><i class="iconfont">&#xe602;</i></a><a href="http://github.com/lingyucoder" class="icon weibo"><i class="iconfont">&#xe600;</i></a><a href="http://weibo.com/lingyucoder" class="icon github"><i class="iconfont">&#xe604;</i></a><a href="http://twitter.com/lingyucoder" class="icon twitter"><i class="iconfont">&#xe607;</i></a></div></nav></div></header><section id="wrapper"><div id="main"><article class="post"><div class="content desc typo"><h1 class="blog-title">响应式Web设计基础</h1><div class="toc-index"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#设置视口信息"><span class="toc-number">1.</span> <span class="toc-text">设置视口信息</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#长话短说"><span class="toc-number">1.1.</span> <span class="toc-text">长话短说</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#最佳实践"><span class="toc-number">1.2.</span> <span class="toc-text">最佳实践</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#确定一个可访问的视口"><span class="toc-number">1.3.</span> <span class="toc-text">确定一个可访问的视口</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使得内容适配视口"><span class="toc-number">2.</span> <span class="toc-text">使得内容适配视口</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#长话短说-1"><span class="toc-number">2.1.</span> <span class="toc-text">长话短说</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#最佳实践-1"><span class="toc-number">2.2.</span> <span class="toc-text">最佳实践</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#为响应式使用CSS的媒体查询"><span class="toc-number">3.</span> <span class="toc-text">为响应式使用CSS的媒体查询</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#长话短说-2"><span class="toc-number">3.1.</span> <span class="toc-text">长话短说</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#最佳实践-2"><span class="toc-number">3.2.</span> <span class="toc-text">最佳实践</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#根据视口大小使用媒体查询"><span class="toc-number">3.3.</span> <span class="toc-text">根据视口大小使用媒体查询</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#关于min-device-width"><span class="toc-number">3.4.</span> <span class="toc-text">关于min-device-width</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用相对单位"><span class="toc-number">3.5.</span> <span class="toc-text">使用相对单位</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何选择断点"><span class="toc-number">4.</span> <span class="toc-text">如何选择断点</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#长话短说-3"><span class="toc-number">4.1.</span> <span class="toc-text">长话短说</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#从小到大来挑选主要断点"><span class="toc-number">4.2.</span> <span class="toc-text">从小到大来挑选主要断点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#必要时添加次要断点"><span class="toc-number">4.3.</span> <span class="toc-text">必要时添加次要断点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#优化文本阅读"><span class="toc-number">4.4.</span> <span class="toc-text">优化文本阅读</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#不要完全隐藏内容"><span class="toc-number">4.5.</span> <span class="toc-text">不要完全隐藏内容</span></a></li></ol></li></ol></div><p>本文所有内容来自<a href="https://developers.google.com/web/fundamentals/documentation/multi-device-layouts/rwd-fundamentals/" target="_blank" rel="external">Responsive Web Design Fundamentals</a></p>
+<p>手机、大屏手机、平板电脑、桌面电脑、游戏控制台、电视、甚至是可穿戴设备，如此多的设备也形成了多种多样的屏幕尺寸。屏幕的大小总在变，我们需要我们的网页今后能够适应任何屏幕尺寸</p>
+<a id="more"></a>
+
+<p>响应式Web设计，最初的定义（<a href="http://alistapart.com/article/responsive-web-design/" target="_blank" rel="external">Ethan Marcotte in A List Apart</a>）是让网页响应用户及其所用设备的需求。在响应式设计中，布局将会随着设备的屏幕尺寸和显示能力而改变。比如，在手机上，用户只看到包含内容的单列视图，而在平板电脑中则能看到两列</p>
+<h2 id="设置视口信息">设置视口信息</h2>
+<p>网页若需要适配不同的设备，在其文档的head元素中，需要包含一个meta元素，这个meta元素视口控制信息。这个meta元素告诉浏览器如何控制页面的尺寸缩放</p>
+<h3 id="长话短说">长话短说</h3>
+<ol>
+<li>使用meta元素，里面包含视口控制信息去控制浏览器视口的宽度和缩放</li>
+<li>写入<code>width=device-width</code>去使用设备的像素去匹配屏幕的宽度</li>
+<li>写入<code>initial-scale=1</code>去建立CSS像素与设备像素的1:1对等关系</li>
+<li>保证你的页面在用户缩放的时候依旧可用</li>
+</ol>
+<h3 id="最佳实践">最佳实践</h3>
+<p>为了提供最佳的用户体验，手机浏览器一般以980px（这个值会可能在不同设备中略有不同）的宽度渲染页面，然后会尝试去减少文字大小以及缩放内容到屏幕大小来让内容看起来更加适于阅读。对于用户来说，这也意味着字体的大小可能会不一致，用户需要通过双击或手势缩放来放大网页，这样才能看到内容并与之交互</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="title">meta</span> <span class="attribute">name</span>=<span class="value">"viewport"</span> <span class="attribute">content</span>=<span class="value">"width=device-width, initial-scale=1.0"</span>&gt;</span></div></pre></td></tr></table></figure>
+
+<p>我们可以使用meta标签来指定viewport信息，这里<code>width=device-width</code>表明页面将会以设备的像素大小来适配屏幕宽度。这样无论是在小屏幕手机上还是大屏幕显示器上，页面都可以为不同的屏幕尺寸进行内容的回流</p>
+<p>有一些浏览器会在横竖屏切换时保持页面宽度不变，他们仅仅会进行缩放，而不会让内容回流来适应屏幕。增加属性<code>initial-scale=1</code>告诉浏览器去建立CSS像素和设备像素的1:1对等关系，而无视设备的方向，这样网页就能适应横竖屏的宽度变化了</p>
+<p><strong>使用一个逗号去区分属性保持老式浏览器也能获取到值</strong></p>
+<h3 id="确定一个可访问的视口">确定一个可访问的视口</h3>
+<p>除了使用<code>initial-scale</code>，也可以在视口控制信息中加入<code>minimum-scale</code>,<code>maximum-scale</code>和<code>user-scalable</code>等属性。这些值将限制用户缩放视口的比例，可能会降低网页的可访问性</p>
+<h2 id="使得内容适配视口">使得内容适配视口</h2>
+<p>无论是手机还是桌面电脑，用户通常是垂直滚动页。也就是说，强迫用户水平滚动页面或者必须缩放才能看到整个页面，都会降低用户体验</p>
+<h3 id="长话短说-1">长话短说</h3>
+<ol>
+<li>不要为元素设定大且固定的尺寸</li>
+<li>内容的展现不应该依赖于一个特定的视口宽度</li>
+<li>使用CSS的媒体查询来为不同的屏幕尺寸提供不同的样式</li>
+</ol>
+<h3 id="最佳实践-1">最佳实践</h3>
+<p>在开发手机网页中使用<code>meta viewport</code>元素进行开发时，很容易导致页面内容无法匹配某些特定的视口。比如，一张图片能够在较宽呃视口中完全显示，但在较窄的视口中则必须要水平滚动才能看到右边的部分。我们需要调整页面内容来适应视口的宽度，这样它们就不需要水平滚动了</p>
+<p>由于不同设备基于CSS像素的尺寸和宽度不同（手机和平板之间不同，甚至不同的手机之间也不同），所以页面内容不能只依赖于一个特定的视口宽度。</p>
+<p>如果元素设定了较大的绝对宽度，元素在窄设备中将由于太宽而只能显示一部分。取而代之，考虑使用相对宽度（如<code>width: 100%</code>）</p>
+<h2 id="为响应式使用CSS的媒体查询">为响应式使用CSS的媒体查询</h2>
+<p>媒体查询其实能在CSS样式中使用的过滤器，他们能够很轻易的根据设备的特点来改变渲染网页内容的CSS样式，这些特点包括设备的显示类型，宽高，横竖屏甚至是分辨率</p>
+<h3 id="长话短说-2">长话短说</h3>
+<ol>
+<li>媒体查询可以根据设备特点来应用样式</li>
+<li>使用<code>min-width</code>而不是<code>min-device-width</code>来保证更多情况下能有好的体验</li>
+<li>为元素使用相对大小防止破坏布局</li>
+</ol>
+<h3 id="最佳实践-2">最佳实践</h3>
+<p>比如，我们可以通过这样的方式加入打印时需要的样式：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="title">link</span> <span class="attribute">rel</span>=<span class="value">"stylesheet"</span> <span class="attribute">href</span>=<span class="value">"print.css"</span> <span class="attribute">media</span>=<span class="value">"print"</span>&gt;</span></div></pre></td></tr></table></figure>
+
+<p>除了在样式的link元素中增加<code>media</code>属性，还有两种其他方法在CSS文件在中使用媒体查询：<code>@media</code>和<code>@import</code>。处于效率考虑，推荐使用前两种方式</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="at_rule">@<span class="keyword">media</span> print </span>{</div><div class="line">  <span class="comment">/* print style sheets go here */</span></div><div class="line">}</div><div class="line"></div><div class="line"><span class="at_rule">@<span class="keyword">import</span> <span class="function">url</span>(print.css) print</span>;</div></pre></td></tr></table></figure>
+
+<p>媒体查询中的逻辑不会互相冲突，并且符合媒体查询条件而引入的CSS样式也会根据CSS优先级标准作用与页面中</p>
+<h3 id="根据视口大小使用媒体查询">根据视口大小使用媒体查询</h3>
+<p>媒体查询为创建响应式的体验成为可能，通过媒体查询，我们能为小屏幕，大屏幕，或者两者之间来提供特定的样式表。媒体查询的语法允许我们根据设备的特点来创建匹配规则：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="at_rule">@<span class="keyword">media</span> (query) </span>{</div><div class="line">  <span class="comment">/* CSS Rules used when query matches */</span></div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p>媒体查询提供了很多查询条件供我们使用，其中我们在响应式web设计中用的最多是<code>min-width</code>、<code>max-width</code>、<code>min-height</code>、<code>max-height</code></p>
+<ul>
+<li>min-width: 匹配所有宽度大于设定值的浏览器</li>
+<li>max-width: 匹配所有宽度小于设定值的浏览器</li>
+<li>min-height: 匹配所有高度大于设定值的浏览器</li>
+<li>max-height: 匹配所有高度小于设定值的浏览器</li>
+<li>orientation=portrait: 匹配竖屏，也就是高度大于或等于宽度</li>
+<li>orientation=landscape: 匹配横屏，也就是宽度大于或等于高度</li>
+</ul>
+<h3 id="关于min-device-width">关于min-device-width</h3>
+<p>除了<code>*-width</code>，我们也可以在媒体查询中使用<code>*-device-width</code>，这两者有微妙且重要的差异。<code>min-width</code>检测的是浏览器的窗口的尺寸，而<code>min-device-width</code>检测的则是屏幕的尺寸</p>
+<p>在手机上，这个差异一般不会有什么影响，毕竟用户不能自由调整窗口的尺寸。但在桌面上，用户能够自由控制窗口尺寸并希望网页内容能够很自然的适应窗口，所以，应当尽量避免使用<code>*-device-width</code>，否则网页将无法响应桌面浏览器窗口的缩放</p>
+<h3 id="使用相对单位">使用相对单位</h3>
+<p>响应式设计的一个关键概念就是流动性和比例性，而不是使用固定宽度进行布局。计量时使用相对单位能够简化布局，并防止出现创建的组件对于视口过大的情况。</p>
+<p>比如，将顶层宽度设为100%，使其宽度撑开到整个视口大小，它的宽度永远不会大于或小于视口大小。这个div无论在iPhone的320px、黑莓Z10的342px还是Nexus 5的360px下，都能横向填满屏幕</p>
+<p>另外使用相对单位允许浏览器在用户缩放网页时重新渲染整个页面，而不会增加一个水平滚动条。</p>
+<h2 id="如何选择断点">如何选择断点</h2>
+<p>尽管哦我们可以考虑基于设备类型来定义断点，但需要谨慎使用这种方式。基于特定的的设备、产品、品牌名称或操作系统定义断点，就算今天能正常使用，以后也会出现维护上的噩梦。取而代之的是，网页内容应该根据其自身来决定如何在容器中进行布局。</p>
+<h3 id="长话短说-3">长话短说</h3>
+<ol>
+<li>基于网页内容创建断点，永远不要基于特定的设备、产品或品牌</li>
+<li>以移动先行的思想设计网页，然后随着屏幕可用大小增加而渐进增强用户体验</li>
+<li>保持每一行文字的最大宽度在70到80个字符左右</li>
+</ol>
+<h3 id="从小到大来挑选主要断点">从小到大来挑选主要断点</h3>
+<p>首先，在较小的屏幕尺寸上设计网页，然后主键扩大屏幕大小直到必须要增加断点。这样断点的选取是基于网页内容，并且断点会尽可能的少。</p>
+<h3 id="必要时添加次要断点">必要时添加次要断点</h3>
+<p>除了显著影响布局的主要断点外，用于小范围调整的次要断点也非常有用。比如在主要断点中间，增加一些次要断点来调整元素的margin或padding，或者增加文本大小让他们在布局中显得更加自然</p>
+<h3 id="优化文本阅读">优化文本阅读</h3>
+<p>传统的可读性理论建议一个理想的列每一行应该包含70到80个字符(8~10个英文单词)，也就是说，每当一行单词数量增加到10个时，我们就应该就应该加一个断点了</p>
+<h3 id="不要完全隐藏内容">不要完全隐藏内容</h3>
+<p>当需要根据屏幕大小选择行的显示内容时，需要注意。不要简单的由于其无法适应屏幕就将其隐藏。屏幕的大小并不能说明用户想要什么。比如，在天气预报中移除了花粉浓度对于一个不外出或没有花粉过敏症呃人来说可能没什么，但对于患有花粉过敏症的人来说就很致命了</p>
+<hr><div class="tags"><a href="/tags/HTML/" class="blog-tag">HTML</a><a href="/tags/CSS/" class="blog-tag">CSS</a></div><hr><div class="jia"><div class="jiathis_style_32x32"><a class="jiathis_button_qzone"></a><a class="jiathis_button_tsina"></a><a class="jiathis_button_tqq"></a><a class="jiathis_button_weixin"></a><a class="jiathis_button_renren"></a><a href="http://www.jiathis.com/share?uid=1409314953297200" target="_blank" class="jiathis jiathis_txt jtico jtico_jiathis"></a></div><script type="text/javascript">var jiathis_config = {data_track_clickback:'true'};    </script><script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1409314953297200" charset="utf-8"></script></div><hr><div id="duoshuo" data-url="http://lingyu.wang/2014/05/19/google-responsive-design-fundamentals/" data-thread-key="/blog/2014/05/19/google-responsive-design-fundamentals/" data-title="响应式Web设计基础" class="ds-thread"></div><script type="text/javascript">var duoshuoQuery = {short_name:'skyinlayer'};
+(function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+})();</script></div></article><div class="pager"><a href="/2014/05/20/google-constructing-the-object-model/" title="构建对象模型" class="pre">上一页</a><a href="/2014/05/17/read-jq-src-5/" title="jQuery的异步控制" class="next">下一页</a></div></div><aside id="aside"><section class="recent"><h3 class="title iconfont">最新文章<i>&#xe601;</i></h3><div class="links"><ul><li><a href="/2014/03/17/SkyRTC-client-doc/">开源WebRTC库——SkyRTC-client文档(客户端部分)</a></li><li><a href="/2014/02/26/BFC/">深入浅出BFC（Block formatting contexts）</a></li><li><a href="/2014/02/24/CSS3-animation-optimization/">前端性能优化（CSS动画篇）</a></li><li><a href="/2014/03/17/SkyRTC-demo/">开源WebRTC库——SkyRTC实例</a></li><li><a href="/2014/03/17/SkyRTC-doc/">开源WebRTC库——SkyRTC文档（服务器部分）</a></li></ul></div></section><section class="categories"><h3 class="title iconfont">分类<i>&#xe605;</i></h3><div class="links"><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/前端技术/">前端技术</a><span class="category-list-count">33</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/前端技术/性能优化/">性能优化</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端技术/笔试面试积累/">笔试面试积累</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端技术/网站建设/">网站建设</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/即时通信/">即时通信</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/性能优化/">性能优化</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库技术/">数据库技术</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/源码阅读/">源码阅读</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/生活情感/">生活情感</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/笔试面试积累/">笔试面试积累</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/网站建设/">网站建设</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/读书笔记/">读书笔记</a><span class="category-list-count">9</span></li></ul></div></section><section class="tags"><h3 class="title iconfont">标签<i>&#xe603;</i></h3><div class="links"><ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS/">CSS</a><span class="tag-list-count">34</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ES6/">ES6</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Generator/">Generator</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/">HTML</a><span class="tag-list-count">28</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/">HTTP</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a><span class="tag-list-count">33</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kissy/">Kissy</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NodeJs/">NodeJs</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SEO/">SEO</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WebIM/">WebIM</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WebRTC/">WebRTC</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WebSocket/">WebSocket</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/grunt/">grunt</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jQuery/">jQuery</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/oracle/">oracle</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/xmpp/">xmpp</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/动画/">动画</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/响应式/">响应式</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/存储函数/">存储函数</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/思考/">思考</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/生活/">生活</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/笔试面试题/">笔试面试题</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/设计/">设计</a><span class="tag-list-count">9</span></li></ul></div></section><section class="archives"><h3 class="title iconfont"> 归档<i>&#xe60a;</i></h3><div class="links"><ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07">2014年7月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05">2014年5月</a><span class="archive-list-count">15</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/04">2014年4月</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/03">2014年3月</a><span class="archive-list-count">29</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02">2014年2月</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/01">2014年1月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/12">2013年12月</a><span class="archive-list-count">1</span></li></ul></div></section></aside></section><footer id="page-footer"><span style="float:right"><script type="text/javascript">(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-51090540-1', 'http://plugins.lingyu.wang');
+ga('send', 'pageview');</script></span><span style="float:right"><script type="text/javascript">var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3Fa5aa4945a04cc5a5a4cd6835ccb7d419' type='text/javascript'%3E%3C/script%3E"));</script></span><p>&copy;Powered by<a href="http://hexo.io" target="_blank" title="hexo">&nbsp;hexo&nbsp;</a>and Theme by<a href="https://github.com/LingyuCoder/lingyu-theme">&nbsp;LingyuCoder</a></p></footer><script type="text/javascript" src="http://cdn.staticfile.org/jquery/2.1.1-rc2/jquery.min.js"></script><script type="text/javascript">$(function(){
+    var duoshuoIds = [];
+    var map = {};
+    $('.meta').each(function(){
+        var $this = $(this);
+        var id = $this.attr('thread');
+        duoshuoIds.push(id);
+        map[id] = $this;
+    });
+    duoshuoIds.length && $.ajax({
+        url: 'http://api.duoshuo.com/threads/counts.jsonp',
+        data: {
+            threads: duoshuoIds.join(','),
+            short_name: 'skyinlayer'
+        },
+        success: function(data){
+            $.each(data.response, function(key, value){
+                var $el = map[key];
+                if($el) {
+                    $.each(['comments','likes', 'reposts'], function(index, type){
+                        $el.find('.' + type).append('<span>' + value[type] + '</span>');
+                    });
+                }
+            });
+        },
+        dataType: 'jsonp'
+    });
+});</script></body></html>
