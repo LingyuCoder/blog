@@ -4,7 +4,7 @@
   
   <link href="/atom.xml" rel="self"/>
   <link href="http://lingyu.wang/"/>
-  <updated>2014-09-18T15:05:08.778Z</updated>
+  <updated>2014-09-22T17:00:53.768Z</updated>
   <id>http://lingyu.wang/</id>
   
   <author>
@@ -508,6 +508,62 @@
   </entry>
   
   <entry>
+    <title><![CDATA[使用导航计时监测渲染关键路径]]></title>
+    <link href="http://lingyu.wang/2014/05/21/google-measuring-the-critical-rendering-path-with-navigation-timing/"/>
+    <id>http://lingyu.wang/2014/05/21/google-measuring-the-critical-rendering-path-with-navigation-timing/</id>
+    <published>2014-05-20T16:00:00.000Z</published>
+    <updated>2014-09-18T14:53:48.000Z</updated>
+    <content type="html"><![CDATA[<p>没办法监测，就没办法优化。幸运的是，浏览器提供了一系列用来监测渲染关键路径上每一步的接口，叫导航计时接口（Navigation Timing API）<br><a id="more"></a></p>
+<h3 id="长话短说">长话短说</h3>
+<ul>
+<li>导航计时为监测渲染关键路径提供了高分辨率的时间戳</li>
+<li>浏览器在到达渲染关键路径的不同阶段时，会触发一系列的事件</li>
+</ul>
+<h3 id="用于监测的时间戳">用于监测的时间戳</h3>
+<p>好的性能策略都是建立在良好的测量基础之上的。下面这张图说明了导航计时接口提供的API：</p>
+<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-5-21/1.png" alt="导航计时接口提供的API"></p>
+<p>上面的每一个标签都提供了一个方法，用于检测每一个页面加载的高分辨率的时间戳。在这里，我们仅仅介绍除了与网络相关的时间戳的哪些一部分时间戳，剩下的我们会在以后的章节作介绍</p>
+<p>那么，这些时间戳代表着什么？</p>
+<ul>
+<li>domLoading：整个处理过程开始的时间，也就是浏览器开始解析HTML文档的第一个字节的时间</li>
+<li>domInteractive：浏览器解析完所有HTML，并完成DOM构建的时间</li>
+<li>domContentLoaded：开始构建渲染树的时间点，就是DOM构建完毕后，若没有样式以及阻塞的JavaScript运行的时间点<ul>
+<li>许多JavaScript框架都会监听这个事件，然后执行他们自己的逻辑。因此浏览器提供了EventStart和EventEnd两个时间戳来允许我们知道具体运行消耗的时间</li>
+</ul>
+</li>
+<li>domComplete：和名字一样，记录了页面上的所有资源都下载完成（包括图片）以及所有处理逻辑都结束后的时间点。这个时间点过后，浏览器旋转的加载标记将不再旋转了</li>
+<li>loadEvent：最后，浏览器触发onload事件来执行一些其他的应用逻辑</li>
+</ul>
+<h3 id="里程碑">里程碑</h3>
+<p>根据HTML的规范，浏览器会检测所有事件：什么时候应该触发事件，应该满足哪些条件等等。对于我们来说，我们只需要关注渲染关键路径上的一些“里程碑”事件：</p>
+<ul>
+<li>domIneractive：说明DOM构建完毕</li>
+<li>domContentLoaded：当DOM和CSSOM都完成后触发<ul>
+<li>如果没有“解析器阻塞”的JavaScript代码，documentContentLoaded将直接在domInteractive之后触发</li>
+</ul>
+</li>
+<li>domComplete：当页面及其所有资源全部完毕时触发</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="title">html</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="title">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="title">title</span>&gt;</span>Critical Path: Measure<span class="tag">&lt;/<span class="title">title</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="title">meta</span> <span class="attribute">name</span>=<span class="value">"viewport"</span> <span class="attribute">content</span>=<span class="value">"width=device-width,initial-scale=1.0"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="title">link</span> <span class="attribute">href</span>=<span class="value">"style.css"</span> <span class="attribute">rel</span>=<span class="value">"stylesheet"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="title">script</span>&gt;</span><span class="javascript"></span></div><div class="line">      <span class="function"><span class="keyword">function</span> <span class="title">measureCRP</span><span class="params">()</span> </span>{</div><div class="line">        <span class="keyword">var</span> t = <span class="built_in">window</span>.performance.timing,</div><div class="line">          interactive = t.domInteractive - t.domLoading,</div><div class="line">          dcl = t.domContentLoadedEventStart - t.domLoading,</div><div class="line">          complete = t.domComplete - t.domLoading;</div><div class="line">        <span class="keyword">var</span> stats = <span class="built_in">document</span>.createElement(<span class="string">'p'</span>);</div><div class="line">        stats.textContent = <span class="string">'interactive: '</span> + interactive + <span class="string">'ms, '</span> +</div><div class="line">            <span class="string">'dcl: '</span> + dcl + <span class="string">'ms, complete: '</span> + complete + <span class="string">'ms'</span>;</div><div class="line">        <span class="built_in">document</span>.body.appendChild(stats);</div><div class="line">      }</div><div class="line">    <span class="tag">&lt;/<span class="title">script</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="title">head</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="title">body</span> <span class="attribute">onload</span>=<span class="value">"measureCRP()"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="title">p</span>&gt;</span>Hello <span class="tag">&lt;<span class="title">span</span>&gt;</span>web performance<span class="tag">&lt;/<span class="title">span</span>&gt;</span> students!<span class="tag">&lt;/<span class="title">p</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="title">div</span>&gt;</span><span class="tag">&lt;<span class="title">img</span> <span class="attribute">src</span>=<span class="value">"awesome-photo.jpg"</span>&gt;</span><span class="tag">&lt;/<span class="title">div</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="title">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="title">html</span>&gt;</span></div></pre></td></tr></table></figure>
+
+<p>上面的例子乍看之下可能比较吓人，但实际上非常简单，导航计时API捕获了相关的时间戳，而我们的JavaScript代码放在onload事件的回调函数中，只有触发了onload事件，才会执行。onload事件只有在domInteractive、domContentLoaded和domComplete事件都完成之后才会触发，所以我们可以捕获到这些时间戳之间的差值，算出每个阶段所耗费的时间</p>
+<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-5-21/2.png" alt="时间戳检测结果"></p>
+<p>综上所述，我们可以获得一些“里程碑事件”以及一些简单的函数来输出测量结果。当然我们可以不将这些数据输出到页面上，而是发送这些分析的数据到专门的分析服务器（Google的分析工具就会自动做这些事），这样就能很方便的检测网页的性能，确定候选页面，并尝到优化所带来的甜头。</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>没办法监测，就没办法优化。幸运的是，浏览器提供了一系列用来监测渲染关键路径上每一步的接口，叫导航计时接口（Navigation Timing API）<br>]]>
+    
+    </summary>
+    
+      <category term="HTML" scheme="http://lingyu.wang/tags/HTML/"/>
+    
+      <category term="CSS" scheme="http://lingyu.wang/tags/CSS/"/>
+    
+      <category term="前端技术" scheme="http://lingyu.wang/categories/%E5%89%8D%E7%AB%AF%E6%8A%80%E6%9C%AF/"/>
+    
+  </entry>
+  
+  <entry>
     <title><![CDATA[通过JavaScript增加交互性]]></title>
     <link href="http://lingyu.wang/2014/05/21/google-adding-interactivity-with-javaScript/"/>
     <id>http://lingyu.wang/2014/05/21/google-adding-interactivity-with-javaScript/</id>
@@ -627,50 +683,55 @@
   </entry>
   
   <entry>
-    <title><![CDATA[使用导航计时监测渲染关键路径]]></title>
-    <link href="http://lingyu.wang/2014/05/21/google-measuring-the-critical-rendering-path-with-navigation-timing/"/>
-    <id>http://lingyu.wang/2014/05/21/google-measuring-the-critical-rendering-path-with-navigation-timing/</id>
-    <published>2014-05-20T16:00:00.000Z</published>
-    <updated>2014-09-18T14:53:48.000Z</updated>
-    <content type="html"><![CDATA[<p>没办法监测，就没办法优化。幸运的是，浏览器提供了一系列用来监测渲染关键路径上每一步的接口，叫导航计时接口（Navigation Timing API）<br><a id="more"></a></p>
-<h3 id="长话短说">长话短说</h3>
+    <title><![CDATA[构建对象模型]]></title>
+    <link href="http://lingyu.wang/2014/05/20/google-constructing-the-object-model/"/>
+    <id>http://lingyu.wang/2014/05/20/google-constructing-the-object-model/</id>
+    <published>2014-05-19T16:00:00.000Z</published>
+    <updated>2014-09-18T14:53:34.000Z</updated>
+    <content type="html"><![CDATA[<p>浏览器渲染页面之前会构建DOM树和CSSOM树<br><a id="more"></a></p>
+<h2 id="长话短说">长话短说</h2>
 <ul>
-<li>导航计时为监测渲染关键路径提供了高分辨率的时间戳</li>
-<li>浏览器在到达渲染关键路径的不同阶段时，会触发一系列的事件</li>
+<li>字节(bytes) → 字符(characters) → 标记(tokens) → 节点(nodes) → 对象模型(object model)</li>
+<li>HTML标记将会被转化为一个文档对象模型（Document Object<code>enter code here</code> Module，以下简称DOM），而CSS标记将会被转化成一个CSS对象模型（CSSOM）</li>
+<li>DOM和CSSOM是互相独立的数据结构</li>
+<li>Chrome的开发者工具的Timeline里面可以捕捉到DOM和CSSOM的构建和处理</li>
 </ul>
-<h3 id="用于监测的时间戳">用于监测的时间戳</h3>
-<p>好的性能策略都是建立在良好的测量基础之上的。下面这张图说明了导航计时接口提供的API：</p>
-<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-5-21/1.png" alt="导航计时接口提供的API"></p>
-<p>上面的每一个标签都提供了一个方法，用于检测每一个页面加载的高分辨率的时间戳。在这里，我们仅仅介绍除了与网络相关的时间戳的哪些一部分时间戳，剩下的我们会在以后的章节作介绍</p>
-<p>那么，这些时间戳代表着什么？</p>
-<ul>
-<li>domLoading：整个处理过程开始的时间，也就是浏览器开始解析HTML文档的第一个字节的时间</li>
-<li>domInteractive：浏览器解析完所有HTML，并完成DOM构建的时间</li>
-<li>domContentLoaded：开始构建渲染树的时间点，就是DOM构建完毕后，若没有样式以及阻塞的JavaScript运行的时间点<ul>
-<li>许多JavaScript框架都会监听这个事件，然后执行他们自己的逻辑。因此浏览器提供了EventStart和EventEnd两个时间戳来允许我们知道具体运行消耗的时间</li>
-</ul>
-</li>
-<li>domComplete：和名字一样，记录了页面上的所有资源都下载完成（包括图片）以及所有处理逻辑都结束后的时间点。这个时间点过后，浏览器旋转的加载标记将不再旋转了</li>
-<li>loadEvent：最后，浏览器触发onload事件来执行一些其他的应用逻辑</li>
-</ul>
-<h3 id="里程碑">里程碑</h3>
-<p>根据HTML的规范，浏览器会检测所有事件：什么时候应该触发事件，应该满足哪些条件等等。对于我们来说，我们只需要关注渲染关键路径上的一些“里程碑”事件：</p>
-<ul>
-<li>domIneractive：说明DOM构建完毕</li>
-<li>domContentLoaded：当DOM和CSSOM都完成后触发<ul>
-<li>如果没有“解析器阻塞”的JavaScript代码，documentContentLoaded将直接在domInteractive之后触发</li>
-</ul>
-</li>
-<li>domComplete：当页面及其所有资源全部完毕时触发</li>
-</ul>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="title">html</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="title">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="title">title</span>&gt;</span>Critical Path: Measure<span class="tag">&lt;/<span class="title">title</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="title">meta</span> <span class="attribute">name</span>=<span class="value">"viewport"</span> <span class="attribute">content</span>=<span class="value">"width=device-width,initial-scale=1.0"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="title">link</span> <span class="attribute">href</span>=<span class="value">"style.css"</span> <span class="attribute">rel</span>=<span class="value">"stylesheet"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="title">script</span>&gt;</span><span class="javascript"></span></div><div class="line">      <span class="function"><span class="keyword">function</span> <span class="title">measureCRP</span><span class="params">()</span> </span>{</div><div class="line">        <span class="keyword">var</span> t = <span class="built_in">window</span>.performance.timing,</div><div class="line">          interactive = t.domInteractive - t.domLoading,</div><div class="line">          dcl = t.domContentLoadedEventStart - t.domLoading,</div><div class="line">          complete = t.domComplete - t.domLoading;</div><div class="line">        <span class="keyword">var</span> stats = <span class="built_in">document</span>.createElement(<span class="string">'p'</span>);</div><div class="line">        stats.textContent = <span class="string">'interactive: '</span> + interactive + <span class="string">'ms, '</span> +</div><div class="line">            <span class="string">'dcl: '</span> + dcl + <span class="string">'ms, complete: '</span> + complete + <span class="string">'ms'</span>;</div><div class="line">        <span class="built_in">document</span>.body.appendChild(stats);</div><div class="line">      }</div><div class="line">    <span class="tag">&lt;/<span class="title">script</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="title">head</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="title">body</span> <span class="attribute">onload</span>=<span class="value">"measureCRP()"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="title">p</span>&gt;</span>Hello <span class="tag">&lt;<span class="title">span</span>&gt;</span>web performance<span class="tag">&lt;/<span class="title">span</span>&gt;</span> students!<span class="tag">&lt;/<span class="title">p</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="title">div</span>&gt;</span><span class="tag">&lt;<span class="title">img</span> <span class="attribute">src</span>=<span class="value">"awesome-photo.jpg"</span>&gt;</span><span class="tag">&lt;/<span class="title">div</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="title">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="title">html</span>&gt;</span></div></pre></td></tr></table></figure>
+<h2 id="DOM树构建">DOM树构建</h2>
+<p>比如一段如下HTML</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="title">html</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="title">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="title">meta</span> <span class="attribute">name</span>=<span class="value">"viewport"</span> <span class="attribute">content</span>=<span class="value">"width=device-width,initial-scale=1.0"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="title">link</span> <span class="attribute">href</span>=<span class="value">"style.css"</span> <span class="attribute">rel</span>=<span class="value">"stylesheet"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="title">title</span>&gt;</span>Critical Path<span class="tag">&lt;/<span class="title">title</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="title">head</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="title">body</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="title">p</span>&gt;</span>Hello <span class="tag">&lt;<span class="title">span</span>&gt;</span>web performance<span class="tag">&lt;/<span class="title">span</span>&gt;</span> students!<span class="tag">&lt;/<span class="title">p</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="title">div</span>&gt;</span><span class="tag">&lt;<span class="title">img</span> <span class="attribute">src</span>=<span class="value">"awesome-photo.jpg"</span>&gt;</span><span class="tag">&lt;/<span class="title">div</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="title">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="title">html</span>&gt;</span></div></pre></td></tr></table></figure>
 
-<p>上面的例子乍看之下可能比较吓人，但实际上非常简单，导航计时API捕获了相关的时间戳，而我们的JavaScript代码放在onload事件的回调函数中，只有触发了onload事件，才会执行。onload事件只有在domInteractive、domContentLoaded和domComplete事件都完成之后才会触发，所以我们可以捕获到这些时间戳之间的差值，算出每个阶段所耗费的时间</p>
-<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-5-21/2.png" alt="时间戳检测结果"></p>
-<p>综上所述，我们可以获得一些“里程碑事件”以及一些简单的函数来输出测量结果。当然我们可以不将这些数据输出到页面上，而是发送这些分析的数据到专门的分析服务器（Google的分析工具就会自动做这些事），这样就能很方便的检测网页的性能，确定候选页面，并尝到优化所带来的甜头。</p>
+<p>其从字节到DOM树的过程如下图所示：</p>
+<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-5-20/1.png" alt="从字节到DOM树的过程"></p>
+<p>具体的过程分为如下几步：</p>
+<ol>
+<li>转换（Conversion）：浏览器从网络或硬盘中读取原始的字节，并根据其编码方式转换为独立的字符</li>
+<li>标记化（Tokenizing）：浏览器根据W3C的html5标准解析出尖括号内的字符串，每一个标记有自己的意义和规则</li>
+<li>对象化（Lexing）：将标记转变为对象，对象内定义了他们的值和规则</li>
+<li>DOM构建（DOM construction）：由于HTML标记定义了节点之间的关系，且这个关系是树型结构的（某个节点包含多个节点），所以通过一个树来保存</li>
+</ol>
+<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-5-20/2.png" alt="DOM树的树状结构"></p>
+<p>整个过程输出的是一个DOM，它是网页的DOM树，后面的处理都会用到DOM树</p>
+<p>每一次浏览器要讲HTML标记转换成DOM树，都需要经过这些过程：从字节转换到字符，获取其中的标记，转换标记到节点，通过节点构建DOM树，这些过程需要消耗一定的时间</p>
+<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-5-20/3.png" alt="Chrome DevTools中的DOM树构建过程"></p>
+<p>如果打开Chrome开发者工具，并在页面加载时记录Timeline，你讲看到这些步骤的具体时间。在上例中，浏览器花费了约5ms将一个HTML碎片从字节转换到DOM树，当然，如果页面较大，这个时间会更长。在接下来的创建流畅动画的章节中，如果浏览器需要处理大量的HTML，这里很容易成为瓶颈。</p>
+<p>DOM树构建好后，我们还需要将其渲染到屏幕上。DOM树中并没有告诉浏览器应该如何渲染这些节点，而完成这个职责的就是下面的CSSOM树了</p>
+<h2 id="CSSOM树构建">CSSOM树构建</h2>
+<p>当浏览器为页面构建DOM树的时候，它会统计head部分的link标签，指向外部CSS样式文件。浏览器需要这些文件来渲染页面，它会直接发送请求来获取文件</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="tag">body</span> <span class="rules">{ <span class="rule"><span class="attribute">font-size</span>:<span class="value"> <span class="number">16px</span> </span></span></span>}</div><div class="line"><span class="tag">p</span> <span class="rules">{ <span class="rule"><span class="attribute">font-weight</span>:<span class="value"> bold </span></span></span>}</div><div class="line"><span class="tag">span</span> <span class="rules">{ <span class="rule"><span class="attribute">color</span>:<span class="value"> red </span></span></span>}</div><div class="line"><span class="tag">p</span> <span class="tag">span</span> <span class="rules">{ <span class="rule"><span class="attribute">display</span>:<span class="value"> none </span></span></span>}</div><div class="line"><span class="tag">img</span> <span class="rules">{ <span class="rule"><span class="attribute">float</span>:<span class="value"> right </span></span></span>}</div></pre></td></tr></table></figure>
+
+<p>当然我们也可以在HTML标记中声明CSS样式（内联样式），但保持CSS和HTML的独立使得我们能够将设计与内容分离：设计者基于CSS工作，而开发者则专注于HTML，等等</p>
+<p>和HTML一样，我们将CSS样式转换到某种浏览器能够理解且使用的结构。其大致过程如下：</p>
+<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-5-20/4.png" alt="浏览器将CSS字节转换到CSSOM"></p>
+<p>浏览器将CSS字节转换成字符，然后构建标记和节点，最后练级到一个叫做CSS对象模型（CSSOM）的树型数据结构</p>
+<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-5-20/5.png" alt="树状CSSOM"></p>
+<p>HTML是树状结构很好理解，那么为什么CSSOM也是树状结构呢？在计算页面上对象的需要使用的样式集时，浏览器首先将最常规的样式赋给节点（如果是body元素的孩子，那么会使用body的所有样式），然后递归细化，逐步添加上特殊的规则，这也就是级联样式表中“级联”的意思</p>
+<p>上面的树并不是完整的CSSOM树，目前只是展示了样式表中的样式如何互相覆盖。么一个浏览器都提供了一套自己的样式，也就是“用户代理样式（user agent styles）”，在我们不提供任何样式的时候，就会使用这些央视。如果在Chrome开发者工具里面查看“计算后样式（computed styles）”，可以看到所有节点中样式的来源</p>
+<p>如果想知道CSS处理花费多长时间，可以在开发者工具中记录Timeline，并查看“Resalcuate”事件：与DOM解析不同的是，这里不会分开的“Parse CSS”各个阶段，解析、CSSOM树构建以及样式的递归计算都放在这一个事件之中</p>
+<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-5-20/6.png" alt="通过开发者工具查看样式处理"></p>
+<p>这里可以看到，这次样式处理花费了约0.6ms，涉及页面上的8个元素。那这8个元素从哪儿来？CSSOM和DOM是完全独立的数据结构，浏览器隐藏了很重要的一步，通过渲染树（render tree）将CSSOM和DOM连接起来，下一章就将介绍这个渲染树</p>
 ]]></content>
     <summary type="html">
-    <![CDATA[<p>没办法监测，就没办法优化。幸运的是，浏览器提供了一系列用来监测渲染关键路径上每一步的接口，叫导航计时接口（Navigation Timing API）<br>]]>
+    <![CDATA[<p>浏览器渲染页面之前会构建DOM树和CSSOM树<br>]]>
     
     </summary>
     
@@ -746,67 +807,6 @@
     <summary type="html">
     <![CDATA[<p>CSSOM树和DOM树组合生成渲染树，渲染树将决定每一个可见元素的计算样式，并作为输入交给绘制线程，绘制线程将会把他们渲染成像素打到屏幕上。优化这些步骤将是提升渲染性能的关键所在。</p>
 ]]>
-    
-    </summary>
-    
-      <category term="HTML" scheme="http://lingyu.wang/tags/HTML/"/>
-    
-      <category term="CSS" scheme="http://lingyu.wang/tags/CSS/"/>
-    
-      <category term="前端技术" scheme="http://lingyu.wang/categories/%E5%89%8D%E7%AB%AF%E6%8A%80%E6%9C%AF/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[构建对象模型]]></title>
-    <link href="http://lingyu.wang/2014/05/20/google-constructing-the-object-model/"/>
-    <id>http://lingyu.wang/2014/05/20/google-constructing-the-object-model/</id>
-    <published>2014-05-19T16:00:00.000Z</published>
-    <updated>2014-09-18T14:53:34.000Z</updated>
-    <content type="html"><![CDATA[<p>浏览器渲染页面之前会构建DOM树和CSSOM树<br><a id="more"></a></p>
-<h2 id="长话短说">长话短说</h2>
-<ul>
-<li>字节(bytes) → 字符(characters) → 标记(tokens) → 节点(nodes) → 对象模型(object model)</li>
-<li>HTML标记将会被转化为一个文档对象模型（Document Object<code>enter code here</code> Module，以下简称DOM），而CSS标记将会被转化成一个CSS对象模型（CSSOM）</li>
-<li>DOM和CSSOM是互相独立的数据结构</li>
-<li>Chrome的开发者工具的Timeline里面可以捕捉到DOM和CSSOM的构建和处理</li>
-</ul>
-<h2 id="DOM树构建">DOM树构建</h2>
-<p>比如一段如下HTML</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="title">html</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="title">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="title">meta</span> <span class="attribute">name</span>=<span class="value">"viewport"</span> <span class="attribute">content</span>=<span class="value">"width=device-width,initial-scale=1.0"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="title">link</span> <span class="attribute">href</span>=<span class="value">"style.css"</span> <span class="attribute">rel</span>=<span class="value">"stylesheet"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="title">title</span>&gt;</span>Critical Path<span class="tag">&lt;/<span class="title">title</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="title">head</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="title">body</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="title">p</span>&gt;</span>Hello <span class="tag">&lt;<span class="title">span</span>&gt;</span>web performance<span class="tag">&lt;/<span class="title">span</span>&gt;</span> students!<span class="tag">&lt;/<span class="title">p</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="title">div</span>&gt;</span><span class="tag">&lt;<span class="title">img</span> <span class="attribute">src</span>=<span class="value">"awesome-photo.jpg"</span>&gt;</span><span class="tag">&lt;/<span class="title">div</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="title">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="title">html</span>&gt;</span></div></pre></td></tr></table></figure>
-
-<p>其从字节到DOM树的过程如下图所示：</p>
-<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-5-20/1.png" alt="从字节到DOM树的过程"></p>
-<p>具体的过程分为如下几步：</p>
-<ol>
-<li>转换（Conversion）：浏览器从网络或硬盘中读取原始的字节，并根据其编码方式转换为独立的字符</li>
-<li>标记化（Tokenizing）：浏览器根据W3C的html5标准解析出尖括号内的字符串，每一个标记有自己的意义和规则</li>
-<li>对象化（Lexing）：将标记转变为对象，对象内定义了他们的值和规则</li>
-<li>DOM构建（DOM construction）：由于HTML标记定义了节点之间的关系，且这个关系是树型结构的（某个节点包含多个节点），所以通过一个树来保存</li>
-</ol>
-<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-5-20/2.png" alt="DOM树的树状结构"></p>
-<p>整个过程输出的是一个DOM，它是网页的DOM树，后面的处理都会用到DOM树</p>
-<p>每一次浏览器要讲HTML标记转换成DOM树，都需要经过这些过程：从字节转换到字符，获取其中的标记，转换标记到节点，通过节点构建DOM树，这些过程需要消耗一定的时间</p>
-<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-5-20/3.png" alt="Chrome DevTools中的DOM树构建过程"></p>
-<p>如果打开Chrome开发者工具，并在页面加载时记录Timeline，你讲看到这些步骤的具体时间。在上例中，浏览器花费了约5ms将一个HTML碎片从字节转换到DOM树，当然，如果页面较大，这个时间会更长。在接下来的创建流畅动画的章节中，如果浏览器需要处理大量的HTML，这里很容易成为瓶颈。</p>
-<p>DOM树构建好后，我们还需要将其渲染到屏幕上。DOM树中并没有告诉浏览器应该如何渲染这些节点，而完成这个职责的就是下面的CSSOM树了</p>
-<h2 id="CSSOM树构建">CSSOM树构建</h2>
-<p>当浏览器为页面构建DOM树的时候，它会统计head部分的link标签，指向外部CSS样式文件。浏览器需要这些文件来渲染页面，它会直接发送请求来获取文件</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="tag">body</span> <span class="rules">{ <span class="rule"><span class="attribute">font-size</span>:<span class="value"> <span class="number">16px</span> </span></span></span>}</div><div class="line"><span class="tag">p</span> <span class="rules">{ <span class="rule"><span class="attribute">font-weight</span>:<span class="value"> bold </span></span></span>}</div><div class="line"><span class="tag">span</span> <span class="rules">{ <span class="rule"><span class="attribute">color</span>:<span class="value"> red </span></span></span>}</div><div class="line"><span class="tag">p</span> <span class="tag">span</span> <span class="rules">{ <span class="rule"><span class="attribute">display</span>:<span class="value"> none </span></span></span>}</div><div class="line"><span class="tag">img</span> <span class="rules">{ <span class="rule"><span class="attribute">float</span>:<span class="value"> right </span></span></span>}</div></pre></td></tr></table></figure>
-
-<p>当然我们也可以在HTML标记中声明CSS样式（内联样式），但保持CSS和HTML的独立使得我们能够将设计与内容分离：设计者基于CSS工作，而开发者则专注于HTML，等等</p>
-<p>和HTML一样，我们将CSS样式转换到某种浏览器能够理解且使用的结构。其大致过程如下：</p>
-<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-5-20/4.png" alt="浏览器将CSS字节转换到CSSOM"></p>
-<p>浏览器将CSS字节转换成字符，然后构建标记和节点，最后练级到一个叫做CSS对象模型（CSSOM）的树型数据结构</p>
-<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-5-20/5.png" alt="树状CSSOM"></p>
-<p>HTML是树状结构很好理解，那么为什么CSSOM也是树状结构呢？在计算页面上对象的需要使用的样式集时，浏览器首先将最常规的样式赋给节点（如果是body元素的孩子，那么会使用body的所有样式），然后递归细化，逐步添加上特殊的规则，这也就是级联样式表中“级联”的意思</p>
-<p>上面的树并不是完整的CSSOM树，目前只是展示了样式表中的样式如何互相覆盖。么一个浏览器都提供了一套自己的样式，也就是“用户代理样式（user agent styles）”，在我们不提供任何样式的时候，就会使用这些央视。如果在Chrome开发者工具里面查看“计算后样式（computed styles）”，可以看到所有节点中样式的来源</p>
-<p>如果想知道CSS处理花费多长时间，可以在开发者工具中记录Timeline，并查看“Resalcuate”事件：与DOM解析不同的是，这里不会分开的“Parse CSS”各个阶段，解析、CSSOM树构建以及样式的递归计算都放在这一个事件之中</p>
-<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-5-20/6.png" alt="通过开发者工具查看样式处理"></p>
-<p>这里可以看到，这次样式处理花费了约0.6ms，涉及页面上的8个元素。那这8个元素从哪儿来？CSSOM和DOM是完全独立的数据结构，浏览器隐藏了很重要的一步，通过渲染树（render tree）将CSSOM和DOM连接起来，下一章就将介绍这个渲染树</p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<p>浏览器渲染页面之前会构建DOM树和CSSOM树<br>]]>
     
     </summary>
     

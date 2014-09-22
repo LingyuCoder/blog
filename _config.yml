@@ -91,3 +91,12 @@ feed:
     type: atom
     path: atom.xml
     limit: 20
+
+autoprefixer:
+    enable: true
+    debug: true
+    cascade: false
+    browsers:
+        - '> 1%'
+        - 'last 2 versions'
+    safe: true
