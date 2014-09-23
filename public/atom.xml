@@ -4,7 +4,7 @@
   
   <link href="/atom.xml" rel="self"/>
   <link href="http://lingyu.wang/"/>
-  <updated>2014-09-22T17:00:53.768Z</updated>
+  <updated>2014-09-22T17:20:00.381Z</updated>
   <id>http://lingyu.wang/</id>
   
   <author>
@@ -13,6 +13,253 @@
   </author>
   
   <generator uri="http://zespia.tw/hexo/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[学前端的一点总结]]></title>
+    <link href="http://lingyu.wang/2014/09/22/learn-fe/"/>
+    <id>http://lingyu.wang/2014/09/22/learn-fe/</id>
+    <published>2014-09-21T16:00:00.000Z</published>
+    <updated>2014-09-22T17:19:39.000Z</updated>
+    <content type="html"><![CDATA[<p>最近<a href="https://github.com/qiu-deqing" target="_blank" rel="external">Qiu</a>开了一个<a href="https://github.com/qiu-deqing/FE-learning/blob/master/README.md" target="_blank" rel="external">FE学习经验介绍</a>，并邀请我去写一点东西。感觉这种方式很有意思，趁着闲下来了，就随便扯了一些，希望能帮到想学前端的同学。我自己只是个前端初学者，希望能有更多的前端爱好者一同学习探讨~~</p>
+<a id="more"></a>
+
+<h4 id="工具">工具</h4>
+<ul>
+<li>chrome dev tools：前端开发调试利器，着重注意几个功能：<ul>
+<li>console（废话）</li>
+<li>elements:元素样式调整，很常用</li>
+<li>sources：代码中添加断点，单步调试，以及单步调试过程中查看内存中的对象<ul>
+<li>watch expression：通过表达式查看当前内存中的值</li>
+<li>call stack：查看调用栈，开启async，可以看异步调用栈（这个非常有用，尤其是ajax调试的时候）</li>
+<li>scope variables：作用域链上的变量，非常有用</li>
+</ul>
+</li>
+<li>network：抓包查看每个请求，非常重要，前后端联调必备</li>
+<li>timeline：分析渲染、js执行等等各个阶段，性能优化利器</li>
+<li>emulation：模拟移动端环境，mobile页面开发必备</li>
+<li>一些插件:<ul>
+<li>liveload: 修改页面后自动刷新，不用按F5</li>
+<li>dimensions：直接在页面上测量的利器</li>
+<li>livestyle：css样式修改后自动起效果，不需要刷新，elements修改后也能同步到代码中</li>
+<li>image tool：测量，取色</li>
+<li>UC二维码：移动端调试扫码必备</li>
+<li>pagespeed，YSlow：页面性能分析和优化插件</li>
+<li>马克飞象：优秀的在线markdown编辑器，快速写周报，做记录</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>sublime text2：编码方便，插件多，速度快，性能好<ul>
+<li>emmet：提升html编码速度必备</li>
+<li>sublimelinter + 各种语言的lint和hint：代码纠错</li>
+<li>一些snippets：自动补全，提升开发效率</li>
+</ul>
+</li>
+<li>Intellij IDEA和WebStorm：集成开发环境，集成了各种功能，开发比sublime要方便，但会比较吃性能</li>
+<li>Mark Men：测量、取色、标注利器，拿到视觉稿之后第一个打开的软件</li>
+<li>GFW Fucker：我用红杏，可以的话买个虚拟服务器当梯子</li>
+<li>iHosts：非常优秀的hosts管理软件，轻松修改hosts，开发调试必备</li>
+<li>Rythem：AlloyTeam出品的代理抓包软件，非常轻量，安装简单，移动端（真机）开发调试很好用</li>
+<li>Wunderlist：一个非常不错的Todo List，任务、需求多的时候管理起来很方便</li>
+</ul>
+<h4 id="技能">技能</h4>
+<p>前端的技能其实除了JavaScript（包括NodeJS）、HTML、CSS以外，还有很多。其实前端的技能树很大，这里只能列一些我开发中见到的说一说</p>
+<h5 id="语言基础">语言基础</h5>
+<p>JavaScript：</p>
+<ul>
+<li>作用域链、闭包、运行时上下文、this</li>
+<li>原型链、继承</li>
+<li>NodeJS基础和常用API</li>
+</ul>
+<p>CSS：</p>
+<ul>
+<li>选择器</li>
+<li>浏览器兼容性及常见的hack处理</li>
+<li>CSS布局的方式和原理（盒子模型、BFC、IFC等等）</li>
+<li>CSS 3，如animation、gradient、等等</li>
+</ul>
+<p>HTML：</p>
+<ul>
+<li>语义化标签</li>
+</ul>
+<h5 id="进阶">进阶</h5>
+<p>JavaScript:</p>
+<ul>
+<li>异步控制（Promise、ES6 generator、Async）</li>
+<li>模块化的开发方式（AMD、CMD、KMD等等）</li>
+<li>JavaScript解释器的一些相关知识<ul>
+<li>异步IO实现</li>
+<li>垃圾回收</li>
+<li>事件队列</li>
+</ul>
+</li>
+<li>常用框架使用及其原理<ul>
+<li>jQuery：基于选择器的框架，但个人认为不能叫框架，应该算工具库，因为不具备模块加载机制，其中源码很适合阅读钻研</li>
+<li>AngularJS/Avalon等MVVM框架：着重理解MVVM模式本身的理念和双向绑定的实现，如何解耦</li>
+<li>underscore：优秀的工具库，方便的理解常用工具代码片段的实现</li>
+<li>polymer/React: 组件化开发，面向未来，理解组件化开发的原理</li>
+</ul>
+</li>
+</ul>
+<p>CSS和HTML：主要是CSS3的特性和HTML5的特性，以及浏览器处理的流程和绘制原理</p>
+<ul>
+<li>DOM树、CSSOM树、渲染树的构建流程及页面渲染的过程</li>
+<li>解析HTML、CSS、JavaScript时造成的阻塞</li>
+<li>HTML5相关<ul>
+<li>SVG及矢量图原理</li>
+<li>Canvas开发及动画原理（帧动画）</li>
+<li>Video和Audio</li>
+</ul>
+</li>
+<li>flex box布局方式</li>
+<li>icon fonts的使用</li>
+</ul>
+<p>常用NodeJs的package：</p>
+<ul>
+<li>koa</li>
+<li>express</li>
+<li>underscore</li>
+<li>async</li>
+<li>gulp</li>
+<li>grunt</li>
+<li>connect</li>
+<li>request</li>
+</ul>
+<p>一些理念：</p>
+<ul>
+<li>响应式Web</li>
+<li>优雅降级、渐进增强</li>
+<li>don`t make me think</li>
+<li>网页可用性、可访问性、其中的意义</li>
+<li>SEO搜索引擎优化，了解搜索引擎的原理</li>
+<li>SPA的好处和问题</li>
+</ul>
+<p>性能优化：</p>
+<ul>
+<li>减少请求数量（sprite、combo）</li>
+<li>善用缓存（application cache、http缓存、CDN、localstorage、sessionstorage，备忘录模式）</li>
+<li>减少选择器消耗（从右到左），减少DOM操作（DOM和JavaScript解释器的分离）</li>
+<li>CSS的回流与重绘</li>
+</ul>
+<h5 id="项目">项目</h5>
+<ul>
+<li>版本管理：首推Git，用过Git都不会想用SVN了<ul>
+<li>Git：本地版本管理的机制</li>
+<li>SVN：远程中心的版本管理机制</li>
+</ul>
+</li>
+<li>自动化构建：主要就是less、模板、coffee等的预处理以及对代码压缩和合并<ul>
+<li>Gulp：基于流构建，速度快、模块质量好</li>
+<li>Grunt：独立任务构建，速度慢，配置蛋疼，灵活性高</li>
+</ul>
+</li>
+<li>预处理和模板引擎<ul>
+<li>less：语法简单，但功能有限</li>
+<li>jade、ejs、velocity等模板引擎，各有各的长处</li>
+<li>coffee：python工程师最爱，我没用过</li>
+</ul>
+</li>
+<li>环境搭建：主要是将线上代码映射到本地，并在本地启动一个demo服务器，至于模拟数据的mock，见仁见智了<ul>
+<li>本地代理：ihosts</li>
+</ul>
+</li>
+<li>自动化测试：在业务较为稳定的情况下，可以通过自动化测试来减少测试的事件，但需求较多的时候，维护测试用例的成本会很高，可能用自动化测试会起到反效果<ul>
+<li>jasmine</li>
+<li>mocha</li>
+</ul>
+</li>
+<li>生态系统<ul>
+<li>npm</li>
+<li>bower</li>
+<li>spm</li>
+</ul>
+</li>
+<li>搭建一个属于自己的博客<ul>
+<li>git pages</li>
+<li>hexo</li>
+<li>jekyll</li>
+</ul>
+</li>
+</ul>
+<h5 id="未来">未来</h5>
+<ul>
+<li>Web Componets：面向未来的组件化开发方式<ul>
+<li>HTML模板</li>
+<li>Shadow DOM</li>
+<li>Custom Elements</li>
+<li>HTML Import</li>
+</ul>
+</li>
+<li>移动端Native开发：这也是需要了解的，以后前端工程师会经常地和webview打交道，也要了解native开发</li>
+</ul>
+<h5 id="其他">其他</h5>
+<p>有些东西不是考敲码就能弄好的，我参与实习的时候感受到了很多，这些是我遇到的也是我感觉自己做的不好的地方</p>
+<ul>
+<li><strong>对于业务的思考</strong>：我个人这方面非常欠缺，所以放在最前面，在敲码前要多思考业务</li>
+<li>交流和沟通能力：这个非常重要，前端同时需要与项目经理、产品、交互、后台打交道，沟通不善会导致很多无用功，延缓项目</li>
+<li>知识管理、时间管理：input和output的平衡，output是最好的input。如何做好分享，参与社区，做好交流，作好记录</li>
+<li>对新技术的渴望，以及敢于尝试</li>
+</ul>
+<h4 id="入门书">入门书</h4>
+<p>入门可以通过啃书，但书本上的东西很多都已经过时了，在啃书的同时，也要持续关注技术的新动态。这里推几本我觉着不错的书：</p>
+<ul>
+<li>《JavaScript高级编程》：可以作为入门书籍，但同时也是高级书籍，可以快速吸收基础，等到提升再回来重新看</li>
+<li>《JavaScript权威指南》：不太适合入门，但是必备，不理解的地方就去查阅一下，很有帮助</li>
+<li>《编写可维护的JavaScript》和：</li>
+<li>《Node.js开发指南》：不错的Nodejs入门书籍</li>
+<li>《深入浅出Node.js》：Nodejs进阶书籍，必备</li>
+<li>《JavaScript异步编程》：理解JS异步的编程理念</li>
+<li>《JavaScript模式》和《JavaScript设计模式》：JavaScript的代码模式和设计模式，将开发思维转变到JavaScript，非常好的书</li>
+<li>《JavaScript框架设计》：在用轮子同时，应当知道轮子是怎么转起来的，讲解很详细，从源码级别讲解框架的各个部分的实现，配合一个现有框架阅读，可以学到很多东西</li>
+<li>《Don`t make me think》：网页设计的理念，了解用户行为，非常不错</li>
+<li>《CSS禅意花园》：经久不衰的一部著作，同样传递了网页设计中的理念以及设计中需要注意的问题</li>
+<li>《高性能JavaScript》和《高性能HTML5》：强调性能的书，其中不只是性能优化，还有很多原理层面的东西值得学习</li>
+<li>《HTML5 Canvas核心技术》：我正在读的一本书，对于canvas的使用，动画的实现，以及动画框架的开发都非常有帮助</li>
+<li>《HTTP权威指南》：HTTP协议相关必备，前端开发调试的时候也会经常涉及到其中的知识</li>
+<li>《响应式Web设计》：技术本身不难，重要的是响应式网页的设计理念，以及移动先行的思想</li>
+<li>《JavaScript语言精粹》：老道的书，也是普及JavaScript的开发思维的一本好书，非常适合入门</li>
+</ul>
+<h4 id="一些不错的网站">一些不错的网站</h4>
+<ul>
+<li><a href="https://github.com" target="_blank" rel="external">github</a>：没啥好说的，多阅读别人的源码，多上传自己的源码，向世界各地的大牛学习</li>
+<li><a href="http://codepen.io/" target="_blank" rel="external">codepen</a>：感受前端之美的必选之地，里面有很多酷炫的效果和优秀的插件</li>
+<li><a href="http://www.echojs.com/" target="_blank" rel="external">echojs</a>：快速了解js新资讯的网站</li>
+<li><a href="http://stackoverflow.com/" target="_blank" rel="external">stackoverflow</a>和<a href="segmentfault.com">segmentfault</a>：基本上各种问题都能在上面获得解答</li>
+<li><a href="https://developers.google.com/web/fundamentals/" target="_blank" rel="external">google web fundamentals</a>：每篇文章都适合仔细阅读</li>
+<li><a href="http://www.staticfile.org/" target="_blank" rel="external">static files</a>：开放的CDN，很好用</li>
+<li><a href="http://www.iconfont.cn/" target="_blank" rel="external">iconfont</a>：阿里的矢量图标库，非常不错，支持CDN而且支持项目</li>
+<li><a href="http://www.html5rocks.com/" target="_blank" rel="external">html5 rocks</a>: 一个不错的网站，很多浏览器的新特性以及前沿的技术，都能在这上面找到文章</li>
+<li><a href="http://css-tricks.com/" target="_blank" rel="external">css tricks</a>：如何活用CSS，以及了解CSS新特性，这里可以满足你</li>
+<li><a href="http://bonsaiden.github.io/JavaScript-Garden/zh/#object.general" target="_blank" rel="external">JavaScript 秘密花园</a> JavaScript初学必看，非常不错</li>
+<li><a href="http://www.w3cplus.com/" target="_blank" rel="external">w3cplus</a>：一个前端学习的网站，里面的文章质量都挺不错的</li>
+<li><a href="http://nodeschool.io/" target="_blank" rel="external">node school</a>：一个不错的node学习网站</li>
+<li><a href="http://pcottle.github.io/learnGitBranching/?demo" target="_blank" rel="external">learn git branch</a>：一个git学习网站，交互很棒</li>
+<li><a href="http://www.html-js.com/" target="_blank" rel="external">前端乱炖</a>：一个前端文章分享的社区，有很多优秀文章</li>
+<li><a href="http://deerchao.net/tutorials/regex/regex.htm" target="_blank" rel="external">正则表达式</a>：一个正则表达式入门教程，非常值得一看</li>
+<li><a href="http://www.ruanyifeng.com/blog/" target="_blank" rel="external">阮一峰的博客</a>和<a href="http://www.zhangxinxu.com/wordpress/" target="_blank" rel="external">张鑫旭的博客</a>：快速了解某些知识的捷径，但是如果需要深挖，还需要其他的资源</li>
+<li>各路大牛的博客：这个太多了，就不贴了，知乎上有很全的</li>
+<li>各种规范的官方网站，不懂得时候读规范</li>
+</ul>
+<h4 id="历程">历程</h4>
+<p>以前是做Java SSH的，半路出家做的前端，所以水平比较弱，遇到问题也比较多。基本上入门靠看书和<a href="http://www.w3school.com.cn/" target="_blank" rel="external">W3C School</a>上的教程，以及一些前端博客，如<a href="http://www.cnblogs.com/TomXu/" target="_blank" rel="external">汤姆大叔的博客</a>。以前也只是使用jQuery，原生js也没有太多的钻研，后来逐渐看了很多本动物书，比如老道的语言精粹等等。从这些书中学到了很多语言层面的知识。但这显然是不够的，所以我经常会去社区上看看大家在谈论什么，然后去看看相关的资料，感兴趣就会多找些资料看看，或者写一写demo。学CSS主要就是通过这种方式。后来开始更多的关注各路大牛的博客和一些比较深的书籍，以及关注一些新的知识和框架，并且不断地练手提交代码到github，这样也学到了很多知识。在实习的过程中，切身参与到实际项目开发之中，能学到很多在学校学不到的理念和思维，这点也有很大的帮助。不说了，我要去搬砖求offer了…</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>最近<a href="https://github.com/qiu-deqing" target="_blank" rel="external">Qiu</a>开了一个<a href="https://github.com/qiu-deqing/FE-learning/blob/master/README.md" target="_blank" rel="external">FE学习经验介绍</a>，并邀请我去写一点东西。感觉这种方式很有意思，趁着闲下来了，就随便扯了一些，希望能帮到想学前端的同学。我自己只是个前端初学者，希望能有更多的前端爱好者一同学习探讨~~</p>
+]]>
+    
+    </summary>
+    
+      <category term="JavaScript" scheme="http://lingyu.wang/tags/JavaScript/"/>
+    
+      <category term="HTML" scheme="http://lingyu.wang/tags/HTML/"/>
+    
+      <category term="CSS" scheme="http://lingyu.wang/tags/CSS/"/>
+    
+      <category term="思考" scheme="http://lingyu.wang/tags/%E6%80%9D%E8%80%83/"/>
+    
+      <category term="前端技术" scheme="http://lingyu.wang/categories/%E5%89%8D%E7%AB%AF%E6%8A%80%E6%9C%AF/"/>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[细说Generator]]></title>
@@ -508,62 +755,6 @@
   </entry>
   
   <entry>
-    <title><![CDATA[使用导航计时监测渲染关键路径]]></title>
-    <link href="http://lingyu.wang/2014/05/21/google-measuring-the-critical-rendering-path-with-navigation-timing/"/>
-    <id>http://lingyu.wang/2014/05/21/google-measuring-the-critical-rendering-path-with-navigation-timing/</id>
-    <published>2014-05-20T16:00:00.000Z</published>
-    <updated>2014-09-18T14:53:48.000Z</updated>
-    <content type="html"><![CDATA[<p>没办法监测，就没办法优化。幸运的是，浏览器提供了一系列用来监测渲染关键路径上每一步的接口，叫导航计时接口（Navigation Timing API）<br><a id="more"></a></p>
-<h3 id="长话短说">长话短说</h3>
-<ul>
-<li>导航计时为监测渲染关键路径提供了高分辨率的时间戳</li>
-<li>浏览器在到达渲染关键路径的不同阶段时，会触发一系列的事件</li>
-</ul>
-<h3 id="用于监测的时间戳">用于监测的时间戳</h3>
-<p>好的性能策略都是建立在良好的测量基础之上的。下面这张图说明了导航计时接口提供的API：</p>
-<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-5-21/1.png" alt="导航计时接口提供的API"></p>
-<p>上面的每一个标签都提供了一个方法，用于检测每一个页面加载的高分辨率的时间戳。在这里，我们仅仅介绍除了与网络相关的时间戳的哪些一部分时间戳，剩下的我们会在以后的章节作介绍</p>
-<p>那么，这些时间戳代表着什么？</p>
-<ul>
-<li>domLoading：整个处理过程开始的时间，也就是浏览器开始解析HTML文档的第一个字节的时间</li>
-<li>domInteractive：浏览器解析完所有HTML，并完成DOM构建的时间</li>
-<li>domContentLoaded：开始构建渲染树的时间点，就是DOM构建完毕后，若没有样式以及阻塞的JavaScript运行的时间点<ul>
-<li>许多JavaScript框架都会监听这个事件，然后执行他们自己的逻辑。因此浏览器提供了EventStart和EventEnd两个时间戳来允许我们知道具体运行消耗的时间</li>
-</ul>
-</li>
-<li>domComplete：和名字一样，记录了页面上的所有资源都下载完成（包括图片）以及所有处理逻辑都结束后的时间点。这个时间点过后，浏览器旋转的加载标记将不再旋转了</li>
-<li>loadEvent：最后，浏览器触发onload事件来执行一些其他的应用逻辑</li>
-</ul>
-<h3 id="里程碑">里程碑</h3>
-<p>根据HTML的规范，浏览器会检测所有事件：什么时候应该触发事件，应该满足哪些条件等等。对于我们来说，我们只需要关注渲染关键路径上的一些“里程碑”事件：</p>
-<ul>
-<li>domIneractive：说明DOM构建完毕</li>
-<li>domContentLoaded：当DOM和CSSOM都完成后触发<ul>
-<li>如果没有“解析器阻塞”的JavaScript代码，documentContentLoaded将直接在domInteractive之后触发</li>
-</ul>
-</li>
-<li>domComplete：当页面及其所有资源全部完毕时触发</li>
-</ul>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="title">html</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="title">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="title">title</span>&gt;</span>Critical Path: Measure<span class="tag">&lt;/<span class="title">title</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="title">meta</span> <span class="attribute">name</span>=<span class="value">"viewport"</span> <span class="attribute">content</span>=<span class="value">"width=device-width,initial-scale=1.0"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="title">link</span> <span class="attribute">href</span>=<span class="value">"style.css"</span> <span class="attribute">rel</span>=<span class="value">"stylesheet"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="title">script</span>&gt;</span><span class="javascript"></span></div><div class="line">      <span class="function"><span class="keyword">function</span> <span class="title">measureCRP</span><span class="params">()</span> </span>{</div><div class="line">        <span class="keyword">var</span> t = <span class="built_in">window</span>.performance.timing,</div><div class="line">          interactive = t.domInteractive - t.domLoading,</div><div class="line">          dcl = t.domContentLoadedEventStart - t.domLoading,</div><div class="line">          complete = t.domComplete - t.domLoading;</div><div class="line">        <span class="keyword">var</span> stats = <span class="built_in">document</span>.createElement(<span class="string">'p'</span>);</div><div class="line">        stats.textContent = <span class="string">'interactive: '</span> + interactive + <span class="string">'ms, '</span> +</div><div class="line">            <span class="string">'dcl: '</span> + dcl + <span class="string">'ms, complete: '</span> + complete + <span class="string">'ms'</span>;</div><div class="line">        <span class="built_in">document</span>.body.appendChild(stats);</div><div class="line">      }</div><div class="line">    <span class="tag">&lt;/<span class="title">script</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="title">head</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="title">body</span> <span class="attribute">onload</span>=<span class="value">"measureCRP()"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="title">p</span>&gt;</span>Hello <span class="tag">&lt;<span class="title">span</span>&gt;</span>web performance<span class="tag">&lt;/<span class="title">span</span>&gt;</span> students!<span class="tag">&lt;/<span class="title">p</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="title">div</span>&gt;</span><span class="tag">&lt;<span class="title">img</span> <span class="attribute">src</span>=<span class="value">"awesome-photo.jpg"</span>&gt;</span><span class="tag">&lt;/<span class="title">div</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="title">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="title">html</span>&gt;</span></div></pre></td></tr></table></figure>
-
-<p>上面的例子乍看之下可能比较吓人，但实际上非常简单，导航计时API捕获了相关的时间戳，而我们的JavaScript代码放在onload事件的回调函数中，只有触发了onload事件，才会执行。onload事件只有在domInteractive、domContentLoaded和domComplete事件都完成之后才会触发，所以我们可以捕获到这些时间戳之间的差值，算出每个阶段所耗费的时间</p>
-<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-5-21/2.png" alt="时间戳检测结果"></p>
-<p>综上所述，我们可以获得一些“里程碑事件”以及一些简单的函数来输出测量结果。当然我们可以不将这些数据输出到页面上，而是发送这些分析的数据到专门的分析服务器（Google的分析工具就会自动做这些事），这样就能很方便的检测网页的性能，确定候选页面，并尝到优化所带来的甜头。</p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<p>没办法监测，就没办法优化。幸运的是，浏览器提供了一系列用来监测渲染关键路径上每一步的接口，叫导航计时接口（Navigation Timing API）<br>]]>
-    
-    </summary>
-    
-      <category term="HTML" scheme="http://lingyu.wang/tags/HTML/"/>
-    
-      <category term="CSS" scheme="http://lingyu.wang/tags/CSS/"/>
-    
-      <category term="前端技术" scheme="http://lingyu.wang/categories/%E5%89%8D%E7%AB%AF%E6%8A%80%E6%9C%AF/"/>
-    
-  </entry>
-  
-  <entry>
     <title><![CDATA[通过JavaScript增加交互性]]></title>
     <link href="http://lingyu.wang/2014/05/21/google-adding-interactivity-with-javaScript/"/>
     <id>http://lingyu.wang/2014/05/21/google-adding-interactivity-with-javaScript/</id>
@@ -671,6 +862,62 @@
     <summary type="html">
     <![CDATA[<p>默认情况下，CSS会被看做是渲染阻塞资源，也就是说，浏览器在CSSOM建立前，已经处理过的网页内容不会被显示到页面上。所以，保证你的CSS代码能够快速从服务器获取且尽可能的简短，并注意使用媒体类型（media types）和媒体查询（media queries）去进行非阻塞的渲染。</p>
 ]]>
+    
+    </summary>
+    
+      <category term="HTML" scheme="http://lingyu.wang/tags/HTML/"/>
+    
+      <category term="CSS" scheme="http://lingyu.wang/tags/CSS/"/>
+    
+      <category term="前端技术" scheme="http://lingyu.wang/categories/%E5%89%8D%E7%AB%AF%E6%8A%80%E6%9C%AF/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[使用导航计时监测渲染关键路径]]></title>
+    <link href="http://lingyu.wang/2014/05/21/google-measuring-the-critical-rendering-path-with-navigation-timing/"/>
+    <id>http://lingyu.wang/2014/05/21/google-measuring-the-critical-rendering-path-with-navigation-timing/</id>
+    <published>2014-05-20T16:00:00.000Z</published>
+    <updated>2014-09-18T14:53:48.000Z</updated>
+    <content type="html"><![CDATA[<p>没办法监测，就没办法优化。幸运的是，浏览器提供了一系列用来监测渲染关键路径上每一步的接口，叫导航计时接口（Navigation Timing API）<br><a id="more"></a></p>
+<h3 id="长话短说">长话短说</h3>
+<ul>
+<li>导航计时为监测渲染关键路径提供了高分辨率的时间戳</li>
+<li>浏览器在到达渲染关键路径的不同阶段时，会触发一系列的事件</li>
+</ul>
+<h3 id="用于监测的时间戳">用于监测的时间戳</h3>
+<p>好的性能策略都是建立在良好的测量基础之上的。下面这张图说明了导航计时接口提供的API：</p>
+<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-5-21/1.png" alt="导航计时接口提供的API"></p>
+<p>上面的每一个标签都提供了一个方法，用于检测每一个页面加载的高分辨率的时间戳。在这里，我们仅仅介绍除了与网络相关的时间戳的哪些一部分时间戳，剩下的我们会在以后的章节作介绍</p>
+<p>那么，这些时间戳代表着什么？</p>
+<ul>
+<li>domLoading：整个处理过程开始的时间，也就是浏览器开始解析HTML文档的第一个字节的时间</li>
+<li>domInteractive：浏览器解析完所有HTML，并完成DOM构建的时间</li>
+<li>domContentLoaded：开始构建渲染树的时间点，就是DOM构建完毕后，若没有样式以及阻塞的JavaScript运行的时间点<ul>
+<li>许多JavaScript框架都会监听这个事件，然后执行他们自己的逻辑。因此浏览器提供了EventStart和EventEnd两个时间戳来允许我们知道具体运行消耗的时间</li>
+</ul>
+</li>
+<li>domComplete：和名字一样，记录了页面上的所有资源都下载完成（包括图片）以及所有处理逻辑都结束后的时间点。这个时间点过后，浏览器旋转的加载标记将不再旋转了</li>
+<li>loadEvent：最后，浏览器触发onload事件来执行一些其他的应用逻辑</li>
+</ul>
+<h3 id="里程碑">里程碑</h3>
+<p>根据HTML的规范，浏览器会检测所有事件：什么时候应该触发事件，应该满足哪些条件等等。对于我们来说，我们只需要关注渲染关键路径上的一些“里程碑”事件：</p>
+<ul>
+<li>domIneractive：说明DOM构建完毕</li>
+<li>domContentLoaded：当DOM和CSSOM都完成后触发<ul>
+<li>如果没有“解析器阻塞”的JavaScript代码，documentContentLoaded将直接在domInteractive之后触发</li>
+</ul>
+</li>
+<li>domComplete：当页面及其所有资源全部完毕时触发</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="title">html</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="title">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="title">title</span>&gt;</span>Critical Path: Measure<span class="tag">&lt;/<span class="title">title</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="title">meta</span> <span class="attribute">name</span>=<span class="value">"viewport"</span> <span class="attribute">content</span>=<span class="value">"width=device-width,initial-scale=1.0"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="title">link</span> <span class="attribute">href</span>=<span class="value">"style.css"</span> <span class="attribute">rel</span>=<span class="value">"stylesheet"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="title">script</span>&gt;</span><span class="javascript"></span></div><div class="line">      <span class="function"><span class="keyword">function</span> <span class="title">measureCRP</span><span class="params">()</span> </span>{</div><div class="line">        <span class="keyword">var</span> t = <span class="built_in">window</span>.performance.timing,</div><div class="line">          interactive = t.domInteractive - t.domLoading,</div><div class="line">          dcl = t.domContentLoadedEventStart - t.domLoading,</div><div class="line">          complete = t.domComplete - t.domLoading;</div><div class="line">        <span class="keyword">var</span> stats = <span class="built_in">document</span>.createElement(<span class="string">'p'</span>);</div><div class="line">        stats.textContent = <span class="string">'interactive: '</span> + interactive + <span class="string">'ms, '</span> +</div><div class="line">            <span class="string">'dcl: '</span> + dcl + <span class="string">'ms, complete: '</span> + complete + <span class="string">'ms'</span>;</div><div class="line">        <span class="built_in">document</span>.body.appendChild(stats);</div><div class="line">      }</div><div class="line">    <span class="tag">&lt;/<span class="title">script</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="title">head</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="title">body</span> <span class="attribute">onload</span>=<span class="value">"measureCRP()"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="title">p</span>&gt;</span>Hello <span class="tag">&lt;<span class="title">span</span>&gt;</span>web performance<span class="tag">&lt;/<span class="title">span</span>&gt;</span> students!<span class="tag">&lt;/<span class="title">p</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="title">div</span>&gt;</span><span class="tag">&lt;<span class="title">img</span> <span class="attribute">src</span>=<span class="value">"awesome-photo.jpg"</span>&gt;</span><span class="tag">&lt;/<span class="title">div</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="title">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="title">html</span>&gt;</span></div></pre></td></tr></table></figure>
+
+<p>上面的例子乍看之下可能比较吓人，但实际上非常简单，导航计时API捕获了相关的时间戳，而我们的JavaScript代码放在onload事件的回调函数中，只有触发了onload事件，才会执行。onload事件只有在domInteractive、domContentLoaded和domComplete事件都完成之后才会触发，所以我们可以捕获到这些时间戳之间的差值，算出每个阶段所耗费的时间</p>
+<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-5-21/2.png" alt="时间戳检测结果"></p>
+<p>综上所述，我们可以获得一些“里程碑事件”以及一些简单的函数来输出测量结果。当然我们可以不将这些数据输出到页面上，而是发送这些分析的数据到专门的分析服务器（Google的分析工具就会自动做这些事），这样就能很方便的检测网页的性能，确定候选页面，并尝到优化所带来的甜头。</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>没办法监测，就没办法优化。幸运的是，浏览器提供了一系列用来监测渲染关键路径上每一步的接口，叫导航计时接口（Navigation Timing API）<br>]]>
     
     </summary>
     
@@ -2166,133 +2413,6 @@
       <category term="JavaScript" scheme="http://lingyu.wang/tags/JavaScript/"/>
     
       <category term="前端技术" scheme="http://lingyu.wang/categories/%E5%89%8D%E7%AB%AF%E6%8A%80%E6%9C%AF/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[JavaScript的继承]]></title>
-    <link href="http://lingyu.wang/2014/04/18/javascript-inherit/"/>
-    <id>http://lingyu.wang/2014/04/18/javascript-inherit/</id>
-    <published>2014-04-17T16:00:00.000Z</published>
-    <updated>2014-09-18T14:55:35.000Z</updated>
-    <content type="html"><![CDATA[<p>面试遇到了继承的问题，虽然以前有在《JavaScript模式》里读过，不过由于记得不是很牢直接花样作死了。面试官也说继承的知识相当重要，于是乎又在闲暇的时候写了些继承的实现</p>
-<a id="more"></a>
-
-<h2 id="new都干了些什么">new都干了些什么</h2>
-<hr>
-<h3 id="大致流程">大致流程</h3>
-<p>通过new创建的对象，大致过程如下：</p>
-<ol>
-<li>首先创建个Object</li>
-<li>修改这个对象的<code>__proto__</code>，使其指向构造函数的<code>prototype</code></li>
-<li>将这个对象交给构造函数的<code>this</code>，调用构造函数</li>
-<li>如果构造函数没有return，那么返回这个对象。否则构造函数返回return语句后面的内容</li>
-</ol>
-<h3 id="模拟一下">模拟一下</h3>
-<p>我们可以通过在Function.prototype上创建个新方法来模拟new：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">Function</span>.prototype.__new__ = <span class="function"><span class="keyword">function</span><span class="params">()</span></span>{</div><div class="line">    <span class="keyword">var</span> newObj;</div><div class="line">    <span class="keyword">var</span> resultObj;</div><div class="line">    newObj = {};</div><div class="line">    newObj.__proto__ = <span class="keyword">this</span>.prototype;</div><div class="line">    resultObj = <span class="keyword">this</span>.apply(newObj, <span class="built_in">arguments</span>);</div><div class="line">    <span class="keyword">return</span> (<span class="keyword">typeof</span> resultObj === <span class="string">'object'</span> && resultObj) || newObj;</div><div class="line">};</div></pre></td></tr></table></figure>
-
-<h2 id="constructor的问题">constructor的问题</h2>
-<p>在创建一个函数时，会为这个函数增加一个<code>prototype</code>属性指向一个对象，而这个<code>prototype</code>对象内有一个属性就是<code>constructor</code>，这样在使用构造函数创建一个新对象时，新对象的<code>__proto__</code>自然指向含有<code>constructor</code>的构造函数的<code>prototype</code>对象。但当更换了这个构造函数的<code>prototype</code>，一切就不一样了。比如如下代码</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">A</span><span class="params">()</span></span>{}</div><div class="line">A.prototype = {}</div><div class="line"><span class="built_in">console</span>.log(<span class="keyword">new</span> A().constructor)</div><div class="line"><span class="comment">//输出：function Object() { [native code] }</span></div></pre></td></tr></table></figure>
-
-<p>这里并没有输出<code>function A(){}</code>。因为A的<code>prototype</code>对象已经被重写了，其为一个Object实例，A的<code>prototype</code>对象中不包含<code>constructor</code>属性。而输出Object构造函数是因为Object实例的<code>__proto__</code>指向<code>function Object(){}</code>的prototype属性，而它内部有constructor：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> tmp = <span class="keyword">new</span> A();</div><div class="line"><span class="built_in">console</span>.log(tmp.__proto__.hasOwnProperty(<span class="string">"constructor"</span>));</div><div class="line"><span class="comment">//输出：false</span></div><div class="line"><span class="built_in">console</span>.log(tmp.__proto__.__proto__.hasOwnProperty(<span class="string">"constructor"</span>));</div><div class="line"><span class="comment">//输出：true</span></div></pre></td></tr></table></figure>
-
-<p>所以，如果直接使用通过修改<code>prototype</code>的方式实现继承，这将导致<code>constructor</code>不正确，比如如下代码：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Parent</span><span class="params">()</span></span>{}</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Child</span><span class="params">()</span></span>{}</div><div class="line">Child.prototype = <span class="keyword">new</span> Parent();</div><div class="line"><span class="built_in">console</span>.log(<span class="keyword">new</span> Child().constructor);</div><div class="line"><span class="comment">//输出：function Parent(){}</span></div></pre></td></tr></table></figure>
-
-<p>如果想要<code>new Child().constructor</code>指向Child，我们需要显示的修改其<code>prototype</code>的<code>constructor</code>：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Parent</span><span class="params">()</span></span>{}</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Child</span><span class="params">()</span></span>{}</div><div class="line">Child.prototype = <span class="keyword">new</span> Parent();</div><div class="line">Child.prototype.constructor = Child;</div><div class="line"><span class="built_in">console</span>.log(<span class="keyword">new</span> Child().constructor);</div><div class="line"><span class="comment">//输出：function Child(){}</span></div></pre></td></tr></table></figure>
-
-<h2 id="继承方法">继承方法</h2>
-<h3 id="直接继承">直接继承</h3>
-<p>这种方式也就是上面的例子了：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Parent</span><span class="params">()</span></span>{</div><div class="line">    <span class="keyword">this</span>.parentName = <span class="string">"parent"</span>;</div><div class="line">}</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Child</span><span class="params">()</span></span>{</div><div class="line">    <span class="keyword">this</span>.childName = <span class="string">"child"</span>;</div><div class="line">}</div><div class="line">Child.prototype = <span class="keyword">new</span> Parent();</div><div class="line">Child.prototype.constructor = Child;</div><div class="line"><span class="keyword">var</span> childIst = <span class="keyword">new</span> Child();</div><div class="line"><span class="built_in">console</span>.log(childIst <span class="keyword">instanceof</span> Child);</div><div class="line"><span class="comment">//输出：true</span></div><div class="line"><span class="built_in">console</span>.log(childIst <span class="keyword">instanceof</span> Parent);</div><div class="line"><span class="comment">//输出：true</span></div><div class="line"><span class="built_in">console</span>.log(childIst.constructor);</div><div class="line"><span class="comment">//输出：function Child(){}</span></div><div class="line"><span class="built_in">console</span>.log(childIst);</div><div class="line"><span class="comment">//输出如下图</span></div></pre></td></tr></table></figure>
-
-<p>整个childIst对象如下图所示：</p>
-<p><img src="http://lingyu.wang/img/js_inherit/1.png" alt="直接继承时的对象"></p>
-<p>这种方式实现简单，这种方式有如下特点：</p>
-<ol>
-<li>所有子类实例共用一个父类实例，节省空间</li>
-<li>父类的所有属性都会被暴露给子类</li>
-<li>父类的属性子类无法直接修改，只能覆盖</li>
-<li>无法实现多继承</li>
-</ol>
-<h3 id="Object-create方式">Object.create方式</h3>
-<p>在ECMAScript5中新增了<code>Object.create</code>方法用于实现继承，其大致实现如下（不考虑属性添加）：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">Object</span>.prototype.create = <span class="function"><span class="keyword">function</span> <span class="params">(o)</span> </span>{</div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">F</span><span class="params">()</span> </span>{}</div><div class="line">    F.prototype = o;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">new</span> F();</div><div class="line">};</div></pre></td></tr></table></figure>
-
-<p>所以一种可行的继承方式变成如下这样：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Parent</span><span class="params">()</span></span>{</div><div class="line">    <span class="keyword">this</span>.parentName = <span class="string">"parent"</span>;</div><div class="line">}</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Child</span><span class="params">()</span></span>{</div><div class="line">    <span class="keyword">this</span>.childName = <span class="string">"child"</span>;</div><div class="line">}</div><div class="line">Child.prototype = <span class="built_in">Object</span>.create(Parent.prototype);</div><div class="line">Child.prototype.constructor = Child;</div><div class="line"><span class="keyword">var</span> childIst = <span class="keyword">new</span> Child();</div><div class="line"><span class="built_in">console</span>.log(childIst <span class="keyword">instanceof</span> Child);</div><div class="line"><span class="comment">//输出：true</span></div><div class="line"><span class="built_in">console</span>.log(childIst <span class="keyword">instanceof</span> Parent);</div><div class="line"><span class="comment">//输出：true</span></div><div class="line"><span class="built_in">console</span>.log(childIst.constructor);</div><div class="line"><span class="comment">//输出：function Child(){}</span></div><div class="line"><span class="built_in">console</span>.log(childIst);</div><div class="line"><span class="comment">//输出：如下图所示</span></div></pre></td></tr></table></figure>
-
-<p><img src="http://lingyu.wang/img/js_inherit/2.png" alt="Object.create继承时的对象"></p>
-<p>没有parentName属性，因为这种方式实现的继承并没有创建父类实例，而是通过一个临时函数复制了父类的<code>prototype</code>来创建。这样的话父类不在其<code>prototype</code>中的属性不会被复制到临时构造函数中，这些属性对子类是不可见的</p>
-<p>这种继承方式的特点是：</p>
-<ol>
-<li>父类仅其prototype上的属性对子类可见</li>
-<li>同样无法多继承</li>
-<li>所有子类实例公用的一个父类实例</li>
-<li>ES5方法，兼容性，ie9+，不兼容时需要polyfill</li>
-</ol>
-<p>这种通过创建一个临时对象的方式可以用在很多地方，只要需要隐藏父类自身属性的场景都可以用到</p>
-<h3 id="复制属性实现继承——共用原型">复制属性实现继承——共用原型</h3>
-<p>传统的类继承，子类实例不会共享父类实例，每一个子类实例拥有自己的父类实例。而JS中并没有这样的继承方式，可以通过将父类的所有值拷贝给子类实例的方式来实现继承：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Parent</span><span class="params">()</span> </span>{</div><div class="line">    <span class="keyword">this</span>.parentName = <span class="string">"parent"</span>;</div><div class="line">}</div><div class="line">Parent.prototype.getName = <span class="function"><span class="keyword">function</span><span class="params">()</span></span>{</div><div class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.parentName;</div><div class="line">};</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Child</span><span class="params">()</span></span>{</div><div class="line">    Parent.apply(<span class="keyword">this</span>, <span class="built_in">arguments</span>);</div><div class="line">    <span class="keyword">this</span>.childName = <span class="string">"child"</span>;</div><div class="line">}</div><div class="line">Child.prototype = Parent.prototype;</div><div class="line"><span class="keyword">var</span> childIst = <span class="keyword">new</span> Child();</div><div class="line"><span class="built_in">console</span>.log(childIst <span class="keyword">instanceof</span> Child);</div><div class="line"><span class="comment">//输出：true</span></div><div class="line"><span class="built_in">console</span>.log(childIst <span class="keyword">instanceof</span> Parent);</div><div class="line"><span class="comment">//输出：true</span></div><div class="line"><span class="built_in">console</span>.log(childIst.constructor);</div><div class="line"><span class="comment">//输出：function Child(){}</span></div><div class="line"><span class="built_in">console</span>.log(childIst);</div><div class="line"><span class="comment">//输出：见下图</span></div></pre></td></tr></table></figure>
-
-<p>子类实例的结构图如下所示：</p>
-<p><img src="http://lingyu.wang/img/js_inherit/3.png" alt="复制属性，共用原型时的对象"></p>
-<p>这种方式，通过<code>Parent.apply(this)</code>将子类实例传递给父类构造函数，让父类构造函数将其属性写入子类之中，这里只复制了父类<code>this</code>上的属性，没有复制原型上的属性。然后再子类构造函数中定义子类属性，若与父类属性同名，将会覆盖父类属性。最后将子类构造函数指向父类构造函数的<code>prototype</code>，使得子类实例拥有父类实例的原型链</p>
-<p>这种方式继承有如下特点：</p>
-<ol>
-<li>子类属性覆盖掉了父类属性，同时每个子类实例可修改其父类属性而不影响到其他对象</li>
-<li>可以通过<code>delete</code>来对父类不想要暴露的属性进行删除</li>
-<li>每个子类实例拥有自己的父类属性</li>
-<li>子类与父类同名属性发生覆盖，覆盖后无法再获取覆盖前的父类属性值</li>
-<li>由于父类和子类共享<code>prototype</code>，若修改子类的<code>prototype</code>属性会影响到所有继承于父类的子类，所以不能修改</li>
-</ol>
-<h3 id="复制属性实现继承——不共用原型">复制属性实现继承——不共用原型</h3>
-<p>可通过修改上述方法实现不共用原型的方式：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Parent</span><span class="params">()</span> </span>{</div><div class="line">    <span class="keyword">this</span>.parentName = <span class="string">"parent"</span>;</div><div class="line">}</div><div class="line">Parent.prototype.getName = <span class="function"><span class="keyword">function</span><span class="params">()</span></span>{</div><div class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.parentName;</div><div class="line">};</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Child</span><span class="params">()</span></span>{</div><div class="line">    Parent.apply(<span class="keyword">this</span>, <span class="built_in">arguments</span>);</div><div class="line">    <span class="keyword">this</span>.childName = <span class="string">"child"</span>;</div><div class="line">}</div><div class="line">Child.prototype = <span class="keyword">new</span> Parent();</div><div class="line">Child.prototype.constructor = Child;</div><div class="line"><span class="keyword">var</span> childIst = <span class="keyword">new</span> Child();</div><div class="line"><span class="built_in">console</span>.log(childIst);</div><div class="line"><span class="comment">//输出：见下图</span></div></pre></td></tr></table></figure>
-
-<p><img src="http://lingyu.wang/img/js_inherit/4.png" alt="复制属性，不共用原型时的对象"></p>
-<p>还是通过原型链的方式，这样子类实例就有可修改的父类属性了。但这样会重复调用父类构造函数，导致创建重复属性（比如parentName）浪费内存空间，但这样就去除了上面的共用构造函数<code>prototype</code>所带来的问题。</p>
-<h3 id="扁平复制">扁平复制</h3>
-<p>由于继承的目标就是让子类拥有父类的特性，那么最为简单粗暴的方法，就是把父类的所有属性和方法全部复制到子类上去：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Parent</span><span class="params">()</span></span>{</div><div class="line">    <span class="keyword">this</span>.parentName = <span class="string">"parent"</span>;</div><div class="line">}</div><div class="line">Parent.prototype.getName = <span class="function"><span class="keyword">function</span><span class="params">()</span></span>{</div><div class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.parentName;</div><div class="line">}</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Child</span><span class="params">()</span></span>{</div><div class="line">    <span class="keyword">var</span> parentIst = <span class="keyword">new</span> Parent();</div><div class="line">    <span class="keyword">var</span> item;</div><div class="line">    <span class="keyword">for</span>(item <span class="keyword">in</span> parentIst) {</div><div class="line">        <span class="keyword">this</span>[item] = parentIst[item];</div><div class="line">    }</div><div class="line">    <span class="keyword">this</span>.childName = <span class="string">"child"</span>;</div><div class="line">}</div><div class="line"><span class="keyword">var</span> childIst = <span class="keyword">new</span> Child();</div><div class="line"><span class="built_in">console</span>.log(childIst <span class="keyword">instanceof</span> Child);</div><div class="line"><span class="comment">//输出：true</span></div><div class="line"><span class="built_in">console</span>.log(childIst <span class="keyword">instanceof</span> Parent);</div><div class="line"><span class="comment">//输出：true</span></div><div class="line"><span class="built_in">console</span>.log(childIst.constructor);</div><div class="line"><span class="comment">//输出：function Child(){}</span></div><div class="line"><span class="built_in">console</span>.log(childIst);</div><div class="line"><span class="comment">//输出：见下图</span></div></pre></td></tr></table></figure>
-
-<p><img src="http://lingyu.wang/img/js_inherit/5.png" alt="扁平复制所有属性时的对象"></p>
-<p>这种方式实现的继承比较扁平，由于没有使用原型继承，其原型链层数不会增加，有如下特点：</p>
-<ol>
-<li>可以实现多继承</li>
-<li>会发生属性覆盖，被覆盖的属性无法获得</li>
-<li><code>instanceof</code>操作符无法检测父类</li>
-<li>子类实例拥有所有父类实例的所有属性，且可修改和删除</li>
-<li>父类所有属性均进入到子类中（可能后面会被覆盖，可以通过<code>Object.create</code>所提供的方式修改实现）</li>
-</ol>
-<h3 id="隐藏属性的扁平复制——仅复制父类原型属性">隐藏属性的扁平复制——仅复制父类原型属性</h3>
-<p>考虑到属性隐藏，可以使用Object.create的方式来进行属性隐藏，那么代码就变成下面这样了：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Parent</span><span class="params">()</span></span>{</div><div class="line">    <span class="keyword">this</span>.parentName = <span class="string">"parent"</span>;</div><div class="line">}</div><div class="line">Parent.prototype.getName = <span class="function"><span class="keyword">function</span><span class="params">()</span></span>{</div><div class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.parentName;</div><div class="line">}</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Child</span><span class="params">()</span></span>{</div><div class="line">    <span class="keyword">var</span> tmpFn = <span class="function"><span class="keyword">function</span><span class="params">()</span></span>{};</div><div class="line">    <span class="keyword">var</span> tmpFnIst;</div><div class="line">    <span class="keyword">var</span> item;</div><div class="line">    tmpFn.prototype = Parent.prototype;</div><div class="line">    tmpFnIst = <span class="keyword">new</span> tmpFn();</div><div class="line">    <span class="keyword">for</span>(item <span class="keyword">in</span> tmpFnIst) {</div><div class="line">        <span class="keyword">this</span>[item] = tmpFnIst[item];</div><div class="line">    }</div><div class="line">    <span class="keyword">this</span>.childName = <span class="string">"child"</span>;</div><div class="line">}</div><div class="line"><span class="keyword">var</span> childIst = <span class="keyword">new</span> Child();</div><div class="line"><span class="built_in">console</span>.log(childIst);</div><div class="line"><span class="comment">//输出：见下图</span></div></pre></td></tr></table></figure>
-
-<p><img src="http://lingyu.wang/img/js_inherit/6.png" alt="扁平复制父类原型属性时的对象"></p>
-<p>可以看到，通过临时构造函数，将父类中不在其<code>prototype</code>中的属性进行了隐藏</p>
-<h3 id="隐藏属性的扁平复制——仅复制父类自身属性">隐藏属性的扁平复制——仅复制父类自身属性</h3>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Parent</span><span class="params">()</span></span>{</div><div class="line">    <span class="keyword">this</span>.parentName = <span class="string">"parent"</span>;</div><div class="line">}</div><div class="line">Parent.prototype.getName = <span class="function"><span class="keyword">function</span><span class="params">()</span></span>{</div><div class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.parentName;</div><div class="line">}</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Child</span><span class="params">()</span></span>{</div><div class="line">    Parent.apply(<span class="keyword">this</span>, <span class="built_in">arguments</span>);</div><div class="line">    <span class="keyword">this</span>.childName = <span class="string">"child"</span>;</div><div class="line">}</div><div class="line"><span class="keyword">var</span> childIst = <span class="keyword">new</span> Child();</div><div class="line"><span class="built_in">console</span>.log(childIst);</div><div class="line"><span class="comment">//输出：见下图</span></div></pre></td></tr></table></figure>
-
-<p><img src="http://lingyu.wang/img/js_inherit/7.png" alt="扁平复制父类自身属性的对象"></p>
-<p>这种方式和上面方式刚好相反，仅仅复制父类自身方法，而不复制其原型链上的方法</p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<p>面试遇到了继承的问题，虽然以前有在《JavaScript模式》里读过，不过由于记得不是很牢直接花样作死了。面试官也说继承的知识相当重要，于是乎又在闲暇的时候写了些继承的实现</p>
-]]>
-    
-    </summary>
-    
-      <category term="JavaScript" scheme="http://lingyu.wang/tags/JavaScript/"/>
-    
-      <category term="前端技术" scheme="http://lingyu.wang/categories/%E5%89%8D%E7%AB%AF%E6%8A%80%E6%9C%AF/"/>
-    
-      <category term="笔试面试积累" scheme="http://lingyu.wang/categories/%E5%89%8D%E7%AB%AF%E6%8A%80%E6%9C%AF/%E7%AC%94%E8%AF%95%E9%9D%A2%E8%AF%95%E7%A7%AF%E7%B4%AF/"/>
     
   </entry>
   
