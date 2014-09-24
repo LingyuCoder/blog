@@ -2,7 +2,7 @@ layout: art
 title: 细说Generator
 subtitle: 剖析Generator的本质
 categories: 
-- 前端技术
+- NodeJs
 tags: 
 - JavaScript
 - ES6
