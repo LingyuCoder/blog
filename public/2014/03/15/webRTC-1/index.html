@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="author" content="天镶"><meta name="description"><title>使用WebRTC搭建前端视频聊天室——入门篇 | 天镶的博客</title><link href="/favicon.png" rel="icon"><link rel="stylesheet" media="screen" href="/stylesheets/plugins/typo/typo-1.1.css"><link rel="stylesheet" media="screen" href="/stylesheets/plugins/highlight/highlight-8.0-dark.css"><link rel="stylesheet" media="screen" href="/stylesheets/app.css"></head><body><a id="totop" href="#page-header" class="iconfont">&#xe60b;</a><header id="page-header"><div class="wrapper"><a href="/page/profile.html"><img alt="avatar" src="/images/avatar.jpg" class="avatar"></a><div class="title"> <a href="/">天镶的博客</a></div><nav class="nav"><ul class="links"><li><a href="/"> 首页</a></li><li><a href="/archives"> 归档</a></li><li><a href="/page/profile.html"> 关于</a></li><li><a href="/page/gitbook/index.html"> 笔记</a></li></ul><div class="icons"><a href="/atom.xml" class="icon rss"><i class="iconfont">&#xe602;</i></a><a href="http://weibo.com/lingyucoder" class="icon weibo"><i class="iconfont">&#xe600;</i></a><a href="http://github.com/lingyucoder" class="icon github"><i class="iconfont">&#xe604;</i></a><a href="http://twitter.com/lingyucoder" class="icon twitter"><i class="iconfont">&#xe607;</i></a></div></nav></div></header><section id="wrapper"><div id="main"><article class="post"><div class="content desc typo"><h1 class="blog-title">使用WebRTC搭建前端视频聊天室——入门篇</h1><div class="toc-index"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是WebRTC？"><span class="toc-number">1.</span> <span class="toc-text">什么是WebRTC？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#WebRTC已经在我们的浏览器中"><span class="toc-number">2.</span> <span class="toc-text">WebRTC已经在我们的浏览器中</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#三个接口"><span class="toc-number">3.</span> <span class="toc-text">三个接口</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MediaStream（getUserMedia）"><span class="toc-number">4.</span> <span class="toc-text">MediaStream（getUserMedia）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#W3C标准"><span class="toc-number">4.1.</span> <span class="toc-text">W3C标准</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#如何调用"><span class="toc-number">4.2.</span> <span class="toc-text">如何调用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#浏览器兼容性"><span class="toc-number">4.3.</span> <span class="toc-text">浏览器兼容性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#一个超级简单的例子"><span class="toc-number">4.4.</span> <span class="toc-text">一个超级简单的例子</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#约束对象（Constraints）"><span class="toc-number">4.5.</span> <span class="toc-text">约束对象（Constraints）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#RTCPeerConnection"><span class="toc-number">5.</span> <span class="toc-text">RTCPeerConnection</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#信令"><span class="toc-number">5.1.</span> <span class="toc-text">信令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#通过服务器建立信道"><span class="toc-number">5.2.</span> <span class="toc-text">通过服务器建立信道</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#NAT/防火墙穿越技术"><span class="toc-number">5.3.</span> <span class="toc-text">NAT/防火墙穿越技术</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#浏览器兼容"><span class="toc-number">5.4.</span> <span class="toc-text">浏览器兼容</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#创建和使用"><span class="toc-number">5.5.</span> <span class="toc-text">创建和使用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#实例"><span class="toc-number">5.6.</span> <span class="toc-text">实例</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#RTCDataChannel"><span class="toc-number">6.</span> <span class="toc-text">RTCDataChannel</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#使用DataChannel"><span class="toc-number">6.1.</span> <span class="toc-text">使用DataChannel</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#通过Data_Channel发送文件大致思路"><span class="toc-number">6.2.</span> <span class="toc-text">通过Data Channel发送文件大致思路</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#一个综合的Demo"><span class="toc-number">7.</span> <span class="toc-text">一个综合的Demo</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#使用方式"><span class="toc-number">7.1.</span> <span class="toc-text">使用方式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#功能"><span class="toc-number">7.2.</span> <span class="toc-text">功能</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考资料"><span class="toc-number">8.</span> <span class="toc-text">参考资料</span></a></li></ol></div><p>由于毕设研究定的题目是即时通信相关，于是乎决定研究一下WebRTC来实现浏览器内的音频聊天，同时探究一下WebRTC能做些什么</p>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="author" content="天镶"><meta name="description"><title>使用WebRTC搭建前端视频聊天室——入门篇 | 天镶的博客</title><link href="/favicon.png" rel="icon"><link rel="stylesheet" media="screen" href="/stylesheets/plugins/typo/typo-1.1.css"><link rel="stylesheet" media="screen" href="/stylesheets/plugins/highlight/highlight-8.0-dark.css"><link rel="stylesheet" media="screen" href="/stylesheets/app.css"></head><body><a id="totop" href="#page-header" class="iconfont">&#xe60b;</a><header id="page-header"><div class="wrapper"><a href="/page/profile.html"><img alt="avatar" src="/images/avatar.jpg" class="avatar"></a><div class="title"> <a href="/">天镶的博客</a></div><nav class="nav"><ul class="links"><li><a href="/"> 首页</a></li><li><a href="/archives"> 归档</a></li><li><a href="/page/profile.html"> 关于</a></li><li><a href="/page/gitbook/index.html"> 笔记</a></li></ul><div class="icons"><a href="/atom.xml" class="icon rss"><i class="iconfont">&#xe602;</i></a><a href="http://weibo.com/lingyucoder" class="icon weibo"><i class="iconfont">&#xe600;</i></a><a href="http://github.com/lingyucoder" class="icon github"><i class="iconfont">&#xe604;</i></a><a href="http://twitter.com/lingyucoder" class="icon twitter"><i class="iconfont">&#xe607;</i></a></div></nav></div></header><section id="wrapper"><div id="main"><article class="post"><div class="content desc typo"><h1 class="blog-title">使用WebRTC搭建前端视频聊天室——入门篇</h1><div class="toc-index"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是WebRTC？"><span class="toc-number">1.</span> <span class="toc-text">什么是WebRTC？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#WebRTC已经在我们的浏览器中"><span class="toc-number">2.</span> <span class="toc-text">WebRTC已经在我们的浏览器中</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#三个接口"><span class="toc-number">3.</span> <span class="toc-text">三个接口</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MediaStream（getUserMedia）"><span class="toc-number">4.</span> <span class="toc-text">MediaStream（getUserMedia）</span></a></li><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#W3C标准"><span class="toc-number">4.1.</span> <span class="toc-text">W3C标准</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#如何调用"><span class="toc-number">4.2.</span> <span class="toc-text">如何调用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#浏览器兼容性"><span class="toc-number">4.3.</span> <span class="toc-text">浏览器兼容性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#一个超级简单的例子"><span class="toc-number">4.4.</span> <span class="toc-text">一个超级简单的例子</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#约束对象（Constraints）"><span class="toc-number">4.5.</span> <span class="toc-text">约束对象（Constraints）</span></a></li></ol><li class="toc-item toc-level-2"><a class="toc-link" href="#RTCPeerConnection"><span class="toc-number">5.</span> <span class="toc-text">RTCPeerConnection</span></a></li><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#信令"><span class="toc-number">5.1.</span> <span class="toc-text">信令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#通过服务器建立信道"><span class="toc-number">5.2.</span> <span class="toc-text">通过服务器建立信道</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#NAT/防火墙穿越技术"><span class="toc-number">5.3.</span> <span class="toc-text">NAT/防火墙穿越技术</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#浏览器兼容"><span class="toc-number">5.4.</span> <span class="toc-text">浏览器兼容</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#创建和使用"><span class="toc-number">5.5.</span> <span class="toc-text">创建和使用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#实例"><span class="toc-number">5.6.</span> <span class="toc-text">实例</span></a></li></ol><li class="toc-item toc-level-2"><a class="toc-link" href="#RTCDataChannel"><span class="toc-number">6.</span> <span class="toc-text">RTCDataChannel</span></a></li><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#使用DataChannel"><span class="toc-number">6.1.</span> <span class="toc-text">使用DataChannel</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#通过Data_Channel发送文件大致思路"><span class="toc-number">6.2.</span> <span class="toc-text">通过Data Channel发送文件大致思路</span></a></li></ol><li class="toc-item toc-level-2"><a class="toc-link" href="#一个综合的Demo"><span class="toc-number">7.</span> <span class="toc-text">一个综合的Demo</span></a></li><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#使用方式"><span class="toc-number">7.1.</span> <span class="toc-text">使用方式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#功能"><span class="toc-number">7.2.</span> <span class="toc-text">功能</span></a></li></ol><li class="toc-item toc-level-2"><a class="toc-link" href="#参考资料"><span class="toc-number">8.</span> <span class="toc-text">参考资料</span></a></li></ol></div><p>由于毕设研究定的题目是即时通信相关，于是乎决定研究一下WebRTC来实现浏览器内的音频聊天，同时探究一下WebRTC能做些什么</p>
 <a id="more"></a>
 
 <h2 id="什么是WebRTC？">什么是WebRTC？</h2>
@@ -7,7 +7,7 @@
 <h2 id="WebRTC已经在我们的浏览器中">WebRTC已经在我们的浏览器中</h2>
 <p>这么好的功能，各大浏览器厂商自然不会置之不理。现在WebRTC已经可以在较新版的Chrome、Opera和Firefox中使用了，著名的浏览器兼容性查询网站caniuse上给出了一份详尽的浏览器兼容情况</p>
 <p><img src="http://lingyu.wang/img/WebRTC/1.png" alt="WebRTC浏览器兼容性from caniuse.com"></p>
-<p>另外根据36Kr前段时间的新闻<a href="http://www.36kr.com/p/205614.html" target="_blank" rel="external">Google推出支持WebRTC及Web Audio的Android 版Chrome 29@36kr</a>和<a href="http://www.36kr.com/p/210209.html" target="_blank" rel="external">Android版Opera开始支持WebRTC，允许用户在没有任何插件的情况下实现语音和视频聊天</a>，Android也开始支持WebRTC</p>
+<p>另外根据36Kr前段时间的新闻<a href="http://www.36kr.com/p/205614.html" target="_blank">Google推出支持WebRTC及Web Audio的Android 版Chrome 29@36kr</a>和<a href="http://www.36kr.com/p/210209.html" target="_blank">Android版Opera开始支持WebRTC，允许用户在没有任何插件的情况下实现语音和视频聊天</a>，Android也开始支持WebRTC</p>
 <h2 id="三个接口">三个接口</h2>
 <p>WebRTC实现了三个API，分别是:</p>
 <ul>
@@ -19,7 +19,7 @@
 <h2 id="MediaStream（getUserMedia）">MediaStream（getUserMedia）</h2>
 <p>MediaStream API为WebRTC提供了从设备的摄像头、话筒获取视频、音频流数据的功能</p>
 <h3 id="W3C标准">W3C标准</h3>
-<p><a href="http://dev.w3.org/2011/webrtc/editor/getusermedia.html" target="_blank" rel="external">W3C标准传送门</a></p>
+<p><a href="http://dev.w3.org/2011/webrtc/editor/getusermedia.html" target="_blank">W3C标准传送门</a></p>
 <h3 id="如何调用">如何调用</h3>
 <p>同门可以通过调用navigator.getUserMedia()，这个方法接受三个参数：</p>
 <ol>
@@ -29,11 +29,77 @@
 </ol>
 <h3 id="浏览器兼容性">浏览器兼容性</h3>
 <p>由于浏览器实现不同，他们经常会在实现标准版本之前，在方法前面加上前缀，所以一个兼容版本就像这样</p>
-<figure class="highlight javacript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">var getUserMedia = (navigator.getUserMedia <span class="string">|| </span></div><div class="line">                    navigator.webkitGetUserMedia <span class="string">|| </span></div><div class="line">                    navigator.mozGetUserMedia <span class="string">|| </span></div><div class="line">                    navigator.msGetUserMedia);</div></pre></td></tr></table></figure>
+<figure class="highlight javacript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+</pre></td><td class="code"><pre>var getUserMedia = (navigator<span class="preprocessor">.getUserMedia</span> || 
+                    navigator<span class="preprocessor">.webkitGetUserMedia</span> || 
+                    navigator<span class="preprocessor">.mozGetUserMedia</span> || 
+                    navigator<span class="preprocessor">.msGetUserMedia</span>)<span class="comment">;</span>
+</pre></td></tr></table></figure>
+
 
 <h3 id="一个超级简单的例子">一个超级简单的例子</h3>
 <p>这里写一个超级简单的例子，用来展现getUserMedia的效果：</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"><span class="doctype">&lt;!doctype html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="title">html</span> <span class="attribute">lang</span>=<span class="value">"zh-CN"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="title">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="title">meta</span> <span class="attribute">charset</span>=<span class="value">"UTF-8"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="title">title</span>&gt;</span>GetUserMedia实例<span class="tag">&lt;/<span class="title">title</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="title">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="title">body</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="title">video</span> <span class="attribute">id</span>=<span class="value">"video"</span> <span class="attribute">autoplay</span>&gt;</span><span class="tag">&lt;/<span class="title">video</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="title">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="title">script</span> <span class="attribute">type</span>=<span class="value">"text/javascript"</span>&gt;</span><span class="javascript"></span></div><div class="line">    <span class="keyword">var</span> getUserMedia = (navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia);</div><div class="line"></div><div class="line">    getUserMedia.call(navigator, {</div><div class="line">        video: <span class="literal">true</span>,</div><div class="line">        audio: <span class="literal">true</span></div><div class="line">    }, <span class="function"><span class="keyword">function</span><span class="params">(localMediaStream)</span> </span>{</div><div class="line">        <span class="keyword">var</span> video = <span class="built_in">document</span>.getElementById(<span class="string">'video'</span>);</div><div class="line">        video.src = <span class="built_in">window</span>.URL.createObjectURL(localMediaStream);</div><div class="line">        video.onloadedmetadata = <span class="function"><span class="keyword">function</span><span class="params">(e)</span> </span>{</div><div class="line">            <span class="built_in">console</span>.log(<span class="string">"Label: "</span> + localMediaStream.label);</div><div class="line">            <span class="built_in">console</span>.log(<span class="string">"AudioTracks"</span> , localMediaStream.getAudioTracks());</div><div class="line">            <span class="built_in">console</span>.log(<span class="string">"VideoTracks"</span> , localMediaStream.getVideoTracks());</div><div class="line">        };</div><div class="line">    }, <span class="function"><span class="keyword">function</span><span class="params">(e)</span> </span>{</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">'Reeeejected!'</span>, e);</div><div class="line">    });</div><div class="line"><span class="tag">&lt;/<span class="title">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="title">html</span>&gt;</span></div></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+</pre></td><td class="code"><pre><span class="doctype">&lt;!doctype html&gt;</span>
+<span class="tag">&lt;<span class="title">html</span> <span class="attribute">lang</span>=<span class="value">"zh-CN"</span>&gt;</span>
+<span class="tag">&lt;<span class="title">head</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">meta</span> <span class="attribute">charset</span>=<span class="value">"UTF-8"</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">title</span>&gt;</span>GetUserMedia实例<span class="tag">&lt;/<span class="title">title</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">head</span>&gt;</span>
+<span class="tag">&lt;<span class="title">body</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">video</span> <span class="attribute">id</span>=<span class="value">"video"</span> <span class="attribute">autoplay</span>&gt;</span><span class="tag">&lt;/<span class="title">video</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">body</span>&gt;</span>
+<span class="tag">&lt;<span class="title">script</span> <span class="attribute">type</span>=<span class="value">"text/javascript"</span>&gt;</span><span class="javascript">
+    <span class="keyword">var</span> getUserMedia = (navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia);
+
+    getUserMedia.call(navigator, {
+        video: <span class="literal">true</span>,
+        audio: <span class="literal">true</span>
+    }, <span class="function"><span class="keyword">function</span><span class="params">(localMediaStream)</span> {</span>
+        <span class="keyword">var</span> video = document.getElementById(<span class="string">'video'</span>);
+        video.src = window.URL.createObjectURL(localMediaStream);
+        video.onloadedmetadata = <span class="function"><span class="keyword">function</span><span class="params">(e)</span> {</span>
+            console.log(<span class="string">"Label: "</span> + localMediaStream.label);
+            console.log(<span class="string">"AudioTracks"</span> , localMediaStream.getAudioTracks());
+            console.log(<span class="string">"VideoTracks"</span> , localMediaStream.getVideoTracks());
+        };
+    }, <span class="function"><span class="keyword">function</span><span class="params">(e)</span> {</span>
+        console.log(<span class="string">'Reeeejected!'</span>, e);
+    });
+</span><span class="tag">&lt;/<span class="title">script</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">html</span>&gt;</span>
+</pre></td></tr></table></figure>
+
 
 <p>将这段内容保存在一个HTML文件中，放在服务器上。用较新版本的Opera、Firefox、Chrome打开，在浏览器弹出询问是否允许访问摄像头和话筒，选同意，浏览器上就会出现摄像头所拍摄到的画面了</p>
 <p>注意，HTML文件要放在服务器上，否则会得到一个NavigatorUserMediaError的错误，显示PermissionDeniedError，最简单方法就是cd到HTML文件所在目录下，然后<code>python -m SimpleHTTPServer</code>（装了python的话），然后在浏览器中输入<code>http://localhost:8000/{文件名称}.html</code></p>
@@ -53,11 +119,11 @@
 <li>MinFramerate：视频流的最小帧速率</li>
 <li>MaxFramerate：视频流的最大帧速率</li>
 </ul>
-<p>详情见<a href="http://tools.ietf.org/html/draft-alvestrand-constraints-resolution-00" target="_blank" rel="external">Resolution Constraints in Web Real Time Communications draft-alvestrand-constraints-resolution-00</a></p>
+<p>详情见<a href="http://tools.ietf.org/html/draft-alvestrand-constraints-resolution-00" target="_blank">Resolution Constraints in Web Real Time Communications draft-alvestrand-constraints-resolution-00</a></p>
 <h2 id="RTCPeerConnection">RTCPeerConnection</h2>
 <p>WebRTC使用RTCPeerConnection来在浏览器之间传递流数据，这个流数据通道是点对点的，不需要经过服务器进行中转。但是这并不意味着我们能抛弃服务器，我们仍然需要它来为我们传递信令（signaling）来建立这个信道。WebRTC没有定义用于建立信道的信令的协议：信令并不是RTCPeerConnection API的一部分</p>
 <h3 id="信令">信令</h3>
-<p>既然没有定义具体的信令的协议，我们就可以选择任意方式（AJAX、WebSocket），采用任意的协议（SIP、XMPP）来传递信令，建立信道，比如我写的<a href="https://github.com/LingyuCoder/SkyRTC-demo" target="_blank" rel="external">demo</a>，就是用的node的ws模块，在WebSocket上传递信令</p>
+<p>既然没有定义具体的信令的协议，我们就可以选择任意方式（AJAX、WebSocket），采用任意的协议（SIP、XMPP）来传递信令，建立信道，比如我写的<a href="https://github.com/LingyuCoder/SkyRTC-demo" target="_blank">demo</a>，就是用的node的ws模块，在WebSocket上传递信令</p>
 <ul>
 <li>session的信息：用来初始化通信还有报错<br>这些信息的交换应该在点对点的流传输之前就全部完成，一个大致的架构图如下：</li>
 </ul>
@@ -75,10 +141,180 @@
 <p><img src="http://lingyu.wang/img/WebRTC/3.png" alt="整合了ICE框架的WebRTC应用架构"></p>
 <h3 id="浏览器兼容">浏览器兼容</h3>
 <p>还是前缀不同的问题，采用和上面类似的方法：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> PeerConnection = (<span class="built_in">window</span>.PeerConnection ||</div><div class="line">                    <span class="built_in">window</span>.webkitPeerConnection00 || </div><div class="line">                    <span class="built_in">window</span>.webkitRTCPeerConnection || </div><div class="line">                    <span class="built_in">window</span>.mozRTCPeerConnection);</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+</pre></td><td class="code"><pre><span class="keyword">var</span> PeerConnection = (window.PeerConnection ||
+                    window.webkitPeerConnection00 || 
+                    window.webkitRTCPeerConnection || 
+                    window.mozRTCPeerConnection);
+</pre></td></tr></table></figure>
+
 
 <h3 id="创建和使用">创建和使用</h3>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//使用Google的stun服务器</span></div><div class="line"><span class="keyword">var</span> iceServer = {</div><div class="line">    <span class="string">"iceServers"</span>: [{</div><div class="line">        <span class="string">"url"</span>: <span class="string">"stun:stun.l.google.com:19302"</span></div><div class="line">    }]</div><div class="line">};</div><div class="line"><span class="comment">//兼容浏览器的getUserMedia写法</span></div><div class="line"><span class="keyword">var</span> getUserMedia = (navigator.getUserMedia ||</div><div class="line">                    navigator.webkitGetUserMedia || </div><div class="line">                    navigator.mozGetUserMedia || </div><div class="line">                    navigator.msGetUserMedia);</div><div class="line"><span class="comment">//兼容浏览器的PeerConnection写法</span></div><div class="line"><span class="keyword">var</span> PeerConnection = (<span class="built_in">window</span>.PeerConnection ||</div><div class="line">                    <span class="built_in">window</span>.webkitPeerConnection00 || </div><div class="line">                    <span class="built_in">window</span>.webkitRTCPeerConnection || </div><div class="line">                    <span class="built_in">window</span>.mozRTCPeerConnection);</div><div class="line"><span class="comment">//与后台服务器的WebSocket连接</span></div><div class="line"><span class="keyword">var</span> socket = __createWebSocketChannel();</div><div class="line"><span class="comment">//创建PeerConnection实例</span></div><div class="line"><span class="keyword">var</span> pc = <span class="keyword">new</span> PeerConnection(iceServer);</div><div class="line"><span class="comment">//发送ICE候选到其他客户端</span></div><div class="line">pc.onicecandidate = <span class="function"><span class="keyword">function</span><span class="params">(event)</span></span>{</div><div class="line">    socket.send(<span class="built_in">JSON</span>.stringify({</div><div class="line">        <span class="string">"event"</span>: <span class="string">"__ice_candidate"</span>,</div><div class="line">        <span class="string">"data"</span>: {</div><div class="line">            <span class="string">"candidate"</span>: event.candidate</div><div class="line">        }</div><div class="line">    }));</div><div class="line">};</div><div class="line"><span class="comment">//如果检测到媒体流连接到本地，将其绑定到一个video标签上输出</span></div><div class="line">pc.onaddstream = <span class="function"><span class="keyword">function</span><span class="params">(event)</span></span>{</div><div class="line">    someVideoElement.src = URL.createObjectURL(event.stream);</div><div class="line">};</div><div class="line"><span class="comment">//获取本地的媒体流，并绑定到一个video标签上输出，并且发送这个媒体流给其他客户端</span></div><div class="line">getUserMedia.call(navigator, {</div><div class="line">    <span class="string">"audio"</span>: <span class="literal">true</span>,</div><div class="line">    <span class="string">"video"</span>: <span class="literal">true</span></div><div class="line">}, <span class="function"><span class="keyword">function</span><span class="params">(stream)</span></span>{</div><div class="line">    <span class="comment">//发送offer和answer的函数，发送本地session描述</span></div><div class="line">    <span class="keyword">var</span> sendOfferFn = <span class="function"><span class="keyword">function</span><span class="params">(desc)</span></span>{</div><div class="line">            pc.setLocalDescription(desc);</div><div class="line">            socket.send(<span class="built_in">JSON</span>.stringify({ </div><div class="line">                <span class="string">"event"</span>: <span class="string">"__offer"</span>,</div><div class="line">                <span class="string">"data"</span>: {</div><div class="line">                    <span class="string">"sdp"</span>: desc</div><div class="line">                }</div><div class="line">            }));</div><div class="line">        },</div><div class="line">        sendAnswerFn = <span class="function"><span class="keyword">function</span><span class="params">(desc)</span></span>{</div><div class="line">            pc.setLocalDescription(desc);</div><div class="line">            socket.send(<span class="built_in">JSON</span>.stringify({ </div><div class="line">                <span class="string">"event"</span>: <span class="string">"__answer"</span>,</div><div class="line">                <span class="string">"data"</span>: {</div><div class="line">                    <span class="string">"sdp"</span>: desc</div><div class="line">                }</div><div class="line">            }));</div><div class="line">        };</div><div class="line">    <span class="comment">//绑定本地媒体流到video标签用于输出</span></div><div class="line">    myselfVideoElement.src = URL.createObjectURL(stream);</div><div class="line">    <span class="comment">//向PeerConnection中加入需要发送的流</span></div><div class="line">    pc.addStream(stream);</div><div class="line">    <span class="comment">//如果是发送方则发送一个offer信令，否则发送一个answer信令</span></div><div class="line">    <span class="keyword">if</span>(isCaller){</div><div class="line">        pc.createOffer(sendOfferFn);</div><div class="line">    } <span class="keyword">else</span> {</div><div class="line">        pc.createAnswer(sendAnswerFn);</div><div class="line">    }</div><div class="line">}, <span class="function"><span class="keyword">function</span><span class="params">(error)</span></span>{</div><div class="line">    <span class="comment">//处理媒体流创建失败错误</span></div><div class="line">});</div><div class="line"><span class="comment">//处理到来的信令</span></div><div class="line">socket.onmessage = <span class="function"><span class="keyword">function</span><span class="params">(event)</span></span>{</div><div class="line">    <span class="keyword">var</span> json = <span class="built_in">JSON</span>.parse(event.data);</div><div class="line">    <span class="comment">//如果是一个ICE的候选，则将其加入到PeerConnection中，否则设定对方的session描述为传递过来的描述</span></div><div class="line">    <span class="keyword">if</span>( json.event === <span class="string">"__ice_candidate"</span> ){</div><div class="line">        pc.addIceCandidate(<span class="keyword">new</span> RTCIceCandidate(json.data.candidate));</div><div class="line">    } <span class="keyword">else</span> {</div><div class="line">         pc.setRemoteDescription(<span class="keyword">new</span> RTCSessionDescription(json.data.sdp));</div><div class="line">    }</div><div class="line">};</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+</pre></td><td class="code"><pre><span class="comment">//使用Google的stun服务器</span>
+<span class="keyword">var</span> iceServer = {
+    <span class="string">"iceServers"</span>: [{
+        <span class="string">"url"</span>: <span class="string">"stun:stun.l.google.com:19302"</span>
+    }]
+};
+<span class="comment">//兼容浏览器的getUserMedia写法</span>
+<span class="keyword">var</span> getUserMedia = (navigator.getUserMedia ||
+                    navigator.webkitGetUserMedia || 
+                    navigator.mozGetUserMedia || 
+                    navigator.msGetUserMedia);
+<span class="comment">//兼容浏览器的PeerConnection写法</span>
+<span class="keyword">var</span> PeerConnection = (window.PeerConnection ||
+                    window.webkitPeerConnection00 || 
+                    window.webkitRTCPeerConnection || 
+                    window.mozRTCPeerConnection);
+<span class="comment">//与后台服务器的WebSocket连接</span>
+<span class="keyword">var</span> socket = __createWebSocketChannel();
+<span class="comment">//创建PeerConnection实例</span>
+<span class="keyword">var</span> pc = <span class="keyword">new</span> PeerConnection(iceServer);
+<span class="comment">//发送ICE候选到其他客户端</span>
+pc.onicecandidate = <span class="function"><span class="keyword">function</span><span class="params">(event)</span>{</span>
+    socket.send(<span class="built_in">JSON</span>.stringify({
+        <span class="string">"event"</span>: <span class="string">"__ice_candidate"</span>,
+        <span class="string">"data"</span>: {
+            <span class="string">"candidate"</span>: event.candidate
+        }
+    }));
+};
+<span class="comment">//如果检测到媒体流连接到本地，将其绑定到一个video标签上输出</span>
+pc.onaddstream = <span class="function"><span class="keyword">function</span><span class="params">(event)</span>{</span>
+    someVideoElement.src = URL.createObjectURL(event.stream);
+};
+<span class="comment">//获取本地的媒体流，并绑定到一个video标签上输出，并且发送这个媒体流给其他客户端</span>
+getUserMedia.call(navigator, {
+    <span class="string">"audio"</span>: <span class="literal">true</span>,
+    <span class="string">"video"</span>: <span class="literal">true</span>
+}, <span class="function"><span class="keyword">function</span><span class="params">(stream)</span>{</span>
+    <span class="comment">//发送offer和answer的函数，发送本地session描述</span>
+    <span class="keyword">var</span> sendOfferFn = <span class="function"><span class="keyword">function</span><span class="params">(desc)</span>{</span>
+            pc.setLocalDescription(desc);
+            socket.send(<span class="built_in">JSON</span>.stringify({ 
+                <span class="string">"event"</span>: <span class="string">"__offer"</span>,
+                <span class="string">"data"</span>: {
+                    <span class="string">"sdp"</span>: desc
+                }
+            }));
+        },
+        sendAnswerFn = <span class="function"><span class="keyword">function</span><span class="params">(desc)</span>{</span>
+            pc.setLocalDescription(desc);
+            socket.send(<span class="built_in">JSON</span>.stringify({ 
+                <span class="string">"event"</span>: <span class="string">"__answer"</span>,
+                <span class="string">"data"</span>: {
+                    <span class="string">"sdp"</span>: desc
+                }
+            }));
+        };
+    <span class="comment">//绑定本地媒体流到video标签用于输出</span>
+    myselfVideoElement.src = URL.createObjectURL(stream);
+    <span class="comment">//向PeerConnection中加入需要发送的流</span>
+    pc.addStream(stream);
+    <span class="comment">//如果是发送方则发送一个offer信令，否则发送一个answer信令</span>
+    <span class="keyword">if</span>(isCaller){
+        pc.createOffer(sendOfferFn);
+    } <span class="keyword">else</span> {
+        pc.createAnswer(sendAnswerFn);
+    }
+}, <span class="function"><span class="keyword">function</span><span class="params">(error)</span>{</span>
+    <span class="comment">//处理媒体流创建失败错误</span>
+});
+<span class="comment">//处理到来的信令</span>
+socket.onmessage = <span class="function"><span class="keyword">function</span><span class="params">(event)</span>{</span>
+    <span class="keyword">var</span> json = <span class="built_in">JSON</span>.parse(event.data);
+    <span class="comment">//如果是一个ICE的候选，则将其加入到PeerConnection中，否则设定对方的session描述为传递过来的描述</span>
+    <span class="keyword">if</span>( json.event === <span class="string">"__ice_candidate"</span> ){
+        pc.addIceCandidate(<span class="keyword">new</span> RTCIceCandidate(json.data.candidate));
+    } <span class="keyword">else</span> {
+         pc.setRemoteDescription(<span class="keyword">new</span> RTCSessionDescription(json.data.sdp));
+    }
+};
+</pre></td></tr></table></figure>
+
 
 <h3 id="实例">实例</h3>
 <p>由于涉及较为复杂灵活的信令传输，故这里不做简短的实例，可以直接移步到最后</p>
@@ -108,7 +344,7 @@
 <h3 id="通过Data_Channel发送文件大致思路">通过Data Channel发送文件大致思路</h3>
 <p>JavaScript已经提供了File API从<code>input[type=&#39;file&#39;]</code>的元素中提取文件，并通过FileReader来将文件的转换成DataURL，这也意味着我们可以将DataURL分成多个碎片来通过Channel来进行文件传输</p>
 <h2 id="一个综合的Demo">一个综合的Demo</h2>
-<p><a href="https://github.com/LingyuCoder/SkyRTC-demo" target="_blank" rel="external">SkyRTC-demo</a>，这是我写的一个Demo。建立一个视频聊天室，并能够广播文件，当然也支持单对单文件传输，写得还很粗糙，后期会继续完善</p>
+<p><a href="https://github.com/LingyuCoder/SkyRTC-demo" target="_blank">SkyRTC-demo</a>，这是我写的一个Demo。建立一个视频聊天室，并能够广播文件，当然也支持单对单文件传输，写得还很粗糙，后期会继续完善</p>
 <h3 id="使用方式">使用方式</h3>
 <ol>
 <li>下载解压并cd到目录下</li>
@@ -123,13 +359,13 @@
 <p>视频音频聊天（连接了摄像头和话筒，至少要有摄像头），广播文件（可单独传播，提供API，广播就是基于单独传播实现的，可同时传播多个，小文件还好说，大文件坐等内存吃光），广播聊天信息</p>
 <h2 id="参考资料">参考资料</h2>
 <ul>
-<li><a href="http://www.webrtc.org/" target="_blank" rel="external">WebRTC官方网站</a></li>
-<li><a href="http://dev.w3.org/2011/webrtc/editor/getusermedia.html" target="_blank" rel="external">W3C-GetUserMedia</a></li>
-<li><a href="http://dev.w3.org/2011/webrtc/editor/webrtc.html" target="_blank" rel="external">W3C-WebRTC</a></li>
-<li><a href="http://www.html5rocks.com/en/tutorials/getusermedia/intro/" target="_blank" rel="external">Capturing Audio &amp; Video in HTML5@html5rocks</a></li>
-<li><a href="http://www.html5rocks.com/en/tutorials/webrtc/basics/" target="_blank" rel="external">Getting Started with WebRTC@html5rocks</a></li>
-<li><a href="http://caniuse.com" target="_blank" rel="external">caniuse</a></li>
-<li><a href="http://zh.wikipedia.org/wiki/%E4%BA%92%E5%8B%95%E5%BC%8F%E9%80%A3%E6%8E%A5%E5%BB%BA%E7%AB%8B" target="_blank" rel="external">ICE交互式连接建立</a></li>
+<li><a href="http://www.webrtc.org/" target="_blank">WebRTC官方网站</a></li>
+<li><a href="http://dev.w3.org/2011/webrtc/editor/getusermedia.html" target="_blank">W3C-GetUserMedia</a></li>
+<li><a href="http://dev.w3.org/2011/webrtc/editor/webrtc.html" target="_blank">W3C-WebRTC</a></li>
+<li><a href="http://www.html5rocks.com/en/tutorials/getusermedia/intro/" target="_blank">Capturing Audio &amp; Video in HTML5@html5rocks</a></li>
+<li><a href="http://www.html5rocks.com/en/tutorials/webrtc/basics/" target="_blank">Getting Started with WebRTC@html5rocks</a></li>
+<li><a href="http://caniuse.com" target="_blank">caniuse</a></li>
+<li><a href="http://zh.wikipedia.org/wiki/%E4%BA%92%E5%8B%95%E5%BC%8F%E9%80%A3%E6%8E%A5%E5%BB%BA%E7%AB%8B" target="_blank">ICE交互式连接建立</a></li>
 </ul>
 <hr><div class="tags"><a href="/tags/WebSocket/" class="blog-tag">WebSocket</a><a href="/tags/NodeJs/" class="blog-tag">NodeJs</a><a href="/tags/WebIM/" class="blog-tag">WebIM</a><a href="/tags/WebRTC/" class="blog-tag">WebRTC</a><a href="/tags/JavaScript/" class="blog-tag">JavaScript</a></div><hr><div class="jia"><div class="jiathis_style_32x32"><a class="jiathis_button_qzone"></a><a class="jiathis_button_tsina"></a><a class="jiathis_button_tqq"></a><a class="jiathis_button_weixin"></a><a class="jiathis_button_renren"></a><a href="http://www.jiathis.com/share?uid=1409314953297200" target="_blank" class="jiathis jiathis_txt jtico jtico_jiathis"></a></div><script type="text/javascript">var jiathis_config = {data_track_clickback:'true'};    </script><script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1409314953297200" charset="utf-8"></script></div><hr><div id="duoshuo" data-url="http://lingyu.wang/2014/03/15/webRTC-1/" data-thread-key="/blog/2014/03/15/webRTC-1/" data-title="使用WebRTC搭建前端视频聊天室——入门篇" class="ds-thread"></div><script type="text/javascript">var duoshuoQuery = {short_name:'skyinlayer'};
 (function() {
@@ -139,7 +375,7 @@
     ds.charset = 'UTF-8';
     (document.getElementsByTagName('head')[0] 
      || document.getElementsByTagName('body')[0]).appendChild(ds);
-})();</script></div></article><div class="pager"><a href="/2014/03/17/SkyRTC-demo/" title="开源WebRTC库——SkyRTC实例" class="pre">上一页</a><a href="/2014/03/12/dont-make-me-think-4/" title="《Don`t make me think》读书笔记——大的方面和外界影响" class="next">下一页</a></div></div><aside id="aside"><section class="recent"><h3 class="title iconfont">最新文章<i>&#xe601;</i></h3><div class="links"><ul><li><a href="/2014/09/24/koa-anywhere/">koa-anywhere</a></li><li><a href="/2014/09/22/learn-fe/">学前端的一点总结</a></li><li><a href="/2014/07/29/generator/">细说Generator</a></li><li><a href="/2014/05/31/kissy-anime-plugin/">如何写一个KISSY动画插件</a></li><li><a href="/2014/05/22/webrtc-data-channels/">WebRTC的RTCDataChannel</a></li></ul></div></section><section class="categories"><h3 class="title iconfont">分类<i>&#xe605;</i></h3><div class="links"><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/NodeJs/">NodeJs</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端技术/">前端技术</a><span class="category-list-count">33</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/前端技术/性能优化/">性能优化</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端技术/笔试面试积累/">笔试面试积累</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端技术/网站建设/">网站建设</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/即时通信/">即时通信</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/性能优化/">性能优化</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库技术/">数据库技术</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/源码阅读/">源码阅读</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/生活情感/">生活情感</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/笔试面试积累/">笔试面试积累</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/网站建设/">网站建设</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/读书笔记/">读书笔记</a><span class="category-list-count">9</span></li></ul></div></section><section class="tags"><h3 class="title iconfont">标签<i>&#xe603;</i></h3><div class="links"><ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS/">CSS</a><span class="tag-list-count">35</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ES6/">ES6</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Generator/">Generator</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/">HTML</a><span class="tag-list-count">29</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/">HTTP</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a><span class="tag-list-count">34</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kissy/">Kissy</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NodeJs/">NodeJs</a><span class="tag-list-count">10</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SEO/">SEO</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WebIM/">WebIM</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WebRTC/">WebRTC</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WebSocket/">WebSocket</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/grunt/">grunt</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jQuery/">jQuery</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/koa/">koa</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/oracle/">oracle</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/xmpp/">xmpp</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/动画/">动画</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/响应式/">响应式</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/存储函数/">存储函数</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/思考/">思考</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/生活/">生活</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/笔试面试题/">笔试面试题</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/设计/">设计</a><span class="tag-list-count">9</span></li></ul></div></section><section class="archives"><h3 class="title iconfont"> 归档<i>&#xe60a;</i></h3><div class="links"><ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09">2014年9月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07">2014年7月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05">2014年5月</a><span class="archive-list-count">15</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/04">2014年4月</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/03">2014年3月</a><span class="archive-list-count">29</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02">2014年2月</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/01">2014年1月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/12">2013年12月</a><span class="archive-list-count">1</span></li></ul></div></section></aside></section><footer id="page-footer"><span style="float:right"><script type="text/javascript">(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+})();</script></div></article><div class="pager"><a href="/2014/03/17/SkyRTC-doc/" title="开源WebRTC库——SkyRTC文档（服务器部分）" class="pre">上一页</a><a href="/2014/03/12/dont-make-me-think-4/" title="《Don`t make me think》读书笔记——大的方面和外界影响" class="next">下一页</a></div></div><aside id="aside"><section class="recent"><h3 class="title iconfont">最新文章<i>&#xe601;</i></h3><div class="links"><ul><li><a href="/2014/10/06/gulp-vision-history-future/">Gulp -- 项目的愿景、过去和将来</a></li><li><a href="/2014/09/24/koa-anywhere/">koa-anywhere</a></li><li><a href="/2014/09/22/learn-fe/">学前端的一点总结</a></li><li><a href="/2014/07/29/generator/">细说Generator</a></li><li><a href="/2014/05/31/kissy-anime-plugin/">如何写一个KISSY动画插件</a></li></ul></div></section><section class="categories"><h3 class="title iconfont">分类<i>&#xe605;</i></h3><div class="links"><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/NodeJs/">NodeJs</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端技术/">前端技术</a><span class="category-list-count">33</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/前端技术/性能优化/">性能优化</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端技术/笔试面试积累/">笔试面试积累</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端技术/网站建设/">网站建设</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/即时通信/">即时通信</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/性能优化/">性能优化</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库技术/">数据库技术</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/源码阅读/">源码阅读</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/生活情感/">生活情感</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/笔试面试积累/">笔试面试积累</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/网站建设/">网站建设</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/读书笔记/">读书笔记</a><span class="category-list-count">9</span></li></ul></div></section><section class="tags"><h3 class="title iconfont">标签<i>&#xe603;</i></h3><div class="links"><ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS/">CSS</a><span class="tag-list-count">35</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ES6/">ES6</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Generator/">Generator</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Gulp/">Gulp</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/">HTML</a><span class="tag-list-count">29</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/">HTTP</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a><span class="tag-list-count">35</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kissy/">Kissy</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NodeJs/">NodeJs</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SEO/">SEO</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WebIM/">WebIM</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WebRTC/">WebRTC</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WebSocket/">WebSocket</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/grunt/">grunt</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jQuery/">jQuery</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/koa/">koa</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/oracle/">oracle</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/xmpp/">xmpp</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/动画/">动画</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/响应式/">响应式</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/存储函数/">存储函数</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/思考/">思考</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/生活/">生活</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/笔试面试题/">笔试面试题</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/设计/">设计</a><span class="tag-list-count">9</span></li></ul></div></section><section class="archives"><h3 class="title iconfont"> 归档<i>&#xe60a;</i></h3><div class="links"><ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10">2014年10月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09">2014年9月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07">2014年7月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05">2014年5月</a><span class="archive-list-count">15</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/04">2014年4月</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/03">2014年3月</a><span class="archive-list-count">29</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02">2014年2月</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/01">2014年1月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/12">2013年12月</a><span class="archive-list-count">1</span></li></ul></div></section></aside></section><footer id="page-footer"><span style="float:right"><script type="text/javascript">(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
 (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
 m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 })(window,document,'script','//www.google-analytics.com/analytics.js','ga');

@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="author" content="天镶"><meta name="description"><title>JavaScript的继承 | 天镶的博客</title><link href="/favicon.png" rel="icon"><link rel="stylesheet" media="screen" href="/stylesheets/plugins/typo/typo-1.1.css"><link rel="stylesheet" media="screen" href="/stylesheets/plugins/highlight/highlight-8.0-dark.css"><link rel="stylesheet" media="screen" href="/stylesheets/app.css"></head><body><a id="totop" href="#page-header" class="iconfont">&#xe60b;</a><header id="page-header"><div class="wrapper"><a href="/page/profile.html"><img alt="avatar" src="/images/avatar.jpg" class="avatar"></a><div class="title"> <a href="/">天镶的博客</a></div><nav class="nav"><ul class="links"><li><a href="/"> 首页</a></li><li><a href="/archives"> 归档</a></li><li><a href="/page/profile.html"> 关于</a></li><li><a href="/page/gitbook/index.html"> 笔记</a></li></ul><div class="icons"><a href="/atom.xml" class="icon rss"><i class="iconfont">&#xe602;</i></a><a href="http://weibo.com/lingyucoder" class="icon weibo"><i class="iconfont">&#xe600;</i></a><a href="http://github.com/lingyucoder" class="icon github"><i class="iconfont">&#xe604;</i></a><a href="http://twitter.com/lingyucoder" class="icon twitter"><i class="iconfont">&#xe607;</i></a></div></nav></div></header><section id="wrapper"><div id="main"><article class="post"><div class="content desc typo"><h1 class="blog-title">JavaScript的继承</h1><div class="toc-index"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#new都干了些什么"><span class="toc-number">1.</span> <span class="toc-text">new都干了些什么</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#大致流程"><span class="toc-number">1.1.</span> <span class="toc-text">大致流程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#模拟一下"><span class="toc-number">1.2.</span> <span class="toc-text">模拟一下</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#constructor的问题"><span class="toc-number">2.</span> <span class="toc-text">constructor的问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#继承方法"><span class="toc-number">3.</span> <span class="toc-text">继承方法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#直接继承"><span class="toc-number">3.1.</span> <span class="toc-text">直接继承</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Object-create方式"><span class="toc-number">3.2.</span> <span class="toc-text">Object.create方式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#复制属性实现继承——共用原型"><span class="toc-number">3.3.</span> <span class="toc-text">复制属性实现继承——共用原型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#复制属性实现继承——不共用原型"><span class="toc-number">3.4.</span> <span class="toc-text">复制属性实现继承——不共用原型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#扁平复制"><span class="toc-number">3.5.</span> <span class="toc-text">扁平复制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#隐藏属性的扁平复制——仅复制父类原型属性"><span class="toc-number">3.6.</span> <span class="toc-text">隐藏属性的扁平复制——仅复制父类原型属性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#隐藏属性的扁平复制——仅复制父类自身属性"><span class="toc-number">3.7.</span> <span class="toc-text">隐藏属性的扁平复制——仅复制父类自身属性</span></a></li></ol></li></ol></div><p>面试遇到了继承的问题，虽然以前有在《JavaScript模式》里读过，不过由于记得不是很牢直接花样作死了。面试官也说继承的知识相当重要，于是乎又在闲暇的时候写了些继承的实现</p>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="author" content="天镶"><meta name="description"><title>JavaScript的继承 | 天镶的博客</title><link href="/favicon.png" rel="icon"><link rel="stylesheet" media="screen" href="/stylesheets/plugins/typo/typo-1.1.css"><link rel="stylesheet" media="screen" href="/stylesheets/plugins/highlight/highlight-8.0-dark.css"><link rel="stylesheet" media="screen" href="/stylesheets/app.css"></head><body><a id="totop" href="#page-header" class="iconfont">&#xe60b;</a><header id="page-header"><div class="wrapper"><a href="/page/profile.html"><img alt="avatar" src="/images/avatar.jpg" class="avatar"></a><div class="title"> <a href="/">天镶的博客</a></div><nav class="nav"><ul class="links"><li><a href="/"> 首页</a></li><li><a href="/archives"> 归档</a></li><li><a href="/page/profile.html"> 关于</a></li><li><a href="/page/gitbook/index.html"> 笔记</a></li></ul><div class="icons"><a href="/atom.xml" class="icon rss"><i class="iconfont">&#xe602;</i></a><a href="http://weibo.com/lingyucoder" class="icon weibo"><i class="iconfont">&#xe600;</i></a><a href="http://github.com/lingyucoder" class="icon github"><i class="iconfont">&#xe604;</i></a><a href="http://twitter.com/lingyucoder" class="icon twitter"><i class="iconfont">&#xe607;</i></a></div></nav></div></header><section id="wrapper"><div id="main"><article class="post"><div class="content desc typo"><h1 class="blog-title">JavaScript的继承</h1><div class="toc-index"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#new都干了些什么"><span class="toc-number">1.</span> <span class="toc-text">new都干了些什么</span></a></li><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#大致流程"><span class="toc-number">1.1.</span> <span class="toc-text">大致流程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#模拟一下"><span class="toc-number">1.2.</span> <span class="toc-text">模拟一下</span></a></li></ol><li class="toc-item toc-level-2"><a class="toc-link" href="#constructor的问题"><span class="toc-number">2.</span> <span class="toc-text">constructor的问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#继承方法"><span class="toc-number">3.</span> <span class="toc-text">继承方法</span></a></li><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#直接继承"><span class="toc-number">3.1.</span> <span class="toc-text">直接继承</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Object-create方式"><span class="toc-number">3.2.</span> <span class="toc-text">Object.create方式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#复制属性实现继承——共用原型"><span class="toc-number">3.3.</span> <span class="toc-text">复制属性实现继承——共用原型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#复制属性实现继承——不共用原型"><span class="toc-number">3.4.</span> <span class="toc-text">复制属性实现继承——不共用原型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#扁平复制"><span class="toc-number">3.5.</span> <span class="toc-text">扁平复制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#隐藏属性的扁平复制——仅复制父类原型属性"><span class="toc-number">3.6.</span> <span class="toc-text">隐藏属性的扁平复制——仅复制父类原型属性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#隐藏属性的扁平复制——仅复制父类自身属性"><span class="toc-number">3.7.</span> <span class="toc-text">隐藏属性的扁平复制——仅复制父类自身属性</span></a></li></ol></div><p>面试遇到了继承的问题，虽然以前有在《JavaScript模式》里读过，不过由于记得不是很牢直接花样作死了。面试官也说继承的知识相当重要，于是乎又在闲暇的时候写了些继承的实现</p>
 <a id="more"></a>
 
 <h2 id="new都干了些什么">new都干了些什么</h2>
@@ -13,25 +13,121 @@
 </ol>
 <h3 id="模拟一下">模拟一下</h3>
 <p>我们可以通过在Function.prototype上创建个新方法来模拟new：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">Function</span>.prototype.__new__ = <span class="function"><span class="keyword">function</span><span class="params">()</span></span>{</div><div class="line">    <span class="keyword">var</span> newObj;</div><div class="line">    <span class="keyword">var</span> resultObj;</div><div class="line">    newObj = {};</div><div class="line">    newObj.__proto__ = <span class="keyword">this</span>.prototype;</div><div class="line">    resultObj = <span class="keyword">this</span>.apply(newObj, <span class="built_in">arguments</span>);</div><div class="line">    <span class="keyword">return</span> (<span class="keyword">typeof</span> resultObj === <span class="string">'object'</span> && resultObj) || newObj;</div><div class="line">};</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+</pre></td><td class="code"><pre><span class="built_in">Function</span>.prototype.__new__ = <span class="function"><span class="keyword">function</span><span class="params">()</span>{</span>
+    <span class="keyword">var</span> newObj;
+    <span class="keyword">var</span> resultObj;
+    newObj = {};
+    newObj.__proto__ = <span class="keyword">this</span>.prototype;
+    resultObj = <span class="keyword">this</span>.apply(newObj, <span class="built_in">arguments</span>);
+    <span class="keyword">return</span> (<span class="keyword">typeof</span> resultObj === <span class="string">'object'</span> && resultObj) || newObj;
+};
+</pre></td></tr></table></figure>
+
 
 <h2 id="constructor的问题">constructor的问题</h2>
 <p>在创建一个函数时，会为这个函数增加一个<code>prototype</code>属性指向一个对象，而这个<code>prototype</code>对象内有一个属性就是<code>constructor</code>，这样在使用构造函数创建一个新对象时，新对象的<code>__proto__</code>自然指向含有<code>constructor</code>的构造函数的<code>prototype</code>对象。但当更换了这个构造函数的<code>prototype</code>，一切就不一样了。比如如下代码</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">A</span><span class="params">()</span></span>{}</div><div class="line">A.prototype = {}</div><div class="line"><span class="built_in">console</span>.log(<span class="keyword">new</span> A().constructor)</div><div class="line"><span class="comment">//输出：function Object() { [native code] }</span></div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+</pre></td><td class="code"><pre><span class="function"><span class="keyword">function</span> <span class="title">A</span><span class="params">()</span>{</span>}
+A.prototype = {}
+console.log(<span class="keyword">new</span> A().constructor)
+<span class="comment">//输出：function Object() { [native code] }</span>
+</pre></td></tr></table></figure>
+
 
 <p>这里并没有输出<code>function A(){}</code>。因为A的<code>prototype</code>对象已经被重写了，其为一个Object实例，A的<code>prototype</code>对象中不包含<code>constructor</code>属性。而输出Object构造函数是因为Object实例的<code>__proto__</code>指向<code>function Object(){}</code>的prototype属性，而它内部有constructor：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> tmp = <span class="keyword">new</span> A();</div><div class="line"><span class="built_in">console</span>.log(tmp.__proto__.hasOwnProperty(<span class="string">"constructor"</span>));</div><div class="line"><span class="comment">//输出：false</span></div><div class="line"><span class="built_in">console</span>.log(tmp.__proto__.__proto__.hasOwnProperty(<span class="string">"constructor"</span>));</div><div class="line"><span class="comment">//输出：true</span></div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+</pre></td><td class="code"><pre><span class="keyword">var</span> tmp = <span class="keyword">new</span> A();
+console.log(tmp.__proto__.hasOwnProperty(<span class="string">"constructor"</span>));
+<span class="comment">//输出：false</span>
+console.log(tmp.__proto__.__proto__.hasOwnProperty(<span class="string">"constructor"</span>));
+<span class="comment">//输出：true</span>
+</pre></td></tr></table></figure>
+
 
 <p>所以，如果直接使用通过修改<code>prototype</code>的方式实现继承，这将导致<code>constructor</code>不正确，比如如下代码：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Parent</span><span class="params">()</span></span>{}</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Child</span><span class="params">()</span></span>{}</div><div class="line">Child.prototype = <span class="keyword">new</span> Parent();</div><div class="line"><span class="built_in">console</span>.log(<span class="keyword">new</span> Child().constructor);</div><div class="line"><span class="comment">//输出：function Parent(){}</span></div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+</pre></td><td class="code"><pre><span class="function"><span class="keyword">function</span> <span class="title">Parent</span><span class="params">()</span>{</span>}
+<span class="function"><span class="keyword">function</span> <span class="title">Child</span><span class="params">()</span>{</span>}
+Child.prototype = <span class="keyword">new</span> Parent();
+console.log(<span class="keyword">new</span> Child().constructor);
+<span class="comment">//输出：function Parent(){}</span>
+</pre></td></tr></table></figure>
+
 
 <p>如果想要<code>new Child().constructor</code>指向Child，我们需要显示的修改其<code>prototype</code>的<code>constructor</code>：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Parent</span><span class="params">()</span></span>{}</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Child</span><span class="params">()</span></span>{}</div><div class="line">Child.prototype = <span class="keyword">new</span> Parent();</div><div class="line">Child.prototype.constructor = Child;</div><div class="line"><span class="built_in">console</span>.log(<span class="keyword">new</span> Child().constructor);</div><div class="line"><span class="comment">//输出：function Child(){}</span></div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+</pre></td><td class="code"><pre><span class="function"><span class="keyword">function</span> <span class="title">Parent</span><span class="params">()</span>{</span>}
+<span class="function"><span class="keyword">function</span> <span class="title">Child</span><span class="params">()</span>{</span>}
+Child.prototype = <span class="keyword">new</span> Parent();
+Child.prototype.constructor = Child;
+console.log(<span class="keyword">new</span> Child().constructor);
+<span class="comment">//输出：function Child(){}</span>
+</pre></td></tr></table></figure>
+
 
 <h2 id="继承方法">继承方法</h2>
 <h3 id="直接继承">直接继承</h3>
 <p>这种方式也就是上面的例子了：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Parent</span><span class="params">()</span></span>{</div><div class="line">    <span class="keyword">this</span>.parentName = <span class="string">"parent"</span>;</div><div class="line">}</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Child</span><span class="params">()</span></span>{</div><div class="line">    <span class="keyword">this</span>.childName = <span class="string">"child"</span>;</div><div class="line">}</div><div class="line">Child.prototype = <span class="keyword">new</span> Parent();</div><div class="line">Child.prototype.constructor = Child;</div><div class="line"><span class="keyword">var</span> childIst = <span class="keyword">new</span> Child();</div><div class="line"><span class="built_in">console</span>.log(childIst <span class="keyword">instanceof</span> Child);</div><div class="line"><span class="comment">//输出：true</span></div><div class="line"><span class="built_in">console</span>.log(childIst <span class="keyword">instanceof</span> Parent);</div><div class="line"><span class="comment">//输出：true</span></div><div class="line"><span class="built_in">console</span>.log(childIst.constructor);</div><div class="line"><span class="comment">//输出：function Child(){}</span></div><div class="line"><span class="built_in">console</span>.log(childIst);</div><div class="line"><span class="comment">//输出如下图</span></div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+</pre></td><td class="code"><pre><span class="function"><span class="keyword">function</span> <span class="title">Parent</span><span class="params">()</span>{</span>
+    <span class="keyword">this</span>.parentName = <span class="string">"parent"</span>;
+}
+<span class="function"><span class="keyword">function</span> <span class="title">Child</span><span class="params">()</span>{</span>
+    <span class="keyword">this</span>.childName = <span class="string">"child"</span>;
+}
+Child.prototype = <span class="keyword">new</span> Parent();
+Child.prototype.constructor = Child;
+<span class="keyword">var</span> childIst = <span class="keyword">new</span> Child();
+console.log(childIst <span class="keyword">instanceof</span> Child);
+<span class="comment">//输出：true</span>
+console.log(childIst <span class="keyword">instanceof</span> Parent);
+<span class="comment">//输出：true</span>
+console.log(childIst.constructor);
+<span class="comment">//输出：function Child(){}</span>
+console.log(childIst);
+<span class="comment">//输出如下图</span>
+</pre></td></tr></table></figure>
+
 
 <p>整个childIst对象如下图所示：</p>
 <p><img src="http://lingyu.wang/img/js_inherit/1.png" alt="直接继承时的对象"></p>
@@ -44,10 +140,56 @@
 </ol>
 <h3 id="Object-create方式">Object.create方式</h3>
 <p>在ECMAScript5中新增了<code>Object.create</code>方法用于实现继承，其大致实现如下（不考虑属性添加）：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">Object</span>.prototype.create = <span class="function"><span class="keyword">function</span> <span class="params">(o)</span> </span>{</div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">F</span><span class="params">()</span> </span>{}</div><div class="line">    F.prototype = o;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">new</span> F();</div><div class="line">};</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+</pre></td><td class="code"><pre><span class="built_in">Object</span>.prototype.create = <span class="function"><span class="keyword">function</span> <span class="params">(o)</span> {</span>
+    <span class="function"><span class="keyword">function</span> <span class="title">F</span><span class="params">()</span> {</span>}
+    F.prototype = o;
+    <span class="keyword">return</span> <span class="keyword">new</span> F();
+};
+</pre></td></tr></table></figure>
+
 
 <p>所以一种可行的继承方式变成如下这样：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Parent</span><span class="params">()</span></span>{</div><div class="line">    <span class="keyword">this</span>.parentName = <span class="string">"parent"</span>;</div><div class="line">}</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Child</span><span class="params">()</span></span>{</div><div class="line">    <span class="keyword">this</span>.childName = <span class="string">"child"</span>;</div><div class="line">}</div><div class="line">Child.prototype = <span class="built_in">Object</span>.create(Parent.prototype);</div><div class="line">Child.prototype.constructor = Child;</div><div class="line"><span class="keyword">var</span> childIst = <span class="keyword">new</span> Child();</div><div class="line"><span class="built_in">console</span>.log(childIst <span class="keyword">instanceof</span> Child);</div><div class="line"><span class="comment">//输出：true</span></div><div class="line"><span class="built_in">console</span>.log(childIst <span class="keyword">instanceof</span> Parent);</div><div class="line"><span class="comment">//输出：true</span></div><div class="line"><span class="built_in">console</span>.log(childIst.constructor);</div><div class="line"><span class="comment">//输出：function Child(){}</span></div><div class="line"><span class="built_in">console</span>.log(childIst);</div><div class="line"><span class="comment">//输出：如下图所示</span></div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+</pre></td><td class="code"><pre><span class="function"><span class="keyword">function</span> <span class="title">Parent</span><span class="params">()</span>{</span>
+    <span class="keyword">this</span>.parentName = <span class="string">"parent"</span>;
+}
+<span class="function"><span class="keyword">function</span> <span class="title">Child</span><span class="params">()</span>{</span>
+    <span class="keyword">this</span>.childName = <span class="string">"child"</span>;
+}
+Child.prototype = <span class="built_in">Object</span>.create(Parent.prototype);
+Child.prototype.constructor = Child;
+<span class="keyword">var</span> childIst = <span class="keyword">new</span> Child();
+console.log(childIst <span class="keyword">instanceof</span> Child);
+<span class="comment">//输出：true</span>
+console.log(childIst <span class="keyword">instanceof</span> Parent);
+<span class="comment">//输出：true</span>
+console.log(childIst.constructor);
+<span class="comment">//输出：function Child(){}</span>
+console.log(childIst);
+<span class="comment">//输出：如下图所示</span>
+</pre></td></tr></table></figure>
+
 
 <p><img src="http://lingyu.wang/img/js_inherit/2.png" alt="Object.create继承时的对象"></p>
 <p>没有parentName属性，因为这种方式实现的继承并没有创建父类实例，而是通过一个临时函数复制了父类的<code>prototype</code>来创建。这样的话父类不在其<code>prototype</code>中的属性不会被复制到临时构造函数中，这些属性对子类是不可见的</p>
@@ -61,7 +203,48 @@
 <p>这种通过创建一个临时对象的方式可以用在很多地方，只要需要隐藏父类自身属性的场景都可以用到</p>
 <h3 id="复制属性实现继承——共用原型">复制属性实现继承——共用原型</h3>
 <p>传统的类继承，子类实例不会共享父类实例，每一个子类实例拥有自己的父类实例。而JS中并没有这样的继承方式，可以通过将父类的所有值拷贝给子类实例的方式来实现继承：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Parent</span><span class="params">()</span> </span>{</div><div class="line">    <span class="keyword">this</span>.parentName = <span class="string">"parent"</span>;</div><div class="line">}</div><div class="line">Parent.prototype.getName = <span class="function"><span class="keyword">function</span><span class="params">()</span></span>{</div><div class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.parentName;</div><div class="line">};</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Child</span><span class="params">()</span></span>{</div><div class="line">    Parent.apply(<span class="keyword">this</span>, <span class="built_in">arguments</span>);</div><div class="line">    <span class="keyword">this</span>.childName = <span class="string">"child"</span>;</div><div class="line">}</div><div class="line">Child.prototype = Parent.prototype;</div><div class="line"><span class="keyword">var</span> childIst = <span class="keyword">new</span> Child();</div><div class="line"><span class="built_in">console</span>.log(childIst <span class="keyword">instanceof</span> Child);</div><div class="line"><span class="comment">//输出：true</span></div><div class="line"><span class="built_in">console</span>.log(childIst <span class="keyword">instanceof</span> Parent);</div><div class="line"><span class="comment">//输出：true</span></div><div class="line"><span class="built_in">console</span>.log(childIst.constructor);</div><div class="line"><span class="comment">//输出：function Child(){}</span></div><div class="line"><span class="built_in">console</span>.log(childIst);</div><div class="line"><span class="comment">//输出：见下图</span></div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+</pre></td><td class="code"><pre><span class="function"><span class="keyword">function</span> <span class="title">Parent</span><span class="params">()</span> {</span>
+    <span class="keyword">this</span>.parentName = <span class="string">"parent"</span>;
+}
+Parent.prototype.getName = <span class="function"><span class="keyword">function</span><span class="params">()</span>{</span>
+    <span class="keyword">return</span> <span class="keyword">this</span>.parentName;
+};
+<span class="function"><span class="keyword">function</span> <span class="title">Child</span><span class="params">()</span>{</span>
+    Parent.apply(<span class="keyword">this</span>, <span class="built_in">arguments</span>);
+    <span class="keyword">this</span>.childName = <span class="string">"child"</span>;
+}
+Child.prototype = Parent.prototype;
+<span class="keyword">var</span> childIst = <span class="keyword">new</span> Child();
+console.log(childIst <span class="keyword">instanceof</span> Child);
+<span class="comment">//输出：true</span>
+console.log(childIst <span class="keyword">instanceof</span> Parent);
+<span class="comment">//输出：true</span>
+console.log(childIst.constructor);
+<span class="comment">//输出：function Child(){}</span>
+console.log(childIst);
+<span class="comment">//输出：见下图</span>
+</pre></td></tr></table></figure>
+
 
 <p>子类实例的结构图如下所示：</p>
 <p><img src="http://lingyu.wang/img/js_inherit/3.png" alt="复制属性，共用原型时的对象"></p>
@@ -76,13 +259,91 @@
 </ol>
 <h3 id="复制属性实现继承——不共用原型">复制属性实现继承——不共用原型</h3>
 <p>可通过修改上述方法实现不共用原型的方式：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Parent</span><span class="params">()</span> </span>{</div><div class="line">    <span class="keyword">this</span>.parentName = <span class="string">"parent"</span>;</div><div class="line">}</div><div class="line">Parent.prototype.getName = <span class="function"><span class="keyword">function</span><span class="params">()</span></span>{</div><div class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.parentName;</div><div class="line">};</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Child</span><span class="params">()</span></span>{</div><div class="line">    Parent.apply(<span class="keyword">this</span>, <span class="built_in">arguments</span>);</div><div class="line">    <span class="keyword">this</span>.childName = <span class="string">"child"</span>;</div><div class="line">}</div><div class="line">Child.prototype = <span class="keyword">new</span> Parent();</div><div class="line">Child.prototype.constructor = Child;</div><div class="line"><span class="keyword">var</span> childIst = <span class="keyword">new</span> Child();</div><div class="line"><span class="built_in">console</span>.log(childIst);</div><div class="line"><span class="comment">//输出：见下图</span></div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+</pre></td><td class="code"><pre><span class="function"><span class="keyword">function</span> <span class="title">Parent</span><span class="params">()</span> {</span>
+    <span class="keyword">this</span>.parentName = <span class="string">"parent"</span>;
+}
+Parent.prototype.getName = <span class="function"><span class="keyword">function</span><span class="params">()</span>{</span>
+    <span class="keyword">return</span> <span class="keyword">this</span>.parentName;
+};
+<span class="function"><span class="keyword">function</span> <span class="title">Child</span><span class="params">()</span>{</span>
+    Parent.apply(<span class="keyword">this</span>, <span class="built_in">arguments</span>);
+    <span class="keyword">this</span>.childName = <span class="string">"child"</span>;
+}
+Child.prototype = <span class="keyword">new</span> Parent();
+Child.prototype.constructor = Child;
+<span class="keyword">var</span> childIst = <span class="keyword">new</span> Child();
+console.log(childIst);
+<span class="comment">//输出：见下图</span>
+</pre></td></tr></table></figure>
+
 
 <p><img src="http://lingyu.wang/img/js_inherit/4.png" alt="复制属性，不共用原型时的对象"></p>
 <p>还是通过原型链的方式，这样子类实例就有可修改的父类属性了。但这样会重复调用父类构造函数，导致创建重复属性（比如parentName）浪费内存空间，但这样就去除了上面的共用构造函数<code>prototype</code>所带来的问题。</p>
 <h3 id="扁平复制">扁平复制</h3>
 <p>由于继承的目标就是让子类拥有父类的特性，那么最为简单粗暴的方法，就是把父类的所有属性和方法全部复制到子类上去：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Parent</span><span class="params">()</span></span>{</div><div class="line">    <span class="keyword">this</span>.parentName = <span class="string">"parent"</span>;</div><div class="line">}</div><div class="line">Parent.prototype.getName = <span class="function"><span class="keyword">function</span><span class="params">()</span></span>{</div><div class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.parentName;</div><div class="line">}</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Child</span><span class="params">()</span></span>{</div><div class="line">    <span class="keyword">var</span> parentIst = <span class="keyword">new</span> Parent();</div><div class="line">    <span class="keyword">var</span> item;</div><div class="line">    <span class="keyword">for</span>(item <span class="keyword">in</span> parentIst) {</div><div class="line">        <span class="keyword">this</span>[item] = parentIst[item];</div><div class="line">    }</div><div class="line">    <span class="keyword">this</span>.childName = <span class="string">"child"</span>;</div><div class="line">}</div><div class="line"><span class="keyword">var</span> childIst = <span class="keyword">new</span> Child();</div><div class="line"><span class="built_in">console</span>.log(childIst <span class="keyword">instanceof</span> Child);</div><div class="line"><span class="comment">//输出：true</span></div><div class="line"><span class="built_in">console</span>.log(childIst <span class="keyword">instanceof</span> Parent);</div><div class="line"><span class="comment">//输出：true</span></div><div class="line"><span class="built_in">console</span>.log(childIst.constructor);</div><div class="line"><span class="comment">//输出：function Child(){}</span></div><div class="line"><span class="built_in">console</span>.log(childIst);</div><div class="line"><span class="comment">//输出：见下图</span></div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+</pre></td><td class="code"><pre><span class="function"><span class="keyword">function</span> <span class="title">Parent</span><span class="params">()</span>{</span>
+    <span class="keyword">this</span>.parentName = <span class="string">"parent"</span>;
+}
+Parent.prototype.getName = <span class="function"><span class="keyword">function</span><span class="params">()</span>{</span>
+    <span class="keyword">return</span> <span class="keyword">this</span>.parentName;
+}
+<span class="function"><span class="keyword">function</span> <span class="title">Child</span><span class="params">()</span>{</span>
+    <span class="keyword">var</span> parentIst = <span class="keyword">new</span> Parent();
+    <span class="keyword">var</span> item;
+    <span class="keyword">for</span>(item <span class="keyword">in</span> parentIst) {
+        <span class="keyword">this</span>[item] = parentIst[item];
+    }
+    <span class="keyword">this</span>.childName = <span class="string">"child"</span>;
+}
+<span class="keyword">var</span> childIst = <span class="keyword">new</span> Child();
+console.log(childIst <span class="keyword">instanceof</span> Child);
+<span class="comment">//输出：true</span>
+console.log(childIst <span class="keyword">instanceof</span> Parent);
+<span class="comment">//输出：true</span>
+console.log(childIst.constructor);
+<span class="comment">//输出：function Child(){}</span>
+console.log(childIst);
+<span class="comment">//输出：见下图</span>
+</pre></td></tr></table></figure>
+
 
 <p><img src="http://lingyu.wang/img/js_inherit/5.png" alt="扁平复制所有属性时的对象"></p>
 <p>这种方式实现的继承比较扁平，由于没有使用原型继承，其原型链层数不会增加，有如下特点：</p>
@@ -95,12 +356,80 @@
 </ol>
 <h3 id="隐藏属性的扁平复制——仅复制父类原型属性">隐藏属性的扁平复制——仅复制父类原型属性</h3>
 <p>考虑到属性隐藏，可以使用Object.create的方式来进行属性隐藏，那么代码就变成下面这样了：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Parent</span><span class="params">()</span></span>{</div><div class="line">    <span class="keyword">this</span>.parentName = <span class="string">"parent"</span>;</div><div class="line">}</div><div class="line">Parent.prototype.getName = <span class="function"><span class="keyword">function</span><span class="params">()</span></span>{</div><div class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.parentName;</div><div class="line">}</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Child</span><span class="params">()</span></span>{</div><div class="line">    <span class="keyword">var</span> tmpFn = <span class="function"><span class="keyword">function</span><span class="params">()</span></span>{};</div><div class="line">    <span class="keyword">var</span> tmpFnIst;</div><div class="line">    <span class="keyword">var</span> item;</div><div class="line">    tmpFn.prototype = Parent.prototype;</div><div class="line">    tmpFnIst = <span class="keyword">new</span> tmpFn();</div><div class="line">    <span class="keyword">for</span>(item <span class="keyword">in</span> tmpFnIst) {</div><div class="line">        <span class="keyword">this</span>[item] = tmpFnIst[item];</div><div class="line">    }</div><div class="line">    <span class="keyword">this</span>.childName = <span class="string">"child"</span>;</div><div class="line">}</div><div class="line"><span class="keyword">var</span> childIst = <span class="keyword">new</span> Child();</div><div class="line"><span class="built_in">console</span>.log(childIst);</div><div class="line"><span class="comment">//输出：见下图</span></div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+</pre></td><td class="code"><pre><span class="function"><span class="keyword">function</span> <span class="title">Parent</span><span class="params">()</span>{</span>
+    <span class="keyword">this</span>.parentName = <span class="string">"parent"</span>;
+}
+Parent.prototype.getName = <span class="function"><span class="keyword">function</span><span class="params">()</span>{</span>
+    <span class="keyword">return</span> <span class="keyword">this</span>.parentName;
+}
+<span class="function"><span class="keyword">function</span> <span class="title">Child</span><span class="params">()</span>{</span>
+    <span class="keyword">var</span> tmpFn = <span class="function"><span class="keyword">function</span><span class="params">()</span>{</span>};
+    <span class="keyword">var</span> tmpFnIst;
+    <span class="keyword">var</span> item;
+    tmpFn.prototype = Parent.prototype;
+    tmpFnIst = <span class="keyword">new</span> tmpFn();
+    <span class="keyword">for</span>(item <span class="keyword">in</span> tmpFnIst) {
+        <span class="keyword">this</span>[item] = tmpFnIst[item];
+    }
+    <span class="keyword">this</span>.childName = <span class="string">"child"</span>;
+}
+<span class="keyword">var</span> childIst = <span class="keyword">new</span> Child();
+console.log(childIst);
+<span class="comment">//输出：见下图</span>
+</pre></td></tr></table></figure>
+
 
 <p><img src="http://lingyu.wang/img/js_inherit/6.png" alt="扁平复制父类原型属性时的对象"></p>
 <p>可以看到，通过临时构造函数，将父类中不在其<code>prototype</code>中的属性进行了隐藏</p>
 <h3 id="隐藏属性的扁平复制——仅复制父类自身属性">隐藏属性的扁平复制——仅复制父类自身属性</h3>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Parent</span><span class="params">()</span></span>{</div><div class="line">    <span class="keyword">this</span>.parentName = <span class="string">"parent"</span>;</div><div class="line">}</div><div class="line">Parent.prototype.getName = <span class="function"><span class="keyword">function</span><span class="params">()</span></span>{</div><div class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.parentName;</div><div class="line">}</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Child</span><span class="params">()</span></span>{</div><div class="line">    Parent.apply(<span class="keyword">this</span>, <span class="built_in">arguments</span>);</div><div class="line">    <span class="keyword">this</span>.childName = <span class="string">"child"</span>;</div><div class="line">}</div><div class="line"><span class="keyword">var</span> childIst = <span class="keyword">new</span> Child();</div><div class="line"><span class="built_in">console</span>.log(childIst);</div><div class="line"><span class="comment">//输出：见下图</span></div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+</pre></td><td class="code"><pre><span class="function"><span class="keyword">function</span> <span class="title">Parent</span><span class="params">()</span>{</span>
+    <span class="keyword">this</span>.parentName = <span class="string">"parent"</span>;
+}
+Parent.prototype.getName = <span class="function"><span class="keyword">function</span><span class="params">()</span>{</span>
+    <span class="keyword">return</span> <span class="keyword">this</span>.parentName;
+}
+<span class="function"><span class="keyword">function</span> <span class="title">Child</span><span class="params">()</span>{</span>
+    Parent.apply(<span class="keyword">this</span>, <span class="built_in">arguments</span>);
+    <span class="keyword">this</span>.childName = <span class="string">"child"</span>;
+}
+<span class="keyword">var</span> childIst = <span class="keyword">new</span> Child();
+console.log(childIst);
+<span class="comment">//输出：见下图</span>
+</pre></td></tr></table></figure>
+
 
 <p><img src="http://lingyu.wang/img/js_inherit/7.png" alt="扁平复制父类自身属性的对象"></p>
 <p>这种方式和上面方式刚好相反，仅仅复制父类自身方法，而不复制其原型链上的方法</p>
@@ -112,7 +441,7 @@
     ds.charset = 'UTF-8';
     (document.getElementsByTagName('head')[0] 
      || document.getElementsByTagName('body')[0]).appendChild(ds);
-})();</script></div></article><div class="pager"><a href="/2014/04/20/js-design-patterns/" title="JavaScript的设计模式" class="pre">上一页</a><a href="/2014/04/16/http-base/" title="HTTP协议的一些基础知识" class="next">下一页</a></div></div><aside id="aside"><section class="recent"><h3 class="title iconfont">最新文章<i>&#xe601;</i></h3><div class="links"><ul><li><a href="/2014/09/24/koa-anywhere/">koa-anywhere</a></li><li><a href="/2014/09/22/learn-fe/">学前端的一点总结</a></li><li><a href="/2014/07/29/generator/">细说Generator</a></li><li><a href="/2014/05/31/kissy-anime-plugin/">如何写一个KISSY动画插件</a></li><li><a href="/2014/05/22/webrtc-data-channels/">WebRTC的RTCDataChannel</a></li></ul></div></section><section class="categories"><h3 class="title iconfont">分类<i>&#xe605;</i></h3><div class="links"><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/NodeJs/">NodeJs</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端技术/">前端技术</a><span class="category-list-count">33</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/前端技术/性能优化/">性能优化</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端技术/笔试面试积累/">笔试面试积累</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端技术/网站建设/">网站建设</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/即时通信/">即时通信</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/性能优化/">性能优化</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库技术/">数据库技术</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/源码阅读/">源码阅读</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/生活情感/">生活情感</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/笔试面试积累/">笔试面试积累</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/网站建设/">网站建设</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/读书笔记/">读书笔记</a><span class="category-list-count">9</span></li></ul></div></section><section class="tags"><h3 class="title iconfont">标签<i>&#xe603;</i></h3><div class="links"><ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS/">CSS</a><span class="tag-list-count">35</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ES6/">ES6</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Generator/">Generator</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/">HTML</a><span class="tag-list-count">29</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/">HTTP</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a><span class="tag-list-count">34</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kissy/">Kissy</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NodeJs/">NodeJs</a><span class="tag-list-count">10</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SEO/">SEO</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WebIM/">WebIM</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WebRTC/">WebRTC</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WebSocket/">WebSocket</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/grunt/">grunt</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jQuery/">jQuery</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/koa/">koa</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/oracle/">oracle</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/xmpp/">xmpp</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/动画/">动画</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/响应式/">响应式</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/存储函数/">存储函数</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/思考/">思考</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/生活/">生活</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/笔试面试题/">笔试面试题</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/设计/">设计</a><span class="tag-list-count">9</span></li></ul></div></section><section class="archives"><h3 class="title iconfont"> 归档<i>&#xe60a;</i></h3><div class="links"><ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09">2014年9月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07">2014年7月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05">2014年5月</a><span class="archive-list-count">15</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/04">2014年4月</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/03">2014年3月</a><span class="archive-list-count">29</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02">2014年2月</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/01">2014年1月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/12">2013年12月</a><span class="archive-list-count">1</span></li></ul></div></section></aside></section><footer id="page-footer"><span style="float:right"><script type="text/javascript">(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+})();</script></div></article><div class="pager"><a href="/2014/04/20/js-design-patterns/" title="JavaScript的设计模式" class="pre">上一页</a><a href="/2014/04/16/http-code/" title="HTTP协议状态码备忘" class="next">下一页</a></div></div><aside id="aside"><section class="recent"><h3 class="title iconfont">最新文章<i>&#xe601;</i></h3><div class="links"><ul><li><a href="/2014/10/06/gulp-vision-history-future/">Gulp -- 项目的愿景、过去和将来</a></li><li><a href="/2014/09/24/koa-anywhere/">koa-anywhere</a></li><li><a href="/2014/09/22/learn-fe/">学前端的一点总结</a></li><li><a href="/2014/07/29/generator/">细说Generator</a></li><li><a href="/2014/05/31/kissy-anime-plugin/">如何写一个KISSY动画插件</a></li></ul></div></section><section class="categories"><h3 class="title iconfont">分类<i>&#xe605;</i></h3><div class="links"><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/NodeJs/">NodeJs</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端技术/">前端技术</a><span class="category-list-count">33</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/前端技术/性能优化/">性能优化</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端技术/笔试面试积累/">笔试面试积累</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端技术/网站建设/">网站建设</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/即时通信/">即时通信</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/性能优化/">性能优化</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库技术/">数据库技术</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/源码阅读/">源码阅读</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/生活情感/">生活情感</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/笔试面试积累/">笔试面试积累</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/网站建设/">网站建设</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/读书笔记/">读书笔记</a><span class="category-list-count">9</span></li></ul></div></section><section class="tags"><h3 class="title iconfont">标签<i>&#xe603;</i></h3><div class="links"><ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS/">CSS</a><span class="tag-list-count">35</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ES6/">ES6</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Generator/">Generator</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Gulp/">Gulp</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/">HTML</a><span class="tag-list-count">29</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/">HTTP</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a><span class="tag-list-count">35</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kissy/">Kissy</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NodeJs/">NodeJs</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SEO/">SEO</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WebIM/">WebIM</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WebRTC/">WebRTC</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WebSocket/">WebSocket</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/grunt/">grunt</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jQuery/">jQuery</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/koa/">koa</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/oracle/">oracle</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/xmpp/">xmpp</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/动画/">动画</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/响应式/">响应式</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/存储函数/">存储函数</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/思考/">思考</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/生活/">生活</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/笔试面试题/">笔试面试题</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/设计/">设计</a><span class="tag-list-count">9</span></li></ul></div></section><section class="archives"><h3 class="title iconfont"> 归档<i>&#xe60a;</i></h3><div class="links"><ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10">2014年10月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09">2014年9月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07">2014年7月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05">2014年5月</a><span class="archive-list-count">15</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/04">2014年4月</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/03">2014年3月</a><span class="archive-list-count">29</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02">2014年2月</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/01">2014年1月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/12">2013年12月</a><span class="archive-list-count">1</span></li></ul></div></section></aside></section><footer id="page-footer"><span style="float:right"><script type="text/javascript">(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
 (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
 m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 })(window,document,'script','//www.google-analytics.com/analytics.js','ga');

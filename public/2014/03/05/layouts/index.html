@@ -1,10 +1,15 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="author" content="天镶"><meta name="description"><title>网页布局实例 | 天镶的博客</title><link href="/favicon.png" rel="icon"><link rel="stylesheet" media="screen" href="/stylesheets/plugins/typo/typo-1.1.css"><link rel="stylesheet" media="screen" href="/stylesheets/plugins/highlight/highlight-8.0-dark.css"><link rel="stylesheet" media="screen" href="/stylesheets/app.css"></head><body><a id="totop" href="#page-header" class="iconfont">&#xe60b;</a><header id="page-header"><div class="wrapper"><a href="/page/profile.html"><img alt="avatar" src="/images/avatar.jpg" class="avatar"></a><div class="title"> <a href="/">天镶的博客</a></div><nav class="nav"><ul class="links"><li><a href="/"> 首页</a></li><li><a href="/archives"> 归档</a></li><li><a href="/page/profile.html"> 关于</a></li><li><a href="/page/gitbook/index.html"> 笔记</a></li></ul><div class="icons"><a href="/atom.xml" class="icon rss"><i class="iconfont">&#xe602;</i></a><a href="http://weibo.com/lingyucoder" class="icon weibo"><i class="iconfont">&#xe600;</i></a><a href="http://github.com/lingyucoder" class="icon github"><i class="iconfont">&#xe604;</i></a><a href="http://twitter.com/lingyucoder" class="icon twitter"><i class="iconfont">&#xe607;</i></a></div></nav></div></header><section id="wrapper"><div id="main"><article class="post"><div class="content desc typo"><h1 class="blog-title">网页布局实例</h1><div class="toc-index"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前面的话"><span class="toc-number">1.</span> <span class="toc-text">前面的话</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#单栏水平居中布局（首尾全屏）"><span class="toc-number">2.</span> <span class="toc-text">单栏水平居中布局（首尾全屏）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#HTML结构"><span class="toc-number">2.1.</span> <span class="toc-text">HTML结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CSS样式"><span class="toc-number">2.2.</span> <span class="toc-text">CSS样式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#说明"><span class="toc-number">2.3.</span> <span class="toc-text">说明</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#说明-1"><span class="toc-number">2.4.</span> <span class="toc-text">说明</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#预览效果"><span class="toc-number">2.5.</span> <span class="toc-text">预览效果</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">3.</span> <span class="toc-text">总结</span></a></li></ol></div><p>最近看前端相关面试题，看到很多关于CSS布局的面试题。于是乎自己实现了几个常用的布局，这里记录一下实现。所有的布局均已上传到github</p>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="author" content="天镶"><meta name="description"><title>网页布局实例 | 天镶的博客</title><link href="/favicon.png" rel="icon"><link rel="stylesheet" media="screen" href="/stylesheets/plugins/typo/typo-1.1.css"><link rel="stylesheet" media="screen" href="/stylesheets/plugins/highlight/highlight-8.0-dark.css"><link rel="stylesheet" media="screen" href="/stylesheets/app.css"></head><body><a id="totop" href="#page-header" class="iconfont">&#xe60b;</a><header id="page-header"><div class="wrapper"><a href="/page/profile.html"><img alt="avatar" src="/images/avatar.jpg" class="avatar"></a><div class="title"> <a href="/">天镶的博客</a></div><nav class="nav"><ul class="links"><li><a href="/"> 首页</a></li><li><a href="/archives"> 归档</a></li><li><a href="/page/profile.html"> 关于</a></li><li><a href="/page/gitbook/index.html"> 笔记</a></li></ul><div class="icons"><a href="/atom.xml" class="icon rss"><i class="iconfont">&#xe602;</i></a><a href="http://weibo.com/lingyucoder" class="icon weibo"><i class="iconfont">&#xe600;</i></a><a href="http://github.com/lingyucoder" class="icon github"><i class="iconfont">&#xe604;</i></a><a href="http://twitter.com/lingyucoder" class="icon twitter"><i class="iconfont">&#xe607;</i></a></div></nav></div></header><section id="wrapper"><div id="main"><article class="post"><div class="content desc typo"><h1 class="blog-title">网页布局实例</h1><div class="toc-index"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前面的话"><span class="toc-number">1.</span> <span class="toc-text">前面的话</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#单栏水平居中布局（首尾全屏）"><span class="toc-number">2.</span> <span class="toc-text">单栏水平居中布局（首尾全屏）</span></a></li><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#HTML结构"><span class="toc-number">2.1.</span> <span class="toc-text">HTML结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CSS样式"><span class="toc-number">2.2.</span> <span class="toc-text">CSS样式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#说明"><span class="toc-number">2.3.</span> <span class="toc-text">说明</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CSS样式-1"><span class="toc-number">2.4.</span> <span class="toc-text">CSS样式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#预览效果"><span class="toc-number">2.5.</span> <span class="toc-text">预览效果</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#浏览器兼容性"><span class="toc-number">2.6.</span> <span class="toc-text">浏览器兼容性</span></a></li></ol><li class="toc-item toc-level-2"><a class="toc-link" href="#全屏两栏自适应布局"><span class="toc-number">3.</span> <span class="toc-text">全屏两栏自适应布局</span></a></li><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#HTML结构-1"><span class="toc-number">3.1.</span> <span class="toc-text">HTML结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CSS样式-2"><span class="toc-number">3.2.</span> <span class="toc-text">CSS样式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#说明-1"><span class="toc-number">3.3.</span> <span class="toc-text">说明</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CSS样式-3"><span class="toc-number">3.4.</span> <span class="toc-text">CSS样式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#说明-2"><span class="toc-number">3.5.</span> <span class="toc-text">说明</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CSS样式-4"><span class="toc-number">3.6.</span> <span class="toc-text">CSS样式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#说明-3"><span class="toc-number">3.7.</span> <span class="toc-text">说明</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CSS样式-5"><span class="toc-number">3.8.</span> <span class="toc-text">CSS样式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#说明-4"><span class="toc-number">3.9.</span> <span class="toc-text">说明</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CSS样式-6"><span class="toc-number">3.10.</span> <span class="toc-text">CSS样式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#说明-5"><span class="toc-number">3.11.</span> <span class="toc-text">说明</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#预览效果-1"><span class="toc-number">3.12.</span> <span class="toc-text">预览效果</span></a></li></ol><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">4.</span> <span class="toc-text">总结</span></a></li></ol></div><p>最近看前端相关面试题，看到很多关于CSS布局的面试题。于是乎自己实现了几个常用的布局，这里记录一下实现。所有的布局均已上传到github</p>
 <a id="more"></a>
 
 <h2 id="前面的话">前面的话</h2>
-<p>最近看前端相关面试题，看到很多关于CSS布局的面试题。于是乎自己实现了几个常用的布局，这里记录一下实现。所有的布局均已上传到github，命名为<a href="https://github.com/LingyuCoder/sky_layouts" target="_blank" rel="external">sky_layouts项目</a></p>
+<p>最近看前端相关面试题，看到很多关于CSS布局的面试题。于是乎自己实现了几个常用的布局，这里记录一下实现。所有的布局均已上传到github，命名为<a href="https://github.com/LingyuCoder/sky_layouts" target="_blank">sky_layouts项目</a></p>
 <p>所有的页面都引入了一段CSS reset的代码，用于屏蔽不同浏览器之间的差异</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/* Style reset 消除浏览器默认样式 */</span></div><div class="line"><span class="tag">body</span>,<span class="tag">div</span>,<span class="tag">dl</span>,<span class="tag">dt</span>,<span class="tag">dd</span>,<span class="tag">ul</span>,<span class="tag">ol</span>,<span class="tag">li</span>,<span class="tag">h1</span>,<span class="tag">h2</span>,<span class="tag">h3</span>,<span class="tag">h4</span>,<span class="tag">h5</span>,<span class="tag">h6</span>,<span class="tag">pre</span>,<span class="tag">code</span>,<span class="tag">form</span>,<span class="tag">fieldset</span>,<span class="tag">legend</span>,<span class="tag">input</span>,<span class="tag">button</span>,<span class="tag">textarea</span>,<span class="tag">blockquote</span>,<span class="tag">th</span>,<span class="tag">td</span>,<span class="tag">p</span><span class="rules">{<span class="rule"><span class="attribute">margin</span>:<span class="value"><span class="number">0</span></span></span>;<span class="rule"><span class="attribute">padding</span>:<span class="value"><span class="number">0</span></span></span></span>}<span class="tag">input</span>,<span class="tag">button</span>,<span class="tag">select</span>,<span class="tag">textarea</span><span class="rules">{<span class="rule"><span class="attribute">outline</span>:<span class="value">none</span></span></span>}<span class="tag">li</span><span class="rules">{<span class="rule"><span class="attribute">list-style</span>:<span class="value">none</span></span></span>}<span class="tag">img</span><span class="rules">{<span class="rule"><span class="attribute">border</span>:<span class="value">none</span></span></span>}<span class="tag">textarea</span><span class="rules">{<span class="rule"><span class="attribute">resize</span>:<span class="value">none</span></span></span>}<span class="tag">body</span><span class="rules">{<span class="rule"><span class="attribute">color</span>:<span class="value"><span class="hexcolor">#666</span></span></span>;<span class="rule"><span class="attribute">background</span>:<span class="value"><span class="hexcolor">#fff</span></span></span>;<span class="rule"><span class="attribute">word-break</span>:<span class="value">break-all</span></span>;<span class="rule"><span class="attribute">word-wrap</span>:<span class="value">break-word</span></span>;<span class="rule"><span class="attribute">text-align</span>:<span class="value">center</span></span></span>}<span class="tag">body</span>,<span class="tag">input</span>,<span class="tag">textarea</span><span class="rules">{<span class="rule"><span class="attribute">font-size</span>:<span class="value"><span class="number">12px</span></span></span>;<span class="rule"><span class="attribute">font-family</span>:<span class="value">\<span class="number">5</span>b8b\<span class="number">4</span>f53,Verdana,Arial</span></span></span>}<span class="tag">a</span><span class="rules">{<span class="rule"><span class="attribute">color</span>:<span class="value"><span class="hexcolor">#305999</span></span></span>;<span class="rule"><span class="attribute">text-decoration</span>:<span class="value">none</span></span>;<span class="rule"><span class="attribute">outline</span>:<span class="value">none</span></span></span>}<span class="tag">a</span><span class="pseudo">:hover</span><span class="rules">{<span class="rule"><span class="attribute">color</span>:<span class="value"><span class="hexcolor">#090</span></span></span></span>}<span class="class">.wrap</span><span class="rules">{<span class="rule"><span class="attribute">width</span>:<span class="value"><span class="number">1000px</span></span></span>;<span class="rule"><span class="attribute">margin</span>:<span class="value"><span class="number">0</span> auto</span></span>;<span class="rule"><span class="attribute">text-align</span>:<span class="value">left</span></span>;<span class="rule"><span class="attribute">position</span>:<span class="value">relative</span></span></span>}<span class="comment">/*clearfix*/</span><span class="class">.clearfix</span><span class="pseudo">:after</span>,<span class="class">.wrap</span><span class="pseudo">:after</span><span class="rules">{<span class="rule"><span class="attribute">content</span>:<span class="value"><span class="string">"."</span></span></span>;<span class="rule"><span class="attribute">display</span>:<span class="value">block</span></span>;<span class="rule"><span class="attribute">height</span>:<span class="value"><span class="number">0</span></span></span>;<span class="rule"><span class="attribute">clear</span>:<span class="value">both</span></span>;<span class="rule"><span class="attribute">visibility</span>:<span class="value">hidden</span></span></span>}<span class="class">.clearfix</span>,<span class="class">.wrap</span><span class="rules">{<span class="rule">*+<span class="attribute">height</span>:<span class="value"><span class="number">1%</span></span></span></span>}</div></pre></td></tr></table></figure>
+<figure class="highlight css"><table><tr><td class="gutter"><pre>1
+2
+</pre></td><td class="code"><pre><span class="comment">/* Style reset 消除浏览器默认样式 */</span>
+<span class="tag">body</span>,<span class="tag">div</span>,<span class="tag">dl</span>,<span class="tag">dt</span>,<span class="tag">dd</span>,<span class="tag">ul</span>,<span class="tag">ol</span>,<span class="tag">li</span>,<span class="tag">h1</span>,<span class="tag">h2</span>,<span class="tag">h3</span>,<span class="tag">h4</span>,<span class="tag">h5</span>,<span class="tag">h6</span>,<span class="tag">pre</span>,<span class="tag">code</span>,<span class="tag">form</span>,<span class="tag">fieldset</span>,<span class="tag">legend</span>,<span class="tag">input</span>,<span class="tag">button</span>,<span class="tag">textarea</span>,<span class="tag">blockquote</span>,<span class="tag">th</span>,<span class="tag">td</span>,<span class="tag">p</span><span class="rules">{<span class="rule"><span class="attribute">margin</span>:<span class="value"><span class="number">0</span></span></span>;<span class="rule"><span class="attribute">padding</span>:<span class="value"><span class="number">0</span></span></span></span>}<span class="tag">input</span>,<span class="tag">button</span>,<span class="tag">select</span>,<span class="tag">textarea</span><span class="rules">{<span class="rule"><span class="attribute">outline</span>:<span class="value">none</span></span></span>}<span class="tag">li</span><span class="rules">{<span class="rule"><span class="attribute">list-style</span>:<span class="value">none</span></span></span>}<span class="tag">img</span><span class="rules">{<span class="rule"><span class="attribute">border</span>:<span class="value">none</span></span></span>}<span class="tag">textarea</span><span class="rules">{<span class="rule"><span class="attribute">resize</span>:<span class="value">none</span></span></span>}<span class="tag">body</span><span class="rules">{<span class="rule"><span class="attribute">color</span>:<span class="value"><span class="hexcolor">#666</span></span></span>;<span class="rule"><span class="attribute">background</span>:<span class="value"><span class="hexcolor">#fff</span></span></span>;<span class="rule"><span class="attribute">word-break</span>:<span class="value">break-all</span></span>;<span class="rule"><span class="attribute">word-wrap</span>:<span class="value">break-word</span></span>;<span class="rule"><span class="attribute">text-align</span>:<span class="value">center</span></span></span>}<span class="tag">body</span>,<span class="tag">input</span>,<span class="tag">textarea</span><span class="rules">{<span class="rule"><span class="attribute">font-size</span>:<span class="value"><span class="number">12</span>px</span></span>;<span class="rule"><span class="attribute">font-family</span>:<span class="value">\<span class="number">5</span>b8b\<span class="number">4</span>f53,Verdana,Arial</span></span></span>}<span class="tag">a</span><span class="rules">{<span class="rule"><span class="attribute">color</span>:<span class="value"><span class="hexcolor">#305999</span></span></span>;<span class="rule"><span class="attribute">text-decoration</span>:<span class="value">none</span></span>;<span class="rule"><span class="attribute">outline</span>:<span class="value">none</span></span></span>}<span class="tag">a</span><span class="pseudo">:hover</span><span class="rules">{<span class="rule"><span class="attribute">color</span>:<span class="value"><span class="hexcolor">#090</span></span></span></span>}<span class="class">.wrap</span><span class="rules">{<span class="rule"><span class="attribute">width</span>:<span class="value"><span class="number">1000</span>px</span></span>;<span class="rule"><span class="attribute">margin</span>:<span class="value"><span class="number">0</span> auto</span></span>;<span class="rule"><span class="attribute">text-align</span>:<span class="value">left</span></span>;<span class="rule"><span class="attribute">position</span>:<span class="value">relative</span></span></span>}<span class="comment">/*clearfix*/</span><span class="class">.clearfix</span><span class="pseudo">:after</span>,<span class="class">.wrap</span><span class="pseudo">:after</span><span class="rules">{<span class="rule"><span class="attribute">content</span>:<span class="value"><span class="string">"."</span></span></span>;<span class="rule"><span class="attribute">display</span>:<span class="value">block</span></span>;<span class="rule"><span class="attribute">height</span>:<span class="value"><span class="number">0</span></span></span>;<span class="rule"><span class="attribute">clear</span>:<span class="value">both</span></span>;<span class="rule"><span class="attribute">visibility</span>:<span class="value">hidden</span></span></span>}<span class="class">.clearfix</span>,<span class="class">.wrap</span><span class="rules">{<span class="rule">*+<span class="attribute">height</span>:<span class="value"><span class="number">1</span>%</span></span></span>}
+</pre></td></tr></table></figure>
+
 
 <p>另外这里所有的header区、footer区的高度都为100px，侧边栏都是300px</p>
 <h2 id="单栏水平居中布局（首尾全屏）">单栏水平居中布局（首尾全屏）</h2>
@@ -16,77 +21,455 @@
 <li>footer区，g-ft</li>
 </ul>
 <h3 id="HTML结构">HTML结构</h3>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="title">div</span> <span class="attribute">class</span>=<span class="value">"g-hd"</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="title">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="title">div</span> <span class="attribute">class</span>=<span class="value">"g-mn"</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="title">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="title">div</span> <span class="attribute">class</span>=<span class="value">"g-ft"</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="title">div</span>&gt;</span></div></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+</pre></td><td class="code"><pre><span class="tag">&lt;<span class="title">div</span> <span class="attribute">class</span>=<span class="value">"g-hd"</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+<span class="tag">&lt;<span class="title">div</span> <span class="attribute">class</span>=<span class="value">"g-mn"</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+<span class="tag">&lt;<span class="title">div</span> <span class="attribute">class</span>=<span class="value">"g-ft"</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+</pre></td></tr></table></figure>
+
 
 <h3 id="CSS样式">CSS样式</h3>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="class">.g-hd</span>, <span class="class">.g-ft</span> <span class="rules">{</span></div><div class="line">    <span class="rule"><span class="attribute">height</span>:<span class="value"> <span class="number">100px</span></span></span>;</div><div class="line"><span class="rule">}</span></div><div class="line"><span class="class">.g-mn</span> <span class="rules">{</span></div><div class="line">    <span class="rule"><span class="attribute">max-width</span>:<span class="value"> <span class="number">1000px</span></span></span>;</div><div class="line">    <span class="rule"><span class="attribute">margin</span>:<span class="value"> <span class="number">0</span> auto</span></span></div><div class="line">}</div></pre></td></tr></table></figure>
+<figure class="highlight css"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+</pre></td><td class="code"><pre><span class="class">.g-hd</span>, <span class="class">.g-ft</span> <span class="rules">{
+    <span class="rule"><span class="attribute">height</span>:<span class="value"> <span class="number">100</span>px</span></span>;
+<span class="rule">}</span></span>
+<span class="class">.g-mn</span> <span class="rules">{
+    <span class="rule"><span class="attribute">max-width</span>:<span class="value"> <span class="number">1000</span>px</span></span>;
+    <span class="rule"><span class="attribute">margin</span>:<span class="value"> <span class="number">0</span> auto
+</span></span></span>}
+</pre></td></tr></table></figure>
+
 
 <h3 id="说明">说明</h3>
 <p>这里技巧不多，使用了一个很常见的水平居中样式</p>
-<figure class="highlight margin:"><figcaption><span>0 auto```。需要注意的是```max-width: 1000px```这个属性，这个属性时为了自适应。当浏览器窗口宽度大于1000px时，main区将以1000px的宽度居中显示。如果浏览器窗口宽度小于等于1000px时，页面的宽度将是浏览器窗口宽度</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="header">###效果</span></div><div class="line">[<span class="link_label">jsfiddle地址</span>](<span class="link_url">http://jsfiddle.net/skyinlayer/24rT2/</span>)</div><div class="line"></div><div class="line"><span class="xml"><span class="tag">&lt;<span class="title">iframe</span> <span class="attribute">width</span>=<span class="value">"100%"</span> <span class="attribute">height</span>=<span class="value">"600"</span> <span class="attribute">src</span>=<span class="value">"http://jsfiddle.net/skyinlayer/24rT2/embedded/result,html,css"</span> <span class="attribute">allowfullscreen</span>=<span class="value">"allowfullscreen"</span> <span class="attribute">frameborder</span>=<span class="value">"0"</span>&gt;</span></span>&nbsp;<span class="xml"><span class="tag">&lt;/<span class="title">iframe</span>&gt;</span></span></div><div class="line"></div><div class="line"><span class="header">###浏览器兼容性</span></div><div class="line">兼容ie8+和所有现代浏览器，如果设定为固定宽度，则兼容ie6</div><div class="line"></div><div class="line"><span class="header">##单栏水平居中布局（全部居中）</span></div><div class="line">实现思路和上面类似，不过这次把header区，main区，footer区全部放在一个容器中，然后把这个容器设定居中（记得设定max-width）</div><div class="line"></div><div class="line"><span class="header">###HTML结构</span></div></pre></td></tr></table></figure>
+<figure class="highlight margin:"><figcaption><span>0 auto```。需要注意的是```max-width: 1000px```这个属性，这个属性时为了自适应。当浏览器窗口宽度大于1000px时，main区将以1000px的宽度居中显示。如果浏览器窗口宽度小于等于1000px时，页面的宽度将是浏览器窗口宽度</span></figcaption><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+</pre></td><td class="code"><pre>###效果
+[jsfiddle地址](http://jsfiddle.net/skyinlayer/24rT2/)
 
-<p>html</p>
-<div class="g-ctn"><br>    <div class="g-hd"><br>    </div><br>    <div class="g-mn"><br>    </div><br>    <div class="g-ft"><br>    </div><br></div>
+<span class="tag">&lt;<span class="title">iframe</span> <span class="attribute">width</span>=<span class="value">"100%"</span> <span class="attribute">height</span>=<span class="value">"600"</span> <span class="attribute">src</span>=<span class="value">"http://jsfiddle.net/skyinlayer/24rT2/embedded/result,html,css"</span> <span class="attribute">allowfullscreen</span>=<span class="value">"allowfullscreen"</span> <span class="attribute">frameborder</span>=<span class="value">"0"</span>&gt;</span>&nbsp;<span class="tag">&lt;/<span class="title">iframe</span>&gt;</span>
 
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="preprocessor">###CSS样式</span></div></pre></td></tr></table></figure>
+###浏览器兼容性
+兼容ie8+和所有现代浏览器，如果设定为固定宽度，则兼容ie6
 
-<p>css<br>.g-ctn { margin: 0 auto; max-width: 1000px;}<br>.g-hd, .g-ft {height: 100px }</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="header">###预览效果</span></div><div class="line">[<span class="link_label">jsfiddle地址</span>](<span class="link_url">http://jsfiddle.net/skyinlayer/24rT2/1/</span>)</div><div class="line"></div><div class="line"><span class="xml"><span class="tag">&lt;<span class="title">iframe</span> <span class="attribute">width</span>=<span class="value">"100%"</span> <span class="attribute">height</span>=<span class="value">"600"</span> <span class="attribute">src</span>=<span class="value">"http://jsfiddle.net/skyinlayer/24rT2/1/embedded/result,html,css"</span> <span class="attribute">allowfullscreen</span>=<span class="value">"allowfullscreen"</span> <span class="attribute">frameborder</span>=<span class="value">"0"</span>&gt;</span></span>&nbsp;<span class="xml"><span class="tag">&lt;/<span class="title">iframe</span>&gt;</span></span></div><div class="line"></div><div class="line"><span class="header">###浏览器兼容性</span></div><div class="line">兼容ie8+和所有现代浏览器，如果设定为固定宽度，则兼容ie6</div><div class="line"></div><div class="line"><span class="header">##全屏两栏自适应布局</span></div><div class="line">这一类布局分为4个部分：</div><div class="line"><span class="bullet">* </span>header区 g-hd</div><div class="line"><span class="bullet">* </span>footer区 g-ft</div><div class="line"><span class="bullet">* </span>aside区 g-sd</div><div class="line"><span class="bullet">* </span>main区 g-mn</div><div class="line"></div><div class="line">这种布局一般用于应用类的页面，所有区块全部在一个屏幕中固定显示，内容溢出时使用滚动条浏览</div><div class="line"></div><div class="line"><span class="header">###HTML结构</span></div></pre></td></tr></table></figure>
+##单栏水平居中布局（全部居中）
+实现思路和上面类似，不过这次把header区，main区，footer区全部放在一个容器中，然后把这个容器设定居中（记得设定max-width）
 
-<p>html</p>
-<div class="g-hd"><br></div><br><div class="g-sd"><br></div><br><div class="g-mn"><br></div><br><div class="g-ft"><br></div>
+###HTML结构
+```html
+<span class="tag">&lt;<span class="title">div</span> <span class="attribute">class</span>=<span class="value">"g-ctn"</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">div</span> <span class="attribute">class</span>=<span class="value">"g-hd"</span>&gt;</span>
+    <span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">div</span> <span class="attribute">class</span>=<span class="value">"g-mn"</span>&gt;</span>
+    <span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">div</span> <span class="attribute">class</span>=<span class="value">"g-ft"</span>&gt;</span>
+    <span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+</pre></td></tr></table></figure>
 
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="preprocessor">###CSS样式</span></div></pre></td></tr></table></figure>
 
-<p>css<br>html, body {height: 100%; width: 100%; }<br>.g-hd, .g-ft {position: absolute; width: 100%; height: 100px;  }<br>.g-hd {top: 0; }<br>.g-ft {bottom: 0; }<br>.g-sd, .g-mn {position: absolute; top: 100px; bottom: 100px; overflow: auto; }<br>.g-sd {width: 300px; }<br>.g-mn {left: 300px; right: 0px; }</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="preprocessor">###说明</span></div><div class="line">这里首先需要注意</div></pre></td></tr></table></figure>
+<h3 id="CSS样式-1">CSS样式</h3>
+<figure class="highlight css"><table><tr><td class="gutter"><pre>1
+2
+</pre></td><td class="code"><pre><span class="class">.g-ctn</span> <span class="rules">{ <span class="rule"><span class="attribute">margin</span>:<span class="value"> <span class="number">0</span> auto</span></span>; <span class="rule"><span class="attribute">max-width</span>:<span class="value"> <span class="number">1000</span>px</span></span>;<span class="rule">}</span></span>
+<span class="class">.g-hd</span>, <span class="class">.g-ft</span> <span class="rules">{<span class="rule"><span class="attribute">height</span>:<span class="value"> <span class="number">100</span>px </span></span></span>}
+</pre></td></tr></table></figure>
 
-<p>html, body {height: 100%; width: 100%; }</p>
-<figure class="highlight ，这一句是常用的将页面的宽度、高度定义为浏览器窗口的大小一致。然后将四个区块全都设置为```position:"><figcaption><span>absolute```绝对定位，通过设定每个区块相对于根元素的位置，来拉开区块。比如main区，相对上下都有100px的空隙，左侧300px的空隙(这里侧边栏设定为300px)，所以其css样式为```.g-mn {position: absolute; top: 100px; bottom: 100px;left: 300px;}```其他也是一样的方式。需要注意给侧边栏和内容区增加```overflow:auto```，这样在其内容溢出时，显示滚动条</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="header">###预览效果</span></div><div class="line">[<span class="link_label">jsfiddle地址</span>](<span class="link_url">http://jsfiddle.net/skyinlayer/24rT2/2/</span>)</div><div class="line"></div><div class="line"><span class="xml"><span class="tag">&lt;<span class="title">iframe</span> <span class="attribute">width</span>=<span class="value">"100%"</span> <span class="attribute">height</span>=<span class="value">"600"</span> <span class="attribute">src</span>=<span class="value">"http://jsfiddle.net/skyinlayer/24rT2/2/embedded/result,html,css"</span> <span class="attribute">allowfullscreen</span>=<span class="value">"allowfullscreen"</span> <span class="attribute">frameborder</span>=<span class="value">"0"</span>&gt;</span></span>&nbsp;<span class="xml"><span class="tag">&lt;/<span class="title">iframe</span>&gt;</span></span></div><div class="line"></div><div class="line"><span class="header">###浏览器兼容性</span></div><div class="line">兼容所有ie8+和现代浏览器</div><div class="line"></div><div class="line"><span class="header">##全屏三栏自适应布局</span></div><div class="line">这一类布局有5个部分：</div><div class="line"><span class="bullet">* </span>header区 g-hd</div><div class="line"><span class="bullet">* </span>footer区 g-ft</div><div class="line"><span class="bullet">* </span>main区 g-mn</div><div class="line"><span class="bullet">* </span>左侧边栏 g-lsd</div><div class="line"><span class="bullet">* </span>右测边栏 g-rsd</div><div class="line"></div><div class="line"><span class="header">###HTML结构</span></div></pre></td></tr></table></figure>
 
-<p>html</p>
-<div class="g-hd"></div><br><div class="g-lsd"></div><br><div class="g-mn"></div><br><div class="g-rsd"></div><br><div class="g-ft"></div>
-
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="preprocessor">###CSS样式</span></div></pre></td></tr></table></figure>
-
-<p>css<br>html, body {width: 100%; height: 100%; }<br>.g-hd, .g-ft {height: 100px; width: 100%;}<br>.g-hd, .g-ft, .g-lsd, .g-rsd, .g-mn {position: absolute;}<br>.g-lsd, .g-rsd, .g-mn {top: 100px;bottom: 100px;overflow: auto;}<br>.g-lsd, .g-rsd {width: 300px;}<br>.g-mn {right: 300px;left: 300px;}<br>.g-rsd {right: 0 }<br>.g-ft {bottom: 0; }</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="preprocessor">###说明</span></div><div class="line">和上面全屏两栏自适应布局一样，首先使用</div></pre></td></tr></table></figure>
-
-<p>html, body {width: 100%; height: 100%; }</p>
-<figure class="highlight 设定整个页面的大小为浏览器窗口大小，然后通过上例同样的方式将所有元素设定为绝对位置，通过偏移拉长区块。同时左侧边栏、内容区、右侧边栏都需要设定```overflow:"><figcaption><span>auto```使得内容溢出时显示滚动条</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="header">###预览效果</span></div><div class="line">[<span class="link_label">jsfiddle地址</span>](<span class="link_url">http://jsfiddle.net/skyinlayer/24rT2/3/</span>)</div><div class="line"></div><div class="line"><span class="xml"><span class="tag">&lt;<span class="title">iframe</span> <span class="attribute">width</span>=<span class="value">"100%"</span> <span class="attribute">height</span>=<span class="value">"600"</span> <span class="attribute">src</span>=<span class="value">"http://jsfiddle.net/skyinlayer/24rT2/3/embedded/result,html,css"</span> <span class="attribute">allowfullscreen</span>=<span class="value">"allowfullscreen"</span> <span class="attribute">frameborder</span>=<span class="value">"0"</span>&gt;</span></span>&nbsp;<span class="xml"><span class="tag">&lt;/<span class="title">iframe</span>&gt;</span></span></div><div class="line"></div><div class="line"><span class="header">###浏览器兼容性</span></div><div class="line">兼容所有ie8+和现代浏览器</div><div class="line"></div><div class="line"><span class="header">##两栏自适应布局（左侧固定，右侧自适应）</span></div><div class="line">这个分四块：</div><div class="line"><span class="bullet">* </span>header区 g-hd</div><div class="line"><span class="bullet">* </span>aside区 g-sd</div><div class="line"><span class="bullet">* </span>main区 g-mn</div><div class="line"><span class="bullet">* </span>footer区 g-ft</div><div class="line"></div><div class="line"><span class="header">###HTML结构</span></div></pre></td></tr></table></figure>
-
-<p>html</p>
-<div class="g-hd"></div><br><div class="g-sd"></div><br><div class="g-mn"></div><br><div class="g-ft"></div>
-
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="preprocessor">###CSS样式</span></div></pre></td></tr></table></figure>
-
-<p>css<br>.g-hd, .g-ft {height: 100px;}<br>.g-ft {clear: both;}<br>.g-sd {float: left; width: 300px; }<br>.g-mn {*zoom: 1; overflow: hidden; }</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="preprocessor">###说明</span></div><div class="line">常见情况，侧边栏宽度固定，右侧内容区自适应布局。这里使BFC，设定aside区为浮动，在main区触发BFC，使得不与aside区重叠。同时由于有浮动出现，所以在footer区加上</div></pre></td></tr></table></figure>
-
-<p>clear:both</p>
-<figure class="highlight 来清除浮动。在老式的ie中使用```zoom:1```来达到BFC的效果"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="header">###效果预览</span></div><div class="line">[<span class="link_label">jsfiddle地址</span>](<span class="link_url">http://jsfiddle.net/skyinlayer/24rT2/4/</span>)</div><div class="line"></div><div class="line"><span class="xml"><span class="tag">&lt;<span class="title">iframe</span> <span class="attribute">width</span>=<span class="value">"100%"</span> <span class="attribute">height</span>=<span class="value">"600"</span> <span class="attribute">src</span>=<span class="value">"http://jsfiddle.net/skyinlayer/24rT2/4/embedded/result,html,css"</span> <span class="attribute">allowfullscreen</span>=<span class="value">"allowfullscreen"</span> <span class="attribute">frameborder</span>=<span class="value">"0"</span>&gt;</span></span>&nbsp;<span class="xml"><span class="tag">&lt;/<span class="title">iframe</span>&gt;</span></span></div><div class="line"></div><div class="line"><span class="header">###浏览器兼容</span></div><div class="line">兼容ie6+及所有现代浏览器</div><div class="line"></div><div class="line"><span class="header">##两栏底部自适应布局</span></div><div class="line">这个分4个区块：</div><div class="line"><span class="bullet">* </span>header区 g-hd</div><div class="line"><span class="bullet">* </span>footer区 g-ft</div><div class="line"><span class="bullet">* </span>main区 g-mn</div><div class="line"><span class="bullet">* </span>aside区 g-sd</div><div class="line"></div><div class="line">这个需求比较有意思，主要是需要footer在内容aside区、main区内容都比较少时（不满一个屏幕），显示在页面底部，而当aisde区、main区内容增多时，footer区显示在这两个区下面（高度较高的元素下面）</div><div class="line"></div><div class="line"><span class="header">###HTML结构</span></div></pre></td></tr></table></figure>
-
-<p>html</p>
-<div class="g-hd"><br></div><br><div class="g-ctn"><br>    <div class="g-ct"><br>        <div class="g-sd"><br>        </div><br>        <div class="g-mn"><br>        </div><br>    </div><br></div><br><div class="g-ft"><br></div>
-
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="preprocessor">###CSS样式</span></div></pre></td></tr></table></figure>
-
-<p>css<br>html, body {width: 100%; height: 100%; }<br>.g-ctn {position: relative; min-height: 100%; }<br>    .g-ctn .g-ct {padding-top: 100px; padding-bottom: 100px; overflow: hidden; }<br>        .g-ctn .g-ct .g-sd {float: left; height: 600px; width: 300px; }<br>        .g-ctn .g-ct .g-mn {height: 600px; overflow: hidden; zoom:1; }<br>.g-hd {height: 100px; margin-bottom: -100px; }<br>.g-ft {height:100px; margin-top: -100px; }</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">###说明</span></div><div class="line">首先需要设定html的高度为一个页面以方便将一个<span class="keyword">div</span>（g-ctn）设定为最小大小为浏览器窗口大小。然后针对这个g-ctn，header区（g-hd）和footer区（g-ft），利用负margin来将他们定位到g-ctn里面，这样g-ctn的大小就是整个页面了。然后在g-ctn中顶一个一个<span class="keyword">div</span>（g-ct），为其设定</div></pre></td></tr></table></figure>
-
-<p>padding-top</p>
-<figure class="highlight 和```padding-bottom```来防止内容区和header区与footer区重叠。然后在这个区块触发BFC，来清除子元素浮动，清除aside区（g-sd）的浮动。在里面放入aside区和main区，将aside区设为```float:"><figcaption><span>left```，在main区上触发BFC，防止其余aside区重叠。这样布局就完成了</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="header">###预览效果</span></div><div class="line">[<span class="link_label">jsfiddle地址</span>](<span class="link_url">http://jsfiddle.net/skyinlayer/24rT2/5/</span>)</div><div class="line"></div><div class="line"><span class="xml"><span class="tag">&lt;<span class="title">iframe</span> <span class="attribute">width</span>=<span class="value">"100%"</span> <span class="attribute">height</span>=<span class="value">"600"</span> <span class="attribute">src</span>=<span class="value">"http://jsfiddle.net/skyinlayer/24rT2/5/embedded/result,html,css"</span> <span class="attribute">allowfullscreen</span>=<span class="value">"allowfullscreen"</span> <span class="attribute">frameborder</span>=<span class="value">"0"</span>&gt;</span></span>&nbsp;<span class="xml"><span class="tag">&lt;/<span class="title">iframe</span>&gt;</span></span></div><div class="line"></div><div class="line"><span class="header">###浏览器兼容性</span></div><div class="line">兼容ie6+和所有现代浏览器</div><div class="line"></div><div class="line"><span class="header">##三栏底部自适应布局</span></div><div class="line">这个布局分5块：</div><div class="line"><span class="bullet">* </span>header区 g-hd</div><div class="line"><span class="bullet">* </span>footer区 g-ft</div><div class="line"><span class="bullet">* </span>main区 g-mn</div><div class="line"><span class="bullet">* </span>左边栏区 g-lsd</div><div class="line"><span class="bullet">* </span>右边栏区 g-rsd</div><div class="line"></div><div class="line"><span class="header">###HTML结构</span></div></pre></td></tr></table></figure>
-
-<p>html</p>
-<div class="g-hd"></div><br><div class="g-ctn"><br>    <div class="g-ct"><br>        <div class="g-lsd"><br>        </div><br>        <div class="g-rsd"><br>        </div><br>        <div class="g-mn"><br>        </div><br>    </div><br></div><br><div class="g-ft"></div>
-
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="preprocessor">###CSS样式</span></div></pre></td></tr></table></figure>
-
-<p>css<br>html, body {width: 100%; height: 100%; }<br>.g-hd {margin-bottom: -100px; height: 100px; }<br>.g-ft {margin-top: -100px; height: 100px; }<br>.g-ctn {position: relative; min-height: 100%; }<br>    .g-ctn .g-ct {padding: 100px 0; overflow: hidden; <em>zoom: 1; }<br>        .g-ctn .g-ct .g-lsd {width: 300px; float: left; }<br>        .g-ctn .g-ct .g-rsd {width: 300px; float: right; }<br>        .g-ctn .g-ct .g-mn {overflow: hidden; </em>zoom: 1; }<br>```</p>
-<h3 id="说明-1">说明</h3>
-<p>和上面底部两栏自适应几乎一样，不过这一次分为左边栏和右边栏，所以需要注意一下，把两个侧边栏写在前面，后面写main区，否则会出现main区直接把右边栏挤开的情况</p>
 <h3 id="预览效果">预览效果</h3>
-<p><a href="http://jsfiddle.net/skyinlayer/24rT2/6/" target="_blank" rel="external">jsfiddle地址</a></p>
+<p><a href="http://jsfiddle.net/skyinlayer/24rT2/1/" target="_blank">jsfiddle地址</a></p>
+<iframe width="100%" height="600" src="http://jsfiddle.net/skyinlayer/24rT2/1/embedded/result,html,css" allowfullscreen="allowfullscreen" frameborder="0">&nbsp;</iframe>
+
+<h3 id="浏览器兼容性">浏览器兼容性</h3>
+<p>兼容ie8+和所有现代浏览器，如果设定为固定宽度，则兼容ie6</p>
+<h2 id="全屏两栏自适应布局">全屏两栏自适应布局</h2>
+<p>这一类布局分为4个部分：</p>
+<ul>
+<li>header区 g-hd</li>
+<li>footer区 g-ft</li>
+<li>aside区 g-sd</li>
+<li>main区 g-mn</li>
+</ul>
+<p>这种布局一般用于应用类的页面，所有区块全部在一个屏幕中固定显示，内容溢出时使用滚动条浏览</p>
+<h3 id="HTML结构-1">HTML结构</h3>
+<figure class="highlight html"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+</pre></td><td class="code"><pre><span class="tag">&lt;<span class="title">div</span> <span class="attribute">class</span>=<span class="value">"g-hd"</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+<span class="tag">&lt;<span class="title">div</span> <span class="attribute">class</span>=<span class="value">"g-sd"</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+<span class="tag">&lt;<span class="title">div</span> <span class="attribute">class</span>=<span class="value">"g-mn"</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+<span class="tag">&lt;<span class="title">div</span> <span class="attribute">class</span>=<span class="value">"g-ft"</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+</pre></td></tr></table></figure>
+
+
+<h3 id="CSS样式-2">CSS样式</h3>
+<figure class="highlight css"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+</pre></td><td class="code"><pre><span class="tag">html</span>, <span class="tag">body</span> <span class="rules">{<span class="rule"><span class="attribute">height</span>:<span class="value"> <span class="number">100</span>%</span></span>; <span class="rule"><span class="attribute">width</span>:<span class="value"> <span class="number">100</span>%</span></span>; <span class="rule">}</span></span>
+<span class="class">.g-hd</span>, <span class="class">.g-ft</span> <span class="rules">{<span class="rule"><span class="attribute">position</span>:<span class="value"> absolute</span></span>; <span class="rule"><span class="attribute">width</span>:<span class="value"> <span class="number">100</span>%</span></span>; <span class="rule"><span class="attribute">height</span>:<span class="value"> <span class="number">100</span>px</span></span>;  <span class="rule">}</span></span>
+<span class="class">.g-hd</span> <span class="rules">{<span class="rule"><span class="attribute">top</span>:<span class="value"> <span class="number">0</span></span></span>; <span class="rule">}</span></span>
+<span class="class">.g-ft</span> <span class="rules">{<span class="rule"><span class="attribute">bottom</span>:<span class="value"> <span class="number">0</span></span></span>; <span class="rule">}</span></span>
+<span class="class">.g-sd</span>, <span class="class">.g-mn</span> <span class="rules">{<span class="rule"><span class="attribute">position</span>:<span class="value"> absolute</span></span>; <span class="rule"><span class="attribute">top</span>:<span class="value"> <span class="number">100</span>px</span></span>; <span class="rule"><span class="attribute">bottom</span>:<span class="value"> <span class="number">100</span>px</span></span>; <span class="rule"><span class="attribute">overflow</span>:<span class="value"> auto</span></span>; <span class="rule">}</span></span>
+<span class="class">.g-sd</span> <span class="rules">{<span class="rule"><span class="attribute">width</span>:<span class="value"> <span class="number">300</span>px</span></span>; <span class="rule">}</span></span>
+<span class="class">.g-mn</span> <span class="rules">{<span class="rule"><span class="attribute">left</span>:<span class="value"> <span class="number">300</span>px</span></span>; <span class="rule"><span class="attribute">right</span>:<span class="value"> <span class="number">0</span>px</span></span>; <span class="rule">}</span></span>
+</pre></td></tr></table></figure>
+
+
+<h3 id="说明-1">说明</h3>
+<p>这里首先需要注意</p>
+<figure class="highlight html,"><figcaption><span>body {height: 100%; width: 100%; }```，这一句是常用的将页面的宽度、高度定义为浏览器窗口的大小一致。然后将四个区块全都设置为```position: absolute```绝对定位，通过设定每个区块相对于根元素的位置，来拉开区块。比如main区，相对上下都有100px的空隙，左侧300px的空隙(这里侧边栏设定为300px)，所以其css样式为```.g-mn {position: absolute; top: 100px; bottom: 100px;left: 300px;}```其他也是一样的方式。需要注意给侧边栏和内容区增加```overflow:auto```，这样在其内容溢出时，显示滚动条</span></figcaption><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+</pre></td><td class="code"><pre>
+###预览效果
+[jsfiddle地址](http://jsfiddle.net/skyinlayer/24rT2/2/)
+
+<span class="tag">&lt;<span class="title">iframe</span> <span class="attribute">width</span>=<span class="value">"100%"</span> <span class="attribute">height</span>=<span class="value">"600"</span> <span class="attribute">src</span>=<span class="value">"http://jsfiddle.net/skyinlayer/24rT2/2/embedded/result,html,css"</span> <span class="attribute">allowfullscreen</span>=<span class="value">"allowfullscreen"</span> <span class="attribute">frameborder</span>=<span class="value">"0"</span>&gt;</span>&nbsp;<span class="tag">&lt;/<span class="title">iframe</span>&gt;</span>
+
+###浏览器兼容性
+兼容所有ie8+和现代浏览器
+
+##全屏三栏自适应布局
+这一类布局有5个部分：
+* header区 g-hd
+* footer区 g-ft
+* main区 g-mn
+* 左侧边栏 g-lsd
+* 右测边栏 g-rsd
+
+###HTML结构
+```html
+<span class="tag">&lt;<span class="title">div</span> <span class="attribute">class</span>=<span class="value">"g-hd"</span>&gt;</span><span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+<span class="tag">&lt;<span class="title">div</span> <span class="attribute">class</span>=<span class="value">"g-lsd"</span>&gt;</span><span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+<span class="tag">&lt;<span class="title">div</span> <span class="attribute">class</span>=<span class="value">"g-mn"</span>&gt;</span><span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+<span class="tag">&lt;<span class="title">div</span> <span class="attribute">class</span>=<span class="value">"g-rsd"</span>&gt;</span><span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+<span class="tag">&lt;<span class="title">div</span> <span class="attribute">class</span>=<span class="value">"g-ft"</span>&gt;</span><span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+</pre></td></tr></table></figure>
+
+
+<h3 id="CSS样式-3">CSS样式</h3>
+<figure class="highlight css"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+</pre></td><td class="code"><pre><span class="tag">html</span>, <span class="tag">body</span> <span class="rules">{<span class="rule"><span class="attribute">width</span>:<span class="value"> <span class="number">100</span>%</span></span>; <span class="rule"><span class="attribute">height</span>:<span class="value"> <span class="number">100</span>%</span></span>; <span class="rule">}</span></span>
+<span class="class">.g-hd</span>, <span class="class">.g-ft</span> <span class="rules">{<span class="rule"><span class="attribute">height</span>:<span class="value"> <span class="number">100</span>px</span></span>; <span class="rule"><span class="attribute">width</span>:<span class="value"> <span class="number">100</span>%</span></span>;<span class="rule">}</span></span>
+<span class="class">.g-hd</span>, <span class="class">.g-ft</span>, <span class="class">.g-lsd</span>, <span class="class">.g-rsd</span>, <span class="class">.g-mn</span> <span class="rules">{<span class="rule"><span class="attribute">position</span>:<span class="value"> absolute</span></span>;<span class="rule">}</span></span> 
+<span class="class">.g-lsd</span>, <span class="class">.g-rsd</span>, <span class="class">.g-mn</span> <span class="rules">{<span class="rule"><span class="attribute">top</span>:<span class="value"> <span class="number">100</span>px</span></span>;<span class="rule"><span class="attribute">bottom</span>:<span class="value"> <span class="number">100</span>px</span></span>;<span class="rule"><span class="attribute">overflow</span>:<span class="value"> auto</span></span>;<span class="rule">}</span></span>
+<span class="class">.g-lsd</span>, <span class="class">.g-rsd</span> <span class="rules">{<span class="rule"><span class="attribute">width</span>:<span class="value"> <span class="number">300</span>px</span></span>;<span class="rule">}</span></span>
+<span class="class">.g-mn</span> <span class="rules">{<span class="rule"><span class="attribute">right</span>:<span class="value"> <span class="number">300</span>px</span></span>;<span class="rule"><span class="attribute">left</span>:<span class="value"> <span class="number">300</span>px</span></span>;<span class="rule">}</span></span>
+<span class="class">.g-rsd</span> <span class="rules">{<span class="rule"><span class="attribute">right</span>:<span class="value"> <span class="number">0</span> </span></span></span>}
+<span class="class">.g-ft</span> <span class="rules">{<span class="rule"><span class="attribute">bottom</span>:<span class="value"> <span class="number">0</span></span></span>; <span class="rule">}</span></span>
+</pre></td></tr></table></figure>
+
+
+<h3 id="说明-2">说明</h3>
+<p>和上面全屏两栏自适应布局一样，首先使用</p>
+<figure class="highlight html,"><figcaption><span>body {width: 100%; height: 100%; }```设定整个页面的大小为浏览器窗口大小，然后通过上例同样的方式将所有元素设定为绝对位置，通过偏移拉长区块。同时左侧边栏、内容区、右侧边栏都需要设定```overflow: auto```使得内容溢出时显示滚动条</span></figcaption><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+</pre></td><td class="code"><pre>
+<span class="header">###预览效果</span>
+[<span class="link_label">jsfiddle地址</span>](<span class="link_url">http://jsfiddle.net/skyinlayer/24rT2/3/</span>)
+
+<span class="xml"><span class="tag">&lt;<span class="title">iframe</span> <span class="attribute">width</span>=<span class="value">"100%"</span> <span class="attribute">height</span>=<span class="value">"600"</span> <span class="attribute">src</span>=<span class="value">"http://jsfiddle.net/skyinlayer/24rT2/3/embedded/result,html,css"</span> <span class="attribute">allowfullscreen</span>=<span class="value">"allowfullscreen"</span> <span class="attribute">frameborder</span>=<span class="value">"0"</span>&gt;</span></span>&nbsp;<span class="xml"><span class="tag">&lt;/<span class="title">iframe</span>&gt;</span></span>
+
+<span class="header">###浏览器兼容性</span>
+兼容所有ie8+和现代浏览器
+
+<span class="header">##两栏自适应布局（左侧固定，右侧自适应）</span>
+这个分四块：
+<span class="bullet">* </span>header区 g-hd
+<span class="bullet">* </span>aside区 g-sd
+<span class="bullet">* </span>main区 g-mn
+<span class="bullet">* </span>footer区 g-ft
+
+<span class="header">###HTML结构</span>
+<span class="code">```</span>html
+<span class="xml"><span class="tag">&lt;<span class="title">div</span> <span class="attribute">class</span>=<span class="value">"g-hd"</span>&gt;</span></span><span class="xml"><span class="tag">&lt;/<span class="title">div</span>&gt;</span></span>
+<span class="xml"><span class="tag">&lt;<span class="title">div</span> <span class="attribute">class</span>=<span class="value">"g-sd"</span>&gt;</span></span><span class="xml"><span class="tag">&lt;/<span class="title">div</span>&gt;</span></span>
+<span class="xml"><span class="tag">&lt;<span class="title">div</span> <span class="attribute">class</span>=<span class="value">"g-mn"</span>&gt;</span></span><span class="xml"><span class="tag">&lt;/<span class="title">div</span>&gt;</span></span>
+<span class="xml"><span class="tag">&lt;<span class="title">div</span> <span class="attribute">class</span>=<span class="value">"g-ft"</span>&gt;</span></span><span class="xml"><span class="tag">&lt;/<span class="title">div</span>&gt;</span></span>
+</pre></td></tr></table></figure>
+
+
+<h3 id="CSS样式-4">CSS样式</h3>
+<figure class="highlight css"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+</pre></td><td class="code"><pre><span class="class">.g-hd</span>, <span class="class">.g-ft</span> <span class="rules">{<span class="rule"><span class="attribute">height</span>:<span class="value"> <span class="number">100</span>px</span></span>;<span class="rule">}</span></span>
+<span class="class">.g-ft</span> <span class="rules">{<span class="rule"><span class="attribute">clear</span>:<span class="value"> both</span></span>;<span class="rule">}</span></span>
+<span class="class">.g-sd</span> <span class="rules">{<span class="rule"><span class="attribute">float</span>:<span class="value"> left</span></span>; <span class="rule"><span class="attribute">width</span>:<span class="value"> <span class="number">300</span>px</span></span>; <span class="rule">}</span></span>
+<span class="class">.g-mn</span> <span class="rules">{<span class="rule">*<span class="attribute">zoom</span>:<span class="value"> <span class="number">1</span></span></span>; <span class="rule"><span class="attribute">overflow</span>:<span class="value"> hidden</span></span>; <span class="rule">}</span></span>
+</pre></td></tr></table></figure>
+
+
+<h3 id="说明-3">说明</h3>
+<p>常见情况，侧边栏宽度固定，右侧内容区自适应布局。这里使BFC，设定aside区为浮动，在main区触发BFC，使得不与aside区重叠。同时由于有浮动出现，所以在footer区加上</p>
+<figure class="highlight clear:both```来清除浮动。在老式的ie中使用```zoom:1```来达到BFC的效果"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+</pre></td><td class="code"><pre>###效果预览
+[jsfiddle地址](http://jsfiddle.net/skyinlayer/24rT2/4/)
+
+<span class="tag">&lt;<span class="title">iframe</span> <span class="attribute">width</span>=<span class="value">"100%"</span> <span class="attribute">height</span>=<span class="value">"600"</span> <span class="attribute">src</span>=<span class="value">"http://jsfiddle.net/skyinlayer/24rT2/4/embedded/result,html,css"</span> <span class="attribute">allowfullscreen</span>=<span class="value">"allowfullscreen"</span> <span class="attribute">frameborder</span>=<span class="value">"0"</span>&gt;</span>&nbsp;<span class="tag">&lt;/<span class="title">iframe</span>&gt;</span>
+
+###浏览器兼容
+兼容ie6+及所有现代浏览器
+
+##两栏底部自适应布局
+这个分4个区块：
+* header区 g-hd
+* footer区 g-ft
+* main区 g-mn
+* aside区 g-sd
+
+这个需求比较有意思，主要是需要footer在内容aside区、main区内容都比较少时（不满一个屏幕），显示在页面底部，而当aisde区、main区内容增多时，footer区显示在这两个区下面（高度较高的元素下面）
+
+###HTML结构
+```html
+<span class="tag">&lt;<span class="title">div</span> <span class="attribute">class</span>=<span class="value">"g-hd"</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+<span class="tag">&lt;<span class="title">div</span> <span class="attribute">class</span>=<span class="value">"g-ctn"</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">div</span> <span class="attribute">class</span>=<span class="value">"g-ct"</span>&gt;</span>
+        <span class="tag">&lt;<span class="title">div</span> <span class="attribute">class</span>=<span class="value">"g-sd"</span>&gt;</span>
+        <span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+        <span class="tag">&lt;<span class="title">div</span> <span class="attribute">class</span>=<span class="value">"g-mn"</span>&gt;</span>
+        <span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+    <span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+<span class="tag">&lt;<span class="title">div</span> <span class="attribute">class</span>=<span class="value">"g-ft"</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+</pre></td></tr></table></figure>
+
+
+<h3 id="CSS样式-5">CSS样式</h3>
+<figure class="highlight css"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+</pre></td><td class="code"><pre><span class="tag">html</span>, <span class="tag">body</span> <span class="rules">{<span class="rule"><span class="attribute">width</span>:<span class="value"> <span class="number">100</span>%</span></span>; <span class="rule"><span class="attribute">height</span>:<span class="value"> <span class="number">100</span>%</span></span>; <span class="rule">}</span></span>
+<span class="class">.g-ctn</span> <span class="rules">{<span class="rule"><span class="attribute">position</span>:<span class="value"> relative</span></span>; <span class="rule"><span class="attribute">min-height</span>:<span class="value"> <span class="number">100</span>%</span></span>; <span class="rule">}</span></span>
+    <span class="class">.g-ctn</span> <span class="class">.g-ct</span> <span class="rules">{<span class="rule"><span class="attribute">padding-top</span>:<span class="value"> <span class="number">100</span>px</span></span>; <span class="rule"><span class="attribute">padding-bottom</span>:<span class="value"> <span class="number">100</span>px</span></span>; <span class="rule"><span class="attribute">overflow</span>:<span class="value"> hidden</span></span>; <span class="rule">}</span></span>
+        <span class="class">.g-ctn</span> <span class="class">.g-ct</span> <span class="class">.g-sd</span> <span class="rules">{<span class="rule"><span class="attribute">float</span>:<span class="value"> left</span></span>; <span class="rule"><span class="attribute">height</span>:<span class="value"> <span class="number">600</span>px</span></span>; <span class="rule"><span class="attribute">width</span>:<span class="value"> <span class="number">300</span>px</span></span>; <span class="rule">}</span></span>
+        <span class="class">.g-ctn</span> <span class="class">.g-ct</span> <span class="class">.g-mn</span> <span class="rules">{<span class="rule"><span class="attribute">height</span>:<span class="value"> <span class="number">600</span>px</span></span>; <span class="rule"><span class="attribute">overflow</span>:<span class="value"> hidden</span></span>; <span class="rule"><span class="attribute">zoom</span>:<span class="value"><span class="number">1</span></span></span>; <span class="rule">}</span></span>
+<span class="class">.g-hd</span> <span class="rules">{<span class="rule"><span class="attribute">height</span>:<span class="value"> <span class="number">100</span>px</span></span>; <span class="rule"><span class="attribute">margin-bottom</span>:<span class="value"> -<span class="number">100</span>px</span></span>; <span class="rule">}</span></span>
+<span class="class">.g-ft</span> <span class="rules">{<span class="rule"><span class="attribute">height</span>:<span class="value"><span class="number">100</span>px</span></span>; <span class="rule"><span class="attribute">margin-top</span>:<span class="value"> -<span class="number">100</span>px</span></span>; <span class="rule">}</span></span>
+</pre></td></tr></table></figure>
+
+
+<h3 id="说明-4">说明</h3>
+<p>首先需要设定html的高度为一个页面以方便将一个div（g-ctn）设定为最小大小为浏览器窗口大小。然后针对这个g-ctn，header区（g-hd）和footer区（g-ft），利用负margin来将他们定位到g-ctn里面，这样g-ctn的大小就是整个页面了。然后在g-ctn中顶一个一个div（g-ct），为其设定</p>
+<figure class="highlight padding-top```和```padding-bottom```来防止内容区和header区与footer区重叠。然后在这个区块触发BFC，来清除子元素浮动，清除aside区（g-sd）的浮动。在里面放入aside区和main区，将aside区设为```float:"><figcaption><span>left```，在main区上触发BFC，防止其余aside区重叠。这样布局就完成了</span></figcaption><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+</pre></td><td class="code"><pre>###预览效果
+[jsfiddle地址](http://jsfiddle.net/skyinlayer/24rT2/5/)
+
+<span class="tag">&lt;<span class="title">iframe</span> <span class="attribute">width</span>=<span class="value">"100%"</span> <span class="attribute">height</span>=<span class="value">"600"</span> <span class="attribute">src</span>=<span class="value">"http://jsfiddle.net/skyinlayer/24rT2/5/embedded/result,html,css"</span> <span class="attribute">allowfullscreen</span>=<span class="value">"allowfullscreen"</span> <span class="attribute">frameborder</span>=<span class="value">"0"</span>&gt;</span>&nbsp;<span class="tag">&lt;/<span class="title">iframe</span>&gt;</span>
+
+###浏览器兼容性
+兼容ie6+和所有现代浏览器
+
+##三栏底部自适应布局
+这个布局分5块：
+* header区 g-hd
+* footer区 g-ft
+* main区 g-mn
+* 左边栏区 g-lsd
+* 右边栏区 g-rsd
+
+###HTML结构
+```html
+<span class="tag">&lt;<span class="title">div</span> <span class="attribute">class</span>=<span class="value">"g-hd"</span>&gt;</span><span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+<span class="tag">&lt;<span class="title">div</span> <span class="attribute">class</span>=<span class="value">"g-ctn"</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">div</span> <span class="attribute">class</span>=<span class="value">"g-ct"</span>&gt;</span>
+        <span class="tag">&lt;<span class="title">div</span> <span class="attribute">class</span>=<span class="value">"g-lsd"</span>&gt;</span>
+        <span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+        <span class="tag">&lt;<span class="title">div</span> <span class="attribute">class</span>=<span class="value">"g-rsd"</span>&gt;</span>
+        <span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+        <span class="tag">&lt;<span class="title">div</span> <span class="attribute">class</span>=<span class="value">"g-mn"</span>&gt;</span>
+        <span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+    <span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+<span class="tag">&lt;<span class="title">div</span> <span class="attribute">class</span>=<span class="value">"g-ft"</span>&gt;</span><span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+</pre></td></tr></table></figure>
+
+
+<h3 id="CSS样式-6">CSS样式</h3>
+<figure class="highlight css"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+</pre></td><td class="code"><pre><span class="tag">html</span>, <span class="tag">body</span> <span class="rules">{<span class="rule"><span class="attribute">width</span>:<span class="value"> <span class="number">100</span>%</span></span>; <span class="rule"><span class="attribute">height</span>:<span class="value"> <span class="number">100</span>%</span></span>; <span class="rule">}</span></span>
+<span class="class">.g-hd</span> <span class="rules">{<span class="rule"><span class="attribute">margin-bottom</span>:<span class="value"> -<span class="number">100</span>px</span></span>; <span class="rule"><span class="attribute">height</span>:<span class="value"> <span class="number">100</span>px</span></span>; <span class="rule">}</span></span>
+<span class="class">.g-ft</span> <span class="rules">{<span class="rule"><span class="attribute">margin-top</span>:<span class="value"> -<span class="number">100</span>px</span></span>; <span class="rule"><span class="attribute">height</span>:<span class="value"> <span class="number">100</span>px</span></span>; <span class="rule">}</span></span>
+<span class="class">.g-ctn</span> <span class="rules">{<span class="rule"><span class="attribute">position</span>:<span class="value"> relative</span></span>; <span class="rule"><span class="attribute">min-height</span>:<span class="value"> <span class="number">100</span>%</span></span>; <span class="rule">}</span></span>
+    <span class="class">.g-ctn</span> <span class="class">.g-ct</span> <span class="rules">{<span class="rule"><span class="attribute">padding</span>:<span class="value"> <span class="number">100</span>px <span class="number">0</span></span></span>; <span class="rule"><span class="attribute">overflow</span>:<span class="value"> hidden</span></span>; <span class="rule">*<span class="attribute">zoom</span>:<span class="value"> <span class="number">1</span></span></span>; <span class="rule">}</span></span>
+        <span class="class">.g-ctn</span> <span class="class">.g-ct</span> <span class="class">.g-lsd</span> <span class="rules">{<span class="rule"><span class="attribute">width</span>:<span class="value"> <span class="number">300</span>px</span></span>; <span class="rule"><span class="attribute">float</span>:<span class="value"> left</span></span>; <span class="rule">}</span></span>
+        <span class="class">.g-ctn</span> <span class="class">.g-ct</span> <span class="class">.g-rsd</span> <span class="rules">{<span class="rule"><span class="attribute">width</span>:<span class="value"> <span class="number">300</span>px</span></span>; <span class="rule"><span class="attribute">float</span>:<span class="value"> right</span></span>; <span class="rule">}</span></span>
+        <span class="class">.g-ctn</span> <span class="class">.g-ct</span> <span class="class">.g-mn</span> <span class="rules">{<span class="rule"><span class="attribute">overflow</span>:<span class="value"> hidden</span></span>; <span class="rule">*<span class="attribute">zoom</span>:<span class="value"> <span class="number">1</span></span></span>; <span class="rule">}</span></span>
+</pre></td></tr></table></figure>
+
+
+<h3 id="说明-5">说明</h3>
+<p>和上面底部两栏自适应几乎一样，不过这一次分为左边栏和右边栏，所以需要注意一下，把两个侧边栏写在前面，后面写main区，否则会出现main区直接把右边栏挤开的情况</p>
+<h3 id="预览效果-1">预览效果</h3>
+<p><a href="http://jsfiddle.net/skyinlayer/24rT2/6/" target="_blank">jsfiddle地址</a></p>
 <iframe width="100%" height="600" src="http://jsfiddle.net/skyinlayer/24rT2/6/embedded/result,html,css" allowfullscreen="allowfullscreen" frameborder="0">&nbsp;</iframe>
 
 <h2 id="总结">总结</h2>
@@ -99,7 +482,7 @@
     ds.charset = 'UTF-8';
     (document.getElementsByTagName('head')[0] 
      || document.getElementsByTagName('body')[0]).appendChild(ds);
-})();</script></div></article><div class="pager"><a href="/2014/03/05/new-page/" title="博客换页面了" class="pre">上一页</a><a href="/2014/02/28/grunt/" title="初识Grunt" class="next">下一页</a></div></div><aside id="aside"><section class="recent"><h3 class="title iconfont">最新文章<i>&#xe601;</i></h3><div class="links"><ul><li><a href="/2014/09/24/koa-anywhere/">koa-anywhere</a></li><li><a href="/2014/09/22/learn-fe/">学前端的一点总结</a></li><li><a href="/2014/07/29/generator/">细说Generator</a></li><li><a href="/2014/05/31/kissy-anime-plugin/">如何写一个KISSY动画插件</a></li><li><a href="/2014/05/22/webrtc-data-channels/">WebRTC的RTCDataChannel</a></li></ul></div></section><section class="categories"><h3 class="title iconfont">分类<i>&#xe605;</i></h3><div class="links"><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/NodeJs/">NodeJs</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端技术/">前端技术</a><span class="category-list-count">33</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/前端技术/性能优化/">性能优化</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端技术/笔试面试积累/">笔试面试积累</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端技术/网站建设/">网站建设</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/即时通信/">即时通信</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/性能优化/">性能优化</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库技术/">数据库技术</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/源码阅读/">源码阅读</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/生活情感/">生活情感</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/笔试面试积累/">笔试面试积累</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/网站建设/">网站建设</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/读书笔记/">读书笔记</a><span class="category-list-count">9</span></li></ul></div></section><section class="tags"><h3 class="title iconfont">标签<i>&#xe603;</i></h3><div class="links"><ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS/">CSS</a><span class="tag-list-count">35</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ES6/">ES6</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Generator/">Generator</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/">HTML</a><span class="tag-list-count">29</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/">HTTP</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a><span class="tag-list-count">34</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kissy/">Kissy</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NodeJs/">NodeJs</a><span class="tag-list-count">10</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SEO/">SEO</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WebIM/">WebIM</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WebRTC/">WebRTC</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WebSocket/">WebSocket</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/grunt/">grunt</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jQuery/">jQuery</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/koa/">koa</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/oracle/">oracle</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/xmpp/">xmpp</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/动画/">动画</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/响应式/">响应式</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/存储函数/">存储函数</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/思考/">思考</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/生活/">生活</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/笔试面试题/">笔试面试题</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/设计/">设计</a><span class="tag-list-count">9</span></li></ul></div></section><section class="archives"><h3 class="title iconfont"> 归档<i>&#xe60a;</i></h3><div class="links"><ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09">2014年9月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07">2014年7月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05">2014年5月</a><span class="archive-list-count">15</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/04">2014年4月</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/03">2014年3月</a><span class="archive-list-count">29</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02">2014年2月</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/01">2014年1月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/12">2013年12月</a><span class="archive-list-count">1</span></li></ul></div></section></aside></section><footer id="page-footer"><span style="float:right"><script type="text/javascript">(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+})();</script></div></article><div class="pager"><a href="/2014/03/05/new-page/" title="博客换页面了" class="pre">上一页</a><a href="/2014/02/28/grunt/" title="初识Grunt" class="next">下一页</a></div></div><aside id="aside"><section class="recent"><h3 class="title iconfont">最新文章<i>&#xe601;</i></h3><div class="links"><ul><li><a href="/2014/10/06/gulp-vision-history-future/">Gulp -- 项目的愿景、过去和将来</a></li><li><a href="/2014/09/24/koa-anywhere/">koa-anywhere</a></li><li><a href="/2014/09/22/learn-fe/">学前端的一点总结</a></li><li><a href="/2014/07/29/generator/">细说Generator</a></li><li><a href="/2014/05/31/kissy-anime-plugin/">如何写一个KISSY动画插件</a></li></ul></div></section><section class="categories"><h3 class="title iconfont">分类<i>&#xe605;</i></h3><div class="links"><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/NodeJs/">NodeJs</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端技术/">前端技术</a><span class="category-list-count">33</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/前端技术/性能优化/">性能优化</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端技术/笔试面试积累/">笔试面试积累</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端技术/网站建设/">网站建设</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/即时通信/">即时通信</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/性能优化/">性能优化</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库技术/">数据库技术</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/源码阅读/">源码阅读</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/生活情感/">生活情感</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/笔试面试积累/">笔试面试积累</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/网站建设/">网站建设</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/读书笔记/">读书笔记</a><span class="category-list-count">9</span></li></ul></div></section><section class="tags"><h3 class="title iconfont">标签<i>&#xe603;</i></h3><div class="links"><ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS/">CSS</a><span class="tag-list-count">35</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ES6/">ES6</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Generator/">Generator</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Gulp/">Gulp</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/">HTML</a><span class="tag-list-count">29</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/">HTTP</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a><span class="tag-list-count">35</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kissy/">Kissy</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NodeJs/">NodeJs</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SEO/">SEO</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WebIM/">WebIM</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WebRTC/">WebRTC</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WebSocket/">WebSocket</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/grunt/">grunt</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jQuery/">jQuery</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/koa/">koa</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/oracle/">oracle</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/xmpp/">xmpp</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/动画/">动画</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/响应式/">响应式</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/存储函数/">存储函数</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/思考/">思考</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/生活/">生活</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/笔试面试题/">笔试面试题</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/设计/">设计</a><span class="tag-list-count">9</span></li></ul></div></section><section class="archives"><h3 class="title iconfont"> 归档<i>&#xe60a;</i></h3><div class="links"><ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10">2014年10月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09">2014年9月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07">2014年7月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05">2014年5月</a><span class="archive-list-count">15</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/04">2014年4月</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/03">2014年3月</a><span class="archive-list-count">29</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02">2014年2月</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/01">2014年1月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/12">2013年12月</a><span class="archive-list-count">1</span></li></ul></div></section></aside></section><footer id="page-footer"><span style="float:right"><script type="text/javascript">(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
 (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
 m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 })(window,document,'script','//www.google-analytics.com/analytics.js','ga');

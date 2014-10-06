@@ -3,39 +3,184 @@
 
 <h2 id="缓存DOM对象">缓存DOM对象</h2>
 <p>JavaScript的DOM操作可以说是JavaScript最重要的功能，我们经常要根据用户的操作来动态的增加和删除元素，或是通过AJAX返回的数据动态生成元素。比如我们获得了一个很多元素的数组<code>data[]</code>，需要将其每个值生成一个li元素插入到一个id为container的ul元素中，最简单（最慢）的方式是：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> liNode, i, m;</div><div class="line"><span class="keyword">for</span> (i = <span class="number">0</span>, m = data.length; i &lt; m; i++) {</div><div class="line">    liNode = <span class="built_in">document</span>.createElement(<span class="string">"li"</span>);</div><div class="line">    liNode.innerText = data[i];</div><div class="line">    <span class="built_in">document</span>.getElementById(<span class="string">"container"</span>).appendChild(liNode);</div><div class="line">}</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+</pre></td><td class="code"><pre><span class="keyword">var</span> liNode, i, m;
+<span class="keyword">for</span> (i = <span class="number">0</span>, m = data.length; i &lt; m; i++) {
+    liNode = document.createElement(<span class="string">"li"</span>);
+    liNode.innerText = data[i];
+    document.getElementById(<span class="string">"container"</span>).appendChild(liNode);
+}
+</pre></td></tr></table></figure>
+
 
 <p>这里每一次循环都会去查找id为container的元素，效率自然非常低，所以我们需要将元素在循环前查询完毕，在循环中仅仅是引用就行了，修改代码为：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> ulNode = <span class="built_in">document</span>.getElementById(<span class="string">"container"</span>);</div><div class="line"><span class="keyword">var</span> liNode, i, m;</div><div class="line"><span class="keyword">for</span> (i = <span class="number">0</span>, m = data.length; i &lt; m; i++) {</div><div class="line">    liNode = <span class="built_in">document</span>.createElement(<span class="string">"li"</span>);</div><div class="line">    liNode.innerText = data[i];</div><div class="line">    ulNode.appendChild(liNode);</div><div class="line">}</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+</pre></td><td class="code"><pre><span class="keyword">var</span> ulNode = document.getElementById(<span class="string">"container"</span>);
+<span class="keyword">var</span> liNode, i, m;
+<span class="keyword">for</span> (i = <span class="number">0</span>, m = data.length; i &lt; m; i++) {
+    liNode = document.createElement(<span class="string">"li"</span>);
+    liNode.innerText = data[i];
+    ulNode.appendChild(liNode);
+}
+</pre></td></tr></table></figure>
+
 
 <p>缓存DOM对象的方式也经常被用在元素的查找中，查找元素应该是DOM操作中最频繁的操作了，其效率优化也是大头。在一般情况下，我们会根据需要，将一些频繁被查找的元素缓存起来，在查找它或查找它的子孙元素时，以它为起点进行查找，就能提高查找效率了。</p>
 <h2 id="在内存中操作元素">在内存中操作元素</h2>
 <p>由于DOM操作会导致浏览器的回流，回流需要花费大量的时间进行样式计算和节点重绘与渲染，所以应当尽量减少回流次数。一种可靠的方法就是加入元素时不要修改页面上已经存在的元素，而是在内存中的节点进行大量的操作，最后再一并将修改运用到页面上。DOM操作本身提供一个创建内存节点片段的功能:<code>document.createDocumentFragment()</code>，我们可以将其运用于上述代码中：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> ulNode = <span class="built_in">document</span>.getElementById(<span class="string">"container"</span>);</div><div class="line"><span class="keyword">var</span> liNode, i, m;</div><div class="line"><span class="keyword">var</span> fragment = <span class="built_in">document</span>.createDocumentFragment();</div><div class="line"><span class="keyword">for</span> (i = <span class="number">0</span>, m = data.length; i &lt; m; i++) {</div><div class="line">    liNode = <span class="built_in">document</span>.createElement(<span class="string">"li"</span>);</div><div class="line">    liNode.innerText = data[i];</div><div class="line">    fragment.appendChild(liNode);</div><div class="line">}</div><div class="line">ulNode.appendChild(fragment);</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+</pre></td><td class="code"><pre><span class="keyword">var</span> ulNode = document.getElementById(<span class="string">"container"</span>);
+<span class="keyword">var</span> liNode, i, m;
+<span class="keyword">var</span> fragment = document.createDocumentFragment();
+<span class="keyword">for</span> (i = <span class="number">0</span>, m = data.length; i &lt; m; i++) {
+    liNode = document.createElement(<span class="string">"li"</span>);
+    liNode.innerText = data[i];
+    fragment.appendChild(liNode);
+}
+ulNode.appendChild(fragment);
+</pre></td></tr></table></figure>
+
 
 <p>这样就只会触发一次回流，效率会得到很大的提升。如果需要对一个元素进行复杂的操作（删减、添加子节点），那么我们应当先将元素从页面中移除，然后再对其进行操作，或者将其复制一个（<code>cloneNode()</code>），在内存中进行操作后再替换原来的节点</p>
 <h2 id="一次性DOM节点生成">一次性DOM节点生成</h2>
 <p>在这里我们每次都需要生成节点（<code>document.createElement(&quot;li&quot;)</code>），然后将其加入到内存片段中，我们可以通过<code>innerHTML</code>属性来一次性生成节点，具体的思路就是使用字符串拼接的方式，先生成相应的HTML字符串，最后一次性写入到ul的innerHTML中。修改代码为：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> ulNode = <span class="built_in">document</span>.getElementById(<span class="string">"container"</span>);</div><div class="line"><span class="keyword">var</span> fragmentHtml = <span class="string">""</span>, i, m;</div><div class="line"><span class="keyword">for</span> (i = <span class="number">0</span>, m = data.length; i &lt; m; i++) {</div><div class="line">    fragmentHtml += <span class="string">"&lt;li&gt;"</span> + data[i] + <span class="string">"&lt;/li&gt;"</span>;</div><div class="line">}</div><div class="line">ulNode.innerHTML = fragmentHtml;</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+</pre></td><td class="code"><pre><span class="keyword">var</span> ulNode = document.getElementById(<span class="string">"container"</span>);
+<span class="keyword">var</span> fragmentHtml = <span class="string">""</span>, i, m;
+<span class="keyword">for</span> (i = <span class="number">0</span>, m = data.length; i &lt; m; i++) {
+    fragmentHtml += <span class="string">"&lt;li&gt;"</span> + data[i] + <span class="string">"&lt;/li&gt;"</span>;
+}
+ulNode.innerHTML = fragmentHtml;
+</pre></td></tr></table></figure>
+
 
 <p>这样效率也会有提升，不过手动拼写字符串是相当麻烦的一件事</p>
 <h2 id="通过类修改样式">通过类修改样式</h2>
 <p>有时候我们需要通过JavaScript给元素增加样式，比如如下代码：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">element.style.fontWeight = <span class="string">'bold'</span>;</div><div class="line">element.style.backgroundImage = <span class="string">'url(back.gif)'</span>;</div><div class="line">element.style.backgroundColor = <span class="string">'white'</span>;</div><div class="line">element.style.color = <span class="string">'white'</span>;</div><div class="line"><span class="comment">//...</span></div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+</pre></td><td class="code"><pre>element.style.fontWeight = <span class="string">'bold'</span>;
+element.style.backgroundImage = <span class="string">'url(back.gif)'</span>;
+element.style.backgroundColor = <span class="string">'white'</span>;
+element.style.color = <span class="string">'white'</span>;
+<span class="comment">//...</span>
+</pre></td></tr></table></figure>
+
 
 <p>这样效率很低，每次修改style属性后都会触发元素的重绘，如果修改了的属性涉及大小和位置，将会导致回流。所以我们应当尽量避免多次为一个元素设置style属性，应当通过给其添加新的CSS类，来修改其CSS</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="class">.element</span> <span class="rules">{</span></div><div class="line">    <span class="rule"><span class="attribute">background-image</span>:<span class="value"> <span class="function">url</span>(back.gif)</span></span>;</div><div class="line">    <span class="rule"><span class="attribute">background-color</span>:<span class="value"> <span class="hexcolor">#fff</span></span></span>;</div><div class="line">    <span class="rule"><span class="attribute">color</span>:<span class="value"> <span class="hexcolor">#fff</span></span></span>;</div><div class="line">    <span class="rule"><span class="attribute">font-weight</span>:<span class="value"> <span class="string">'bold'</span></span></span>;</div><div class="line">    <span class="comment">/*...*/</span></div><div class="line"><span class="rule">}</span></div></pre></td></tr></table></figure>
+<figure class="highlight css"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+</pre></td><td class="code"><pre><span class="class">.element</span> <span class="rules">{
+    <span class="rule"><span class="attribute">background-image</span>:<span class="value"> <span class="function">url(back.gif)</span></span></span>;
+    <span class="rule"><span class="attribute">background-color</span>:<span class="value"> <span class="hexcolor">#fff</span></span></span>;
+    <span class="rule"><span class="attribute">color</span>:<span class="value"> <span class="hexcolor">#fff</span></span></span>;
+    <span class="rule"><span class="attribute">font-weight</span>:<span class="value"> <span class="string">'bold'</span></span></span>;
+    <span class="comment">/*...*/</span>
+<span class="rule">}</span></span>
+</pre></td></tr></table></figure>
 
 
 
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">element.className += <span class="string">" element"</span>;</div></pre></td></tr></table></figure>
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+</pre></td><td class="code"><pre>element.className += <span class="string">" element"</span>;
+</pre></td></tr></table></figure>
+
 
 <h2 id="通过事件代理批量操作事件">通过事件代理批量操作事件</h2>
 <p>还是之前那个ul和添加li，如果我们需要给每个li都绑定一个click事件，就可能写出类似如下代码：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> ulNode = <span class="built_in">document</span>.getElementById(<span class="string">"container"</span>);</div><div class="line"><span class="keyword">var</span> fragment = <span class="built_in">document</span>.createDocumentFragment();</div><div class="line"><span class="keyword">var</span> liNode, i, m;</div><div class="line"><span class="keyword">var</span> liFnCb = <span class="function"><span class="keyword">function</span><span class="params">(evt)</span></span>{</div><div class="line">    <span class="comment">//do something</span></div><div class="line">};</div><div class="line"><span class="keyword">for</span> (i = <span class="number">0</span>, m = data.length; i &lt; m; i++) {</div><div class="line">    liNode = <span class="built_in">document</span>.createElement(<span class="string">"li"</span>);</div><div class="line">    liNode.innerText = data[i];</div><div class="line">    liNode.addEventListener(<span class="string">"click"</span>, liFnCb, <span class="literal">false</span>);</div><div class="line">    fragment.appendChild(liNode);</div><div class="line">}</div><div class="line">ulNode.appendChild(fragment);</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+</pre></td><td class="code"><pre><span class="keyword">var</span> ulNode = document.getElementById(<span class="string">"container"</span>);
+<span class="keyword">var</span> fragment = document.createDocumentFragment();
+<span class="keyword">var</span> liNode, i, m;
+<span class="keyword">var</span> liFnCb = <span class="function"><span class="keyword">function</span><span class="params">(evt)</span>{</span>
+    <span class="comment">//do something</span>
+};
+<span class="keyword">for</span> (i = <span class="number">0</span>, m = data.length; i &lt; m; i++) {
+    liNode = document.createElement(<span class="string">"li"</span>);
+    liNode.innerText = data[i];
+    liNode.addEventListener(<span class="string">"click"</span>, liFnCb, <span class="literal">false</span>);
+    fragment.appendChild(liNode);
+}
+ulNode.appendChild(fragment);
+</pre></td></tr></table></figure>
+
 
 <p>这里每个li元素都需要执行一次<code>addEventListener()</code>方法，如果li元素数量一多，就会降低效率。所以我们可以通过事件代理的方式，将事件绑定在ul上，然后通过<code>event.target</code>来确定被点击的元素是否是li元素，同时我们也可以使用<code>innerHTML</code>属性一次性创建节点了，修改代码为：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> ulNode = <span class="built_in">document</span>.getElementById(<span class="string">"container"</span>);</div><div class="line"><span class="keyword">var</span> fragmentHtml = <span class="string">""</span>, i, m;</div><div class="line"><span class="keyword">var</span> liFnCb = <span class="function"><span class="keyword">function</span><span class="params">(evt)</span></span>{</div><div class="line">    <span class="comment">//do something</span></div><div class="line">};</div><div class="line"><span class="keyword">for</span> (i = <span class="number">0</span>, m = data.length; i &lt; m; i++) {</div><div class="line">    fragmentHtml += <span class="string">"&lt;li&gt;"</span> + data[i] + <span class="string">"&lt;/li&gt;"</span>;</div><div class="line">}</div><div class="line">ulNode.innerHTML = fragmentHtml;</div><div class="line">ulNode.addEventListener(<span class="string">"click"</span>, <span class="function"><span class="keyword">function</span><span class="params">(evt)</span></span>{</div><div class="line">    <span class="keyword">if</span>(evt.target.tagName.toLowerCase() === <span class="string">'li'</span>) {</div><div class="line">        liFnCb.call(evt.target, evt);</div><div class="line">    }</div><div class="line">}, <span class="literal">false</span>);</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+</pre></td><td class="code"><pre><span class="keyword">var</span> ulNode = document.getElementById(<span class="string">"container"</span>);
+<span class="keyword">var</span> fragmentHtml = <span class="string">""</span>, i, m;
+<span class="keyword">var</span> liFnCb = <span class="function"><span class="keyword">function</span><span class="params">(evt)</span>{</span>
+    <span class="comment">//do something</span>
+};
+<span class="keyword">for</span> (i = <span class="number">0</span>, m = data.length; i &lt; m; i++) {
+    fragmentHtml += <span class="string">"&lt;li&gt;"</span> + data[i] + <span class="string">"&lt;/li&gt;"</span>;
+}
+ulNode.innerHTML = fragmentHtml;
+ulNode.addEventListener(<span class="string">"click"</span>, <span class="function"><span class="keyword">function</span><span class="params">(evt)</span>{</span>
+    <span class="keyword">if</span>(evt.target.tagName.toLowerCase() === <span class="string">'li'</span>) {
+        liFnCb.call(evt.target, evt);
+    }
+}, <span class="literal">false</span>);
+</pre></td></tr></table></figure>
+
 
 <p>这样事件绑定的代码就只要执行一次，可以监听所有li元素的事件了。当然如果需要移除事件回调函数，我们也不需要循环遍历所有的li元素，只需要移除ul元素上的事件处理就行了</p>
 <hr><div class="tags"><a href="/tags/JavaScript/" class="blog-tag">JavaScript</a><a href="/tags/HTML/" class="blog-tag">HTML</a><a href="/tags/CSS/" class="blog-tag">CSS</a></div><hr><div class="jia"><div class="jiathis_style_32x32"><a class="jiathis_button_qzone"></a><a class="jiathis_button_tsina"></a><a class="jiathis_button_tqq"></a><a class="jiathis_button_weixin"></a><a class="jiathis_button_renren"></a><a href="http://www.jiathis.com/share?uid=1409314953297200" target="_blank" class="jiathis jiathis_txt jtico jtico_jiathis"></a></div><script type="text/javascript">var jiathis_config = {data_track_clickback:'true'};    </script><script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1409314953297200" charset="utf-8"></script></div><hr><div id="duoshuo" data-url="http://lingyu.wang/2014/03/25/performance-1/" data-thread-key="/blog/2014/03/25/performance-1/" data-title="前端性能优化（DOM操作篇）" class="ds-thread"></div><script type="text/javascript">var duoshuoQuery = {short_name:'skyinlayer'};
@@ -46,7 +191,7 @@
     ds.charset = 'UTF-8';
     (document.getElementsByTagName('head')[0] 
      || document.getElementsByTagName('body')[0]).appendChild(ds);
-})();</script></div></article><div class="pager"><a href="/2014/03/25/performance-2/" title="前端性能优化（JavaScript篇）" class="pre">上一页</a><a href="/2014/03/24/js-interview-3/" title="前端面试题（26-35）" class="next">下一页</a></div></div><aside id="aside"><section class="recent"><h3 class="title iconfont">最新文章<i>&#xe601;</i></h3><div class="links"><ul><li><a href="/2014/09/24/koa-anywhere/">koa-anywhere</a></li><li><a href="/2014/09/22/learn-fe/">学前端的一点总结</a></li><li><a href="/2014/07/29/generator/">细说Generator</a></li><li><a href="/2014/05/31/kissy-anime-plugin/">如何写一个KISSY动画插件</a></li><li><a href="/2014/05/22/webrtc-data-channels/">WebRTC的RTCDataChannel</a></li></ul></div></section><section class="categories"><h3 class="title iconfont">分类<i>&#xe605;</i></h3><div class="links"><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/NodeJs/">NodeJs</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端技术/">前端技术</a><span class="category-list-count">33</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/前端技术/性能优化/">性能优化</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端技术/笔试面试积累/">笔试面试积累</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端技术/网站建设/">网站建设</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/即时通信/">即时通信</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/性能优化/">性能优化</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库技术/">数据库技术</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/源码阅读/">源码阅读</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/生活情感/">生活情感</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/笔试面试积累/">笔试面试积累</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/网站建设/">网站建设</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/读书笔记/">读书笔记</a><span class="category-list-count">9</span></li></ul></div></section><section class="tags"><h3 class="title iconfont">标签<i>&#xe603;</i></h3><div class="links"><ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS/">CSS</a><span class="tag-list-count">35</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ES6/">ES6</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Generator/">Generator</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/">HTML</a><span class="tag-list-count">29</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/">HTTP</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a><span class="tag-list-count">34</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kissy/">Kissy</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NodeJs/">NodeJs</a><span class="tag-list-count">10</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SEO/">SEO</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WebIM/">WebIM</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WebRTC/">WebRTC</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WebSocket/">WebSocket</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/grunt/">grunt</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jQuery/">jQuery</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/koa/">koa</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/oracle/">oracle</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/xmpp/">xmpp</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/动画/">动画</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/响应式/">响应式</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/存储函数/">存储函数</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/思考/">思考</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/生活/">生活</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/笔试面试题/">笔试面试题</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/设计/">设计</a><span class="tag-list-count">9</span></li></ul></div></section><section class="archives"><h3 class="title iconfont"> 归档<i>&#xe60a;</i></h3><div class="links"><ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09">2014年9月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07">2014年7月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05">2014年5月</a><span class="archive-list-count">15</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/04">2014年4月</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/03">2014年3月</a><span class="archive-list-count">29</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02">2014年2月</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/01">2014年1月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/12">2013年12月</a><span class="archive-list-count">1</span></li></ul></div></section></aside></section><footer id="page-footer"><span style="float:right"><script type="text/javascript">(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+})();</script></div></article><div class="pager"><a href="/2014/03/25/performance-2/" title="前端性能优化（JavaScript篇）" class="pre">上一页</a><a href="/2014/03/24/js-interview-3/" title="前端面试题（26-35）" class="next">下一页</a></div></div><aside id="aside"><section class="recent"><h3 class="title iconfont">最新文章<i>&#xe601;</i></h3><div class="links"><ul><li><a href="/2014/10/06/gulp-vision-history-future/">Gulp -- 项目的愿景、过去和将来</a></li><li><a href="/2014/09/24/koa-anywhere/">koa-anywhere</a></li><li><a href="/2014/09/22/learn-fe/">学前端的一点总结</a></li><li><a href="/2014/07/29/generator/">细说Generator</a></li><li><a href="/2014/05/31/kissy-anime-plugin/">如何写一个KISSY动画插件</a></li></ul></div></section><section class="categories"><h3 class="title iconfont">分类<i>&#xe605;</i></h3><div class="links"><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/NodeJs/">NodeJs</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端技术/">前端技术</a><span class="category-list-count">33</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/前端技术/性能优化/">性能优化</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端技术/笔试面试积累/">笔试面试积累</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端技术/网站建设/">网站建设</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/即时通信/">即时通信</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/性能优化/">性能优化</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库技术/">数据库技术</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/源码阅读/">源码阅读</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/生活情感/">生活情感</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/笔试面试积累/">笔试面试积累</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/网站建设/">网站建设</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/读书笔记/">读书笔记</a><span class="category-list-count">9</span></li></ul></div></section><section class="tags"><h3 class="title iconfont">标签<i>&#xe603;</i></h3><div class="links"><ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS/">CSS</a><span class="tag-list-count">35</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ES6/">ES6</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Generator/">Generator</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Gulp/">Gulp</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/">HTML</a><span class="tag-list-count">29</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/">HTTP</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a><span class="tag-list-count">35</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kissy/">Kissy</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NodeJs/">NodeJs</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SEO/">SEO</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WebIM/">WebIM</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WebRTC/">WebRTC</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WebSocket/">WebSocket</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/grunt/">grunt</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jQuery/">jQuery</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/koa/">koa</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/oracle/">oracle</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/xmpp/">xmpp</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/动画/">动画</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/响应式/">响应式</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/存储函数/">存储函数</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/思考/">思考</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/生活/">生活</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/笔试面试题/">笔试面试题</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/设计/">设计</a><span class="tag-list-count">9</span></li></ul></div></section><section class="archives"><h3 class="title iconfont"> 归档<i>&#xe60a;</i></h3><div class="links"><ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10">2014年10月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09">2014年9月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07">2014年7月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05">2014年5月</a><span class="archive-list-count">15</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/04">2014年4月</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/03">2014年3月</a><span class="archive-list-count">29</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02">2014年2月</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/01">2014年1月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/12">2013年12月</a><span class="archive-list-count">1</span></li></ul></div></section></aside></section><footer id="page-footer"><span style="float:right"><script type="text/javascript">(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
 (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
 m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 })(window,document,'script','//www.google-analytics.com/analytics.js','ga');

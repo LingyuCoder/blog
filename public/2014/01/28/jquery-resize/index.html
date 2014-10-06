@@ -5,22 +5,191 @@
 <p>今天写页面的时候突然有这么个需求，由于父元素（一个DIV）的height是由javascript计算出来的固定的值，而在其中增加了一个多说插件，在用户评论后，子元素（DIV）的height属性增加，导致子元素溢出。但是又不知道如何为多说的评论按钮增加回调函数，于是乎就想到了根据子元素的大小变化来重新计算父元素的height。</p>
 <h3 id="onresize?">onresize?</h3>
 <p>平常，都是在整个浏览器窗口变化时触发一个修改布局的回调函数。使用的是window对象的resize事件，利用：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">window</span>.onresize = callback;</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+</pre></td><td class="code"><pre>window.onresize = callback;
+</pre></td></tr></table></figure>
+
 
 <p>来绑定。但根据resize事件的target是</p>
-<figure class="highlight defaultView"><figcaption><span>(window)```，这里详见[MDN的resize文档](https://developer.mozilla.org/en-US/docs/Web/Reference/Events/resize)，也就是说只有window对象有resize事件，于是乎就想到使用jQuery自己的事件机制来模拟一个普通元素上的resize事件</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="header">###使用jQuery事件的实现思路</span></div><div class="line">可以想到一种比较简单的方式：</div><div class="line"><span class="bullet">1. </span>在元素绑定resize对象时，记录元素的width和height</div><div class="line"><span class="bullet">2. </span>使用requestAnimationFrame、setTimeout、setInterval，每隔一段时间查询其width和height，如果和记录的width和height不一样，运行回调函数并更新记录中的width为height</div><div class="line"></div><div class="line"><span class="header">###jQuery插件</span></div><div class="line">这个功能Ben Alman编写了一个jQuery插件，[<span class="link_label">这是传送门</span>](<span class="link_url">http://benalman.com/projects/jquery-resize-plugin/</span>)</div><div class="line">该插件的代码（核心部分），详细代码请查看[<span class="link_label">Ben Alman博客</span>](<span class="link_url">https://raw.github.com/cowboy/jquery-resize/v1.1/jquery.ba-resize.js</span>)的内容：</div></pre></td></tr></table></figure>
+<figure class="highlight defaultView"><figcaption><span>(window)```，这里详见[MDN的resize文档](https://developer.mozilla.org/en-US/docs/Web/Reference/Events/resize)，也就是说只有window对象有resize事件，于是乎就想到使用jQuery自己的事件机制来模拟一个普通元素上的resize事件</span></figcaption><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+</pre></td><td class="code"><pre>
+<span class="comment">###使用jQuery事件的实现思路
+可以想到一种比较简单的方式：
+1. 在元素绑定resize对象时，记录元素的width和height
+2. 使用requestAnimationFrame、setTimeout、setInterval，每隔一段时间查询其width和height，如果和记录的width和height不一样，运行回调函数并更新记录中的width为height
 
-<p>javascript<br>(function($, window, undefined) {<br>  var elems = $([]),<br>    jq_resize = $.resize = $.extend($.resize, {}),<br>    timeout_id,<br>    str_setTimeout = ‘setTimeout’,<br>    str_resize = ‘resize’,<br>    str_data = str_resize + ‘-special-event’,<br>    str_delay = ‘delay’,<br>    str_throttle = ‘throttleWindow’;<br>  jq_resize[str_delay] = 250;<br>  jq_resize[str_throttle] = true;<br>  $.event.special[str_resize] = {<br>    setup: function() {<br>      if (!jq_resize[str_throttle] &amp;&amp; this[str_setTimeout]) {<br>        return false;<br>      }<br>      var elem = $(this);<br>      elems = elems.add(elem);<br>      $.data(this, str_data, {<br>        w: elem.width(),<br>        h: elem.height()<br>      });<br>      if (elems.length === 1) {<br>        loopy();<br>      }<br>    },<br>    teardown: function() {<br>      if (!jq_resize[str_throttle] &amp;&amp; this[str_setTimeout]) {<br>        return false;<br>      }<br>      var elem = $(this);<br>      elems = elems.not(elem);<br>      elem.removeData(str_data);<br>      if (!elems.length) {<br>        clearTimeout(timeout_id);<br>      }<br>    },<br>    add: function(handleObj) {<br>      if (!jq_resize[str_throttle] &amp;&amp; this[str_setTimeout]) {<br>        return false;<br>      }<br>      var old_handler;<br>      function new_handler(e, w, h) {<br>        var elem = $(this),<br>          data = $.data(this, str_data);<br>        data.w = w !== undefined ? w : elem.width();<br>        data.h = h !== undefined ? h : elem.height();<br>        old_handler.apply(this, arguments);<br>      }<br>      if ($.isFunction(handleObj)) {<br>        old_handler = handleObj;<br>        return new_handler;<br>      } else {<br>        old_handler = handleObj.handler;<br>        handleObj.handler = new_handler;<br>      }<br>    }<br>  };</p>
-<p>  function loopy() {<br>    timeout_id = window<a href="function(">str_setTimeout</a> {<br>      elems.each(function() {<br>        var elem = $(this),<br>          width = elem.width(),<br>          height = elem.height(),<br>          data = $.data(this, str_data);<br>        if (width !== data.w || height !== data.h) {<br>          elem.trigger(str_resize, [data.w = width, data.h = height]);<br>        }<br>      });<br>      loopy();<br>    }, jq_resize[str_delay]);<br>  }<br>})(jQuery, this);</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">jQuery为jQuery插件的开发者提供了添加自定义事件的接口，详细可以参考[<span class="link_label">jQuery官方文档</span>](<span class="link_url">http://learn.jquery.com/events/event-extensions/</span>)，这里就是典型的jQuery自定义事件添加方式，其中有三个钩子：</div><div class="line"><span class="bullet">1. </span>setup：</div></pre></td></tr></table></figure>
+###</span>jQuery插件
+这个功能Ben Alman编写了一个jQuery插件，[这是传送门](<span class="attribute">http</span>:<span class="regexp">//</span>benalman.com<span class="regexp">/projects/jquery-resize-plugin/</span>)
+该插件的代码（核心部分），详细代码请查看[Ben Alman博客](<span class="attribute">https</span>:<span class="regexp">//</span>raw.github.com/cowboy/jquery-resize/v1<span class="number">.1</span>/jquery.ba-resize.js)的内容：
 
-<p>The setup hook is called the first time an event of a particular type is attached to an element.</p>
-<figure class="highlight 首次绑定时执行，如果返回"><figcaption><span>false，使用默认方式绑定事件</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="bullet">2. </span>teardown：</div></pre></td></tr></table></figure>
+`<span class="javascript"></span>``<span class="javascript">javascript
+(<span class="function"><span class="keyword">function</span><span class="params">($, window, undefined)</span> {</span>
+  <span class="keyword">var</span> elems = $([]),
+    jq_resize = $.resize = $.extend($.resize, {}),
+    timeout_id,
+    str_setTimeout = <span class="string">'setTimeout'</span>,
+    str_resize = <span class="string">'resize'</span>,
+    str_data = str_resize + <span class="string">'-special-event'</span>,
+    str_delay = <span class="string">'delay'</span>,
+    str_throttle = <span class="string">'throttleWindow'</span>;
+  jq_resize[str_delay] = <span class="number">250</span>;
+  jq_resize[str_throttle] = <span class="literal">true</span>;
+  $.event.special[str_resize] = {
+    setup: <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
+      <span class="keyword">if</span> (!jq_resize[str_throttle] && <span class="keyword">this</span>[str_setTimeout]) {
+        <span class="keyword">return</span> <span class="literal">false</span>;
+      }
+      <span class="keyword">var</span> elem = $(<span class="keyword">this</span>);
+      elems = elems.add(elem);
+      $.data(<span class="keyword">this</span>, str_data, {
+        w: elem.width(),
+        h: elem.height()
+      });
+      <span class="keyword">if</span> (elems.length === <span class="number">1</span>) {
+        loopy();
+      }
+    },
+    teardown: <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
+      <span class="keyword">if</span> (!jq_resize[str_throttle] && <span class="keyword">this</span>[str_setTimeout]) {
+        <span class="keyword">return</span> <span class="literal">false</span>;
+      }
+      <span class="keyword">var</span> elem = $(<span class="keyword">this</span>);
+      elems = elems.not(elem);
+      elem.removeData(str_data);
+      <span class="keyword">if</span> (!elems.length) {
+        clearTimeout(timeout_id);
+      }
+    },
+    add: <span class="function"><span class="keyword">function</span><span class="params">(handleObj)</span> {</span>
+      <span class="keyword">if</span> (!jq_resize[str_throttle] && <span class="keyword">this</span>[str_setTimeout]) {
+        <span class="keyword">return</span> <span class="literal">false</span>;
+      }
+      <span class="keyword">var</span> old_handler;
+      <span class="function"><span class="keyword">function</span> <span class="title">new_handler</span><span class="params">(e, w, h)</span> {</span>
+        <span class="keyword">var</span> elem = $(<span class="keyword">this</span>),
+          data = $.data(<span class="keyword">this</span>, str_data);
+        data.w = w !== <span class="literal">undefined</span> ? w : elem.width();
+        data.h = h !== <span class="literal">undefined</span> ? h : elem.height();
+        old_handler.apply(<span class="keyword">this</span>, <span class="built_in">arguments</span>);
+      }
+      <span class="keyword">if</span> ($.isFunction(handleObj)) {
+        old_handler = handleObj;
+        <span class="keyword">return</span> new_handler;
+      } <span class="keyword">else</span> {
+        old_handler = handleObj.handler;
+        handleObj.handler = new_handler;
+      }
+    }
+  };
 
-<p>The teardown hook is called when the final event of a particular type is removed from an element.</p>
-<figure class="highlight 若指定该方法，其在移除事件处理程序(removeEventListener)前执行，如果返回"><figcaption><span>false，移除默认绑定事件</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="number">3</span>. <span class="built_in">add</span>：</div></pre></td></tr></table></figure>
+  <span class="function"><span class="keyword">function</span> <span class="title">loopy</span><span class="params">()</span> {</span>
+    timeout_id = window[str_setTimeout](<span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
+      elems.each(<span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
+        <span class="keyword">var</span> elem = $(<span class="keyword">this</span>),
+          width = elem.width(),
+          height = elem.height(),
+          data = $.data(<span class="keyword">this</span>, str_data);
+        <span class="keyword">if</span> (width !== data.w || height !== data.h) {
+          elem.trigger(str_resize, [data.w = width, data.h = height]);
+        }
+      });
+      loopy();
+    }, jq_resize[str_delay]);
+  }
+})(jQuery, <span class="keyword">this</span>);</span>
+</pre></td></tr></table></figure>
 
-<p>Each time an event handler is added to an element through an API such as .on(), jQuery calls this hook.```每一次给元素绑定事件，都会执行这个方法</p>
+
+<p>jQuery为jQuery插件的开发者提供了添加自定义事件的接口，详细可以参考<a href="http://learn.jquery.com/events/event-extensions/" target="_blank">jQuery官方文档</a>，这里就是典型的jQuery自定义事件添加方式，其中有三个钩子：</p>
+<ol>
+<li>setup：<code>The setup hook is called the first time an event of a particular type is attached to an element.</code>首次绑定时执行，如果返回 false，使用默认方式绑定事件</li>
+<li>teardown：<code>The teardown hook is called when the final event of a particular type is removed from an element.</code>若指定该方法，其在移除事件处理程序(removeEventListener)前执行，如果返回 false，移除默认绑定事件</li>
+<li>add：<code>Each time an event handler is added to an element through an API such as .on(), jQuery calls this hook.</code>每一次给元素绑定事件，都会执行这个方法</li>
+</ol>
 <p>setup、teardown和add三个钩子，每个钩子最先做的事都是检测是否该对象为window对象，然后根据window对象特殊处理，因为window对象本身有resize事件</p>
 <p>从setup钩子可以看到，在初始化整个事件处理时，创建一个元素队列，队列中的每隔元素都把width和height放在data中，然后每隔250ms启动loopy函数，在loopy函数中判断是否变化，如果有变，触发回调函数并更新data中的width和height</p>
 <p>从teardown钩子可以看到，在元素移除事件时，只需要将元素从元素队列移除，并清除元素中的data数据。如果是元素队列中的最后一个元素，则不再继续执行loopy</p>
@@ -34,7 +203,7 @@
     ds.charset = 'UTF-8';
     (document.getElementsByTagName('head')[0] 
      || document.getElementsByTagName('body')[0]).appendChild(ds);
-})();</script></div></article><div class="pager"><a href="/2014/02/03/new-year/" title="再见，蛇年！你好，马年！" class="pre">上一页</a><a href="/2014/01/09/clearfix/" title="闭合浮动最佳方案（clearfix）" class="next">下一页</a></div></div><aside id="aside"><section class="recent"><h3 class="title iconfont">最新文章<i>&#xe601;</i></h3><div class="links"><ul><li><a href="/2014/09/24/koa-anywhere/">koa-anywhere</a></li><li><a href="/2014/09/22/learn-fe/">学前端的一点总结</a></li><li><a href="/2014/07/29/generator/">细说Generator</a></li><li><a href="/2014/05/31/kissy-anime-plugin/">如何写一个KISSY动画插件</a></li><li><a href="/2014/05/22/webrtc-data-channels/">WebRTC的RTCDataChannel</a></li></ul></div></section><section class="categories"><h3 class="title iconfont">分类<i>&#xe605;</i></h3><div class="links"><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/NodeJs/">NodeJs</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端技术/">前端技术</a><span class="category-list-count">33</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/前端技术/性能优化/">性能优化</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端技术/笔试面试积累/">笔试面试积累</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端技术/网站建设/">网站建设</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/即时通信/">即时通信</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/性能优化/">性能优化</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库技术/">数据库技术</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/源码阅读/">源码阅读</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/生活情感/">生活情感</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/笔试面试积累/">笔试面试积累</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/网站建设/">网站建设</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/读书笔记/">读书笔记</a><span class="category-list-count">9</span></li></ul></div></section><section class="tags"><h3 class="title iconfont">标签<i>&#xe603;</i></h3><div class="links"><ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS/">CSS</a><span class="tag-list-count">35</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ES6/">ES6</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Generator/">Generator</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/">HTML</a><span class="tag-list-count">29</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/">HTTP</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a><span class="tag-list-count">34</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kissy/">Kissy</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NodeJs/">NodeJs</a><span class="tag-list-count">10</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SEO/">SEO</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WebIM/">WebIM</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WebRTC/">WebRTC</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WebSocket/">WebSocket</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/grunt/">grunt</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jQuery/">jQuery</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/koa/">koa</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/oracle/">oracle</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/xmpp/">xmpp</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/动画/">动画</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/响应式/">响应式</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/存储函数/">存储函数</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/思考/">思考</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/生活/">生活</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/笔试面试题/">笔试面试题</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/设计/">设计</a><span class="tag-list-count">9</span></li></ul></div></section><section class="archives"><h3 class="title iconfont"> 归档<i>&#xe60a;</i></h3><div class="links"><ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09">2014年9月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07">2014年7月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05">2014年5月</a><span class="archive-list-count">15</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/04">2014年4月</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/03">2014年3月</a><span class="archive-list-count">29</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02">2014年2月</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/01">2014年1月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/12">2013年12月</a><span class="archive-list-count">1</span></li></ul></div></section></aside></section><footer id="page-footer"><span style="float:right"><script type="text/javascript">(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+})();</script></div></article><div class="pager"><a href="/2014/02/03/new-year/" title="再见，蛇年！你好，马年！" class="pre">上一页</a><a href="/2014/01/09/clearfix/" title="闭合浮动最佳方案（clearfix）" class="next">下一页</a></div></div><aside id="aside"><section class="recent"><h3 class="title iconfont">最新文章<i>&#xe601;</i></h3><div class="links"><ul><li><a href="/2014/10/06/gulp-vision-history-future/">Gulp -- 项目的愿景、过去和将来</a></li><li><a href="/2014/09/24/koa-anywhere/">koa-anywhere</a></li><li><a href="/2014/09/22/learn-fe/">学前端的一点总结</a></li><li><a href="/2014/07/29/generator/">细说Generator</a></li><li><a href="/2014/05/31/kissy-anime-plugin/">如何写一个KISSY动画插件</a></li></ul></div></section><section class="categories"><h3 class="title iconfont">分类<i>&#xe605;</i></h3><div class="links"><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/NodeJs/">NodeJs</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端技术/">前端技术</a><span class="category-list-count">33</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/前端技术/性能优化/">性能优化</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端技术/笔试面试积累/">笔试面试积累</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端技术/网站建设/">网站建设</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/即时通信/">即时通信</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/性能优化/">性能优化</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库技术/">数据库技术</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/源码阅读/">源码阅读</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/生活情感/">生活情感</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/笔试面试积累/">笔试面试积累</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/网站建设/">网站建设</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/读书笔记/">读书笔记</a><span class="category-list-count">9</span></li></ul></div></section><section class="tags"><h3 class="title iconfont">标签<i>&#xe603;</i></h3><div class="links"><ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS/">CSS</a><span class="tag-list-count">35</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ES6/">ES6</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Generator/">Generator</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Gulp/">Gulp</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/">HTML</a><span class="tag-list-count">29</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/">HTTP</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a><span class="tag-list-count">35</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kissy/">Kissy</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NodeJs/">NodeJs</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SEO/">SEO</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WebIM/">WebIM</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WebRTC/">WebRTC</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WebSocket/">WebSocket</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/grunt/">grunt</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jQuery/">jQuery</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/koa/">koa</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/oracle/">oracle</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/xmpp/">xmpp</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/动画/">动画</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/响应式/">响应式</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/存储函数/">存储函数</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/思考/">思考</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/生活/">生活</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/笔试面试题/">笔试面试题</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/设计/">设计</a><span class="tag-list-count">9</span></li></ul></div></section><section class="archives"><h3 class="title iconfont"> 归档<i>&#xe60a;</i></h3><div class="links"><ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10">2014年10月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09">2014年9月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07">2014年7月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05">2014年5月</a><span class="archive-list-count">15</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/04">2014年4月</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/03">2014年3月</a><span class="archive-list-count">29</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02">2014年2月</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/01">2014年1月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/12">2013年12月</a><span class="archive-list-count">1</span></li></ul></div></section></aside></section><footer id="page-footer"><span style="float:right"><script type="text/javascript">(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
 (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
 m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 })(window,document,'script','//www.google-analytics.com/analytics.js','ga');

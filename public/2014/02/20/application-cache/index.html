@@ -1,77 +1,284 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="author" content="天镶"><meta name="description"><title>前端性能优化（Application Cache篇） | 天镶的博客</title><link href="/favicon.png" rel="icon"><link rel="stylesheet" media="screen" href="/stylesheets/plugins/typo/typo-1.1.css"><link rel="stylesheet" media="screen" href="/stylesheets/plugins/highlight/highlight-8.0-dark.css"><link rel="stylesheet" media="screen" href="/stylesheets/app.css"></head><body><a id="totop" href="#page-header" class="iconfont">&#xe60b;</a><header id="page-header"><div class="wrapper"><a href="/page/profile.html"><img alt="avatar" src="/images/avatar.jpg" class="avatar"></a><div class="title"> <a href="/">天镶的博客</a></div><nav class="nav"><ul class="links"><li><a href="/"> 首页</a></li><li><a href="/archives"> 归档</a></li><li><a href="/page/profile.html"> 关于</a></li><li><a href="/page/gitbook/index.html"> 笔记</a></li></ul><div class="icons"><a href="/atom.xml" class="icon rss"><i class="iconfont">&#xe602;</i></a><a href="http://weibo.com/lingyucoder" class="icon weibo"><i class="iconfont">&#xe600;</i></a><a href="http://github.com/lingyucoder" class="icon github"><i class="iconfont">&#xe604;</i></a><a href="http://twitter.com/lingyucoder" class="icon twitter"><i class="iconfont">&#xe607;</i></a></div></nav></div></header><section id="wrapper"><div id="main"><article class="post"><div class="content desc typo"><h1 class="blog-title">前端性能优化（Application Cache篇）</h1><div class="toc-index"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Application_Cache的配置文件"><span class="toc-number">1.</span> <span class="toc-text">Application Cache的配置文件</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#VERSION_1-0"><span class="toc-number"></span> <span class="toc-text">VERSION 1.0</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">1.</span> <span class="toc-text">总结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考资料"><span class="toc-number">2.</span> <span class="toc-text">参考资料</span></a></li></ol></div><p>之前在segmentfault上刷问题看到一个关于manifest的问题，很好奇就研究了一下application cache。Application Cache是HTML5的新特性，允许浏览器在本地存储页面所需要的资源，使得页面离线也可以访问。之前研究的目的是为了在博客中使用，将一些不需要改动的CSS、JavaScript、图片文件离线缓存，这样加载速度必然飞起，希望能用在博客上，但是失败了，但还是记录一下学到的知识</p>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="author" content="天镶"><meta name="description"><title>前端性能优化（Application Cache篇） | 天镶的博客</title><link href="/favicon.png" rel="icon"><link rel="stylesheet" media="screen" href="/stylesheets/plugins/typo/typo-1.1.css"><link rel="stylesheet" media="screen" href="/stylesheets/plugins/highlight/highlight-8.0-dark.css"><link rel="stylesheet" media="screen" href="/stylesheets/app.css"></head><body><a id="totop" href="#page-header" class="iconfont">&#xe60b;</a><header id="page-header"><div class="wrapper"><a href="/page/profile.html"><img alt="avatar" src="/images/avatar.jpg" class="avatar"></a><div class="title"> <a href="/">天镶的博客</a></div><nav class="nav"><ul class="links"><li><a href="/"> 首页</a></li><li><a href="/archives"> 归档</a></li><li><a href="/page/profile.html"> 关于</a></li><li><a href="/page/gitbook/index.html"> 笔记</a></li></ul><div class="icons"><a href="/atom.xml" class="icon rss"><i class="iconfont">&#xe602;</i></a><a href="http://weibo.com/lingyucoder" class="icon weibo"><i class="iconfont">&#xe600;</i></a><a href="http://github.com/lingyucoder" class="icon github"><i class="iconfont">&#xe604;</i></a><a href="http://twitter.com/lingyucoder" class="icon twitter"><i class="iconfont">&#xe607;</i></a></div></nav></div></header><section id="wrapper"><div id="main"><article class="post"><div class="content desc typo"><h1 class="blog-title">前端性能优化（Application Cache篇）</h1><div class="toc-index"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Application_Cache的配置文件"><span class="toc-number">1.</span> <span class="toc-text">Application Cache的配置文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#缓存和加载机制"><span class="toc-number">2.</span> <span class="toc-text">缓存和加载机制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#满满的都是坑"><span class="toc-number">3.</span> <span class="toc-text">满满的都是坑</span></a></li><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#一些小坑"><span class="toc-number">3.1.</span> <span class="toc-text">一些小坑</span></a></li></ol><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">4.</span> <span class="toc-text">总结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考资料"><span class="toc-number">5.</span> <span class="toc-text">参考资料</span></a></li></ol></div><p>之前在segmentfault上刷问题看到一个关于manifest的问题，很好奇就研究了一下application cache。Application Cache是HTML5的新特性，允许浏览器在本地存储页面所需要的资源，使得页面离线也可以访问。之前研究的目的是为了在博客中使用，将一些不需要改动的CSS、JavaScript、图片文件离线缓存，这样加载速度必然飞起，希望能用在博客上，但是失败了，但还是记录一下学到的知识</p>
 <a id="more"></a>
 
 <h2 id="Application_Cache的配置文件">Application Cache的配置文件</h2>
 <p>首先需要在服务器上建立一个文件，里面的内容确定了哪些文件需要缓存，哪些文件不需要，如果资源无法访问会使用什么页面等</p>
 <p>这个文件一般为</p>
-<figure class="highlight .appcache```类型，称为**缓存清单(cache"><figcaption><span>manifest)文件**，一个完整的缓存清单文件如下：</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">```</div><div class="line">CACHE MANIFEST</div><div class="line"><span class="preprocessor"># version xx.xx.xx</span></div><div class="line"><span class="label">CACHE:</span></div><div class="line">needBeCached.png</div><div class="line">needBeCached2.js</div><div class="line"></div><div class="line"><span class="label">NETWORK:</span></div><div class="line">notNeedBeCached.html</div><div class="line">notNeedBeCached2.css</div><div class="line"></div><div class="line"><span class="label">FALLBACK:</span></div><div class="line">/ <span class="number">404.</span>html</div></pre></td></tr></table></figure>
+<figure class="highlight .appcache```类型，称为**缓存清单(cache"><figcaption><span>manifest)文件**，一个完整的缓存清单文件如下：</span></figcaption><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+</pre></td><td class="code"><pre>```
+CACHE MANIFEST
+<span class="preprocessor"># version xx.xx.xx</span>
+<span class="label">CACHE:</span>
+needBeCached<span class="preprocessor">.png</span>
+needBeCached2<span class="preprocessor">.js</span>
+
+<span class="label">NETWORK:</span>
+notNeedBeCached<span class="preprocessor">.html</span>
+notNeedBeCached2<span class="preprocessor">.css</span>
+
+<span class="label">FALLBACK:</span>
+/ <span class="number">404.</span>html
+</pre></td></tr></table></figure>
+
 
 <p>可以看到，文件的头部信息</p>
-<figure class="highlight CACHE"><figcaption><span>MANIFEST```用来标注这个文件是缓存清单文件，其后一般情况下（最好是）跟着一行标明版本的注释，这行注释非常重要，将在后面文件加载部分详细介绍这行注释的重要性</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">###<span class="operator"><span class="keyword">CACHE</span>部分</span></div><div class="line">除了头部信息，这个缓存清单文件分为几部分，第一部分为<span class="keyword">CACHE</span>部分:</div></pre></td></tr></table></figure>
+<figure class="highlight CACHE"><figcaption><span>MANIFEST```用来标注这个文件是缓存清单文件，其后一般情况下（最好是）跟着一行标明版本的注释，这行注释非常重要，将在后面文件加载部分详细介绍这行注释的重要性</span></figcaption><table><tr><td class="gutter"><pre>1
+2
+3
+</pre></td><td class="code"><pre>
+<span class="preprocessor">###CACHE部分</span>
+除了头部信息，这个缓存清单文件分为几部分，第一部分为CACHE部分:
+</pre></td></tr></table></figure>
+
 
 <p>CACHE:<br>needBeCached.png<br>needBeCached2.js</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">这一部分标注了哪些资源文件需要被缓存可以列出多个</div><div class="line"></div><div class="line">如果有路径，如需要缓存blog下的blog.css文件，可以写成</div></pre></td></tr></table></figure>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+</pre></td><td class="code"><pre>这一部分标注了哪些资源文件需要被缓存可以列出多个
 
-<p>blog/blog.css</p>
-<figure class="highlight 。"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">另外</div></pre></td></tr></table></figure>
+如果有路径，如需要缓存blog下的blog.css文件，可以写成<span class="string">``</span><span class="string">`blog/blog.css`</span><span class="string">``</span>。
 
-<p>CACHE:</p>
-<figure class="highlight 可以被省略，让需要缓存的资源文件直接跟在注释之后"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="preprocessor">###NETWORK部分</span></div><div class="line">第二部分为NETWORK部分：</div></pre></td></tr></table></figure>
+另外<span class="string">``</span><span class="string">`CACHE:`</span><span class="string">``</span>可以被省略，让需要缓存的资源文件直接跟在注释之后
+
+<span class="comment">###NETWORK部分</span>
+第二部分为NETWORK部分：
+</pre></td></tr></table></figure>
+
 
 <p>NETWORK:<br>notNeedBeCached.html<br>notNeedBeCached2.css</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">这一部分定义了哪些文件不需要缓存，这些文件需要与服务器连接</div><div class="line"></div><div class="line">与<span class="operator"><span class="keyword">CACHE</span>一样，可以定义多个资源，而如果直接输入一个文件夹路径，也是合法的，比如</span></div></pre></td></tr></table></figure>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+</pre></td><td class="code"><pre>这一部分定义了哪些文件不需要缓存，这些文件需要与服务器连接
 
-<p>/blog</p>
-<figure class="highlight 这样，blog文件夹下的所有文件都不会被缓存"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">可以使用通配符来，如除了上面<span class="operator"><span class="keyword">CACHE</span>中定义的资源，其他都必须与服务器连接：</span></div></pre></td></tr></table></figure>
+与<span class="keyword">CACHE</span>一样，可以定义多个资源，而如果直接输入一个文件夹路径，也是合法的，比如<span class="string">``</span><span class="string">`/blog`</span><span class="string">``</span>这样，blog文件夹下的所有文件都不会被缓存
+
+可以使用通配符来，如除了上面<span class="keyword">CACHE</span>中定义的资源，其他都必须与服务器连接：
+</pre></td></tr></table></figure>
+
 
 <p>NETWORK:<br>*</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">需要注意一点是，载有这个manifest文件的HTML文档将一定会缓存，这个会在后面再次提到</div><div class="line"></div><div class="line"><span class="preprocessor">###FALLBACK部分</span></div><div class="line">第三部分为FALLBACK部分：</div></pre></td></tr></table></figure>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+</pre></td><td class="code"><pre>
+需要注意一点是，载有这个manifest文件的HTML文档将一定会缓存，这个会在后面再次提到
+
+<span class="preprocessor">###FALLBACK部分</span>
+第三部分为FALLBACK部分：
+</pre></td></tr></table></figure>
+
 
 <p>FALLBACK:<br>/ 404.html</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">这一部分指定了一个后备页面，当资源无法访问时，浏览器会使用该页面</div><div class="line"></div><div class="line">同样可以定义多条记录，每条记录列出两个URI，一个表示资源，一个表示后备页面。需要注意的是两个资源文件都需要使用相对路径切与manifest文件同源</div><div class="line"></div><div class="line">同样可以使用通配符</div><div class="line"></div><div class="line"><span class="preprocessor">###保存和引用manifest文件</span></div><div class="line">manifest文件可以保存在服务器上，保存为</div></pre></td></tr></table></figure>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+</pre></td><td class="code"><pre>这一部分指定了一个后备页面，当资源无法访问时，浏览器会使用该页面
 
-<p>.appcache</p>
-<figure class="highlight 后缀，但必须与应用本身同源。在HTML文档中，可以指定清单文件的相对路径和绝对URL。需要注意的是，manifest文件的MIME类型必须是```text/cache-manifest```"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">需要在HTML文档中引入manifest文件，可以使用类似如下代码：</div></pre></td></tr></table></figure>
+同样可以定义多条记录，每条记录列出两个URI，一个表示资源，一个表示后备页面。需要注意的是两个资源文件都需要使用相对路径切与manifest文件同源
 
-<p>html<br>&lt;!doctype html&gt;</p>
-<html manifest="manifest.appcache"><br>…<br></html>
+同样可以使用通配符
 
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">这样，HTML文档加载后，就会根据manifest.appcache的内容来缓存资源文件，在下次访问相同页面的时候，会直接使用缓存的资源文件来进行加速</div><div class="line"></div><div class="line"><span class="preprocessor">##缓存和加载机制</span></div><div class="line">在第一次访问时，浏览器加载完HTML文档后，会查看其是否有引入manifest文件。若引入，则加载manifest文件，然后根据manifest的文件内容进行资源的缓存，并缓存当前文档</div><div class="line"></div><div class="line">之后访问，浏览器首先会查看manifest文件是否被修改（无论是内容还是注释），如果被修改，将当做第一次访问，重新根据manifest文件内容进行缓存</div><div class="line"></div><div class="line">如果应用缓存存在，且manifest没有被修改，浏览器直接从缓存中加载文档（注意：加载文档）和资源，不会访问网络（注意：无论联网与否，都不会访问网络）</div><div class="line"></div><div class="line">在缓存多个资源文件时，浏览器下载资源文件会先放在一个临时的缓存中，如果有任何一个资源文件下载失败，浏览器将停止其他缓存资源的下载，并清除临时缓存。如果所有资源文件都被成功下载，浏览器将会把这些资源文件以及引用manifest文件的HTML文档移动到永久离线缓存中</div><div class="line"></div><div class="line"><span class="preprocessor">##满满的都是坑</span></div><div class="line"><span class="preprocessor">###一些小坑</span></div><div class="line"><span class="number">1.</span> 需要注意的是manifest文件放在服务器上，MIME类型必须是</div></pre></td></tr></table></figure>
+###保存和引用manifest文件
+manifest文件可以保存在服务器上，保存为<span class="escape">``</span><span class="escape">`.</span>appcache<span class="escape">``</span><span class="escape">`后</span>缀，但必须与应用本身同源。在HTML文档中，可以指定清单文件的相对路径和绝对URL。需要注意的是，manifest文件的MIME类型必须是<span class="escape">``</span><span class="escape">`t</span>ext/cache-manifest
+</pre></td></tr></table></figure>
 
-<p>text/cache-manifest</p>
-<figure class="highlight ，如果使用"><figcaption><span>Apache，需要修改.htaccess文件。IE下默认application/octet-stream，需要在服务器指定</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="bullet">2. </span>每个需要缓存的页面的html都需要加入manifest属性</div><div class="line"><span class="bullet">3. </span>不要将manifest文件本身加入缓存，如果加入，浏览器将不会检测到服务器上manifest的更新，页面版本将万年不变</div><div class="line"><span class="bullet">4. </span>不要以为一个资源文件加载失败，其他文件就会被缓存，原因参见缓存和加载机制的最后一段</div><div class="line"></div><div class="line"><span class="header">###一些大坑</span></div><div class="line"><span class="bullet">1. </span>在manifest文件中定义的资源全部被成功加载后，这些资源文件连同<span class="strong">**引用manifest文件的HTML文档**</span>一并被移动到永久离线缓存中。所以如果想只缓存js、css、图片等文件，而不希望缓存HTML文档以保持获得最新内容的情况来说，这就是个大坑</div><div class="line"><span class="bullet">2. </span>根据Application Cache的加载机制，如果仅仅修改资源文件的内容（没有修改资源文件的路径或名称），浏览器将直接从本地离线缓存中获取资源文件。所以在每次修改资源文件的同时，需要修改manifest文件，以触发资源文件的重新加载和缓存。这其中，最有效的方式是修改manifest文件内部的版本注释（所以说那句注释相当重要）</div><div class="line"><span class="bullet">3. </span>如果资源没有被缓存，在而没有设置NETWORK的情况下，将会无法加载（浏览器不会去网络上进行加载），所以需要使用通配符来表明除了CACHE中确定的资源以外，其他资源都需要去网络上加载</div><div class="line"></div><div class="line"><span class="header">###使用iframe来避开一号坑？</span></div><div class="line">网上传言避开一号坑的方法是使用iframe来指定需要缓存的资源，而避开HTML文档的缓存。具体做法是在HTML中嵌入一个iframe，iframe中的页面的HTML标签包含manifest属性引用manifest文件，里面定义了需要缓存的文件。这样就会只缓存iframe中的HTML文档，而持续更新主页面：</div></pre></td></tr></table></figure>
 
-<p>html<br>&lt;!doctype html&gt;</p>
-<html lang="zh"><br><head><br>    <meta charset="UTF-8"><br>    <title>主页面</title><br>    <link rel="stylesheet" href="css/style.css"><br>    <script src="js/javascript.js"></script><br></head><br><body><br>    <iframe src="cache.html"></iframe><br></body><br></html>
+<p>需要在HTML文档中引入manifest文件，可以使用类似如下代码：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+</pre></td><td class="code"><pre><span class="doctype">&lt;!doctype html&gt;</span>
+<span class="tag">&lt;<span class="title">html</span> <span class="attribute">manifest</span>=<span class="value">"manifest.appcache"</span>&gt;</span>
+...
+<span class="tag">&lt;/<span class="title">html</span>&gt;</span>
+</pre></td></tr></table></figure>
 
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">可以看到，主页面的html标签中，并没有引入manifest文件。只是在其中加载了一个iframe，而这个iframe所加载的页面文档如下：</div></pre></td></tr></table></figure>
 
-<p>html<br>&lt;!DOCTYPE html&gt;</p>
-<html manifest="manifest.appcache"><br><head><br>    <meta charset="utf-8"><br>    <title>缓存页面</title><br></head><br><body><br></body><br></html>
+<p>这样，HTML文档加载后，就会根据manifest.appcache的内容来缓存资源文件，在下次访问相同页面的时候，会直接使用缓存的资源文件来进行加速</p>
+<h2 id="缓存和加载机制">缓存和加载机制</h2>
+<p>在第一次访问时，浏览器加载完HTML文档后，会查看其是否有引入manifest文件。若引入，则加载manifest文件，然后根据manifest的文件内容进行资源的缓存，并缓存当前文档</p>
+<p>之后访问，浏览器首先会查看manifest文件是否被修改（无论是内容还是注释），如果被修改，将当做第一次访问，重新根据manifest文件内容进行缓存</p>
+<p>如果应用缓存存在，且manifest没有被修改，浏览器直接从缓存中加载文档（注意：加载文档）和资源，不会访问网络（注意：无论联网与否，都不会访问网络）</p>
+<p>在缓存多个资源文件时，浏览器下载资源文件会先放在一个临时的缓存中，如果有任何一个资源文件下载失败，浏览器将停止其他缓存资源的下载，并清除临时缓存。如果所有资源文件都被成功下载，浏览器将会把这些资源文件以及引用manifest文件的HTML文档移动到永久离线缓存中</p>
+<h2 id="满满的都是坑">满满的都是坑</h2>
+<h3 id="一些小坑">一些小坑</h3>
+<ol>
+<li>需要注意的是manifest文件放在服务器上，MIME类型必须是</li>
+</ol>
+<figure class="highlight text/cache-manifest```，如果使用"><figcaption><span>Apache，需要修改.htaccess文件。IE下默认application/octet-stream，需要在服务器指定</span></figcaption><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+</pre></td><td class="code"><pre>2. 每个需要缓存的页面的html都需要加入manifest属性
+3. 不要将manifest文件本身加入缓存，如果加入，浏览器将不会检测到服务器上manifest的更新，页面版本将万年不变
+4. 不要以为一个资源文件加载失败，其他文件就会被缓存，原因参见缓存和加载机制的最后一段
 
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">缓存页面中引入了manifest文件，这样浏览器就会缓存manifest文件中定义的资源列表，比如这里manifest文件的内容如下：</div></pre></td></tr></table></figure>
+###一些大坑
+1. 在manifest文件中定义的资源全部被成功加载后，这些资源文件连同**引用manifest文件的HTML文档**一并被移动到永久离线缓存中。所以如果想只缓存js、css、图片等文件，而不希望缓存HTML文档以保持获得最新内容的情况来说，这就是个大坑
+2. 根据Application Cache的加载机制，如果仅仅修改资源文件的内容（没有修改资源文件的路径或名称），浏览器将直接从本地离线缓存中获取资源文件。所以在每次修改资源文件的同时，需要修改manifest文件，以触发资源文件的重新加载和缓存。这其中，最有效的方式是修改manifest文件内部的版本注释（所以说那句注释相当重要）
+3. 如果资源没有被缓存，在而没有设置NETWORK的情况下，将会无法加载（浏览器不会去网络上进行加载），所以需要使用通配符来表明除了CACHE中确定的资源以外，其他资源都需要去网络上加载
 
-<p>CACHE MANIFEST</p>
-<h1 id="VERSION_1-0">VERSION 1.0</h1>
-<p>CACHE:<br>css/someStyle.css<br>js/someJavaScript.js</p>
-<p>NETWORK:<br>*</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">在chrome中运行，可以在命令行中看到如下效果：</div></pre></td></tr></table></figure>
+###使用iframe来避开一号坑？
+网上传言避开一号坑的方法是使用iframe来指定需要缓存的资源，而避开HTML文档的缓存。具体做法是在HTML中嵌入一个iframe，iframe中的页面的HTML标签包含manifest属性引用manifest文件，里面定义了需要缓存的文件。这样就会只缓存iframe中的HTML文档，而持续更新主页面：
+```html
+<span class="doctype">&lt;!doctype html&gt;</span>
+<span class="tag">&lt;<span class="title">html</span> <span class="attribute">lang</span>=<span class="value">"zh"</span>&gt;</span>
+<span class="tag">&lt;<span class="title">head</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">meta</span> <span class="attribute">charset</span>=<span class="value">"UTF-8"</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">title</span>&gt;</span>主页面<span class="tag">&lt;/<span class="title">title</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">link</span> <span class="attribute">rel</span>=<span class="value">"stylesheet"</span> <span class="attribute">href</span>=<span class="value">"css/style.css"</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">script</span> <span class="attribute">src</span>=<span class="value">"js/javascript.js"</span>&gt;</span><span class="javascript"></span><span class="tag">&lt;/<span class="title">script</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">head</span>&gt;</span>
+<span class="tag">&lt;<span class="title">body</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">iframe</span> <span class="attribute">src</span>=<span class="value">"cache.html"</span>&gt;</span><span class="tag">&lt;/<span class="title">iframe</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">body</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">html</span>&gt;</span>
+</pre></td></tr></table></figure>
 
-<p>Creating Application Cache with manifest <a href="http://localhost:8000/manifest.appcache" target="_blank" rel="external">http://localhost:8000/manifest.appcache</a><br>Application Cache Checking event<br>Application Cache Downloading event<br>Application Cache Progress event (0 of 2) <a href="http://localhost:8000/css/someStyle.css" target="_blank" rel="external">http://localhost:8000/css/someStyle.css</a><br>Application Cache Progress event (1 of 2) <a href="http://localhost:8000/js/someJavaScript.js" target="_blank" rel="external">http://localhost:8000/js/someJavaScript.js</a><br>Application Cache Progress event (2 of 2)<br>Application Cache Cached event </p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">浏览器缓存了manifest文件中定义的资源文件，其实同时还缓存了iframe中的缓存页面的文档，但不会缓存主页面，修改一下主页面，并按F5刷新</div></pre></td></tr></table></figure>
 
-<p>Document was loaded from Application Cache with manifest <a href="http://localhost:8000/manifest.appcache" target="_blank" rel="external">http://localhost:8000/manifest.appcache</a><br>Application Cache Checking event<br>Application Cache NoUpdate event </p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">可以看到主页面被更新了，但是someStyle.css和someJavaScript.js文件依旧从网络上加载了，而没有从<span class="operator"><span class="keyword">cache</span>中加载。打开chrome的</span></div></pre></td></tr></table></figure>
+<p>可以看到，主页面的html标签中，并没有引入manifest文件。只是在其中加载了一个iframe，而这个iframe所加载的页面文档如下：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+</pre></td><td class="code"><pre><span class="doctype">&lt;!DOCTYPE html&gt;</span>
+<span class="tag">&lt;<span class="title">html</span> <span class="attribute">manifest</span>=<span class="value">"manifest.appcache"</span>&gt;</span>
+<span class="tag">&lt;<span class="title">head</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">meta</span> <span class="attribute">charset</span>=<span class="value">utf-8</span> /&gt;</span>
+    <span class="tag">&lt;<span class="title">title</span>&gt;</span>缓存页面<span class="tag">&lt;/<span class="title">title</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">head</span>&gt;</span>
+<span class="tag">&lt;<span class="title">body</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">body</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">html</span>&gt;</span>
+</pre></td></tr></table></figure>
 
-<p>chrome://appcache-internals/</p>
-<figure class="highlight 可以看到，里面cache.html、someStyle.css、someJavaScript.js确实被缓存了，去掉NETWORK段，结果也是一样"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">```</div><div class="line">Flags       <span class="built_in">URL</span>                                         Size (headers <span class="operator">and</span> data)</div><div class="line">Master,     <span class="keyword">http</span>://localhost:<span class="number">8000</span>/cache.html            <span class="number">388</span> B</div><div class="line">Explicit,   <span class="keyword">http</span>://localhost:<span class="number">8000</span>/css/someStyle.css     <span class="number">228</span> B</div><div class="line">Explicit,   <span class="keyword">http</span>://localhost:<span class="number">8000</span>/js/someJavaScript.js  <span class="number">244</span> B</div><div class="line">Manifest,   <span class="keyword">http</span>://localhost:<span class="number">8000</span>/manifest.appcache     <span class="number">316</span> B</div></pre></td></tr></table></figure>
+
+<p>缓存页面中引入了manifest文件，这样浏览器就会缓存manifest文件中定义的资源列表，比如这里manifest文件的内容如下：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+</pre></td><td class="code"><pre>CACHE MANIFEST
+<span class="preprocessor"># VERSION 1.0</span>
+
+<span class="label">CACHE:</span>
+css/someStyle<span class="preprocessor">.css</span>
+js/someJavaScript<span class="preprocessor">.js</span>
+
+<span class="label">NETWORK:</span>
+*
+</pre></td></tr></table></figure>
+
+
+<p>在chrome中运行，可以在命令行中看到如下效果：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+</pre></td><td class="code"><pre>Creating Application Cache <span class="keyword">with</span> manifest http:<span class="comment">//localhost:8000/manifest.appcache</span>
+Application Cache Checking <span class="keyword">event</span>
+Application Cache Downloading <span class="keyword">event</span>
+Application Cache Progress <span class="keyword">event</span> (<span class="number">0</span> <span class="keyword">of</span> <span class="number">2</span>) http:<span class="comment">//localhost:8000/css/someStyle.css</span>
+Application Cache Progress <span class="keyword">event</span> (<span class="number">1</span> <span class="keyword">of</span> <span class="number">2</span>) http:<span class="comment">//localhost:8000/js/someJavaScript.js</span>
+Application Cache Progress <span class="keyword">event</span> (<span class="number">2</span> <span class="keyword">of</span> <span class="number">2</span>)
+Application Cache Cached <span class="keyword">event</span>
+</pre></td></tr></table></figure>
+
+
+<p>浏览器缓存了manifest文件中定义的资源文件，其实同时还缓存了iframe中的缓存页面的文档，但不会缓存主页面，修改一下主页面，并按F5刷新</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+</pre></td><td class="code"><pre>Document was loaded <span class="keyword">from</span> Application Cache <span class="keyword">with</span> manifest http:<span class="comment">//localhost:8000/manifest.appcache</span>
+Application Cache Checking <span class="keyword">event</span>
+Application Cache NoUpdate <span class="keyword">event</span>
+</pre></td></tr></table></figure>
+
+
+<p>可以看到主页面被更新了，但是someStyle.css和someJavaScript.js文件依旧从网络上加载了，而没有从cache中加载。打开chrome的</p>
+<figure class="highlight chrome://appcache-internals/```可以看到，里面cache.html、someStyle.css、someJavaScript.js确实被缓存了，去掉NETWORK段，结果也是一样"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+</pre></td><td class="code"><pre>```
+Flags       <span class="built_in">URL</span>                                         Size (headers <span class="operator">and</span> data)
+Master,     <span class="keyword">http</span>://localhost:<span class="number">8000</span>/cache.html            <span class="number">388</span> B
+Explicit,   <span class="keyword">http</span>://localhost:<span class="number">8000</span>/css/someStyle.css     <span class="number">228</span> B
+Explicit,   <span class="keyword">http</span>://localhost:<span class="number">8000</span>/js/someJavaScript.js  <span class="number">244</span> B
+Manifest,   <span class="keyword">http</span>://localhost:<span class="number">8000</span>/manifest.appcache     <span class="number">316</span> B
+</pre></td></tr></table></figure>
+
 
 <p>在firefox、opera上测试也是一样，虽然被缓存了，但依旧会从网络上加载，而iframe的解答方法也是2011~2012年左右提出的，后来就没有相关文章了，估计已经彻底失效了</p>
 <h2 id="总结">总结</h2>
 <p>Application主要是为了构建离线缓存，使得页面在离线模式下也能浏览。这比较适合一些页面上的应用以及静态的不经常变更的页面。其会缓存载体页面也是由于其机制。如果上面iframe机制实现有错误，或是有其他方法只缓存资源不缓存HTML文档，请联系我</p>
 <h2 id="参考资料">参考资料</h2>
-<p><a href="https://developer.mozilla.org/zh-CN/docs/HTML/Using_the_application_cache" target="_blank" rel="external">使用应用缓存</a></p>
-<p><a href="http://zoomzhao.com/2012/11/08/application-cache-is-a-douchebag/" target="_blank" rel="external">Application Cache 就是个坑</a></p>
+<p><a href="https://developer.mozilla.org/zh-CN/docs/HTML/Using_the_application_cache" target="_blank">使用应用缓存</a></p>
+<p><a href="http://zoomzhao.com/2012/11/08/application-cache-is-a-douchebag/" target="_blank">Application Cache 就是个坑</a></p>
 <hr><div class="tags"><a href="/tags/HTML/" class="blog-tag">HTML</a></div><hr><div class="jia"><div class="jiathis_style_32x32"><a class="jiathis_button_qzone"></a><a class="jiathis_button_tsina"></a><a class="jiathis_button_tqq"></a><a class="jiathis_button_weixin"></a><a class="jiathis_button_renren"></a><a href="http://www.jiathis.com/share?uid=1409314953297200" target="_blank" class="jiathis jiathis_txt jtico jtico_jiathis"></a></div><script type="text/javascript">var jiathis_config = {data_track_clickback:'true'};    </script><script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1409314953297200" charset="utf-8"></script></div><hr><div id="duoshuo" data-url="http://lingyu.wang/2014/02/20/application-cache/" data-thread-key="/blog/2014/02/20/application-cache/" data-title="前端性能优化（Application Cache篇）" class="ds-thread"></div><script type="text/javascript">var duoshuoQuery = {short_name:'skyinlayer'};
 (function() {
     var ds = document.createElement('script');
@@ -80,7 +287,7 @@
     ds.charset = 'UTF-8';
     (document.getElementsByTagName('head')[0] 
      || document.getElementsByTagName('body')[0]).appendChild(ds);
-})();</script></div></article><div class="pager"><a href="/2014/02/24/CSS3-animation-optimization/" title="前端性能优化（CSS动画篇）" class="pre">上一页</a><a href="/2014/02/19/plsql-and-storage-function/" title="PL/SQL编写存储函数" class="next">下一页</a></div></div><aside id="aside"><section class="recent"><h3 class="title iconfont">最新文章<i>&#xe601;</i></h3><div class="links"><ul><li><a href="/2014/09/24/koa-anywhere/">koa-anywhere</a></li><li><a href="/2014/09/22/learn-fe/">学前端的一点总结</a></li><li><a href="/2014/07/29/generator/">细说Generator</a></li><li><a href="/2014/05/31/kissy-anime-plugin/">如何写一个KISSY动画插件</a></li><li><a href="/2014/05/22/webrtc-data-channels/">WebRTC的RTCDataChannel</a></li></ul></div></section><section class="categories"><h3 class="title iconfont">分类<i>&#xe605;</i></h3><div class="links"><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/NodeJs/">NodeJs</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端技术/">前端技术</a><span class="category-list-count">33</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/前端技术/性能优化/">性能优化</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端技术/笔试面试积累/">笔试面试积累</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端技术/网站建设/">网站建设</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/即时通信/">即时通信</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/性能优化/">性能优化</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库技术/">数据库技术</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/源码阅读/">源码阅读</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/生活情感/">生活情感</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/笔试面试积累/">笔试面试积累</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/网站建设/">网站建设</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/读书笔记/">读书笔记</a><span class="category-list-count">9</span></li></ul></div></section><section class="tags"><h3 class="title iconfont">标签<i>&#xe603;</i></h3><div class="links"><ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS/">CSS</a><span class="tag-list-count">35</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ES6/">ES6</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Generator/">Generator</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/">HTML</a><span class="tag-list-count">29</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/">HTTP</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a><span class="tag-list-count">34</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kissy/">Kissy</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NodeJs/">NodeJs</a><span class="tag-list-count">10</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SEO/">SEO</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WebIM/">WebIM</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WebRTC/">WebRTC</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WebSocket/">WebSocket</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/grunt/">grunt</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jQuery/">jQuery</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/koa/">koa</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/oracle/">oracle</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/xmpp/">xmpp</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/动画/">动画</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/响应式/">响应式</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/存储函数/">存储函数</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/思考/">思考</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/生活/">生活</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/笔试面试题/">笔试面试题</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/设计/">设计</a><span class="tag-list-count">9</span></li></ul></div></section><section class="archives"><h3 class="title iconfont"> 归档<i>&#xe60a;</i></h3><div class="links"><ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09">2014年9月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07">2014年7月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05">2014年5月</a><span class="archive-list-count">15</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/04">2014年4月</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/03">2014年3月</a><span class="archive-list-count">29</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02">2014年2月</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/01">2014年1月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/12">2013年12月</a><span class="archive-list-count">1</span></li></ul></div></section></aside></section><footer id="page-footer"><span style="float:right"><script type="text/javascript">(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+})();</script></div></article><div class="pager"><a href="/2014/02/24/CSS3-animation-optimization/" title="前端性能优化（CSS动画篇）" class="pre">上一页</a><a href="/2014/02/19/plsql-and-storage-function/" title="PL/SQL编写存储函数" class="next">下一页</a></div></div><aside id="aside"><section class="recent"><h3 class="title iconfont">最新文章<i>&#xe601;</i></h3><div class="links"><ul><li><a href="/2014/10/06/gulp-vision-history-future/">Gulp -- 项目的愿景、过去和将来</a></li><li><a href="/2014/09/24/koa-anywhere/">koa-anywhere</a></li><li><a href="/2014/09/22/learn-fe/">学前端的一点总结</a></li><li><a href="/2014/07/29/generator/">细说Generator</a></li><li><a href="/2014/05/31/kissy-anime-plugin/">如何写一个KISSY动画插件</a></li></ul></div></section><section class="categories"><h3 class="title iconfont">分类<i>&#xe605;</i></h3><div class="links"><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/NodeJs/">NodeJs</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端技术/">前端技术</a><span class="category-list-count">33</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/前端技术/性能优化/">性能优化</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端技术/笔试面试积累/">笔试面试积累</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端技术/网站建设/">网站建设</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/即时通信/">即时通信</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/性能优化/">性能优化</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库技术/">数据库技术</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/源码阅读/">源码阅读</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/生活情感/">生活情感</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/笔试面试积累/">笔试面试积累</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/网站建设/">网站建设</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/读书笔记/">读书笔记</a><span class="category-list-count">9</span></li></ul></div></section><section class="tags"><h3 class="title iconfont">标签<i>&#xe603;</i></h3><div class="links"><ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS/">CSS</a><span class="tag-list-count">35</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ES6/">ES6</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Generator/">Generator</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Gulp/">Gulp</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/">HTML</a><span class="tag-list-count">29</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/">HTTP</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a><span class="tag-list-count">35</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kissy/">Kissy</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NodeJs/">NodeJs</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SEO/">SEO</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WebIM/">WebIM</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WebRTC/">WebRTC</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WebSocket/">WebSocket</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/grunt/">grunt</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jQuery/">jQuery</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/koa/">koa</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/oracle/">oracle</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/xmpp/">xmpp</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/动画/">动画</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/响应式/">响应式</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/存储函数/">存储函数</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/思考/">思考</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/生活/">生活</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/笔试面试题/">笔试面试题</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/设计/">设计</a><span class="tag-list-count">9</span></li></ul></div></section><section class="archives"><h3 class="title iconfont"> 归档<i>&#xe60a;</i></h3><div class="links"><ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10">2014年10月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09">2014年9月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07">2014年7月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05">2014年5月</a><span class="archive-list-count">15</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/04">2014年4月</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/03">2014年3月</a><span class="archive-list-count">29</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02">2014年2月</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/01">2014年1月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/12">2013年12月</a><span class="archive-list-count">1</span></li></ul></div></section></aside></section><footer id="page-footer"><span style="float:right"><script type="text/javascript">(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
 (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
 m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 })(window,document,'script','//www.google-analytics.com/analytics.js','ga');

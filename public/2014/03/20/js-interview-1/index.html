@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="author" content="天镶"><meta name="description"><title>前端面试题（1-14） | 天镶的博客</title><link href="/favicon.png" rel="icon"><link rel="stylesheet" media="screen" href="/stylesheets/plugins/typo/typo-1.1.css"><link rel="stylesheet" media="screen" href="/stylesheets/plugins/highlight/highlight-8.0-dark.css"><link rel="stylesheet" media="screen" href="/stylesheets/app.css"></head><body><a id="totop" href="#page-header" class="iconfont">&#xe60b;</a><header id="page-header"><div class="wrapper"><a href="/page/profile.html"><img alt="avatar" src="/images/avatar.jpg" class="avatar"></a><div class="title"> <a href="/">天镶的博客</a></div><nav class="nav"><ul class="links"><li><a href="/"> 首页</a></li><li><a href="/archives"> 归档</a></li><li><a href="/page/profile.html"> 关于</a></li><li><a href="/page/gitbook/index.html"> 笔记</a></li></ul><div class="icons"><a href="/atom.xml" class="icon rss"><i class="iconfont">&#xe602;</i></a><a href="http://weibo.com/lingyucoder" class="icon weibo"><i class="iconfont">&#xe600;</i></a><a href="http://github.com/lingyucoder" class="icon github"><i class="iconfont">&#xe604;</i></a><a href="http://twitter.com/lingyucoder" class="icon twitter"><i class="iconfont">&#xe607;</i></a></div></nav></div></header><section id="wrapper"><div id="main"><article class="post"><div class="content desc typo"><h1 class="blog-title">前端面试题（1-14）</h1><div class="toc-index"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#第一题"><span class="toc-number">1.</span> <span class="toc-text">第一题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#location对象"><span class="toc-number">1.1.</span> <span class="toc-text">location对象</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#history对象"><span class="toc-number">1.2.</span> <span class="toc-text">history对象</span></a></li></ol></li></ol></div><p>这两天在一问一答上刷了不少JavaScript题，也做了一些其他的前端面试笔试题，在这里记录一下，积少成多，聚沙成塔！</p>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="author" content="天镶"><meta name="description"><title>前端面试题（1-14） | 天镶的博客</title><link href="/favicon.png" rel="icon"><link rel="stylesheet" media="screen" href="/stylesheets/plugins/typo/typo-1.1.css"><link rel="stylesheet" media="screen" href="/stylesheets/plugins/highlight/highlight-8.0-dark.css"><link rel="stylesheet" media="screen" href="/stylesheets/app.css"></head><body><a id="totop" href="#page-header" class="iconfont">&#xe60b;</a><header id="page-header"><div class="wrapper"><a href="/page/profile.html"><img alt="avatar" src="/images/avatar.jpg" class="avatar"></a><div class="title"> <a href="/">天镶的博客</a></div><nav class="nav"><ul class="links"><li><a href="/"> 首页</a></li><li><a href="/archives"> 归档</a></li><li><a href="/page/profile.html"> 关于</a></li><li><a href="/page/gitbook/index.html"> 笔记</a></li></ul><div class="icons"><a href="/atom.xml" class="icon rss"><i class="iconfont">&#xe602;</i></a><a href="http://weibo.com/lingyucoder" class="icon weibo"><i class="iconfont">&#xe600;</i></a><a href="http://github.com/lingyucoder" class="icon github"><i class="iconfont">&#xe604;</i></a><a href="http://twitter.com/lingyucoder" class="icon twitter"><i class="iconfont">&#xe607;</i></a></div></nav></div></header><section id="wrapper"><div id="main"><article class="post"><div class="content desc typo"><h1 class="blog-title">前端面试题（1-14）</h1><div class="toc-index"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#第一题"><span class="toc-number">1.</span> <span class="toc-text">第一题</span></a></li><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#location对象"><span class="toc-number">1.1.</span> <span class="toc-text">location对象</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#history对象"><span class="toc-number">1.2.</span> <span class="toc-text">history对象</span></a></li></ol><li class="toc-item toc-level-2"><a class="toc-link" href="#第三题"><span class="toc-number">2.</span> <span class="toc-text">第三题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第四题"><span class="toc-number">3.</span> <span class="toc-text">第四题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第五题"><span class="toc-number">4.</span> <span class="toc-text">第五题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第六题"><span class="toc-number">5.</span> <span class="toc-text">第六题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第七题"><span class="toc-number">6.</span> <span class="toc-text">第七题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第八题"><span class="toc-number">7.</span> <span class="toc-text">第八题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第九题"><span class="toc-number">8.</span> <span class="toc-text">第九题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第十题"><span class="toc-number">9.</span> <span class="toc-text">第十题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第十一题"><span class="toc-number">10.</span> <span class="toc-text">第十一题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第十二题"><span class="toc-number">11.</span> <span class="toc-text">第十二题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第十三题"><span class="toc-number">12.</span> <span class="toc-text">第十三题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第十四题"><span class="toc-number">13.</span> <span class="toc-text">第十四题</span></a></li></ol></div><p>这两天在一问一答上刷了不少JavaScript题，也做了一些其他的前端面试笔试题，在这里记录一下，积少成多，聚沙成塔！</p>
 <a id="more"></a>
 
 <h2 id="第一题">第一题</h2>
@@ -15,114 +15,497 @@
 <p>location对象里面存放了当前URL的一些信息：</p>
 <p><img src="http://lingyu.wang/img/fe_interview/1.png" alt="localtion对象存放的信息"></p>
 <p>location对象同时window对象和window.document对象的子对象：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&gt; <span class="built_in">window</span>.location === <span class="built_in">window</span>.document.location</div><div class="line"><span class="literal">true</span></div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+</pre></td><td class="code"><pre>&gt; window.location === window.document.location
+<span class="literal">true</span>
+</pre></td></tr></table></figure>
+
 
 <p>我们可以通过修改其href实现跳转</p>
 <h3 id="history对象">history对象</h3>
 <p>history对象是window对象的子对象，里面记录了访问历史：</p>
 <p>history与location对象不同的是，其不存在于window.document对象之中</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="literal">undefined</span></div><div class="line">* back()：移动到当前页面的在历史记录中的上一个页面</div><div class="line">* forward()：移动到当前页面在历史记录中的下一个页面</div><div class="line">* go(n)：接收一个参数n如果参数为正整数或<span class="number">0</span>，移动到当前页面后的第n个页面（<span class="number">0</span>的效果为刷新），如果为负数，移动到当前页面前的第n个页面，超出范围的话将被忽略</div><div class="line"></div><div class="line"></div><div class="line">##第二题</div><div class="line">析如下JavaScript代码，请问依次打印什么：</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+</pre></td><td class="code"><pre><span class="literal">undefined</span>
+* back()：移动到当前页面的在历史记录中的上一个页面
+* forward()：移动到当前页面在历史记录中的下一个页面
+* go(n)：接收一个参数n如果参数为正整数或<span class="number">0</span>，移动到当前页面后的第n个页面（<span class="number">0</span>的效果为刷新），如果为负数，移动到当前页面前的第n个页面，超出范围的话将被忽略
 
-<p>javascript<br>console.log(Function instanceof Object);<br>console.log(Object instanceof Function);<br>console.log([].constructor === Array.prototype.constructor);<br>console.log(new Object(1).constructor === new Number(2).constructor);</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">这题考察了<span class="built_in">Function</span>、<span class="built_in">Object</span>以及constructor</div><div class="line"></div><div class="line">首先我们要确定<span class="keyword">instanceof</span>方法，如A <span class="keyword">instanceof</span> B，A必须是一个合法的对象，B是一个合法的JavaScript函数。如果函数B在对象A的原型链中被发现，那么<span class="keyword">instanceof</span>操作符将返回<span class="literal">true</span>，否则返回<span class="literal">false</span></div><div class="line"></div><div class="line">第一行`<span class="built_in">console</span>.log(<span class="built_in">Function</span> <span class="keyword">instanceof</span> <span class="built_in">Object</span>);`：</div><div class="line"></div><div class="line">由于<span class="built_in">Function</span>.prototype是一个对象，它的构造函数是<span class="built_in">Object</span>，所以从原型链上来说，所有的函数顺着原型链查找，最后都会到达<span class="built_in">Object</span>的构造原型的<span class="built_in">Object</span>.prototype对象，所以答案为<span class="literal">true</span>。</div><div class="line"></div><div class="line">由此我们可以得出另外一个结论，所有的函数<span class="keyword">instanceof</span> <span class="built_in">Object</span>的结果，都是<span class="literal">true</span></div></pre></td></tr></table></figure>
 
-<p>javascript</p>
-<blockquote>
-<p>(function(){}) instanceof Object<br>true</p>
-</blockquote>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">第二行`console.log(<span class="keyword">Object</span> instanceof <span class="function"><span class="keyword">Function</span>);</span>`：</div><div class="line"></div><div class="line">因为在JavaScript中所有的构造函数（<span class="keyword">Object</span>、<span class="function"><span class="keyword">Function</span>、<span class="title">Array</span>）都是函数，而所有函数都是其构造函数（<span class="title">Function</span>）的实例，所以答案也是<span class="title">true</span></span></div><div class="line"></div><div class="line">第三行`<span class="title">console</span>.<span class="title">log</span><span class="params">(arr.<span class="keyword">constructor</span> === <span class="keyword">Array</span>.prototype.<span class="keyword">constructor</span>)</span>;`：</div><div class="line"></div><div class="line">首先我们需要知道<span class="function"><span class="keyword">constructor</span>的概念，<span class="title">constructor</span>属性始终指向创建当前对象的构造函数。所以很容易得到如下结果:</span></div></pre></td></tr></table></figure>
+##第二题
+析如下JavaScript代码，请问依次打印什么：
+```javascript
+console.log(<span class="built_in">Function</span> <span class="keyword">instanceof</span> <span class="built_in">Object</span>);
+console.log(<span class="built_in">Object</span> <span class="keyword">instanceof</span> <span class="built_in">Function</span>);
+console.log([].constructor === <span class="built_in">Array</span>.prototype.constructor);
+console.log(<span class="keyword">new</span> <span class="built_in">Object</span>(<span class="number">1</span>).constructor === <span class="keyword">new</span> <span class="built_in">Number</span>(<span class="number">2</span>).constructor);
+</pre></td></tr></table></figure>
 
-<p>javascript</p>
-<blockquote>
-<p>[].constructor === Array<br>true</p>
-</blockquote>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">而每个函数都有一个默认的属性prototype，这个prototype的<span class="function"><span class="keyword">constructor</span>默认指向这个函数：</span></div></pre></td></tr></table></figure>
 
-<p>javascript</p>
-<blockquote>
-<p>var SomeType = function(){};<br>SomeType.prototype.constructor === SomeType<br>true</p>
-</blockquote>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">由此可以得知：</div></pre></td></tr></table></figure>
+<p>这题考察了Function、Object以及constructor</p>
+<p>首先我们要确定instanceof方法，如A instanceof B，A必须是一个合法的对象，B是一个合法的JavaScript函数。如果函数B在对象A的原型链中被发现，那么instanceof操作符将返回true，否则返回false</p>
+<p>第一行<code>console.log(Function instanceof Object);</code>：</p>
+<p>由于Function.prototype是一个对象，它的构造函数是Object，所以从原型链上来说，所有的函数顺着原型链查找，最后都会到达Object的构造原型的Object.prototype对象，所以答案为true。</p>
+<p>由此我们可以得出另外一个结论，所有的函数instanceof Object的结果，都是true</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+</pre></td><td class="code"><pre>&gt; (<span class="function"><span class="keyword">function</span><span class="params">()</span>{</span>}) <span class="keyword">instanceof</span> <span class="built_in">Object</span>
+<span class="literal">true</span>
+</pre></td></tr></table></figure>
 
-<p>javascript</p>
-<blockquote>
-<p>[].constructor === Array<br>true<br>Array === Array.prototype.constructor<br>true<br>[].constructor === Array.prototype.constructor<br>true</p>
-</blockquote>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">当然我们哈有另外一个比较简单的思路，其实<span class="built_in">Array</span>.prototype这个对象比较特殊，它是集上是个数组:</div></pre></td></tr></table></figure>
 
-<p>javascript</p>
-<blockquote>
-<p>Array.prototype<br>[]</p>
-</blockquote>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">这样就相当于比较`<span class="javascript">[].constructor === [].constructor</span>`了，结果自然是<span class="literal">true</span></div><div class="line"></div><div class="line">第四行`<span class="javascript"><span class="built_in">console</span>.log(<span class="keyword">new</span> <span class="built_in">Object</span>(<span class="number">1</span>).constructor === <span class="keyword">new</span> <span class="built_in">Number</span>(<span class="number">2</span>).constructor);</span>`：</div><div class="line"></div><div class="line">说实话我被这个坑了，以为是<span class="literal">false</span>，后来发现`<span class="javascript"><span class="keyword">new</span> <span class="built_in">Object</span>()</span>`方法如果传入一个基础类型或基础类型对象，会自动构造成基础类型对象：</div></pre></td></tr></table></figure>
+<p>第二行<code>console.log(Object instanceof Function);</code>：</p>
+<p>因为在JavaScript中所有的构造函数（Object、Function、Array）都是函数，而所有函数都是其构造函数（Function）的实例，所以答案也是true</p>
+<p>第三行<code>console.log(arr.constructor === Array.prototype.constructor);</code>：</p>
+<p>首先我们需要知道constructor的概念，constructor属性始终指向创建当前对象的构造函数。所以很容易得到如下结果:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+</pre></td><td class="code"><pre>&gt; [].constructor === <span class="built_in">Array</span>
+<span class="literal">true</span>
+</pre></td></tr></table></figure>
 
-<p>javascript</p>
-<blockquote>
-<p>new Object(123) instanceof Number<br>true<br>new Object(“asdf”) instanceof String<br>true<br>new Object(false) instanceof Boolean<br>true<br>typeof new Object(123)<br>“object”</p>
-</blockquote>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">这样就很好理解了，`<span class="keyword">new</span> <span class="built_in">Object</span>()`如果传入一个数字，将会调用<span class="keyword">new</span> Number()，其他类似。所以这里答案是<span class="literal">true</span></div><div class="line"></div><div class="line"><span class="preprocessor">##第三题</span></div><div class="line">下列JavaScript运行完成后，x的值是多少：</div></pre></td></tr></table></figure>
 
-<p>javascript<br>var somevar;<br>var x = somevar === undefined;</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">这题错了，囧</div><div class="line"></div><div class="line">以往一直使用<span class="smartquote">`typeof somevar === '</span>undefined'`来检测undefined，这下被坑了</div><div class="line"></div><div class="line">undefined可能出现在如下两种情况之中：</div><div class="line">1. 变量未定义</div><div class="line">2. 定义了变量但未赋值</div><div class="line"></div><div class="line">使用<span class="smartquote">`typeof somevar === '</span>undefined'`进行判断：</div></pre></td></tr></table></figure>
+<p>而每个函数都有一个默认的属性prototype，这个prototype的constructor默认指向这个函数：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+</pre></td><td class="code"><pre>&gt; <span class="keyword">var</span> SomeType = <span class="function"><span class="keyword">function</span><span class="params">()</span>{</span>};
+&gt; SomeType.prototype.constructor === SomeType
+<span class="literal">true</span>
+</pre></td></tr></table></figure>
 
-<p>javascript</p>
-<blockquote>
-<p>typeof somevar === ‘undefined’<br>true<br>var someothervar;<br>typeof someothervar === ‘undefined’<br>true</p>
-</blockquote>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">由此可见，这种方法在两种情况下都适用</div><div class="line"></div><div class="line">使用<span class="escape">`s</span>omevar === undefined<span class="escape">`进</span>行判断：</div></pre></td></tr></table></figure>
 
-<p>javascript</p>
-<blockquote>
-<p>somevar === undefined<br>ReferenceError: somevar is not defined<br>var someothervar;<br>someothervar === undefined<br>true</p>
-</blockquote>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">我勒个去<span class="keyword">...</span>也就是说，这种检测方式仅仅适用于第二种情况，所以这题答案是true</div><div class="line"></div><div class="line"><span class="comment">##第四题</span></div></pre></td></tr></table></figure>
+<p>由此可以得知：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+</pre></td><td class="code"><pre>&gt; [].constructor === <span class="built_in">Array</span>
+<span class="literal">true</span>
+&gt; <span class="built_in">Array</span> === <span class="built_in">Array</span>.prototype.constructor
+<span class="literal">true</span>
+&gt; [].constructor === <span class="built_in">Array</span>.prototype.constructor
+<span class="literal">true</span>
+</pre></td></tr></table></figure>
 
-<p>javascript<br>var obj = {<br>    toString: function() {<br>        return “obj作用域内”;<br>    },<br>    func: function() {<br>        alert(this);<br>        var innerfunc = function() {<br>            alert(this);<br>        };<br>        innerfunc.call(this);<br>    }<br>};<br>obj.func.call(window);</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">弹出来的第二个对话框内容是什么</div><div class="line"></div><div class="line">考<span class="keyword">this</span>的题，没跑了</div><div class="line"></div><div class="line">首先看`<span class="javascript">obj.func.call(<span class="built_in">window</span>)</span>`，这句使用了call方法指定<span class="keyword">this</span>，没啥说的，<span class="keyword">this</span>肯定指向<span class="built_in">window</span>，所以第一个对话框的内容肯定是`<span class="javascript">[object <span class="built_in">window</span>]</span>`，但是它问第二个对话框，好吧，继续</div><div class="line"></div><div class="line">进入到func内部，其又用call来调用，传入的还是<span class="keyword">this</span>，也就是<span class="built_in">window</span>对象，所以第二个对话框也是<span class="built_in">window</span></div><div class="line"></div><div class="line"><span class="comment">##第五题</span></div><div class="line">考虑如下代码：</div></pre></td></tr></table></figure>
 
-<p>javascript<br>var message = “Hello world!”;<br>var t1 = message.substring(1, 4);<br>var t2 = message.substr(1,4);</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">t1，t2的值各是多少？</div><div class="line"></div><div class="line">通过这道题我才知道原来还有substr这么个玩意<span class="keyword">...</span></div><div class="line"></div><div class="line">首先来看substring方法，其接受两个参数，left和right，分别代表截取的起始点和终点，这是一个左闭右开的区间，right位置的字符不会被截取，所以这里会截取的是message\[<span class="number">1</span>\], message\[<span class="number">2</span>\], message\[<span class="number">3</span>\]三个字符为<span class="string">'ell'</span></div><div class="line"></div><div class="line">接下来看substr方法，其亦接受两个参数，left和count，分别代表截取的起始点和截取字符的个数<span class="keyword">...</span>所以会截取message\[<span class="number">1</span>\], message\[<span class="number">2</span>\], message\[<span class="number">3</span>\], message\[<span class="number">4</span>\]四个字符，也就是<span class="string">'ello'</span><span class="keyword">...</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="comment">##第六题</span></div></pre></td></tr></table></figure>
+<p>当然我们哈有另外一个比较简单的思路，其实Array.prototype这个对象比较特殊，它是集上是个数组:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+</pre></td><td class="code"><pre>&gt; <span class="built_in">Array</span>.prototype
+[]
+</pre></td></tr></table></figure>
 
-<p>javascript<br>if (a in window) {<br>    var a = 1;<br>}<br>console.log(a);</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">看了那么多关于变量声明提升的概念，这题竟然错了，呵呵</div><div class="line"></div><div class="line">这题就是考的变量的提升：提升后的代码如下：</div></pre></td></tr></table></figure>
 
-<p>javascript<br>var a;<br>if (a in window) {<br>    a = 1;<br>}<br>console.log(a);</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">这样就很明显了，答案是<span class="number">1.</span>..</div><div class="line"></div><div class="line"><span class="preprocessor">##第七题</span></div></pre></td></tr></table></figure>
+<p>这样就相当于比较<code>[].constructor === [].constructor</code>了，结果自然是true</p>
+<p>第四行<code>console.log(new Object(1).constructor === new Number(2).constructor);</code>：</p>
+<p>说实话我被这个坑了，以为是false，后来发现<code>new Object()</code>方法如果传入一个基础类型或基础类型对象，会自动构造成基础类型对象：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+</pre></td><td class="code"><pre>&gt; <span class="keyword">new</span> <span class="built_in">Object</span>(<span class="number">123</span>) <span class="keyword">instanceof</span> <span class="built_in">Number</span>
+<span class="literal">true</span>
+&gt; <span class="keyword">new</span> <span class="built_in">Object</span>(<span class="string">"asdf"</span>) <span class="keyword">instanceof</span> <span class="built_in">String</span>
+<span class="literal">true</span>
+&gt; <span class="keyword">new</span> <span class="built_in">Object</span>(<span class="literal">false</span>) <span class="keyword">instanceof</span> <span class="built_in">Boolean</span>
+<span class="literal">true</span>
+&gt; <span class="keyword">typeof</span> <span class="keyword">new</span> <span class="built_in">Object</span>(<span class="number">123</span>)
+<span class="string">"object"</span>
+</pre></td></tr></table></figure>
 
-<p>javascript<br>var x = 10;<br>var foo = {<br>    x: 20,<br>    bar: function() {<br>        var x = 30;<br>        return this.x;<br>    }<br>};</p>
-<p>alert(foo.bar());<br>alert((foo.bar)());<br>alert((foo.bar = foo.bar)());<br>alert((foo.bar, foo.bar)());</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line">弹出的内容依次是？</div><div class="line"></div><div class="line">这题也是考的不同调用方法中的<span class="keyword">this</span>，本来挺有自信的，但发现和想的不太一样</div><div class="line"></div><div class="line">第一行`<span class="javascript">foo.bar()</span>`比较明显，对象的方法调用，<span class="keyword">this</span>指向拥有该方法的独享，所以输出值为<span class="number">20</span></div><div class="line"></div><div class="line">第二行`<span class="javascript">(foo.bar)()</span>`和我想的不太一样，我以为这会是函数调用，结果不是，其也是对象方法调用，<span class="keyword">this</span>值指向foo对象，所以答案是<span class="number">20</span></div><div class="line"></div><div class="line">第三行`<span class="javascript">(foo.bar = foo.bar)()</span>`有一个赋值语句，JavaScript的复制语句返回的是被赋予的值，这是函数调用，所以<span class="keyword">this</span>指向全局对象<span class="built_in">window</span>，答案是<span class="number">10</span></div><div class="line"></div><div class="line">第四行`<span class="javascript">(foo.bar, foo.bar)()</span>`，逗号表达式，也是函数调用，都好表达式的值默认是最后的那个值，答案是<span class="number">10</span></div><div class="line"></div><div class="line"><span class="comment">##第八题</span></div><div class="line">在javascript中要改变页面文档的背景色，需要修改<span class="built_in">document</span>对象的（）属性。</div><div class="line"></div><div class="line">我凑，才知道<span class="built_in">document</span>还有这么个神奇的属性可以改变背景颜色，而不是通过改变CSS的方式，答案是`<span class="javascript">bgColor</span>`属性，修改完后，body会多一个`<span class="javascript">bgcolor</span>`属性，而body的css也会加上一条`<span class="javascript">background-color</span>`规则</div><div class="line"></div><div class="line"><span class="comment">##第九题</span></div><div class="line">在通过元素的style属性修改CSS时，有横线的属性（如background-color）应该如何表示？</div><div class="line"></div><div class="line">答案：将横线去掉，横线后的首字母大写，如backgroundColor</div><div class="line"></div><div class="line"><span class="comment">##第十题</span></div><div class="line">JavaScript有哪些数据类型？</div><div class="line"></div><div class="line">答案：一共六种，number、boolean、string、object、<span class="literal">null</span>、<span class="literal">undefined</span></div><div class="line"></div><div class="line"><span class="comment">##第十一题</span></div><div class="line">img标签的alt和title分别是什么意思</div><div class="line"></div><div class="line">答案: title用于给与一些提示性文字鼠标悬停可以看到title的信息。而alt则是在图片无法显示是的替换文字</div><div class="line"></div><div class="line"><span class="comment">##第十二题</span></div><div class="line">实现一个两列，左边宽度自适应，右边宽度固定<span class="number">200</span>px的布局</div><div class="line"></div><div class="line">答案：</div></pre></td></tr></table></figure>
 
-<p>html<br>&lt;!doctype html&gt;</p>
-<html lang="en"><br><head><br>    <meta charset="UTF-8"><br>    <title>Document</title><br>    <style><br>        .g-sd {<br>            float:right;<br>            width: 200px;<br>            height: 400px;<br>            background-color: #f0f0f0;<br>        }<br>        .g-mn {<br>            zoom: 1;<br>            overflow: hidden;<br>            height: 700px;<br>            background: #f0ffff;<br>        }<br>    </style><br></head><br><body><br>    <div class="g-sd"></div><br>    <div class="g-mn"></div><br></body><br></html>
+<p>这样就很好理解了，<code>new Object()</code>如果传入一个数字，将会调用new Number()，其他类似。所以这里答案是true</p>
+<h2 id="第三题">第三题</h2>
+<p>下列JavaScript运行完成后，x的值是多少：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+</pre></td><td class="code"><pre><span class="keyword">var</span> somevar;
+<span class="keyword">var</span> x = somevar === <span class="literal">undefined</span>;
+</pre></td></tr></table></figure>
 
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="preprocessor">##第十三题</span></div><div class="line">如何对JavaScript对象进行深拷贝？</div></pre></td></tr></table></figure>
 
-<p>javascript<br>Object.prototype.deepClone = function() {<br>    var hasOwnProperty = Object.prototype.hasOwnProperty,<br>        toString = Object.prototype.toString,<br>        deepClone = Object.prototype.deepClone,<br>        result,<br>        iter,<br>        cur,<br>        m;</p>
-<pre><code><span class="keyword">if</span> (toString.call(this) === '[<span class="keyword">object</span> <span class="type">Array</span>]') {
-    <span class="literal">result</span> = [];
-} <span class="keyword">else</span> {
-    <span class="literal">result</span> = {};
+<p>这题错了，囧</p>
+<p>以往一直使用<code>typeof somevar === &#39;undefined&#39;</code>来检测undefined，这下被坑了</p>
+<p>undefined可能出现在如下两种情况之中：</p>
+<ol>
+<li>变量未定义</li>
+<li>定义了变量但未赋值</li>
+</ol>
+<p>使用<code>typeof somevar === &#39;undefined&#39;</code>进行判断：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+</pre></td><td class="code"><pre>&gt; <span class="keyword">typeof</span> somevar === <span class="string">'undefined'</span>
+<span class="literal">true</span>
+&gt; <span class="keyword">var</span> someothervar;
+&gt; <span class="keyword">typeof</span> someothervar === <span class="string">'undefined'</span>
+<span class="literal">true</span>
+</pre></td></tr></table></figure>
+
+
+<p>由此可见，这种方法在两种情况下都适用</p>
+<p>使用<code>somevar === undefined</code>进行判断：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+</pre></td><td class="code"><pre>&gt; somevar === <span class="literal">undefined</span>
+<span class="built_in">ReferenceError</span>: somevar is not defined
+&gt; <span class="keyword">var</span> someothervar;
+&gt; someothervar === <span class="literal">undefined</span>
+<span class="literal">true</span>
+</pre></td></tr></table></figure>
+
+
+<p>我勒个去…也就是说，这种检测方式仅仅适用于第二种情况，所以这题答案是true</p>
+<h2 id="第四题">第四题</h2>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+</pre></td><td class="code"><pre><span class="keyword">var</span> obj = {
+    toString: <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
+        <span class="keyword">return</span> <span class="string">"obj作用域内"</span>;
+    },
+    func: <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
+        alert(<span class="keyword">this</span>);
+        <span class="keyword">var</span> innerfunc = <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
+            alert(<span class="keyword">this</span>);
+        };
+        innerfunc.call(<span class="keyword">this</span>);
+    }
+};
+obj.func.call(window);
+</pre></td></tr></table></figure>
+
+
+<p>弹出来的第二个对话框内容是什么</p>
+<p>考this的题，没跑了</p>
+<p>首先看<code>obj.func.call(window)</code>，这句使用了call方法指定this，没啥说的，this肯定指向window，所以第一个对话框的内容肯定是<code>[object window]</code>，但是它问第二个对话框，好吧，继续</p>
+<p>进入到func内部，其又用call来调用，传入的还是this，也就是window对象，所以第二个对话框也是window</p>
+<h2 id="第五题">第五题</h2>
+<p>考虑如下代码：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+</pre></td><td class="code"><pre><span class="keyword">var</span> message = <span class="string">"Hello world!"</span>;
+<span class="keyword">var</span> t1 = message.substring(<span class="number">1</span>, <span class="number">4</span>);
+<span class="keyword">var</span> t2 = message.substr(<span class="number">1</span>,<span class="number">4</span>);
+</pre></td></tr></table></figure>
+
+
+<p>t1，t2的值各是多少？</p>
+<p>通过这道题我才知道原来还有substr这么个玩意…</p>
+<p>首先来看substring方法，其接受两个参数，left和right，分别代表截取的起始点和终点，这是一个左闭右开的区间，right位置的字符不会被截取，所以这里会截取的是message[1], message[2], message[3]三个字符为’ell’</p>
+<p>接下来看substr方法，其亦接受两个参数，left和count，分别代表截取的起始点和截取字符的个数…所以会截取message[1], message[2], message[3], message[4]四个字符，也就是’ello’…</p>
+<h2 id="第六题">第六题</h2>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+</pre></td><td class="code"><pre><span class="keyword">if</span> (a <span class="keyword">in</span> window) {
+    <span class="keyword">var</span> a = <span class="number">1</span>;
 }
-<span class="keyword">for</span> (iter <span class="keyword">in</span> this) {
-    cur = this[iter];
-    <span class="keyword">if</span> (hasOwnProperty.call(this, iter)) {
-        <span class="keyword">if</span> (typeof cur === '<span class="keyword">object</span>') {
-            <span class="literal">result</span>[iter] = deepClone.call(cur);;
-        } <span class="keyword">else</span> {
-            <span class="literal">result</span>[iter] = cur;
+console.log(a);
+</pre></td></tr></table></figure>
+
+
+<p>看了那么多关于变量声明提升的概念，这题竟然错了，呵呵</p>
+<p>这题就是考的变量的提升：提升后的代码如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+</pre></td><td class="code"><pre><span class="keyword">var</span> a;
+<span class="keyword">if</span> (a <span class="keyword">in</span> window) {
+    a = <span class="number">1</span>;
+}
+console.log(a);
+</pre></td></tr></table></figure>
+
+
+<p>这样就很明显了，答案是1…</p>
+<h2 id="第七题">第七题</h2>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+</pre></td><td class="code"><pre><span class="keyword">var</span> x = <span class="number">10</span>;
+<span class="keyword">var</span> foo = {
+    x: <span class="number">20</span>,
+    bar: <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
+        <span class="keyword">var</span> x = <span class="number">30</span>;
+        <span class="keyword">return</span> <span class="keyword">this</span>.x;
+    }
+};
+
+alert(foo.bar());
+alert((foo.bar)());
+alert((foo.bar = foo.bar)());
+alert((foo.bar, foo.bar)());
+</pre></td></tr></table></figure>
+
+
+<p>弹出的内容依次是？</p>
+<p>这题也是考的不同调用方法中的this，本来挺有自信的，但发现和想的不太一样</p>
+<p>第一行<code>foo.bar()</code>比较明显，对象的方法调用，this指向拥有该方法的独享，所以输出值为20</p>
+<p>第二行<code>(foo.bar)()</code>和我想的不太一样，我以为这会是函数调用，结果不是，其也是对象方法调用，this值指向foo对象，所以答案是20</p>
+<p>第三行<code>(foo.bar = foo.bar)()</code>有一个赋值语句，JavaScript的复制语句返回的是被赋予的值，这是函数调用，所以this指向全局对象window，答案是10</p>
+<p>第四行<code>(foo.bar, foo.bar)()</code>，逗号表达式，也是函数调用，都好表达式的值默认是最后的那个值，答案是10</p>
+<h2 id="第八题">第八题</h2>
+<p>在javascript中要改变页面文档的背景色，需要修改document对象的（）属性。</p>
+<p>我凑，才知道document还有这么个神奇的属性可以改变背景颜色，而不是通过改变CSS的方式，答案是<code>bgColor</code>属性，修改完后，body会多一个<code>bgcolor</code>属性，而body的css也会加上一条<code>background-color</code>规则</p>
+<h2 id="第九题">第九题</h2>
+<p>在通过元素的style属性修改CSS时，有横线的属性（如background-color）应该如何表示？</p>
+<p>答案：将横线去掉，横线后的首字母大写，如backgroundColor</p>
+<h2 id="第十题">第十题</h2>
+<p>JavaScript有哪些数据类型？</p>
+<p>答案：一共六种，number、boolean、string、object、null、undefined</p>
+<h2 id="第十一题">第十一题</h2>
+<p>img标签的alt和title分别是什么意思</p>
+<p>答案: title用于给与一些提示性文字鼠标悬停可以看到title的信息。而alt则是在图片无法显示是的替换文字</p>
+<h2 id="第十二题">第十二题</h2>
+<p>实现一个两列，左边宽度自适应，右边宽度固定200px的布局</p>
+<p>答案：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+</pre></td><td class="code"><pre><span class="doctype">&lt;!doctype html&gt;</span>
+<span class="tag">&lt;<span class="title">html</span> <span class="attribute">lang</span>=<span class="value">"en"</span>&gt;</span>
+<span class="tag">&lt;<span class="title">head</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">meta</span> <span class="attribute">charset</span>=<span class="value">"UTF-8"</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">title</span>&gt;</span>Document<span class="tag">&lt;/<span class="title">title</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">style</span>&gt;</span><span class="css">
+        <span class="class">.g-sd</span> <span class="rules">{
+            <span class="rule"><span class="attribute">float</span>:<span class="value">right</span></span>;
+            <span class="rule"><span class="attribute">width</span>:<span class="value"> <span class="number">200</span>px</span></span>;
+            <span class="rule"><span class="attribute">height</span>:<span class="value"> <span class="number">400</span>px</span></span>;
+            <span class="rule"><span class="attribute">background-color</span>:<span class="value"> <span class="hexcolor">#f0f0f0</span></span></span>;
+        <span class="rule">}</span></span>
+        <span class="class">.g-mn</span> <span class="rules">{
+            <span class="rule"><span class="attribute">zoom</span>:<span class="value"> <span class="number">1</span></span></span>;
+            <span class="rule"><span class="attribute">overflow</span>:<span class="value"> hidden</span></span>;
+            <span class="rule"><span class="attribute">height</span>:<span class="value"> <span class="number">700</span>px</span></span>;
+            <span class="rule"><span class="attribute">background</span>:<span class="value"> <span class="hexcolor">#f0ffff</span></span></span>;
+        <span class="rule">}</span></span>
+    </span><span class="tag">&lt;/<span class="title">style</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">head</span>&gt;</span>
+<span class="tag">&lt;<span class="title">body</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">div</span> <span class="attribute">class</span>=<span class="value">'g-sd'</span>&gt;</span><span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">div</span> <span class="attribute">class</span>=<span class="value">'g-mn'</span>&gt;</span><span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">body</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">html</span>&gt;</span>
+</pre></td></tr></table></figure>
+
+
+<h2 id="第十三题">第十三题</h2>
+<p>如何对JavaScript对象进行深拷贝？</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+</pre></td><td class="code"><pre><span class="built_in">Object</span>.prototype.deepClone = <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
+    <span class="keyword">var</span> hasOwnProperty = <span class="built_in">Object</span>.prototype.hasOwnProperty,
+        toString = <span class="built_in">Object</span>.prototype.toString,
+        deepClone = <span class="built_in">Object</span>.prototype.deepClone,
+        result,
+        iter,
+        cur,
+        m;
+
+    <span class="keyword">if</span> (toString.call(<span class="keyword">this</span>) === <span class="string">'[object Array]'</span>) {
+        result = [];
+    } <span class="keyword">else</span> {
+        result = {};
+    }
+    <span class="keyword">for</span> (iter <span class="keyword">in</span> <span class="keyword">this</span>) {
+        cur = <span class="keyword">this</span>[iter];
+        <span class="keyword">if</span> (hasOwnProperty.call(<span class="keyword">this</span>, iter)) {
+            <span class="keyword">if</span> (<span class="keyword">typeof</span> cur === <span class="string">'object'</span>) {
+                result[iter] = deepClone.call(cur);;
+            } <span class="keyword">else</span> {
+                result[iter] = cur;
+            }
         }
     }
-}
-<span class="keyword">return</span> <span class="literal">result</span>;
-</code></pre><p>};</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">测试用例：</div></pre></td></tr></table></figure>
+    <span class="keyword">return</span> result;
+};
+</pre></td></tr></table></figure>
 
-<p>javascript<br>var someObj = {<br>    num: 123,<br>    str: “someString”,<br>    bool: true,<br>    func: function(){},<br>    obj: {<br>        arr: [1,2,{<br>            num: 1<br>        }]<br>    },<br>    arr: [1,2,”string”]<br>};<br>console.log(someObj.deepClone());</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">结果图：</div><div class="line"></div><div class="line">![<span class="link_label">深度复制成功</span>](<span class="link_url">http://lingyu.wang/img/fe_interview/3.png</span>)</div><div class="line"></div><div class="line"><span class="header">##第十四题</span></div><div class="line">动态打印时间，格式为yyyy-MM-dd hh:mm:ss?</div></pre></td></tr></table></figure>
 
-<p>javascript<br>Date.prototype.format = function(format) {<br>    var hasOwnProperty = Object.prototype.hasOwnProperty,<br>        timeObj = {<br>            “YYYY”: this.getFullYear(),<br>            “YY”: this.getFullYear().toString().slice(2),<br>            “MM”: this.getMonth() + 1,<br>            “DD”: this.getDate(),<br>            “hh”: this.getHours(),<br>            “mm”: this.getMinutes(),<br>            “ss”: this.getSeconds()<br>        },<br>        item,<br>        value;<br>    for (item in timeObj){<br>        value = timeObj[item];<br>        if(hasOwnProperty.call(timeObj, item)){<br>            format = format.replace(item, value &lt; 10 ? “0” + value : value);<br>        }<br>    }<br>    return format;<br>};</p>
-<p>setInterval(function(){<br>    console.log(new Date().format(“YYYY-MM-DD hh:mm:ss”));<br>},1000);<br>```</p>
+<p>测试用例：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+</pre></td><td class="code"><pre><span class="keyword">var</span> someObj = {
+    num: <span class="number">123</span>,
+    str: <span class="string">"someString"</span>,
+    bool: <span class="literal">true</span>,
+    func: <span class="function"><span class="keyword">function</span><span class="params">()</span>{</span>},
+    obj: {
+        arr: [<span class="number">1</span>,<span class="number">2</span>,{
+            num: <span class="number">1</span>
+        }]
+    },
+    arr: [<span class="number">1</span>,<span class="number">2</span>,<span class="string">"string"</span>]
+};
+console.log(someObj.deepClone());
+</pre></td></tr></table></figure>
+
+
+<p>结果图：</p>
+<p><img src="http://lingyu.wang/img/fe_interview/3.png" alt="深度复制成功"></p>
+<h2 id="第十四题">第十四题</h2>
+<p>动态打印时间，格式为yyyy-MM-dd hh:mm:ss?</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+</pre></td><td class="code"><pre><span class="built_in">Date</span>.prototype.format = <span class="function"><span class="keyword">function</span><span class="params">(format)</span> {</span>
+    <span class="keyword">var</span> hasOwnProperty = <span class="built_in">Object</span>.prototype.hasOwnProperty,
+        timeObj = {
+            <span class="string">"YYYY"</span>: <span class="keyword">this</span>.getFullYear(),
+            <span class="string">"YY"</span>: <span class="keyword">this</span>.getFullYear().toString().slice(<span class="number">2</span>),
+            <span class="string">"MM"</span>: <span class="keyword">this</span>.getMonth() + <span class="number">1</span>,
+            <span class="string">"DD"</span>: <span class="keyword">this</span>.getDate(),
+            <span class="string">"hh"</span>: <span class="keyword">this</span>.getHours(),
+            <span class="string">"mm"</span>: <span class="keyword">this</span>.getMinutes(),
+            <span class="string">"ss"</span>: <span class="keyword">this</span>.getSeconds()
+        },
+        item,
+        value;
+    <span class="keyword">for</span> (item <span class="keyword">in</span> timeObj){
+        value = timeObj[item];
+        <span class="keyword">if</span>(hasOwnProperty.call(timeObj, item)){
+            format = format.replace(item, value &lt; <span class="number">10</span> ? <span class="string">"0"</span> + value : value);
+        }
+    }
+    <span class="keyword">return</span> format;
+};
+
+setInterval(<span class="function"><span class="keyword">function</span><span class="params">()</span>{</span>
+    console.log(<span class="keyword">new</span> <span class="built_in">Date</span>().format(<span class="string">"YYYY-MM-DD hh:mm:ss"</span>));
+},<span class="number">1000</span>);
+</pre></td></tr></table></figure>
+
+
 <hr><div class="tags"><a href="/tags/JavaScript/" class="blog-tag">JavaScript</a><a href="/tags/HTML/" class="blog-tag">HTML</a><a href="/tags/CSS/" class="blog-tag">CSS</a></div><hr><div class="jia"><div class="jiathis_style_32x32"><a class="jiathis_button_qzone"></a><a class="jiathis_button_tsina"></a><a class="jiathis_button_tqq"></a><a class="jiathis_button_weixin"></a><a class="jiathis_button_renren"></a><a href="http://www.jiathis.com/share?uid=1409314953297200" target="_blank" class="jiathis jiathis_txt jtico jtico_jiathis"></a></div><script type="text/javascript">var jiathis_config = {data_track_clickback:'true'};    </script><script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1409314953297200" charset="utf-8"></script></div><hr><div id="duoshuo" data-url="http://lingyu.wang/2014/03/20/js-interview-1/" data-thread-key="/blog/2014/03/20/js-interview-1/" data-title="前端面试题（1-14）" class="ds-thread"></div><script type="text/javascript">var duoshuoQuery = {short_name:'skyinlayer'};
 (function() {
     var ds = document.createElement('script');
@@ -131,7 +514,7 @@
     ds.charset = 'UTF-8';
     (document.getElementsByTagName('head')[0] 
      || document.getElementsByTagName('body')[0]).appendChild(ds);
-})();</script></div></article><div class="pager"><a href="/2014/03/24/js-interview-3/" title="前端面试题（26-35）" class="pre">上一页</a><a href="/2014/03/20/js-interview-2/" title="前端面试题（15-25）" class="next">下一页</a></div></div><aside id="aside"><section class="recent"><h3 class="title iconfont">最新文章<i>&#xe601;</i></h3><div class="links"><ul><li><a href="/2014/09/24/koa-anywhere/">koa-anywhere</a></li><li><a href="/2014/09/22/learn-fe/">学前端的一点总结</a></li><li><a href="/2014/07/29/generator/">细说Generator</a></li><li><a href="/2014/05/31/kissy-anime-plugin/">如何写一个KISSY动画插件</a></li><li><a href="/2014/05/22/webrtc-data-channels/">WebRTC的RTCDataChannel</a></li></ul></div></section><section class="categories"><h3 class="title iconfont">分类<i>&#xe605;</i></h3><div class="links"><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/NodeJs/">NodeJs</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端技术/">前端技术</a><span class="category-list-count">33</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/前端技术/性能优化/">性能优化</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端技术/笔试面试积累/">笔试面试积累</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端技术/网站建设/">网站建设</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/即时通信/">即时通信</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/性能优化/">性能优化</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库技术/">数据库技术</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/源码阅读/">源码阅读</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/生活情感/">生活情感</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/笔试面试积累/">笔试面试积累</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/网站建设/">网站建设</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/读书笔记/">读书笔记</a><span class="category-list-count">9</span></li></ul></div></section><section class="tags"><h3 class="title iconfont">标签<i>&#xe603;</i></h3><div class="links"><ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS/">CSS</a><span class="tag-list-count">35</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ES6/">ES6</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Generator/">Generator</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/">HTML</a><span class="tag-list-count">29</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/">HTTP</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a><span class="tag-list-count">34</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kissy/">Kissy</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NodeJs/">NodeJs</a><span class="tag-list-count">10</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SEO/">SEO</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WebIM/">WebIM</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WebRTC/">WebRTC</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WebSocket/">WebSocket</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/grunt/">grunt</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jQuery/">jQuery</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/koa/">koa</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/oracle/">oracle</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/xmpp/">xmpp</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/动画/">动画</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/响应式/">响应式</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/存储函数/">存储函数</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/思考/">思考</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/生活/">生活</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/笔试面试题/">笔试面试题</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/设计/">设计</a><span class="tag-list-count">9</span></li></ul></div></section><section class="archives"><h3 class="title iconfont"> 归档<i>&#xe60a;</i></h3><div class="links"><ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09">2014年9月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07">2014年7月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05">2014年5月</a><span class="archive-list-count">15</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/04">2014年4月</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/03">2014年3月</a><span class="archive-list-count">29</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02">2014年2月</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/01">2014年1月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/12">2013年12月</a><span class="archive-list-count">1</span></li></ul></div></section></aside></section><footer id="page-footer"><span style="float:right"><script type="text/javascript">(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+})();</script></div></article><div class="pager"><a href="/2014/03/20/js-interview-2/" title="前端面试题（15-25）" class="pre">上一页</a><a href="/2014/03/19/v8-gc/" title="浅谈V8引擎中的垃圾回收机制" class="next">下一页</a></div></div><aside id="aside"><section class="recent"><h3 class="title iconfont">最新文章<i>&#xe601;</i></h3><div class="links"><ul><li><a href="/2014/10/06/gulp-vision-history-future/">Gulp -- 项目的愿景、过去和将来</a></li><li><a href="/2014/09/24/koa-anywhere/">koa-anywhere</a></li><li><a href="/2014/09/22/learn-fe/">学前端的一点总结</a></li><li><a href="/2014/07/29/generator/">细说Generator</a></li><li><a href="/2014/05/31/kissy-anime-plugin/">如何写一个KISSY动画插件</a></li></ul></div></section><section class="categories"><h3 class="title iconfont">分类<i>&#xe605;</i></h3><div class="links"><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/NodeJs/">NodeJs</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端技术/">前端技术</a><span class="category-list-count">33</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/前端技术/性能优化/">性能优化</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端技术/笔试面试积累/">笔试面试积累</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端技术/网站建设/">网站建设</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/即时通信/">即时通信</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/性能优化/">性能优化</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库技术/">数据库技术</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/源码阅读/">源码阅读</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/生活情感/">生活情感</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/笔试面试积累/">笔试面试积累</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/网站建设/">网站建设</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/读书笔记/">读书笔记</a><span class="category-list-count">9</span></li></ul></div></section><section class="tags"><h3 class="title iconfont">标签<i>&#xe603;</i></h3><div class="links"><ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS/">CSS</a><span class="tag-list-count">35</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ES6/">ES6</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Generator/">Generator</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Gulp/">Gulp</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/">HTML</a><span class="tag-list-count">29</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/">HTTP</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a><span class="tag-list-count">35</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kissy/">Kissy</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NodeJs/">NodeJs</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SEO/">SEO</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WebIM/">WebIM</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WebRTC/">WebRTC</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WebSocket/">WebSocket</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/grunt/">grunt</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jQuery/">jQuery</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/koa/">koa</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/oracle/">oracle</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/xmpp/">xmpp</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/动画/">动画</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/响应式/">响应式</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/存储函数/">存储函数</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/思考/">思考</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/生活/">生活</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/笔试面试题/">笔试面试题</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/设计/">设计</a><span class="tag-list-count">9</span></li></ul></div></section><section class="archives"><h3 class="title iconfont"> 归档<i>&#xe60a;</i></h3><div class="links"><ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10">2014年10月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09">2014年9月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07">2014年7月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05">2014年5月</a><span class="archive-list-count">15</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/04">2014年4月</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/03">2014年3月</a><span class="archive-list-count">29</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02">2014年2月</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/01">2014年1月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/12">2013年12月</a><span class="archive-list-count">1</span></li></ul></div></section></aside></section><footer id="page-footer"><span style="float:right"><script type="text/javascript">(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
 (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
 m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
