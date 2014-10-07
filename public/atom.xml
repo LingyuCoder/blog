@@ -4,7 +4,7 @@
   
   <link href="/atom.xml" rel="self"/>
   <link href="http://lingyu.wang/"/>
-  <updated>2014-10-06T15:00:21.060Z</updated>
+  <updated>2014-10-07T10:04:30.703Z</updated>
   <id>http://lingyu.wang/</id>
   
   <author>
@@ -13,6 +13,311 @@
   </author>
   
   <generator uri="http://zespia.tw/hexo/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[Gulp思维 —— Gulp高级技巧]]></title>
+    <link href="http://lingyu.wang/2014/10/07/getting-gulpy/"/>
+    <id>http://lingyu.wang/2014/10/07/getting-gulpy/</id>
+    <published>2014-10-06T16:00:00.000Z</published>
+    <updated>2014-10-07T10:03:18.473Z</updated>
+    <content type="html"><![CDATA[<p><strong>本文翻译自<a href="https://medium.com/@webprolific/getting-gulpy-a2010c13d3d5" target="_blank">Getting gulpy — Advanced tips for using gulp.js</a></strong></p>
+<p>感受过<a href="http://gulpjs.com/" target="_blank">gulp.js</a>带来的兴奋过后，你需要的不仅仅是它的光鲜，而是切切实实的实例。这篇文章讨论了一些使用gulp.js时常踩的坑，以及一些更加高级和定制化的插件和流的使用技巧。</p>
+<a id="more"></a>
+
+<h2 id="基本任务">基本任务</h2>
+<p>gulp的基本设置拥有非常友好的语法，让你能够非常方便的对文件进行转换：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+</pre></td><td class="code"><pre>gulp.task(<span class="string">'scripts'</span>, <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
+    <span class="keyword">return</span> gulp.src(<span class="string">'./src/**/*.js'</span>)
+        .pipe(uglify())
+        .pipe(concat(<span class="string">'all.min.js'</span>))
+        .pipe(gulp.dest(<span class="string">'build/'</span>));
+});
+</pre></td></tr></table></figure>
+
+
+<p>这种方式能够应付绝大多数情况，但如果你需要更多的定制，很快就会遇到麻烦了。这篇将介绍这其中的一些情况并提供解决方案。</p>
+<h2 id="流不兼容？">流不兼容？</h2>
+<p>使用gulp时，你可能会陷入“流不兼容”的问题。这主要是因为常规流和Vinyl文件对象有差异，或是使用了仅支持buffer（不支持流）库的gulp插件与常规流不兼容。</p>
+<p>比如说，你不能直接将常规流与gulp和（或）gulp插件相连。我们创建一个可读流，并尝试使用<a href="https://www.npmjs.org/package/gulp-uglify" target="_blank">gulp-uglify</a>和<a href="https://www.npmjs.org/package/gulp-rename" target="_blank">gulp-rename</a>来进行转换，将最后得到的内容交给<code>gulp.dest()</code>。下面就是个错误的例子：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+</pre></td><td class="code"><pre><span class="keyword">var</span> uglify = <span class="built_in">require</span>(<span class="string">'gulp-uglify'</span>),
+    rename = <span class="built_in">require</span>(<span class="string">'gulp-rename'</span>);
+gulp.task(<span class="string">'bundle'</span>, <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
+    <span class="keyword">return</span> fs.createReadStream(<span class="string">'app.js'</span>)
+        .pipe(uglify())
+        .pipe(rename(<span class="string">'bundle.min.js'</span>))
+        .pipe(gulp.dest(<span class="string">'dist/'</span>));
+});
+</pre></td></tr></table></figure>
+
+
+<p>为什么我们不能将可读流和一个gulp插件直接相连？gulp难道不就是一个基于流的构建系统吗？是的，但上面的例子忽视了一个事实，gulp插件期望的输入是Vinyl文件对象。你不能直接将一个可读流与一个以Vinyl文件对象作为输入的函数（插件）相连</p>
+<h2 id="Vinyl文件对象">Vinyl文件对象</h2>
+<p>gulp使用了<a href="https://github.com/wearefractal/vinyl-fs" target="_blank">vinyl-fs</a>，它实现了<code>gulp.src()</code>和<code>gulp.dest()</code>方法。vinyl-fs使用<a href="https://github.com/wearefractal/vinyl" target="_blank">vinyl</a>文件对象——一种“虚拟文件格式”。如果我们需要将gulp和（或）gulp插件与常规的可读流一起使用，我们就需要先把可读流转换为vinyl。</p>
+<p>使用<a href="https://www.npmjs.org/package/vinyl-source-stream" target="_blank">vinyl-source-stream</a>是个不错的选择，如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+</pre></td><td class="code"><pre><span class="keyword">var</span> source = <span class="built_in">require</span>(<span class="string">'vinyl-source-stream'</span>),
+    marked = <span class="built_in">require</span>(<span class="string">'gulp-marked'</span>);
+fs.createReadStream(<span class="string">'*.md'</span>)
+    .pipe(source())
+    .pipe(marked())
+    .pipe(gulp.dest(<span class="string">'dist/'</span>));
+</pre></td></tr></table></figure>
+
+
+<p>另外一个例子首先通过<a href="http://browserify.org/" target="_blank">browserify</a>封装并最终将其转换为一个vinyl流：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+</pre></td><td class="code"><pre><span class="keyword">var</span> browserify = <span class="built_in">require</span>(<span class="string">'browserify'</span>),
+    uglify = <span class="built_in">require</span>(<span class="string">'gulp-uglify'</span>),
+    source = <span class="built_in">require</span>(<span class="string">'vinyl-source-stream'</span>);
+gulp.task(<span class="string">'bundle'</span>, <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
+    <span class="keyword">return</span> browserify(<span class="string">'./src/app.js'</span>)
+        .bundle()
+        .pipe(source(‘bundle.min.js))
+        .pipe(uglify())
+        .pipe(gulp.dest(<span class="string">'dist/'</span>));
+});
+</pre></td></tr></table></figure>
+
+
+<p>哎呦不错哦。注意我们不再需要使用gulp-rename了，因为vinyl-source-stream创建了一个拥有指定文件名的vinyl文件实例（这样gulp.dest方法将使用这个文件名）</p>
+<h3 id="gulp-dest">gulp.dest</h3>
+<p>这个gulp方法创建了一个可写流，它真的很方便。它重新使用可读流中的文件名，然后在必要时创建文件夹（使用<a href="https://www.npmjs.org/package/mkdirp" target="_blank">mkdirp</a>）。在写入操作完成后，你能够继续使用这个流（比如：你需要使用gzip压缩数据并写入到其他文件）</p>
+<h2 id="流和buffer">流和buffer</h2>
+<p>既然你有兴趣使用gulp，这篇文章假设你已经了解了流的基础知识。无论是buffer还是流，vinyl的虚拟文件都能包含在内。使用常规可读流时，你可以监听data事件来检测数据碎片的到来：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+</pre></td><td class="code"><pre>fs.createReadStream(<span class="string">'/usr/share/dict/words'</span>).on(<span class="string">'data'</span>, <span class="function"><span class="keyword">function</span><span class="params">(chunk)</span> {</span>
+    console.log(<span class="string">'Read %d bytes of data'</span>, chunk.length);
+});
+&gt; Read <span class="number">65536</span> bytes of data
+&gt; Read <span class="number">65536</span> bytes of data
+&gt; Read <span class="number">65536</span> bytes of data
+&gt; Read <span class="number">65536</span> bytes of data
+&gt; ...
+</pre></td></tr></table></figure>
+
+
+<p>不同的是，使用<code>gulp.src()</code>会将转换成buffer的vinyl文件对象重新写入到流中。也就是说，你获得的不再是数据碎片，而是将内容转换成buffer后的（虚拟）文件。vinyl文件格式拥有一个属性来表示里面是buffer还是流，gulp默认使用buffer：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+</pre></td><td class="code"><pre>gulp.src(<span class="string">'/usr/share/dict/words'</span>).on(<span class="string">'data'</span>, <span class="function"><span class="keyword">function</span><span class="params">(file)</span> {</span>
+    console.log(<span class="string">'Read %d bytes of data'</span>, file.contents.length);
+});
+&gt; Read <span class="number">2493109</span> bytes of data
+</pre></td></tr></table></figure>
+
+
+<p>这个例子说明了在文件被完整加入到流之前数据会被转换成buffer。</p>
+<h2 id="Gulp默认使用buffer">Gulp默认使用buffer</h2>
+<p>尽管更加推荐使用流中的数据，但很多插件的底层库使用的是buffer。有时候必须使用buffer，因为转换需要完整的文件内容。比如文本替换和正则表达式的情形。如果使用数据碎片，将会面临匹配失败的风险。同样，像<a href="http://lisperator.net/uglifyjs/" target="_blank">UglifyJS</a>和<a href="https://github.com/google/traceur-compiler" target="_blank">Traceur Compiler</a>需要输入完整的文件内容（至少需要语法完整的JavaScript字符串）</p>
+<p>这就是为什么gulp默认使用转换成buffer的流，因为这更好处理。</p>
+<p>使用转换成buffer的流也有缺点，处理大文件时将非常低效。文件必须完全读取，然后才能被加入到流中。那么问题来了，文件的尺寸多大才会降低性能？对于普通的文本文件，比如JavaScript、CSS、模板等等，这些使用buffer开销非常小。</p>
+<p>在任何情况下，如果将buffer选项设为false，你可以告诉gulp流中传递的内容究竟是什么。如下所示：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+</pre></td><td class="code"><pre>gulp.src(<span class="string">'/usr/share/dict/words'</span>, {buffer: <span class="literal">false</span>}).on(<span class="string">'data'</span>, <span class="function"><span class="keyword">function</span><span class="params">(file)</span> {</span>
+    <span class="keyword">var</span> stream = file.contents;
+    stream.on(<span class="string">'data'</span>, <span class="function"><span class="keyword">function</span><span class="params">(chunk)</span> {</span>
+        console.log(<span class="string">'Read %d bytes of data'</span>, chunk.length);
+    });
+});
+&gt; Read <span class="number">65536</span> bytes of data
+&gt; Read <span class="number">65536</span> bytes of data
+&gt; Read <span class="number">65536</span> bytes of data
+&gt; Read <span class="number">65536</span> bytes of data
+&gt; ...
+</pre></td></tr></table></figure>
+
+
+<h2 id="从流到buffer">从流到buffer</h2>
+<p>由于所需的输入（输出）流和gulp插件不尽相同，你可能需要将流转换成buffer（反之亦然）。之前已经有过介绍，大多数插件使用buffer（尽管他们的一部分也支持流）。比如<a href="https://www.npmjs.org/package/gulp-uglify" target="_blank">gulp-uglify</a>和<a href="https://www.npmjs.org/package/gulp-traceur" target="_blank">gulp-traceur</a>。你可以通过<a href="https://www.npmjs.org/package/gulp-buffer" target="_blank">gulp-buffer</a>来转换成buffer：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+</pre></td><td class="code"><pre><span class="keyword">var</span> source = <span class="built_in">require</span>(<span class="string">'vinyl-source-stream'</span>),
+    buffer = <span class="built_in">require</span>(<span class="string">'gulp-buffer'</span>),
+    uglify = <span class="built_in">require</span>(<span class="string">'gulp-uglify'</span>);
+fs.createReadStream(<span class="string">'./src/app.js'</span>)
+    .pipe(source(<span class="string">'app.min.js'</span>))
+    .pipe(buffer())
+    .pipe(uglify())
+    .pipe(gulp.dest(<span class="string">'dist/'</span>));
+</pre></td></tr></table></figure>
+
+
+<p>或者另一个例子：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+</pre></td><td class="code"><pre><span class="keyword">var</span> buffer = <span class="built_in">require</span>(<span class="string">'gulp-buffer'</span>),
+    traceur = <span class="built_in">require</span>(<span class="string">'gulp-traceur'</span>);
+gulp.src(<span class="string">'app.js'</span>, {buffer: <span class="literal">false</span>})
+    .pipe(buffer())
+    .pipe(traceur())
+    .pipe(gulp.dest(<span class="string">'dist/'</span>));
+</pre></td></tr></table></figure>
+
+
+<h2 id="将buffer转换为流">将buffer转换为流</h2>
+<p>你也可以使用<a href="https://www.npmjs.org/package/gulp-streamify" target="_blank">gulp-streamify</a>或<a href="https://www.npmjs.org/package/gulp-stream" target="_blank">gulp-stream</a>将一个使用buffer的插件的输出转化为一个可读流。这样处理之后，跟在使用buffer的插件后面的（只能）使用流的插件也能正常工作了。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+</pre></td><td class="code"><pre><span class="keyword">var</span> wrap = <span class="built_in">require</span>(<span class="string">'gulp-wrap'</span>),
+    streamify = <span class="built_in">require</span>(<span class="string">'gulp-streamify'</span>),
+    uglify = <span class="built_in">require</span>(<span class="string">'gulp-uglify'</span>),
+    gzip = <span class="built_in">require</span>(<span class="string">'gulp-gzip'</span>);
+gulp.src(<span class="string">'app.js'</span>, {buffer: <span class="literal">false</span>})
+    .pipe(wrap(<span class="string">'(function(){&lt;%= contents %&gt;}());'</span>))
+    .pipe(streamify(uglify()))
+    .pipe(gulp.dest(<span class="string">'build'</span>))
+    .pipe(gzip())
+    .pipe(gulp.dest(<span class="string">'build'</span>));
+</pre></td></tr></table></figure>
+
+
+<h2 id="不是所有事都需要插件">不是所有事都需要插件</h2>
+<p>虽然已经有很多使用且方便的插件，很多任务以及转换可以不使用插件而轻易完成。插件会带来一些问题，你需要依赖一个额外的npm模块，一个插件接口和（反应迟钝？）的维护者，等等。如果一个任务可以不使用插件而使用原生模块就能轻易完成，绝大多数情况下，都建议不要使用插件。能够理解上面所说的概念，并能够在所处的情况下做出正确的决定，这点非常重要。下面来看一些例子：</p>
+<h3 id="vinyl-source-stream">vinyl-source-stream</h3>
+<p>之前的例子中，我们已经直接使用了browserify，而不是使用（现已加入黑名单）<a href="https://www.npmjs.org/package/gulp-browserify" target="_blank">gulp-browserify</a>插件。这里的关键是使用vinyl-source-stream（或类似的库）进行加工，来将常规的可读流输入使用vinyl的插件。</p>
+<h3 id="文本转换">文本转换</h3>
+<p>另一个例子就是基于字符串的变换。这里有一个非常基础的插件，直接使用了vinyl的buffer：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+</pre></td><td class="code"><pre><span class="function"><span class="keyword">function</span> <span class="title">modify</span><span class="params">(modifier)</span> {</span>
+    <span class="keyword">return</span> through2.obj(<span class="function"><span class="keyword">function</span><span class="params">(file, encoding, done)</span> {</span>
+        <span class="keyword">var</span> content = modifier(<span class="built_in">String</span>(file.contents));
+        file.contents = <span class="keyword">new</span> Buffer(content);
+        <span class="keyword">this</span>.push(file);
+        done();
+    });
+}
+</pre></td></tr></table></figure>
+
+
+<p>你可以像这样使用这个插件：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+</pre></td><td class="code"><pre>gulp.task(<span class="string">'modify'</span>, <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
+    <span class="keyword">return</span> gulp.src(<span class="string">'app.js'</span>)
+        .pipe(modify(version))
+        .pipe(modify(swapStuff))
+        .pipe(gulp.dest(<span class="string">'build'</span>));
+});
+<span class="function"><span class="keyword">function</span> <span class="title">version</span><span class="params">(data)</span> {</span>
+    <span class="keyword">return</span> data.replace(<span class="regexp">/__VERSION__/</span>, pkg.version);
+}
+<span class="function"><span class="keyword">function</span> <span class="title">swapStuff</span><span class="params">(data)</span> {</span>
+    <span class="keyword">return</span> data.replace(<span class="regexp">/(\w+)\s(\w+)/</span>, <span class="string">'$2, $1'</span>);
+}
+</pre></td></tr></table></figure>
+
+
+<p>这个插件并没有完成，而且也不能处理流（<a href="https://gist.github.com/webpro/a9a9e14d291c021894b3" target="_blank">完整版本</a>）。然而，这个例子说明，可以很轻易地通过一些基本函数来创建新的变换。<a href="https://www.npmjs.org/package/through2" target="_blank">through2</a>库提供了非常优秀的Node流封装，并且允许像上面那样使用转换函数。</p>
+<h2 id="任务流程">任务流程</h2>
+<p>如果你需要去运行一些定制化或动态的任务，了解gulp所使用的<a href="https://www.npmjs.org/package/orchestrator" target="_blank">Orchestrator</a>模块会很有帮助。<code>gulp.add</code>方法其实就是<code>Orchestrator.add</code>方法（事实上所有的方法都是从Orchestrator继承而来的）。但为什么你需要这个？</p>
+<ul>
+<li>你不想“私有任务”（比如：不暴露给命令行工具）弄乱gulp任务列表。</li>
+<li>你需要更多的动态的和（或）可重用的子任务。</li>
+</ul>
+<h2 id="最后的思考">最后的思考</h2>
+<p>请注意，gulp（或grunt）并不总是当前情境下的最佳工具。比如说，如果你需要拼接并使用uglify压缩一系列的JavaScript文件，又或者你需要编译一些SASS文件，你可能需要考虑使用makefile或npm run，通过命令行来实现。减少依赖，减少配置，才是正解。</p>
+<p>阅读<a href="http://substack.net/task_automation_with_npm_run" target="_blank">通过npm run来实现任务自动化</a>来了解更多信息。你需要明确通过一系列的“自定义构建”后需要得到什么，而哪个工具最合适。</p>
+<p>不过，我觉得gulp是一个伟大的构建系统，我很喜欢使用它，它展现了Node.js中流的强大。</p>
+<p>希望这些能够帮到你！如果你有任何反馈或其他提议，请在评论中告诉我，或者加我的twitter：<a href="https://twitter.com/webprolific" target="_blank">@webprolific</a></p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p><strong>本文翻译自<a href="https://medium.com/@webprolific/getting-gulpy-a2010c13d3d5" target="_blank">Getting gulpy — Advanced tips for using gulp.js</a></strong></p>
+<p>感受过<a href="http://gulpjs.com/" target="_blank">gulp.js</a>带来的兴奋过后，你需要的不仅仅是它的光鲜，而是切切实实的实例。这篇文章讨论了一些使用gulp.js时常踩的坑，以及一些更加高级和定制化的插件和流的使用技巧。</p>
+]]>
+    
+    </summary>
+    
+      <category term="NodeJs" scheme="http://lingyu.wang/tags/NodeJs/"/>
+    
+      <category term="JavaScript" scheme="http://lingyu.wang/tags/JavaScript/"/>
+    
+      <category term="Gulp" scheme="http://lingyu.wang/tags/Gulp/"/>
+    
+      <category term="NodeJs" scheme="http://lingyu.wang/categories/NodeJs/"/>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[Gulp -- 项目的愿景、过去和将来]]></title>
@@ -7525,50 +7830,6 @@ padding: 0 1em 2em;
       <category term="JavaScript" scheme="http://lingyu.wang/tags/JavaScript/"/>
     
       <category term="前端技术" scheme="http://lingyu.wang/categories/%E5%89%8D%E7%AB%AF%E6%8A%80%E6%9C%AF/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[谁说前端面试简单我咬谁，汪汪汪！]]></title>
-    <link href="http://lingyu.wang/2014/04/30/interview-overview/"/>
-    <id>http://lingyu.wang/2014/04/30/interview-overview/</id>
-    <published>2014-04-29T16:00:00.000Z</published>
-    <updated>2014-09-25T15:03:52.173Z</updated>
-    <content type="html"><![CDATA[<p>今天面完了最后一面，基本上都是等（bei）待（tai）状态了，也不打算再投新的了，这里把笔试面试中遇到的点总结一下。大致上分了一下知识点，不过还是不够精细，毕竟每个知识点都详细深入很复杂（很多我也不懂）…</p>
-<a id="more"></a>
-
-<iframe style="width: 100%; height: 600px" src="http://cdpn.io/gwuyo" allowfullscreen="allowfullscreen" frameborder="0">&nbsp;</iframe>
-
-<p>大致上分了一下知识点，不过还是不够精细，毕竟每个知识点都详细深入很复杂（很多我也不懂）…</p>
-<p>底下是找实习的一些感想，不想听感想只想看干货的到这里可以点跳转了~</p>
-<h2 id="理想与现实的差距">理想与现实的差距</h2>
-<p>本科时候太过堕落，没有实习过，现在回想起来相当的后悔。当时看找实习并不难，一直以为找实习很简单，也就面试一下，态度端正就能进。但经过这几周的笔试面试经历，发现和我以前想的完全不一样。并不是所有投简历的人都有面试机会，而面试也是层层筛选，甚至听说某公司产品最后都到5面副总裁面了，瞬间吓尿了。公司招收暑期实习都尽量希望实习生能留下来，留下来也许会容易很多，实习期也算是培训成本，自然笔试面试的要求就提高了</p>
-<h2 id="学院派的狭隘">学院派的狭隘</h2>
-<p>身为一个没有实习经历的学生，我对前端的认知主要来源于身边的其他人以及一些浅显的书本。在之前，我一直认为前端工程师只需要会写点HTML，会写点CSS，会写点JS完成一些交互就行了。主要学习的也就是JS和CSS的基础，自己实现的东西很少。当时主要就是用了用jQuery，没用其它框架了。而为了实习面试和笔试，更加专注于像js语言本身的坑，css布局等问题上了，认为面试也就问问这些，但实际上完全不是这么回事。面试官虽然会问基础，但他们似乎对上层更感兴趣。模块化，设计模式，异步控制，框架实现，代码组织和管理，项目自动化构建和测试等等，有些在学校里开发时候可能完全不会接触到，如果不是经常逛社区逛博客，可能听都没听过。但这些却是是在企业的工程里常用的，甚至认为是基础的东西，但我所看的一些书本中不会讲这些，或者讲了也不过是概要略过罢了。幸好平常有逛社区，耳濡目染的了解一点基础知识。有一些自己还写过demo，简单的用过。但自己试验性的使用，在没有长期使用需求的情况下，不会去深入地了解，可能一个月不用就忘得干干净净了（比如我的less）。而到面试的时候，面试官问基础也许还能糊弄，而一旦问深了，就只能回答不知道了，面试结果也不会太好</p>
-<h2 id="漫漫前端路">漫漫前端路</h2>
-<p>说句老实话，本科时候完全没有接触前端，更不会想到自己未来会选择前端这条路。到了大四下学期天天刷算法题（现在全忘干净了…），以为自己以后也会成为算法工程师。结果后来进了实验室做SSH，只是零散的接触前端。 真正决定以后从事前端工作也是在研二。在之前有对自己未来做一个规划，毕竟研究生以来一直做Java和SSH，也曾考虑过是否以后从事Java后台研发。但放弃这个想法而决定专职从事前端的契机，应该是接触css3的动画和变换开始的。当时出于好奇，去研究了一下css3的animation，看到网上大牛们实现的效果，直接吓尿。那些炫酷的效果完全改变了我对网页的理解。之前一直以为网页的作用不过是简单的数据展示和交互，而css3的动画效果所带来的体验直接击碎了那错误的想法。我喜欢看得见的东西，喜欢刷题时候红丝的AC，喜欢QT做出来的界面，自然也喜欢网页上炫酷的效果。于是乎我决定自己也要做出同样炫酷的网页，从此走上了前端之路。如今找实习投的岗位都是Web前端开发，以前的同学知道后都非常吃惊，他们也没想到我会从事前端，还有人劝我别做前端没有前途，应该做Android，做IOS（当然做这些也和有前途）。还有的学长认为前端很简单，说只有技术不行的才会做前端，对于这样的观点，我只能呵呵了，毕竟不做前端的人永远不会知道前端水有多深</p>
-<h2 id="结语">结语</h2>
-<p>找实习也终于结束了，虽然结果还没定下来，不过我也改变不了了。终于可以不用失眠睡不好觉了，也可以静下心来看看书写写代码了。最近学了Angular感受到了MVVM框架的强大，无奈练手机会不多。虽然把博客全改成Angular了，但也只是用到其中的部分功能，像自定义指令之类的完全没有去用，还是需要多写一写。另外买了司徒正美的新书《JavaScript框架设计》，里面的知识点很多，各种框架的源代码也很多，正在慢慢啃，慢慢吸收，进度相当缓慢，也需要一段时间吧。另外还计划看《jQuery技术内幕》，估计得到两三周之后了吧</p>
-<p>这两天的状态大概是这个样子：<br><img src="http://skyinlayerblog.qiniudn.com/blog/img/sleepydog.jpg" alt="死狗"></p>
-<p>五一假期好好休息休息，听一听歌吧~</p>
-<embed src="http://www.xiami.com/widget/30211350_1770830087/singlePlayer.swf" type="application/x-shockwave-flash" width="257" height="33" wmode="transparent">&nbsp;</embed>
-
-]]></content>
-    <summary type="html">
-    <![CDATA[<p>今天面完了最后一面，基本上都是等（bei）待（tai）状态了，也不打算再投新的了，这里把笔试面试中遇到的点总结一下。大致上分了一下知识点，不过还是不够精细，毕竟每个知识点都详细深入很复杂（很多我也不懂）…</p>
-]]>
-    
-    </summary>
-    
-      <category term="JavaScript" scheme="http://lingyu.wang/tags/JavaScript/"/>
-    
-      <category term="HTML" scheme="http://lingyu.wang/tags/HTML/"/>
-    
-      <category term="CSS" scheme="http://lingyu.wang/tags/CSS/"/>
-    
-      <category term="笔试面试题" scheme="http://lingyu.wang/tags/%E7%AC%94%E8%AF%95%E9%9D%A2%E8%AF%95%E9%A2%98/"/>
-    
-      <category term="笔试面试积累" scheme="http://lingyu.wang/categories/%E7%AC%94%E8%AF%95%E9%9D%A2%E8%AF%95%E7%A7%AF%E7%B4%AF/"/>
     
   </entry>
   
