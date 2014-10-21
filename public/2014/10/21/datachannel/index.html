@@ -1,0 +1,194 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="author" content="天镶"><meta name="description"><title>使用WebRTC DataChannel在浏览器间传递数据 | 天镶的博客</title><link href="/favicon.png" rel="icon"><link rel="stylesheet" media="screen" href="/stylesheets/plugins/typo/typo-1.1.css"><link rel="stylesheet" media="screen" href="/stylesheets/plugins/highlight/highlight-8.0-dark.css"><link rel="stylesheet" media="screen" href="/stylesheets/app.css"></head><body><a id="totop" href="#page-header" class="iconfont">&#xe60b;</a><header id="page-header"><div class="wrapper"><a href="/page/profile.html"><img alt="avatar" src="/images/avatar.jpg" class="avatar"></a><div class="title"> <a href="/">天镶的博客</a></div><nav class="nav"><ul class="links"><li><a href="/"> 首页</a></li><li><a href="/archives"> 归档</a></li><li><a href="/page/profile.html"> 关于</a></li><li><a href="/page/gitbook/index.html"> 笔记</a></li></ul><div class="icons"><a href="/atom.xml" class="icon rss"><i class="iconfont">&#xe602;</i></a><a href="http://weibo.com/lingyucoder" class="icon weibo"><i class="iconfont">&#xe600;</i></a><a href="http://github.com/lingyucoder" class="icon github"><i class="iconfont">&#xe604;</i></a><a href="http://twitter.com/lingyucoder" class="icon twitter"><i class="iconfont">&#xe607;</i></a></div></nav></div></header><section id="wrapper"><div id="main"><article class="post"><div class="content desc typo"><h1 class="blog-title">使用WebRTC DataChannel在浏览器间传递数据</h1><div class="toc-index"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#老刘和老姚"><span class="toc-number">1.</span> <span class="toc-text">老刘和老姚</span></a></li><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#不如钓鱼去"><span class="toc-number">1.1.</span> <span class="toc-text">不如钓鱼去</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#换个角度"><span class="toc-number">1.2.</span> <span class="toc-text">换个角度</span></a></li></ol><li class="toc-item toc-level-2"><a class="toc-link" href="#礼物"><span class="toc-number">2.</span> <span class="toc-text">礼物</span></a></li><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#故事"><span class="toc-number">2.1.</span> <span class="toc-text">故事</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#分片"><span class="toc-number">2.2.</span> <span class="toc-text">分片</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#组合"><span class="toc-number">2.3.</span> <span class="toc-text">组合</span></a></li><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#方案一：直接跳转下载"><span class="toc-number">2.3.1.</span> <span class="toc-text">方案一：直接跳转下载</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#方案二：通过a标签下载"><span class="toc-number">2.3.2.</span> <span class="toc-text">方案二：通过a标签下载</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#方案三：blob"><span class="toc-number">2.3.3.</span> <span class="toc-text">方案三：blob</span></a></li></ol></ol><li class="toc-item toc-level-2"><a class="toc-link" href="#升级"><span class="toc-number">3.</span> <span class="toc-text">升级</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Peertc"><span class="toc-number">4.</span> <span class="toc-text">Peertc</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#最后"><span class="toc-number">5.</span> <span class="toc-text">最后</span></a></li></ol></div><p>WebRTC给我们带来了浏览器中的视频、音频聊天体验。但个人认为，它最实用的特性莫过于DataChannel——在浏览器之间建立一个点对点的数据通道。在DataChannel之前，浏览器到浏览器的数据传递通常是这样一个流程：浏览器1发送数据给服务器，服务器处理，服务器再转发给浏览器2。这三个过程都会带来相应的消耗，占用服务器带宽不说，还减缓了消息从发送到接收的时间。其实最理想的方式就是浏览器1直接与浏览2进行通信，服务器不需要参与其中。WebRTC DataChannel就提供了这样一种方式。</p>
+<a id="more"></a>
+
+<p>如果对WebRTC和DataChannel不太了解的同学，可以先阅读如下文章：</p>
+<ul>
+<li><a href="http://lingyu.wang/2014/05/22/webrtc-data-channels/">WebRTC的RTCDataChannel</a></li>
+<li><a href="http://lingyu.wang/2014/03/18/webRTC-2/">使用WebRTC搭建前端视频聊天室——信令篇</a></li>
+<li><a href="http://lingyu.wang/2014/03/15/webRTC-1/">使用WebRTC搭建前端视频聊天室——入门篇</a></li>
+</ul>
+<h2 id="老刘和老姚">老刘和老姚</h2>
+<p>当然服务器完全不参与其中，显然是不可能的，用户需要通过服务器上存储的信息，才能确定需要和谁建立连接。这里通过一个故事来讲述建立连接的过程：</p>
+<h3 id="不如钓鱼去">不如钓鱼去</h3>
+<p>一些背景：</p>
+<ul>
+<li>老刘和老姚都住在同一个小区但不同的片区，小区很破旧，没有电话</li>
+<li>片区相互隔离且片区门口有个保安，保安只认识自己片区的人，遇到不认识的人就需要查询凭证才能通过，而凭证需要找物业才能确定</li>
+<li>门卫老大爷认识小区里的所有人但是不知道都住哪，有什么消息都可以在出入小区的时候代为传达</li>
+</ul>
+<p>现在，老刘听说老姚钓鱼技术高超，想和老姚讨论钓鱼技巧。只要老刘和老姚相互之间知道对方的门牌号以及凭证，就可以串门了:</p>
+<ol>
+<li>门卫老大爷认识老刘和老姚</li>
+<li>老刘找物业确定了自己片区的出入凭证，将凭证、自己的门牌号以及意图告诉门卫老大爷，让其转交给老姚</li>
+<li>老姚买菜归来遇到门卫老大爷，门卫老大爷将老刘的消息传达给老姚。于是老姚知道怎么去老刘家了</li>
+<li>老姚很开心，他也找物业获取了自己小区的凭证，并将凭证、自己的门牌号等信息交给门卫老大爷，希望他传达给老刘</li>
+<li>老刘吃早餐回来遇到门卫老大爷，老大爷把老姚的小区凭证、门牌号等信息告诉老刘，这样老刘就知道了怎么去老姚家了</li>
+</ol>
+<p>老刘和老姚相互之间知道了对方的门牌号和小区出入凭证，他们相互之间有什么需要交流的直接串门就行了，消息不再需要门卫老大爷来代为传达了</p>
+<h3 id="换个角度">换个角度</h3>
+<p>我们把角色做一个映射：</p>
+<ul>
+<li>老刘：浏览器1</li>
+<li>老姚：浏览器2</li>
+<li>片区：不同网段</li>
+<li>保安：防火墙</li>
+<li>片区凭证：ICE candidate</li>
+<li>物业：ICE server</li>
+<li>门牌号：session description</li>
+<li>门卫老大爷：server</li>
+</ul>
+<p>于是乎故事就变成了这样：</p>
+<ol>
+<li>浏览器1和浏览器2在server上注册，并保有连接</li>
+<li>浏览器1从ice server获取ice candidate并发送给server，并生成包含session description的offer，发送给server</li>
+<li>server发送浏览器1的offer和ice candidate给浏览器2</li>
+<li>浏览器2发送包含session description的answer和ice candidate给server</li>
+<li>server发送浏览器2的answer和ice candidate给浏览器1</li>
+</ol>
+<p>这样，就建立了一个点对点的信道，流程如下所示：</p>
+<p><img src="http://skyinlayerblog.qiniudn.com/blog%2Fimg%2F2014-10-32%2Fdatachannel-task-seq.png" alt="信令交互流程"></p>
+<h2 id="礼物">礼物</h2>
+<h3 id="故事">故事</h3>
+<p>老刘和老姚已经可以相互串门了，经过一段时间的交流感情越来越深。老姚的亲友送了20斤葡萄给老姚，老姚决定送10斤给老刘。老姚毕竟年事已高，不可能一次带10斤。于是乎，老姚将葡萄分成了10份，每次去老刘家串门就送一份过去。</p>
+<p>这里可以做如下类比：</p>
+<ol>
+<li>10斤葡萄：一个文件（尽管文件分片没有意义，葡萄分开还可以单独吃，但是实在找不到啥好的比喻了）</li>
+<li>分成10份：将文件分片，转成多个chunk</li>
+<li>老姚一次只能带一斤：datachannel每次传输的数据量不宜太大（<a href="http://stackoverflow.com/questions/15435121/what-is-the-maximum-size-of-webrtc-data-channel-messages" target="_blank">找到最合适的大小</a>）</li>
+</ol>
+<p>这其实就是通过datachannel传输文件的方式，首先将文件分片，然后逐个发送，最后再统一的进行组合成一个新的文件</p>
+<h3 id="分片">分片</h3>
+<p>通过HTML5的File API可以将type为file的input选中的文件读取出来，并转换成data url字符串。这也就为我们提供了很方便的分片方式：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+</pre></td><td class="code"><pre><span class="keyword">var</span> reader = <span class="keyword">new</span> window.FileReader(file);
+reader.readAsDataURL(file);
+reader.onload = <span class="function"><span class="keyword">function</span><span class="params">(event, text)</span> {</span>
+    chunkify(event.target.result);<span class="comment">//将数据分片</span>
+};
+</pre></td></tr></table></figure>
+
+
+<h3 id="组合">组合</h3>
+<p>通过datachannel发送的分片数据，我们需要将其进行组合，由于是data url字符串，在接收到所有包之后进行拼接就可以了。拼接完成后就得到了一个文件完整的data url字符串，那么我们如何将这个字符串转换成文件呢？</p>
+<h4 id="方案一：直接跳转下载">方案一：直接跳转下载</h4>
+<p>既然是个dataurl，我们直接将其赋值给<code>window.location.href</code>自然可以下载，但是这样下载是没法设定下载后的文件名的，这想一想都蛋疼</p>
+<h4 id="方案二：通过a标签下载">方案二：通过a标签下载</h4>
+<p>这个原理和跳转下载类似，都是使用dataurl本身的特性，通过创建一个a标签，将dataurl字符串赋值给href属性，然后使用download确定下载后的文件名，就可以完成下载了。但是很快又有新问题了，稍微大一点的文件下载的时候页面崩溃了。这是因为dataurl有<a href="http://stackoverflow.com/questions/695151/data-protocol-url-size-limitations" target="_blank">大小限制</a></p>
+<h4 id="方案三：blob">方案三：blob</h4>
+<p>其实可以通过给a标签创建blob url的方式来进行下载，这个没有大小限制。但是我们手上是dataurl，所以需要先进行转换：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+</pre></td><td class="code"><pre><span class="function"><span class="keyword">function</span> <span class="title">dataURItoBlob</span><span class="params">(dataURI, dataTYPE)</span> {</span>
+    <span class="keyword">var</span> binary = atob(dataURI.split(<span class="string">','</span>)[<span class="number">1</span>]),
+        array = [];
+    <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; binary.length; i++) array.push(binary.charCodeAt(i));
+    <span class="keyword">return</span> <span class="keyword">new</span> Blob([<span class="keyword">new</span> <span class="built_in">Uint8Array</span>(array)], {
+        type: dataTYPE
+    });
+}
+</pre></td></tr></table></figure>
+
+
+<p>获得blob后，我们就可以通过URL API来下载了：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+</pre></td><td class="code"><pre><span class="keyword">var</span> a = document.createElement(<span class="string">"a"</span>);
+document.body.appendChild(a);
+a.style = <span class="string">"display: none"</span>;
+<span class="keyword">var</span> blob = dataURItoBlob(data, <span class="string">'octet/stream'</span>);
+<span class="keyword">var</span> url = window.URL.createObjectURL(blob);
+a.href = url;
+a.download = filename;
+a.click();
+!moz && window.URL.revokeObjectURL(url);
+a.parentNode.removeChild(a);
+</pre></td></tr></table></figure>
+
+
+<p>这里有几个点：</p>
+<ol>
+<li>datachannel其实是可以直接传送blob的，但是只有ff支持，所以传data url</li>
+<li>chrome下载是直接触发的，不会进行询问，firefox会先询问后下载，在询问过程中如果执行了<code>revokeObjectURL</code>，下载就会取消，囧</li>
+</ol>
+<h2 id="升级">升级</h2>
+<p>如我们所知，WebRTC最有特点的地方其实是可以传输getUserMedia获得的视频、音频流，来实现视频聊天。但事实上我们的使用习惯来看，一般人不会一开始就打开视频聊天，而且视频聊天时很消耗内存的（32位机上一个连接至少20M左右好像，也有可能有出入）。所以常见的需求是，先建立一个包含datachannel的连接用于传输数据，然后在需要时升级成可以传输视频、音频。</p>
+<p>看看我们之前传输的session description，它其实来自<a href="http://datatracker.ietf.org/doc/draft-nandakumar-rtcweb-sdp/?include_text=1" target="_blank">Session Description Protocol</a>。可以看到wiki上的介绍：</p>
+<blockquote>
+<p>The Session Description Protocol (SDP) is a format for describing streaming media initialization parameters.</p>
+</blockquote>
+<p>这意味着什么呢？我们之前建立datachannel是没有加视频、音频流的，而这个流的描述是写在SDP里面的。现在我们需要传输视频、音频，就需要添加这些描述。所以就得重新获得SDP，然后构建offer和answer再传输一次。传输的流程和之前一样，没什么区别。但这一次，我们不需要传输任何的ice candidate，这里我曾经<a href="http://stackoverflow.com/questions/26469794/webrtc-add-ice-candidate-error-on-established-peerconnection" target="_blank">遇到了坑</a>，经过国外大大的点拨才明白过来。</p>
+<blockquote>
+<p>from mattm: You do not need to send ICE candidates on an already established peer connection. The ICE candidates are to make sure the two peers can establish a connection through their potential NAT and firewalls. If you can already send data on the peer connection, ICE candidates will not do anything.</p>
+</blockquote>
+<h2 id="Peertc">Peertc</h2>
+<p>我将datachannel和websocket组合，实现了一个构建点对点连接的库Peertc，它提供非常简洁的方式来建立连接和发送数据、文件和视频/音频流，详情见<a href="https://github.com/LingyuCoder/peertc" target="_blank">github</a>。走过路过的记得star一下哦，有什么bug也非常希望能够提出来。</p>
+<h2 id="最后">最后</h2>
+<p>WebRTC的点对点方式能够运用在很多场景：</p>
+<ul>
+<li>如web qq这种Web IM工具，这就不说了</li>
+<li>如象棋这种双人对战游戏，每一步的数据服务器时不关心的，所以完全可以点对点发送</li>
+<li>一对一在线面试、在线教育，这其实是即时通信的一个业务方向</li>
+<li>视频裸（），当我没说</li>
+</ul>
+<p>就酱，另外打个广告及拉点搜索引擎权重：<a href="http://lingyu.wang">我的博客</a></p>
+<hr><div class="tags"><a href="/tags/WebSocket/" class="blog-tag">WebSocket</a><a href="/tags/NodeJs/" class="blog-tag">NodeJs</a><a href="/tags/WebIM/" class="blog-tag">WebIM</a><a href="/tags/WebRTC/" class="blog-tag">WebRTC</a><a href="/tags/JavaScript/" class="blog-tag">JavaScript</a><a href="/tags/DataChannel/" class="blog-tag">DataChannel</a></div><hr><div class="jia"><div class="jiathis_style_32x32"><a class="jiathis_button_qzone"></a><a class="jiathis_button_tsina"></a><a class="jiathis_button_tqq"></a><a class="jiathis_button_weixin"></a><a class="jiathis_button_renren"></a><a href="http://www.jiathis.com/share?uid=1409314953297200" target="_blank" class="jiathis jiathis_txt jtico jtico_jiathis"></a></div><script type="text/javascript">var jiathis_config = {data_track_clickback:'true'};    </script><script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1409314953297200" charset="utf-8"></script></div><hr><div id="duoshuo" data-url="http://lingyu.wang/2014/10/21/datachannel/" data-thread-key="/blog/2014/10/21/datachannel/" data-title="使用WebRTC DataChannel在浏览器间传递数据" class="ds-thread"></div><script type="text/javascript">var duoshuoQuery = {short_name:'skyinlayer'};
+(function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+})();</script></div></article><div class="pager"><a href="/2014/10/07/getting-gulpy/" title="Gulp思维 —— Gulp高级技巧" class="next">下一页</a></div></div><aside id="aside"><section class="recent"><h3 class="title iconfont">最新文章<i>&#xe601;</i></h3><div class="links"><ul><li><a href="/2014/10/21/datachannel/">使用WebRTC DataChannel在浏览器间传递数据</a></li><li><a href="/2014/10/07/getting-gulpy/">Gulp思维 —— Gulp高级技巧</a></li><li><a href="/2014/10/06/gulp-vision-history-future/">Gulp -- 项目的愿景、过去和将来</a></li><li><a href="/2014/09/24/koa-anywhere/">koa-anywhere</a></li><li><a href="/2014/09/22/learn-fe/">学前端的一点总结</a></li></ul></div></section><section class="categories"><h3 class="title iconfont">分类<i>&#xe605;</i></h3><div class="links"><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/NodeJs/">NodeJs</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端技术/">前端技术</a><span class="category-list-count">33</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/前端技术/性能优化/">性能优化</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端技术/笔试面试积累/">笔试面试积累</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端技术/网站建设/">网站建设</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/即时通信/">即时通信</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/性能优化/">性能优化</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库技术/">数据库技术</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/源码阅读/">源码阅读</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/生活情感/">生活情感</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/笔试面试积累/">笔试面试积累</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/网站建设/">网站建设</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/读书笔记/">读书笔记</a><span class="category-list-count">9</span></li></ul></div></section><section class="tags"><h3 class="title iconfont">标签<i>&#xe603;</i></h3><div class="links"><ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS/">CSS</a><span class="tag-list-count">35</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DataChannel/">DataChannel</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ES6/">ES6</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Generator/">Generator</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Gulp/">Gulp</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/">HTML</a><span class="tag-list-count">29</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/">HTTP</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a><span class="tag-list-count">37</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kissy/">Kissy</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NodeJs/">NodeJs</a><span class="tag-list-count">13</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SEO/">SEO</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WebIM/">WebIM</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WebRTC/">WebRTC</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WebSocket/">WebSocket</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/grunt/">grunt</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jQuery/">jQuery</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/koa/">koa</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/oracle/">oracle</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/xmpp/">xmpp</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/动画/">动画</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/响应式/">响应式</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/存储函数/">存储函数</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/思考/">思考</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/生活/">生活</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/笔试面试题/">笔试面试题</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/设计/">设计</a><span class="tag-list-count">9</span></li></ul></div></section><section class="archives"><h3 class="title iconfont"> 归档<i>&#xe60a;</i></h3><div class="links"><ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10">2014年10月</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09">2014年9月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07">2014年7月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05">2014年5月</a><span class="archive-list-count">15</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/04">2014年4月</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/03">2014年3月</a><span class="archive-list-count">29</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02">2014年2月</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/01">2014年1月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/12">2013年12月</a><span class="archive-list-count">1</span></li></ul></div></section></aside></section><footer id="page-footer"><span style="float:right"><script type="text/javascript">(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-51090540-1', 'http://plugins.lingyu.wang');
+ga('send', 'pageview');</script></span><span style="float:right"><script type="text/javascript">var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3Fa5aa4945a04cc5a5a4cd6835ccb7d419' type='text/javascript'%3E%3C/script%3E"));</script></span><p>&copy;Powered by<a href="http://hexo.io" target="_blank" title="hexo">&nbsp;hexo&nbsp;</a>and Theme by<a href="https://github.com/LingyuCoder/lingyu-theme">&nbsp;LingyuCoder</a></p></footer><script type="text/javascript" src="http://cdn.staticfile.org/jquery/2.1.1-rc2/jquery.min.js"></script><script type="text/javascript">$(function(){
+    var duoshuoIds = [];
+    var map = {};
+    $('.meta').each(function(){
+        var $this = $(this);
+        var id = $this.attr('thread');
+        duoshuoIds.push(id);
+        map[id] = $this;
+    });
+    duoshuoIds.length && $.ajax({
+        url: 'http://api.duoshuo.com/threads/counts.jsonp',
+        data: {
+            threads: duoshuoIds.join(','),
+            short_name: 'skyinlayer'
+        },
+        success: function(data){
+            $.each(data.response, function(key, value){
+                var $el = map[key];
+                if($el) {
+                    $.each(['comments','likes', 'reposts'], function(index, type){
+                        $el.find('.' + type).append('<span>' + value[type] + '</span>');
+                    });
+                }
+            });
+        },
+        dataType: 'jsonp'
+    });
+});</script></body></html>

@@ -4,7 +4,7 @@
   
   <link href="/atom.xml" rel="self"/>
   <link href="http://lingyu.wang/"/>
-  <updated>2014-10-07T10:04:30.703Z</updated>
+  <updated>2014-10-21T12:35:58.967Z</updated>
   <id>http://lingyu.wang/</id>
   
   <author>
@@ -13,6 +13,186 @@
   </author>
   
   <generator uri="http://zespia.tw/hexo/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[使用WebRTC DataChannel在浏览器间传递数据]]></title>
+    <link href="http://lingyu.wang/2014/10/21/datachannel/"/>
+    <id>http://lingyu.wang/2014/10/21/datachannel/</id>
+    <published>2014-10-20T16:00:00.000Z</published>
+    <updated>2014-10-21T12:35:05.289Z</updated>
+    <content type="html"><![CDATA[<p>WebRTC给我们带来了浏览器中的视频、音频聊天体验。但个人认为，它最实用的特性莫过于DataChannel——在浏览器之间建立一个点对点的数据通道。在DataChannel之前，浏览器到浏览器的数据传递通常是这样一个流程：浏览器1发送数据给服务器，服务器处理，服务器再转发给浏览器2。这三个过程都会带来相应的消耗，占用服务器带宽不说，还减缓了消息从发送到接收的时间。其实最理想的方式就是浏览器1直接与浏览2进行通信，服务器不需要参与其中。WebRTC DataChannel就提供了这样一种方式。</p>
+<a id="more"></a>
+
+<p>如果对WebRTC和DataChannel不太了解的同学，可以先阅读如下文章：</p>
+<ul>
+<li><a href="http://lingyu.wang/2014/05/22/webrtc-data-channels/">WebRTC的RTCDataChannel</a></li>
+<li><a href="http://lingyu.wang/2014/03/18/webRTC-2/">使用WebRTC搭建前端视频聊天室——信令篇</a></li>
+<li><a href="http://lingyu.wang/2014/03/15/webRTC-1/">使用WebRTC搭建前端视频聊天室——入门篇</a></li>
+</ul>
+<h2 id="老刘和老姚">老刘和老姚</h2>
+<p>当然服务器完全不参与其中，显然是不可能的，用户需要通过服务器上存储的信息，才能确定需要和谁建立连接。这里通过一个故事来讲述建立连接的过程：</p>
+<h3 id="不如钓鱼去">不如钓鱼去</h3>
+<p>一些背景：</p>
+<ul>
+<li>老刘和老姚都住在同一个小区但不同的片区，小区很破旧，没有电话</li>
+<li>片区相互隔离且片区门口有个保安，保安只认识自己片区的人，遇到不认识的人就需要查询凭证才能通过，而凭证需要找物业才能确定</li>
+<li>门卫老大爷认识小区里的所有人但是不知道都住哪，有什么消息都可以在出入小区的时候代为传达</li>
+</ul>
+<p>现在，老刘听说老姚钓鱼技术高超，想和老姚讨论钓鱼技巧。只要老刘和老姚相互之间知道对方的门牌号以及凭证，就可以串门了:</p>
+<ol>
+<li>门卫老大爷认识老刘和老姚</li>
+<li>老刘找物业确定了自己片区的出入凭证，将凭证、自己的门牌号以及意图告诉门卫老大爷，让其转交给老姚</li>
+<li>老姚买菜归来遇到门卫老大爷，门卫老大爷将老刘的消息传达给老姚。于是老姚知道怎么去老刘家了</li>
+<li>老姚很开心，他也找物业获取了自己小区的凭证，并将凭证、自己的门牌号等信息交给门卫老大爷，希望他传达给老刘</li>
+<li>老刘吃早餐回来遇到门卫老大爷，老大爷把老姚的小区凭证、门牌号等信息告诉老刘，这样老刘就知道了怎么去老姚家了</li>
+</ol>
+<p>老刘和老姚相互之间知道了对方的门牌号和小区出入凭证，他们相互之间有什么需要交流的直接串门就行了，消息不再需要门卫老大爷来代为传达了</p>
+<h3 id="换个角度">换个角度</h3>
+<p>我们把角色做一个映射：</p>
+<ul>
+<li>老刘：浏览器1</li>
+<li>老姚：浏览器2</li>
+<li>片区：不同网段</li>
+<li>保安：防火墙</li>
+<li>片区凭证：ICE candidate</li>
+<li>物业：ICE server</li>
+<li>门牌号：session description</li>
+<li>门卫老大爷：server</li>
+</ul>
+<p>于是乎故事就变成了这样：</p>
+<ol>
+<li>浏览器1和浏览器2在server上注册，并保有连接</li>
+<li>浏览器1从ice server获取ice candidate并发送给server，并生成包含session description的offer，发送给server</li>
+<li>server发送浏览器1的offer和ice candidate给浏览器2</li>
+<li>浏览器2发送包含session description的answer和ice candidate给server</li>
+<li>server发送浏览器2的answer和ice candidate给浏览器1</li>
+</ol>
+<p>这样，就建立了一个点对点的信道，流程如下所示：</p>
+<p><img src="http://skyinlayerblog.qiniudn.com/blog%2Fimg%2F2014-10-32%2Fdatachannel-task-seq.png" alt="信令交互流程"></p>
+<h2 id="礼物">礼物</h2>
+<h3 id="故事">故事</h3>
+<p>老刘和老姚已经可以相互串门了，经过一段时间的交流感情越来越深。老姚的亲友送了20斤葡萄给老姚，老姚决定送10斤给老刘。老姚毕竟年事已高，不可能一次带10斤。于是乎，老姚将葡萄分成了10份，每次去老刘家串门就送一份过去。</p>
+<p>这里可以做如下类比：</p>
+<ol>
+<li>10斤葡萄：一个文件（尽管文件分片没有意义，葡萄分开还可以单独吃，但是实在找不到啥好的比喻了）</li>
+<li>分成10份：将文件分片，转成多个chunk</li>
+<li>老姚一次只能带一斤：datachannel每次传输的数据量不宜太大（<a href="http://stackoverflow.com/questions/15435121/what-is-the-maximum-size-of-webrtc-data-channel-messages" target="_blank">找到最合适的大小</a>）</li>
+</ol>
+<p>这其实就是通过datachannel传输文件的方式，首先将文件分片，然后逐个发送，最后再统一的进行组合成一个新的文件</p>
+<h3 id="分片">分片</h3>
+<p>通过HTML5的File API可以将type为file的input选中的文件读取出来，并转换成data url字符串。这也就为我们提供了很方便的分片方式：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+</pre></td><td class="code"><pre><span class="keyword">var</span> reader = <span class="keyword">new</span> window.FileReader(file);
+reader.readAsDataURL(file);
+reader.onload = <span class="function"><span class="keyword">function</span><span class="params">(event, text)</span> {</span>
+    chunkify(event.target.result);<span class="comment">//将数据分片</span>
+};
+</pre></td></tr></table></figure>
+
+
+<h3 id="组合">组合</h3>
+<p>通过datachannel发送的分片数据，我们需要将其进行组合，由于是data url字符串，在接收到所有包之后进行拼接就可以了。拼接完成后就得到了一个文件完整的data url字符串，那么我们如何将这个字符串转换成文件呢？</p>
+<h4 id="方案一：直接跳转下载">方案一：直接跳转下载</h4>
+<p>既然是个dataurl，我们直接将其赋值给<code>window.location.href</code>自然可以下载，但是这样下载是没法设定下载后的文件名的，这想一想都蛋疼</p>
+<h4 id="方案二：通过a标签下载">方案二：通过a标签下载</h4>
+<p>这个原理和跳转下载类似，都是使用dataurl本身的特性，通过创建一个a标签，将dataurl字符串赋值给href属性，然后使用download确定下载后的文件名，就可以完成下载了。但是很快又有新问题了，稍微大一点的文件下载的时候页面崩溃了。这是因为dataurl有<a href="http://stackoverflow.com/questions/695151/data-protocol-url-size-limitations" target="_blank">大小限制</a></p>
+<h4 id="方案三：blob">方案三：blob</h4>
+<p>其实可以通过给a标签创建blob url的方式来进行下载，这个没有大小限制。但是我们手上是dataurl，所以需要先进行转换：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+</pre></td><td class="code"><pre><span class="function"><span class="keyword">function</span> <span class="title">dataURItoBlob</span><span class="params">(dataURI, dataTYPE)</span> {</span>
+    <span class="keyword">var</span> binary = atob(dataURI.split(<span class="string">','</span>)[<span class="number">1</span>]),
+        array = [];
+    <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; binary.length; i++) array.push(binary.charCodeAt(i));
+    <span class="keyword">return</span> <span class="keyword">new</span> Blob([<span class="keyword">new</span> <span class="built_in">Uint8Array</span>(array)], {
+        type: dataTYPE
+    });
+}
+</pre></td></tr></table></figure>
+
+
+<p>获得blob后，我们就可以通过URL API来下载了：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+</pre></td><td class="code"><pre><span class="keyword">var</span> a = document.createElement(<span class="string">"a"</span>);
+document.body.appendChild(a);
+a.style = <span class="string">"display: none"</span>;
+<span class="keyword">var</span> blob = dataURItoBlob(data, <span class="string">'octet/stream'</span>);
+<span class="keyword">var</span> url = window.URL.createObjectURL(blob);
+a.href = url;
+a.download = filename;
+a.click();
+!moz && window.URL.revokeObjectURL(url);
+a.parentNode.removeChild(a);
+</pre></td></tr></table></figure>
+
+
+<p>这里有几个点：</p>
+<ol>
+<li>datachannel其实是可以直接传送blob的，但是只有ff支持，所以传data url</li>
+<li>chrome下载是直接触发的，不会进行询问，firefox会先询问后下载，在询问过程中如果执行了<code>revokeObjectURL</code>，下载就会取消，囧</li>
+</ol>
+<h2 id="升级">升级</h2>
+<p>如我们所知，WebRTC最有特点的地方其实是可以传输getUserMedia获得的视频、音频流，来实现视频聊天。但事实上我们的使用习惯来看，一般人不会一开始就打开视频聊天，而且视频聊天时很消耗内存的（32位机上一个连接至少20M左右好像，也有可能有出入）。所以常见的需求是，先建立一个包含datachannel的连接用于传输数据，然后在需要时升级成可以传输视频、音频。</p>
+<p>看看我们之前传输的session description，它其实来自<a href="http://datatracker.ietf.org/doc/draft-nandakumar-rtcweb-sdp/?include_text=1" target="_blank">Session Description Protocol</a>。可以看到wiki上的介绍：</p>
+<blockquote>
+<p>The Session Description Protocol (SDP) is a format for describing streaming media initialization parameters.</p>
+</blockquote>
+<p>这意味着什么呢？我们之前建立datachannel是没有加视频、音频流的，而这个流的描述是写在SDP里面的。现在我们需要传输视频、音频，就需要添加这些描述。所以就得重新获得SDP，然后构建offer和answer再传输一次。传输的流程和之前一样，没什么区别。但这一次，我们不需要传输任何的ice candidate，这里我曾经<a href="http://stackoverflow.com/questions/26469794/webrtc-add-ice-candidate-error-on-established-peerconnection" target="_blank">遇到了坑</a>，经过国外大大的点拨才明白过来。</p>
+<blockquote>
+<p>from mattm: You do not need to send ICE candidates on an already established peer connection. The ICE candidates are to make sure the two peers can establish a connection through their potential NAT and firewalls. If you can already send data on the peer connection, ICE candidates will not do anything.</p>
+</blockquote>
+<h2 id="Peertc">Peertc</h2>
+<p>我将datachannel和websocket组合，实现了一个构建点对点连接的库Peertc，它提供非常简洁的方式来建立连接和发送数据、文件和视频/音频流，详情见<a href="https://github.com/LingyuCoder/peertc" target="_blank">github</a>。走过路过的记得star一下哦，有什么bug也非常希望能够提出来。</p>
+<h2 id="最后">最后</h2>
+<p>WebRTC的点对点方式能够运用在很多场景：</p>
+<ul>
+<li>如web qq这种Web IM工具，这就不说了</li>
+<li>如象棋这种双人对战游戏，每一步的数据服务器时不关心的，所以完全可以点对点发送</li>
+<li>一对一在线面试、在线教育，这其实是即时通信的一个业务方向</li>
+<li>视频裸（），当我没说</li>
+</ul>
+<p>就酱，另外打个广告及拉点搜索引擎权重：<a href="http://lingyu.wang">我的博客</a></p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>WebRTC给我们带来了浏览器中的视频、音频聊天体验。但个人认为，它最实用的特性莫过于DataChannel——在浏览器之间建立一个点对点的数据通道。在DataChannel之前，浏览器到浏览器的数据传递通常是这样一个流程：浏览器1发送数据给服务器，服务器处理，服务器再转发给浏览器2。这三个过程都会带来相应的消耗，占用服务器带宽不说，还减缓了消息从发送到接收的时间。其实最理想的方式就是浏览器1直接与浏览2进行通信，服务器不需要参与其中。WebRTC DataChannel就提供了这样一种方式。</p>
+]]>
+    
+    </summary>
+    
+      <category term="WebSocket" scheme="http://lingyu.wang/tags/WebSocket/"/>
+    
+      <category term="NodeJs" scheme="http://lingyu.wang/tags/NodeJs/"/>
+    
+      <category term="WebIM" scheme="http://lingyu.wang/tags/WebIM/"/>
+    
+      <category term="WebRTC" scheme="http://lingyu.wang/tags/WebRTC/"/>
+    
+      <category term="JavaScript" scheme="http://lingyu.wang/tags/JavaScript/"/>
+    
+      <category term="DataChannel" scheme="http://lingyu.wang/tags/DataChannel/"/>
+    
+      <category term="即时通信" scheme="http://lingyu.wang/categories/%E5%8D%B3%E6%97%B6%E9%80%9A%E4%BF%A1/"/>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[Gulp思维 —— Gulp高级技巧]]></title>
@@ -3298,6 +3478,836 @@ promise.promise( deferred );
   </entry>
   
   <entry>
+    <title><![CDATA[jQuery的事件机制——核心篇]]></title>
+    <link href="http://lingyu.wang/2014/05/12/read-jq-src-3/"/>
+    <id>http://lingyu.wang/2014/05/12/read-jq-src-3/</id>
+    <published>2014-05-11T16:00:00.000Z</published>
+    <updated>2014-09-25T15:03:52.184Z</updated>
+    <content type="html"><![CDATA[<p>这篇主要介绍了jQuery中事件管理器的一些核心方法，涉及事件代理、自定事件模拟的冒泡、特殊函数的处理，命名空间的处理等等</p>
+<a id="more"></a>
+
+<h1 id="jQuery源码——事件机制">jQuery源码——事件机制</h1>
+<p>jQuery提供了一套完善的事件管理机制，这一整套事件管理机制构建在jQuery的data之上，使用元素的私有数据域来保存事件的相关配置和回调函数列表。jQuery提供了自定义事件的处理，并模拟了事件的冒泡机制。通过冒泡机制，提供了一套事件代理接口</p>
+<h2 id="事件管理器">事件管理器</h2>
+<p>jQuery提供一个<code>jQuery.event</code>的辅助类，它提供了一系列管理事件的方法。主题思想来自Dean Edwards的库。事实上，事件亦无外乎CRUD操作，只不过多了个触发操作（实际上属于R操作的一种），这个辅助类提供了add、remove、trigger、dispatch几个核心方法用添加、删除、触发事件、执行回调函数等功能，另外还提供了一些钩子和辅助函数用于兼容一些特殊事件</p>
+<h3 id="global">global</h3>
+<p>存放事件是否存在</p>
+<h3 id="add_(elem,_types,_handler,_data,_selector)">add (elem, types, handler, data, selector)</h3>
+<p>这个函数用于绑定对应的事件，整体思路大致是：确定事件在元素的私有数据空间中是否存在，如果不存在就创建，创建时为事件绑定一个回调函数，里面使用dispatch执行事件的回调函数列表</p>
+<p>所以代码大致流程如下：</p>
+<h4 id="事件创建逻辑">事件创建逻辑</h4>
+<p>在元素么有绑定过这个事件，或者压根没有绑定过事件时，需要创建事件的对应存储空间以及事件的统一回调函数</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+</pre></td><td class="code"><pre><span class="keyword">var</span> handleObjIn, eventHandle, tmp,
+    events, t, handleObj,
+    special, handlers, type, namespaces, origType,
+    elemData = data_priv.get( elem );
+    
+<span class="keyword">if</span> ( !elemData ) {
+    <span class="keyword">return</span>;
+}
+</pre></td></tr></table></figure>
+
+
+<p>获取元素的私有数据空间，如果无法获得私有数据空间，说明是文本节点或注释节点，那么也无法绑定时间了，直接返回</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+</pre></td><td class="code"><pre><span class="keyword">if</span> ( handler.handler ) {
+    handleObjIn = handler;
+    handler = handleObjIn.handler;
+    selector = handleObjIn.selector;
+}
+</pre></td></tr></table></figure>
+
+
+<p>接着确定配置中的回调函数，如果存在事件代理，需要确定需要被代理的元素的选择器</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+</pre></td><td class="code"><pre><span class="keyword">if</span> ( !handler.guid ) {
+    handler.guid = jQuery.guid++;
+}
+</pre></td></tr></table></figure>
+
+
+<p>为回调函数创建一个唯一的id来提供优化，实际上还是通过jQuery的guid得到</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+</pre></td><td class="code"><pre><span class="keyword">if</span> ( !(events = elemData.events) ) {
+    events = elemData.events = {};
+}
+<span class="keyword">if</span> ( !(eventHandle = elemData.handle) ) {
+    eventHandle = elemData.handle = <span class="function"><span class="keyword">function</span><span class="params">( e )</span> {</span>
+        <span class="keyword">return</span> <span class="keyword">typeof</span> jQuery !== strundefined && jQuery.event.triggered !== e.type ?
+            jQuery.event.dispatch.apply( elem, <span class="built_in">arguments</span> ) : <span class="literal">undefined</span>;
+    };
+}
+</pre></td></tr></table></figure>
+
+
+<p>从元素的私有数据空间中获取存放事件的对象，如果不存在就新建一个。然后从元素的私有数据中获取事件处理函数，如果没有，就新建一个函数。每一个事件对应一个回调函数，这个回调函数使用dispatch方法来执行事件的回调函数列表中的所有函数</p>
+<h4 id="事件绑定逻辑">事件绑定逻辑</h4>
+<p>在创建完事件的存储空间，或者获取到已有的存储空间之后，就需要把往事件的回调函数列表中添加事件了。这里需要处理的问题包括：</p>
+<ol>
+<li>type字符串中可以通过<code>event1 event2 event3</code>这样的方式包含多个事件</li>
+<li>有可能存在命名空间如<code>event.namespace</code>的情况</li>
+<li>特殊事件需要进行名称转换，以及钩子调用</li>
+<li>如果是事件代理也需要注意代理逻辑</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+</pre></td><td class="code"><pre>types = ( types || <span class="string">""</span> ).match( rnotwhite ) || [ <span class="string">""</span> ];
+t = types.length;
+<span class="keyword">while</span> ( t-- ) {
+    <span class="comment">//后面的代码</span>
+}
+</pre></td></tr></table></figure>
+
+
+<p>处理情况1，通过切分将多个事件名称切分出来，分别进行处理</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+</pre></td><td class="code"><pre>tmp = rtypenamespace.exec( types[t] ) || [];
+type = origType = tmp[<span class="number">1</span>];
+namespaces = ( tmp[<span class="number">2</span>] || <span class="string">""</span> ).split( <span class="string">"."</span> ).sort();
+
+<span class="keyword">if</span> ( !type ) {
+    <span class="keyword">continue</span>;
+}
+</pre></td></tr></table></figure>
+
+
+<p>处理情况2，同样是使用正则获取到命名空间和事件名称，如果获取不到事件名称，那么直接continue略过</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+</pre></td><td class="code"><pre>special = jQuery.event.special[ type ] || {};
+
+type = ( selector ? special.delegateType : special.bindType ) || type;
+
+special = jQuery.event.special[ type ] || {};
+</pre></td></tr></table></figure>
+
+
+<p>情况3下，如果事件是特殊事件，需要获取特殊事件需要被映射的事件名称</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+</pre></td><td class="code"><pre>handleObj = jQuery.extend({
+    type: type,
+    origType: origType,
+    data: data,
+    handler: handler,
+    guid: handler.guid,
+    selector: selector,
+    needsContext: selector && jQuery.expr.match.needsContext.test( selector ),
+    namespace: namespaces.join(<span class="string">"."</span>)
+}, handleObjIn );
+</pre></td></tr></table></figure>
+
+
+<p>这里将回调函数封装成带有配置的回调对象，方便后续的删除、查找等操作。这里记录了很多信息：</p>
+<ol>
+<li>type：事件的映射后的名称</li>
+<li>origType：事件的原始名称</li>
+<li>data：事件的默认数据</li>
+<li>handler：回调函数</li>
+<li>guid：回调函数的id</li>
+<li>selector：启用事件代理时，被代理的节点的选择器</li>
+<li>needsContext：如果是事件代理模式，通过Sizzle判断元素是否需要上下文</li>
+<li>namespace：重组后的命名空间</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+</pre></td><td class="code"><pre><span class="keyword">if</span> ( !(handlers = events[ type ]) ) {
+    handlers = events[ type ] = [];
+    handlers.delegateCount = <span class="number">0</span>;
+
+    <span class="keyword">if</span> ( !special.setup || special.setup.call( elem, data, namespaces, eventHandle ) === <span class="literal">false</span> ) {
+        <span class="keyword">if</span> ( elem.addEventListener ) {
+            elem.addEventListener( type, eventHandle, <span class="literal">false</span> );
+        }
+    }
+}
+</pre></td></tr></table></figure>
+
+
+<p>如果这个事件刚注册，给它一个回调对象列表，并设定代理数为0。在情况3下，需要处理setup钩子</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+</pre></td><td class="code"><pre><span class="keyword">if</span> ( special.add ) {
+    special.add.call( elem, handleObj );
+
+    <span class="keyword">if</span> ( !handleObj.handler.guid ) {
+        handleObj.handler.guid = handler.guid;
+    }
+}
+</pre></td></tr></table></figure>
+
+
+<p>这里同样是情况3下的钩子处理，上面setup是事件注册钩子，而这里则是方法添加的钩子</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+</pre></td><td class="code"><pre><span class="keyword">if</span> ( selector ) {
+    handlers.splice( handlers.delegateCount++, <span class="number">0</span>, handleObj );
+} <span class="keyword">else</span> {
+    handlers.push( handleObj );
+}
+</pre></td></tr></table></figure>
+
+
+<p>好了，该玩的钩子都玩完了，将回调对象加入到回调对象列表中吧，这里需要处理情况4，如果是事件代理的话，元素的代理数增加，如果是代理情况，代理的回调对象加载列表前头</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+</pre></td><td class="code"><pre>jQuery.event.global[ type ] = <span class="literal">true</span>;
+</pre></td></tr></table></figure>
+
+
+<p>最后再全局中标记一下事件已存在就行了</p>
+<h3 id="remove_(elem,_types,_handler,_selector,_mappedTypes)">remove (elem, types, handler, selector, mappedTypes)</h3>
+<p>删除逻辑也一样，从一个节点的事件存储中删除一个或个事件的一个回调或所有回调，这里同样需要考虑几个地方：</p>
+<ol>
+<li>type字符串中可以通过<code>event1 event2 event3</code>这样的方式包含多个事件</li>
+<li>有可能存在命名空间如<code>event.namespace</code>的情况</li>
+<li>特殊事件需要进行名称转换，以及钩子调用</li>
+<li>如果是事件代理也需要注意代理逻辑</li>
+<li>在移除了一个事件的所有回调对象后，可以移除这个事件</li>
+<li>在移除了一个元素的所有事件后，可以释放这个元素的事件存储空间了</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+</pre></td><td class="code"><pre><span class="keyword">var</span> j, origCount, tmp,
+    events, t, handleObj,
+    special, handlers, type, namespaces, origType,
+    elemData = data_priv.hasData( elem ) && data_priv.get( elem );
+<span class="keyword">if</span> ( !elemData || !(events = elemData.events) ) {
+    <span class="keyword">return</span>;
+}
+</pre></td></tr></table></figure>
+
+
+<p>获取元素的私有数据空间以及其事件存储空间，如果没有，那没必要删除了</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+</pre></td><td class="code"><pre>types = ( types || <span class="string">""</span> ).match( rnotwhite ) || [ <span class="string">""</span> ];
+t = types.length;
+<span class="keyword">while</span> ( t-- ) {
+    <span class="comment">//后面的代码</span>
+}
+</pre></td></tr></table></figure>
+
+
+<p>处理情况1，和上面的add一样</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+</pre></td><td class="code"><pre>tmp = rtypenamespace.exec( types[t] ) || [];
+type = origType = tmp[<span class="number">1</span>];
+
+namespaces = ( tmp[<span class="number">2</span>] || <span class="string">""</span> ).split( <span class="string">"."</span> ).sort();
+</pre></td></tr></table></figure>
+
+
+<p>获取事件的命名空间，和add方法一样</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+</pre></td><td class="code"><pre><span class="keyword">if</span> ( !type ) {
+    <span class="keyword">for</span> ( type <span class="keyword">in</span> events ) {
+        jQuery.event.remove( elem, type + types[ t ], handler, selector, <span class="literal">true</span> );
+    }
+    <span class="keyword">continue</span>;
+}
+</pre></td></tr></table></figure>
+
+
+<p>如果没有获取到事件名称，就得遍历事件存储空间中所有的事件删除handler对应的方法了，这里直接递归了</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+</pre></td><td class="code"><pre>special = jQuery.event.special[ type ] || {};
+type = ( selector ? special.delegateType : special.bindType ) || type;
+handlers = events[ type ] || [];
+origCount = j = handlers.length;
+<span class="keyword">while</span> ( j-- ) {
+    <span class="comment">//详细删除代码</span>
+}
+</pre></td></tr></table></figure>
+
+
+<p>这里处理了情况3和4，和add中一样，获取了事件需要被映射的名称，然后通过这个名称获取了事件回调对象列表。然后我们可以遍历回调函谁对象列表，进行删除操作了</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+</pre></td><td class="code"><pre>handleObj = handlers[ j ];
+<span class="keyword">if</span> ( ( mappedTypes || origType === handleObj.origType ) &&
+    ( !handler || handler.guid === handleObj.guid ) &&
+    ( !tmp || tmp.test( handleObj.namespace ) ) &&
+    ( !selector || selector === handleObj.selector || selector === <span class="string">"**"</span> && handleObj.selector ) ) {
+    handlers.splice( j, <span class="number">1</span> );
+
+    <span class="keyword">if</span> ( handleObj.selector ) {
+        handlers.delegateCount--;
+    }
+    <span class="keyword">if</span> ( special.remove ) {
+        special.remove.call( elem, handleObj );
+    }
+}
+</pre></td></tr></table></figure>
+
+
+<p>这里就是删除的真正代码了，需要判断代理，判断命名空间，判断方法的guid，如果有map映射，判断名称。所有判断都通过之后，使用数组的splice进行删除。另外在删除之后，如果有代理，代理个数自然要减一，而如果是特殊事件，需要弟阿勇remove钩子了</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+</pre></td><td class="code"><pre><span class="keyword">if</span> ( origCount && !handlers.length ) {
+    <span class="keyword">if</span> ( !special.teardown || special.teardown.call( elem, namespaces, elemData.handle ) === <span class="literal">false</span> ) {
+        jQuery.removeEvent( elem, type, elemData.handle );
+    }
+    <span class="keyword">delete</span> events[ type ];
+}
+</pre></td></tr></table></figure>
+
+
+<p>这里处理情况5，如果事件的回调函数列表为空，那么可以delete掉这个事件了。特殊事件依旧有钩子，调用teardown</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+</pre></td><td class="code"><pre><span class="keyword">if</span> ( jQuery.isEmptyObject( events ) ) {
+    <span class="keyword">delete</span> elemData.handle;
+    data_priv.remove( elem, <span class="string">"events"</span> );
+}
+</pre></td></tr></table></figure>
+
+
+<p>如果节点中没有任何事件了，直接释放掉事件存储空间</p>
+<h3 id="trigger_(event,_data,_elem,_onlyHandlers)">trigger (event, data, elem, onlyHandlers)</h3>
+<p>触发事件的方法，这里模拟了事件的冒泡机制，并且兼容了onXXX绑定的事件回调函数，另外还处理了preventDefault的情况</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+</pre></td><td class="code"><pre><span class="keyword">var</span> i, cur, tmp, bubbleType, ontype, handle, special,
+    eventPath = [ elem || document ],
+    type = hasOwn.call( event, <span class="string">"type"</span> ) ? event.type : event,
+    namespaces = hasOwn.call( event, <span class="string">"namespace"</span> ) ? event.namespace.split(<span class="string">"."</span>) : [];
+
+cur = tmp = elem = elem || document;
+
+<span class="keyword">if</span> ( elem.nodeType === <span class="number">3</span> || elem.nodeType === <span class="number">8</span> ) {
+    <span class="keyword">return</span>;
+}
+</pre></td></tr></table></figure>
+
+
+<p>做了一些准备工作，获取了事件的命名空间，初始化了冒泡的路径，如果没有提供trigger的元素则默认document，另外文本和注释节点无法触发事件</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+</pre></td><td class="code"><pre><span class="keyword">if</span> ( rfocusMorph.test( type + jQuery.event.triggered ) ) {
+    <span class="keyword">return</span>;
+}
+</pre></td></tr></table></figure>
+
+
+<p>检测是否有focus和blur事件，它们不会在这里被触发</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+</pre></td><td class="code"><pre><span class="keyword">if</span> ( type.indexOf(<span class="string">"."</span>) &gt;= <span class="number">0</span> ) {
+    namespaces = type.split(<span class="string">"."</span>);
+    type = namespaces.shift();
+    namespaces.sort();
+}
+ontype = type.indexOf(<span class="string">":"</span>) &lt; <span class="number">0</span> && <span class="string">"on"</span> + type;
+</pre></td></tr></table></figure>
+
+
+<p>获取事件的名称和命名空间，另外还需要生成一个带on开头的事件名称，方便在兼容onXXX时使用</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+</pre></td><td class="code"><pre>event = event[ jQuery.expando ] ?
+    event :
+    <span class="keyword">new</span> jQuery.Event( type, <span class="keyword">typeof</span> event === <span class="string">"object"</span> && event );
+
+event.isTrigger = onlyHandlers ? <span class="number">2</span> : <span class="number">3</span>;
+event.namespace = namespaces.join(<span class="string">"."</span>);
+event.namespace_re = event.namespace ?
+    <span class="keyword">new</span> <span class="built_in">RegExp</span>( <span class="string">"(^|\\.)"</span> + namespaces.join(<span class="string">"\\.(?:.*\\.|)"</span>) + <span class="string">"(\\.|$)"</span> ) :
+    <span class="literal">null</span>;
+
+event.result = <span class="literal">undefined</span>;
+<span class="keyword">if</span> ( !event.target ) {
+    event.target = elem;
+}
+</pre></td></tr></table></figure>
+
+
+<p>常使用事件的都会使用event这个事件对象，jq模拟的事件机制也是一样，不过它自己新建了一个事件对象。这个事件对象包裹了浏览器原生的事件对象，并添加了很多其他的属性:</p>
+<ol>
+<li>isTrigger: 判断是否需要出发浏览器本身的事件回调</li>
+<li>namespace: 事件的命名空间</li>
+<li>namespace_re: 一个用于匹配当前命名空间的正则</li>
+<li>result: 事件运行的结果</li>
+<li>target：触发事件的元素，需要注意的是事件代理情况下，target是被代理的元素</li>
+</ol>
+<p>事件对象的具体实现，后面会说</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+</pre></td><td class="code"><pre>data = data == <span class="literal">null</span> ?
+    [ event ] :
+    jQuery.makeArray( data, [ event ] );
+
+special = jQuery.event.special[ type ] || {};
+<span class="keyword">if</span> ( !onlyHandlers && special.trigger && special.trigger.apply( elem, data ) === <span class="literal">false</span> ) {
+    <span class="keyword">return</span>;
+}
+</pre></td></tr></table></figure>
+
+
+<p>将event和data进行包裹，装成一个数组方便后面apply调用。这里处理了一下特殊事件，调用了其trigger钩子</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+</pre></td><td class="code"><pre><span class="keyword">if</span> ( !onlyHandlers && !special.noBubble && !jQuery.isWindow( elem ) ) {
+    <span class="comment">/*如果是特殊事件，需要找到对应的真实名称*/</span>
+    bubbleType = special.delegateType || type;
+    <span class="keyword">if</span> ( !rfocusMorph.test( bubbleType + type ) ) {
+        cur = cur.parentNode;
+    }
+    <span class="keyword">for</span> ( ; cur; cur = cur.parentNode ) {
+        eventPath.push( cur );
+        tmp = cur;
+    }
+
+    <span class="comment">// Only add window if we got to document (e.g., not plain obj or detached DOM)</span>
+    <span class="keyword">if</span> ( tmp === (elem.ownerDocument || document) ) {
+        eventPath.push( tmp.defaultView || tmp.parentWindow || window );
+    }
+}
+</pre></td></tr></table></figure>
+
+
+<p>jq为除了不需要冒泡的特殊事件或者本身就在window上触发的事件以外的情况都模拟了冒泡机制。这里就是不断通过<code>elem.parentNode</code>来获取元素到window的路径</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+</pre></td><td class="code"><pre>i = <span class="number">0</span>;
+<span class="keyword">while</span> ( (cur = eventPath[i++]) && !event.isPropagationStopped() ) {
+    event.type = i &gt; <span class="number">1</span> ?
+        bubbleType :
+        special.bindType || type;
+
+    handle = ( data_priv.get( cur, <span class="string">"events"</span> ) || {} )[ event.type ] && data_priv.get( cur, <span class="string">"handle"</span> );
+    <span class="keyword">if</span> ( handle ) {
+        handle.apply( cur, data );
+    }
+
+    handle = ontype && cur[ ontype ];
+    <span class="keyword">if</span> ( handle && handle.apply && jQuery.acceptData( cur ) ) {
+        event.result = handle.apply( cur, data );
+        <span class="keyword">if</span> ( event.result === <span class="literal">false</span> ) {
+            event.preventDefault();
+        }
+    }
+}
+event.type = type;
+</pre></td></tr></table></figure>
+
+
+<p>顺着上面生成的冒泡路径依次执行事件绑定的统一回调函数（实际上就是dispatch）。这里首先需要从私有数据空间中获取到需要执行的具体方法，然后使用apply调用。另外，如果元素有通过onXXX绑定方法，也需要执行。另外如果执行的结果为false，调用事件对象的preventDefault</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+</pre></td><td class="code"><pre><span class="keyword">if</span> ( !onlyHandlers && !event.isDefaultPrevented() ) {
+    <span class="keyword">if</span> ( (!special._default || special._default.apply( eventPath.pop(), data ) === <span class="literal">false</span>) &&
+        jQuery.acceptData( elem ) ) {
+        <span class="keyword">if</span> ( ontype && jQuery.isFunction( elem[ type ] ) && !jQuery.isWindow( elem ) ) {
+            tmp = elem[ ontype ];
+            <span class="keyword">if</span> ( tmp ) {
+                elem[ ontype ] = <span class="literal">null</span>;
+            }
+            jQuery.event.triggered = type;
+            elem[ type ]();
+            jQuery.event.triggered = <span class="literal">undefined</span>;
+            <span class="keyword">if</span> ( tmp ) {
+                elem[ ontype ] = tmp;
+            }
+        }
+    }
+}
+</pre></td></tr></table></figure>
+
+
+<p>onlyHandlers参数为true或事件被调用preventDefault方法，不需要执行事件在浏览器上的默认行为。不符合上述情况时，就需要检测浏览器默认行为来执行了。这里通过检测元素的onXXX属性来获得方法，在执行前需要标记事件已被执行，并在执行后恢复，防止多次触发</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+</pre></td><td class="code"><pre><span class="keyword">return</span> event.result;
+</pre></td></tr></table></figure>
+
+
+<p>运行完了，返回事件运行的结果</p>
+<h3 id="dispatch_(event)">dispatch (event)</h3>
+<p>可以看到trigger内部并没有遍历回调对象列表来挨个执行回调函数的逻辑，其内部只是运行一个在add中创建的统一回调函数。从add中我们可以看到，统一回调函数中的逻辑实际上就是调用dispatch方法。dispatch方法同样需要注意几个问题：</p>
+<ol>
+<li>事件代理的情况</li>
+<li>特殊事件</li>
+<li>回调终止（stopPropagation）</li>
+<li>事件的命名空间</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+</pre></td><td class="code"><pre>event = jQuery.event.fix( event );
+
+<span class="keyword">var</span> i, j, ret, matched, handleObj,
+    handlerQueue = [],
+    args = slice.call( <span class="built_in">arguments</span> ),
+    handlers = ( data_priv.get( <span class="keyword">this</span>, <span class="string">"events"</span> ) || {} )[ event.type ] || [],
+    special = jQuery.event.special[ event.type ] || {};
+
+args[<span class="number">0</span>] = event;
+event.delegateTarget = <span class="keyword">this</span>;
+</pre></td></tr></table></figure>
+
+
+<p>这里首先通过后面的fix工具方法，加工了一下事件对象。从私有数据空间中获得了回调对象列表。另外这里处理了事件代理的情况，可以看到delegateTarget指向触发事件的元素</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+</pre></td><td class="code"><pre><span class="keyword">if</span> ( special.preDispatch && special.preDispatch.call( <span class="keyword">this</span>, event ) === <span class="literal">false</span> ) {
+    <span class="keyword">return</span>;
+}
+</pre></td></tr></table></figure>
+
+
+<p>钩子你好，钩子再见…这次是preDispatch钩子…</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+</pre></td><td class="code"><pre>handlerQueue = jQuery.event.handlers.call( <span class="keyword">this</span>, event, handlers );
+</pre></td></tr></table></figure>
+
+
+<p>将回调对象列表进行加工，将在后面的handlers方法中详细介绍，主要是处理事件代理时的情况。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+</pre></td><td class="code"><pre>i = <span class="number">0</span>;
+<span class="keyword">while</span> ( (matched = handlerQueue[ i++ ]) && !event.isPropagationStopped() ) {
+    event.currentTarget = matched.elem;
+    j = <span class="number">0</span>;
+    <span class="keyword">while</span> ( (handleObj = matched.handlers[ j++ ]) && !event.isImmediatePropagationStopped() ) {
+        <span class="keyword">if</span> ( !event.namespace_re || event.namespace_re.test( handleObj.namespace ) ) {
+            event.handleObj = handleObj;
+            event.data = handleObj.data;
+            ret = ( (jQuery.event.special[ handleObj.origType ] || {}).handle || handleObj.handler )
+                    .apply( matched.elem, args );
+            <span class="keyword">if</span> ( ret !== <span class="literal">undefined</span> ) {
+                <span class="keyword">if</span> ( (event.result = ret) === <span class="literal">false</span> ) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+            }
+        }
+    }
+}
+</pre></td></tr></table></figure>
+
+
+<p>遍历执行handlers方法处理过的回调对象列表，这里需要考虑回调执行被终止的情况。如果上一方法已经运行了stopPropagation方法终止回调执行，直接循环就可以结束了。另外如果命名空间不符合，也不会执行。</p>
+<p>执行时其实就是将事件对象拿出来apply一下，然后判断返回值，如果为false，终止回调执行，也不执行浏览器默认行为</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+</pre></td><td class="code"><pre><span class="keyword">if</span> ( special.postDispatch ) {
+    special.postDispatch.call( <span class="keyword">this</span>, event );
+}
+<span class="keyword">return</span> event.result;
+</pre></td></tr></table></figure>
+
+
+<p>钩子你又来了，这次是postDispatch钩子。全部运行完就可以返回了</p>
+<h3 id="handlers_(event,_handlers)">handlers (event, handlers)</h3>
+<p>上面dispatch有提到过使用handlers回调对象列表的加工来处理事件代理的情况。jq的事件代理的观念是使用上和一般事件没有差别。这里依旧需要模拟事件的冒泡机制。这里的冒泡和trigger中的冒泡不同，trigger中的冒泡是从代理的元素（父元素）从上冒泡，而如果使用代理的话，被代理的元素（子元素）到代理元素（父元素）这一段将没有冒泡。这里的冒泡实现就是解决这个问题，只处理了被代理的元素到代理元素的冒泡。handlers最后会将冒泡的元素和回调对象组合成一个新的对象列表进行返回</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+</pre></td><td class="code"><pre><span class="keyword">var</span> i, matches, sel, handleObj,
+    handlerQueue = [],
+    delegateCount = handlers.delegateCount,
+    cur = event.target;
+</pre></td></tr></table></figure>
+
+
+<p>获取当前事件的目标和代理个数</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+</pre></td><td class="code"><pre><span class="comment">//如果存在代理</span>
+<span class="keyword">if</span> ( delegateCount && cur.nodeType && (!event.button || event.type !== <span class="string">"click"</span>) ) {
+    <span class="comment">//从被代理元素冒泡到代理元素</span>
+    <span class="keyword">for</span> ( ; cur !== <span class="keyword">this</span>; cur = cur.parentNode || <span class="keyword">this</span> ) {
+        <span class="comment">//屏蔽disable元素的点击事件</span>
+        <span class="keyword">if</span> ( cur.disabled !== <span class="literal">true</span> || event.type !== <span class="string">"click"</span> ) {
+            <span class="comment">//cur元素需要执行的回调对象列表</span>
+            matches = [];
+            <span class="comment">//获取回调对象列表中的所有代理回调对象,挨个判断是否需要执行</span>
+            <span class="keyword">for</span> ( i = <span class="number">0</span>; i &lt; delegateCount; i++ ) {
+                handleObj = handlers[ i ];
+                sel = handleObj.selector + <span class="string">" "</span>;
+                <span class="comment">//判断元素是否符合选择器,这里还进行了缓存防止重复判断</span>
+                <span class="keyword">if</span> ( matches[ sel ] === <span class="literal">undefined</span> ) {
+                    matches[ sel ] = handleObj.needsContext ?
+                        jQuery( sel, <span class="keyword">this</span> ).index( cur ) &gt;= <span class="number">0</span> :
+                        jQuery.find( sel, <span class="keyword">this</span>, <span class="literal">null</span>, [ cur ] ).length;
+                }
+                <span class="comment">//如果符合,说明cur元素需要执行这个回调,加到列表中</span>
+                <span class="keyword">if</span> ( matches[ sel ] ) {
+                    matches.push( handleObj );
+                }
+            }
+            <span class="comment">//如果cur元素有需要执行的回调,进行包装,加到包装后的回调对象列表中</span>
+            <span class="keyword">if</span> ( matches.length ) {
+                handlerQueue.push({ elem: cur, handlers: matches });
+            }
+        }
+    }
+}
+</pre></td></tr></table></figure>
+
+
+<p>真正模拟冒泡的方法，这里过滤掉了disable元素的click事件</p>
+<p>看for循环的终止条件中，看到cur是冒泡到的当前元素，而this中存放的是触发事件的真正元素（代理元素），这里用<code>cur !== this</code>判断循环终止，说明冒泡只从被代理的元素运行到代理元素</p>
+<p>首先我们要知道，在add时，如果使用了代理的方式，会将代理的回调函数放在回调对象列表（这里是handlers）的前面而不是后面，具体的个数会使用delegateCount记录。这里对回调对象列表中的每个回调对象，会判断元素是否符合selector选择器，如果符合，就添加回调对象到matches中。这里还用了一点小技巧缓存了判断结果。</p>
+<p>对于冒泡路径上的每个元素，都会确定其需要执行的回调对象的列表。将元素和其需要执行的回调对象列表进行封装，成为一个新的对象，其中有elem表示冒泡的当前元素，以及handlers表明回调函数对象列表。将这些新对象组织成一个经过加工的回调对象列表。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+</pre></td><td class="code"><pre><span class="keyword">if</span> ( delegateCount &lt; handlers.length ) {
+    handlerQueue.push({ elem: <span class="keyword">this</span>, handlers: handlers.slice( delegateCount ) });
+}
+<span class="keyword">return</span> handlerQueue;
+</pre></td></tr></table></figure>
+
+
+<p>对于不使用事件代理的情况，直接将它们按照同样的格式生成新对象后，push到经过加工的回调对象列表后面，就可以得到完整的回调函数列表了</p>
+<h2 id="总结">总结</h2>
+<p>事件管理器这块基本上包含了jq的事件机制的所有核心思想，事件代理、自定事件模拟的冒泡、特殊函数的处理，命名空间的处理等等。事件代理的冒泡机制和trigger中的冒泡需要注意理解，而特殊函数的钩子模式可以说贯穿jQuery始终。由于篇幅太长，这里并没有介绍jq的事件对象，以及一些像fix方法，这些将在下一篇进行介绍</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[这篇主要介绍了jQuery中事件管理器的一些核心方法，涉及事件代理、自定事件模拟的冒泡、特殊函数的处理，命名空间的处理等等]]>
+    
+    </summary>
+    
+      <category term="JavaScript" scheme="http://lingyu.wang/tags/JavaScript/"/>
+    
+      <category term="源码阅读" scheme="http://lingyu.wang/categories/%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB/"/>
+    
+  </entry>
+  
+  <entry>
     <title><![CDATA[jQuery的事件机制——事件对象、兼容、接口]]></title>
     <link href="http://lingyu.wang/2014/05/12/read-jq-src-4/"/>
     <id>http://lingyu.wang/2014/05/12/read-jq-src-4/</id>
@@ -4131,836 +5141,6 @@ triggerHandler: <span class="function"><span class="keyword">function</span><spa
     <summary type="html">
     <![CDATA[<p>这篇主要介绍了jQuery中事件管理器的事件对象、兼容实现以及在jQuery对象上暴露的接口</p>
 ]]>
-    
-    </summary>
-    
-      <category term="JavaScript" scheme="http://lingyu.wang/tags/JavaScript/"/>
-    
-      <category term="源码阅读" scheme="http://lingyu.wang/categories/%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[jQuery的事件机制——核心篇]]></title>
-    <link href="http://lingyu.wang/2014/05/12/read-jq-src-3/"/>
-    <id>http://lingyu.wang/2014/05/12/read-jq-src-3/</id>
-    <published>2014-05-11T16:00:00.000Z</published>
-    <updated>2014-09-25T15:03:52.184Z</updated>
-    <content type="html"><![CDATA[<p>这篇主要介绍了jQuery中事件管理器的一些核心方法，涉及事件代理、自定事件模拟的冒泡、特殊函数的处理，命名空间的处理等等</p>
-<a id="more"></a>
-
-<h1 id="jQuery源码——事件机制">jQuery源码——事件机制</h1>
-<p>jQuery提供了一套完善的事件管理机制，这一整套事件管理机制构建在jQuery的data之上，使用元素的私有数据域来保存事件的相关配置和回调函数列表。jQuery提供了自定义事件的处理，并模拟了事件的冒泡机制。通过冒泡机制，提供了一套事件代理接口</p>
-<h2 id="事件管理器">事件管理器</h2>
-<p>jQuery提供一个<code>jQuery.event</code>的辅助类，它提供了一系列管理事件的方法。主题思想来自Dean Edwards的库。事实上，事件亦无外乎CRUD操作，只不过多了个触发操作（实际上属于R操作的一种），这个辅助类提供了add、remove、trigger、dispatch几个核心方法用添加、删除、触发事件、执行回调函数等功能，另外还提供了一些钩子和辅助函数用于兼容一些特殊事件</p>
-<h3 id="global">global</h3>
-<p>存放事件是否存在</p>
-<h3 id="add_(elem,_types,_handler,_data,_selector)">add (elem, types, handler, data, selector)</h3>
-<p>这个函数用于绑定对应的事件，整体思路大致是：确定事件在元素的私有数据空间中是否存在，如果不存在就创建，创建时为事件绑定一个回调函数，里面使用dispatch执行事件的回调函数列表</p>
-<p>所以代码大致流程如下：</p>
-<h4 id="事件创建逻辑">事件创建逻辑</h4>
-<p>在元素么有绑定过这个事件，或者压根没有绑定过事件时，需要创建事件的对应存储空间以及事件的统一回调函数</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-</pre></td><td class="code"><pre><span class="keyword">var</span> handleObjIn, eventHandle, tmp,
-    events, t, handleObj,
-    special, handlers, type, namespaces, origType,
-    elemData = data_priv.get( elem );
-    
-<span class="keyword">if</span> ( !elemData ) {
-    <span class="keyword">return</span>;
-}
-</pre></td></tr></table></figure>
-
-
-<p>获取元素的私有数据空间，如果无法获得私有数据空间，说明是文本节点或注释节点，那么也无法绑定时间了，直接返回</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-</pre></td><td class="code"><pre><span class="keyword">if</span> ( handler.handler ) {
-    handleObjIn = handler;
-    handler = handleObjIn.handler;
-    selector = handleObjIn.selector;
-}
-</pre></td></tr></table></figure>
-
-
-<p>接着确定配置中的回调函数，如果存在事件代理，需要确定需要被代理的元素的选择器</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
-2
-3
-</pre></td><td class="code"><pre><span class="keyword">if</span> ( !handler.guid ) {
-    handler.guid = jQuery.guid++;
-}
-</pre></td></tr></table></figure>
-
-
-<p>为回调函数创建一个唯一的id来提供优化，实际上还是通过jQuery的guid得到</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-</pre></td><td class="code"><pre><span class="keyword">if</span> ( !(events = elemData.events) ) {
-    events = elemData.events = {};
-}
-<span class="keyword">if</span> ( !(eventHandle = elemData.handle) ) {
-    eventHandle = elemData.handle = <span class="function"><span class="keyword">function</span><span class="params">( e )</span> {</span>
-        <span class="keyword">return</span> <span class="keyword">typeof</span> jQuery !== strundefined && jQuery.event.triggered !== e.type ?
-            jQuery.event.dispatch.apply( elem, <span class="built_in">arguments</span> ) : <span class="literal">undefined</span>;
-    };
-}
-</pre></td></tr></table></figure>
-
-
-<p>从元素的私有数据空间中获取存放事件的对象，如果不存在就新建一个。然后从元素的私有数据中获取事件处理函数，如果没有，就新建一个函数。每一个事件对应一个回调函数，这个回调函数使用dispatch方法来执行事件的回调函数列表中的所有函数</p>
-<h4 id="事件绑定逻辑">事件绑定逻辑</h4>
-<p>在创建完事件的存储空间，或者获取到已有的存储空间之后，就需要把往事件的回调函数列表中添加事件了。这里需要处理的问题包括：</p>
-<ol>
-<li>type字符串中可以通过<code>event1 event2 event3</code>这样的方式包含多个事件</li>
-<li>有可能存在命名空间如<code>event.namespace</code>的情况</li>
-<li>特殊事件需要进行名称转换，以及钩子调用</li>
-<li>如果是事件代理也需要注意代理逻辑</li>
-</ol>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-</pre></td><td class="code"><pre>types = ( types || <span class="string">""</span> ).match( rnotwhite ) || [ <span class="string">""</span> ];
-t = types.length;
-<span class="keyword">while</span> ( t-- ) {
-    <span class="comment">//后面的代码</span>
-}
-</pre></td></tr></table></figure>
-
-
-<p>处理情况1，通过切分将多个事件名称切分出来，分别进行处理</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-</pre></td><td class="code"><pre>tmp = rtypenamespace.exec( types[t] ) || [];
-type = origType = tmp[<span class="number">1</span>];
-namespaces = ( tmp[<span class="number">2</span>] || <span class="string">""</span> ).split( <span class="string">"."</span> ).sort();
-
-<span class="keyword">if</span> ( !type ) {
-    <span class="keyword">continue</span>;
-}
-</pre></td></tr></table></figure>
-
-
-<p>处理情况2，同样是使用正则获取到命名空间和事件名称，如果获取不到事件名称，那么直接continue略过</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-</pre></td><td class="code"><pre>special = jQuery.event.special[ type ] || {};
-
-type = ( selector ? special.delegateType : special.bindType ) || type;
-
-special = jQuery.event.special[ type ] || {};
-</pre></td></tr></table></figure>
-
-
-<p>情况3下，如果事件是特殊事件，需要获取特殊事件需要被映射的事件名称</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-</pre></td><td class="code"><pre>handleObj = jQuery.extend({
-    type: type,
-    origType: origType,
-    data: data,
-    handler: handler,
-    guid: handler.guid,
-    selector: selector,
-    needsContext: selector && jQuery.expr.match.needsContext.test( selector ),
-    namespace: namespaces.join(<span class="string">"."</span>)
-}, handleObjIn );
-</pre></td></tr></table></figure>
-
-
-<p>这里将回调函数封装成带有配置的回调对象，方便后续的删除、查找等操作。这里记录了很多信息：</p>
-<ol>
-<li>type：事件的映射后的名称</li>
-<li>origType：事件的原始名称</li>
-<li>data：事件的默认数据</li>
-<li>handler：回调函数</li>
-<li>guid：回调函数的id</li>
-<li>selector：启用事件代理时，被代理的节点的选择器</li>
-<li>needsContext：如果是事件代理模式，通过Sizzle判断元素是否需要上下文</li>
-<li>namespace：重组后的命名空间</li>
-</ol>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-</pre></td><td class="code"><pre><span class="keyword">if</span> ( !(handlers = events[ type ]) ) {
-    handlers = events[ type ] = [];
-    handlers.delegateCount = <span class="number">0</span>;
-
-    <span class="keyword">if</span> ( !special.setup || special.setup.call( elem, data, namespaces, eventHandle ) === <span class="literal">false</span> ) {
-        <span class="keyword">if</span> ( elem.addEventListener ) {
-            elem.addEventListener( type, eventHandle, <span class="literal">false</span> );
-        }
-    }
-}
-</pre></td></tr></table></figure>
-
-
-<p>如果这个事件刚注册，给它一个回调对象列表，并设定代理数为0。在情况3下，需要处理setup钩子</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-</pre></td><td class="code"><pre><span class="keyword">if</span> ( special.add ) {
-    special.add.call( elem, handleObj );
-
-    <span class="keyword">if</span> ( !handleObj.handler.guid ) {
-        handleObj.handler.guid = handler.guid;
-    }
-}
-</pre></td></tr></table></figure>
-
-
-<p>这里同样是情况3下的钩子处理，上面setup是事件注册钩子，而这里则是方法添加的钩子</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-</pre></td><td class="code"><pre><span class="keyword">if</span> ( selector ) {
-    handlers.splice( handlers.delegateCount++, <span class="number">0</span>, handleObj );
-} <span class="keyword">else</span> {
-    handlers.push( handleObj );
-}
-</pre></td></tr></table></figure>
-
-
-<p>好了，该玩的钩子都玩完了，将回调对象加入到回调对象列表中吧，这里需要处理情况4，如果是事件代理的话，元素的代理数增加，如果是代理情况，代理的回调对象加载列表前头</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
-</pre></td><td class="code"><pre>jQuery.event.global[ type ] = <span class="literal">true</span>;
-</pre></td></tr></table></figure>
-
-
-<p>最后再全局中标记一下事件已存在就行了</p>
-<h3 id="remove_(elem,_types,_handler,_selector,_mappedTypes)">remove (elem, types, handler, selector, mappedTypes)</h3>
-<p>删除逻辑也一样，从一个节点的事件存储中删除一个或个事件的一个回调或所有回调，这里同样需要考虑几个地方：</p>
-<ol>
-<li>type字符串中可以通过<code>event1 event2 event3</code>这样的方式包含多个事件</li>
-<li>有可能存在命名空间如<code>event.namespace</code>的情况</li>
-<li>特殊事件需要进行名称转换，以及钩子调用</li>
-<li>如果是事件代理也需要注意代理逻辑</li>
-<li>在移除了一个事件的所有回调对象后，可以移除这个事件</li>
-<li>在移除了一个元素的所有事件后，可以释放这个元素的事件存储空间了</li>
-</ol>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-</pre></td><td class="code"><pre><span class="keyword">var</span> j, origCount, tmp,
-    events, t, handleObj,
-    special, handlers, type, namespaces, origType,
-    elemData = data_priv.hasData( elem ) && data_priv.get( elem );
-<span class="keyword">if</span> ( !elemData || !(events = elemData.events) ) {
-    <span class="keyword">return</span>;
-}
-</pre></td></tr></table></figure>
-
-
-<p>获取元素的私有数据空间以及其事件存储空间，如果没有，那没必要删除了</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-</pre></td><td class="code"><pre>types = ( types || <span class="string">""</span> ).match( rnotwhite ) || [ <span class="string">""</span> ];
-t = types.length;
-<span class="keyword">while</span> ( t-- ) {
-    <span class="comment">//后面的代码</span>
-}
-</pre></td></tr></table></figure>
-
-
-<p>处理情况1，和上面的add一样</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-</pre></td><td class="code"><pre>tmp = rtypenamespace.exec( types[t] ) || [];
-type = origType = tmp[<span class="number">1</span>];
-
-namespaces = ( tmp[<span class="number">2</span>] || <span class="string">""</span> ).split( <span class="string">"."</span> ).sort();
-</pre></td></tr></table></figure>
-
-
-<p>获取事件的命名空间，和add方法一样</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-</pre></td><td class="code"><pre><span class="keyword">if</span> ( !type ) {
-    <span class="keyword">for</span> ( type <span class="keyword">in</span> events ) {
-        jQuery.event.remove( elem, type + types[ t ], handler, selector, <span class="literal">true</span> );
-    }
-    <span class="keyword">continue</span>;
-}
-</pre></td></tr></table></figure>
-
-
-<p>如果没有获取到事件名称，就得遍历事件存储空间中所有的事件删除handler对应的方法了，这里直接递归了</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-</pre></td><td class="code"><pre>special = jQuery.event.special[ type ] || {};
-type = ( selector ? special.delegateType : special.bindType ) || type;
-handlers = events[ type ] || [];
-origCount = j = handlers.length;
-<span class="keyword">while</span> ( j-- ) {
-    <span class="comment">//详细删除代码</span>
-}
-</pre></td></tr></table></figure>
-
-
-<p>这里处理了情况3和4，和add中一样，获取了事件需要被映射的名称，然后通过这个名称获取了事件回调对象列表。然后我们可以遍历回调函谁对象列表，进行删除操作了</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-</pre></td><td class="code"><pre>handleObj = handlers[ j ];
-<span class="keyword">if</span> ( ( mappedTypes || origType === handleObj.origType ) &&
-    ( !handler || handler.guid === handleObj.guid ) &&
-    ( !tmp || tmp.test( handleObj.namespace ) ) &&
-    ( !selector || selector === handleObj.selector || selector === <span class="string">"**"</span> && handleObj.selector ) ) {
-    handlers.splice( j, <span class="number">1</span> );
-
-    <span class="keyword">if</span> ( handleObj.selector ) {
-        handlers.delegateCount--;
-    }
-    <span class="keyword">if</span> ( special.remove ) {
-        special.remove.call( elem, handleObj );
-    }
-}
-</pre></td></tr></table></figure>
-
-
-<p>这里就是删除的真正代码了，需要判断代理，判断命名空间，判断方法的guid，如果有map映射，判断名称。所有判断都通过之后，使用数组的splice进行删除。另外在删除之后，如果有代理，代理个数自然要减一，而如果是特殊事件，需要弟阿勇remove钩子了</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-</pre></td><td class="code"><pre><span class="keyword">if</span> ( origCount && !handlers.length ) {
-    <span class="keyword">if</span> ( !special.teardown || special.teardown.call( elem, namespaces, elemData.handle ) === <span class="literal">false</span> ) {
-        jQuery.removeEvent( elem, type, elemData.handle );
-    }
-    <span class="keyword">delete</span> events[ type ];
-}
-</pre></td></tr></table></figure>
-
-
-<p>这里处理情况5，如果事件的回调函数列表为空，那么可以delete掉这个事件了。特殊事件依旧有钩子，调用teardown</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-</pre></td><td class="code"><pre><span class="keyword">if</span> ( jQuery.isEmptyObject( events ) ) {
-    <span class="keyword">delete</span> elemData.handle;
-    data_priv.remove( elem, <span class="string">"events"</span> );
-}
-</pre></td></tr></table></figure>
-
-
-<p>如果节点中没有任何事件了，直接释放掉事件存储空间</p>
-<h3 id="trigger_(event,_data,_elem,_onlyHandlers)">trigger (event, data, elem, onlyHandlers)</h3>
-<p>触发事件的方法，这里模拟了事件的冒泡机制，并且兼容了onXXX绑定的事件回调函数，另外还处理了preventDefault的情况</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-</pre></td><td class="code"><pre><span class="keyword">var</span> i, cur, tmp, bubbleType, ontype, handle, special,
-    eventPath = [ elem || document ],
-    type = hasOwn.call( event, <span class="string">"type"</span> ) ? event.type : event,
-    namespaces = hasOwn.call( event, <span class="string">"namespace"</span> ) ? event.namespace.split(<span class="string">"."</span>) : [];
-
-cur = tmp = elem = elem || document;
-
-<span class="keyword">if</span> ( elem.nodeType === <span class="number">3</span> || elem.nodeType === <span class="number">8</span> ) {
-    <span class="keyword">return</span>;
-}
-</pre></td></tr></table></figure>
-
-
-<p>做了一些准备工作，获取了事件的命名空间，初始化了冒泡的路径，如果没有提供trigger的元素则默认document，另外文本和注释节点无法触发事件</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
-2
-3
-</pre></td><td class="code"><pre><span class="keyword">if</span> ( rfocusMorph.test( type + jQuery.event.triggered ) ) {
-    <span class="keyword">return</span>;
-}
-</pre></td></tr></table></figure>
-
-
-<p>检测是否有focus和blur事件，它们不会在这里被触发</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-</pre></td><td class="code"><pre><span class="keyword">if</span> ( type.indexOf(<span class="string">"."</span>) &gt;= <span class="number">0</span> ) {
-    namespaces = type.split(<span class="string">"."</span>);
-    type = namespaces.shift();
-    namespaces.sort();
-}
-ontype = type.indexOf(<span class="string">":"</span>) &lt; <span class="number">0</span> && <span class="string">"on"</span> + type;
-</pre></td></tr></table></figure>
-
-
-<p>获取事件的名称和命名空间，另外还需要生成一个带on开头的事件名称，方便在兼容onXXX时使用</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-</pre></td><td class="code"><pre>event = event[ jQuery.expando ] ?
-    event :
-    <span class="keyword">new</span> jQuery.Event( type, <span class="keyword">typeof</span> event === <span class="string">"object"</span> && event );
-
-event.isTrigger = onlyHandlers ? <span class="number">2</span> : <span class="number">3</span>;
-event.namespace = namespaces.join(<span class="string">"."</span>);
-event.namespace_re = event.namespace ?
-    <span class="keyword">new</span> <span class="built_in">RegExp</span>( <span class="string">"(^|\\.)"</span> + namespaces.join(<span class="string">"\\.(?:.*\\.|)"</span>) + <span class="string">"(\\.|$)"</span> ) :
-    <span class="literal">null</span>;
-
-event.result = <span class="literal">undefined</span>;
-<span class="keyword">if</span> ( !event.target ) {
-    event.target = elem;
-}
-</pre></td></tr></table></figure>
-
-
-<p>常使用事件的都会使用event这个事件对象，jq模拟的事件机制也是一样，不过它自己新建了一个事件对象。这个事件对象包裹了浏览器原生的事件对象，并添加了很多其他的属性:</p>
-<ol>
-<li>isTrigger: 判断是否需要出发浏览器本身的事件回调</li>
-<li>namespace: 事件的命名空间</li>
-<li>namespace_re: 一个用于匹配当前命名空间的正则</li>
-<li>result: 事件运行的结果</li>
-<li>target：触发事件的元素，需要注意的是事件代理情况下，target是被代理的元素</li>
-</ol>
-<p>事件对象的具体实现，后面会说</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-</pre></td><td class="code"><pre>data = data == <span class="literal">null</span> ?
-    [ event ] :
-    jQuery.makeArray( data, [ event ] );
-
-special = jQuery.event.special[ type ] || {};
-<span class="keyword">if</span> ( !onlyHandlers && special.trigger && special.trigger.apply( elem, data ) === <span class="literal">false</span> ) {
-    <span class="keyword">return</span>;
-}
-</pre></td></tr></table></figure>
-
-
-<p>将event和data进行包裹，装成一个数组方便后面apply调用。这里处理了一下特殊事件，调用了其trigger钩子</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-</pre></td><td class="code"><pre><span class="keyword">if</span> ( !onlyHandlers && !special.noBubble && !jQuery.isWindow( elem ) ) {
-    <span class="comment">/*如果是特殊事件，需要找到对应的真实名称*/</span>
-    bubbleType = special.delegateType || type;
-    <span class="keyword">if</span> ( !rfocusMorph.test( bubbleType + type ) ) {
-        cur = cur.parentNode;
-    }
-    <span class="keyword">for</span> ( ; cur; cur = cur.parentNode ) {
-        eventPath.push( cur );
-        tmp = cur;
-    }
-
-    <span class="comment">// Only add window if we got to document (e.g., not plain obj or detached DOM)</span>
-    <span class="keyword">if</span> ( tmp === (elem.ownerDocument || document) ) {
-        eventPath.push( tmp.defaultView || tmp.parentWindow || window );
-    }
-}
-</pre></td></tr></table></figure>
-
-
-<p>jq为除了不需要冒泡的特殊事件或者本身就在window上触发的事件以外的情况都模拟了冒泡机制。这里就是不断通过<code>elem.parentNode</code>来获取元素到window的路径</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-</pre></td><td class="code"><pre>i = <span class="number">0</span>;
-<span class="keyword">while</span> ( (cur = eventPath[i++]) && !event.isPropagationStopped() ) {
-    event.type = i &gt; <span class="number">1</span> ?
-        bubbleType :
-        special.bindType || type;
-
-    handle = ( data_priv.get( cur, <span class="string">"events"</span> ) || {} )[ event.type ] && data_priv.get( cur, <span class="string">"handle"</span> );
-    <span class="keyword">if</span> ( handle ) {
-        handle.apply( cur, data );
-    }
-
-    handle = ontype && cur[ ontype ];
-    <span class="keyword">if</span> ( handle && handle.apply && jQuery.acceptData( cur ) ) {
-        event.result = handle.apply( cur, data );
-        <span class="keyword">if</span> ( event.result === <span class="literal">false</span> ) {
-            event.preventDefault();
-        }
-    }
-}
-event.type = type;
-</pre></td></tr></table></figure>
-
-
-<p>顺着上面生成的冒泡路径依次执行事件绑定的统一回调函数（实际上就是dispatch）。这里首先需要从私有数据空间中获取到需要执行的具体方法，然后使用apply调用。另外，如果元素有通过onXXX绑定方法，也需要执行。另外如果执行的结果为false，调用事件对象的preventDefault</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-</pre></td><td class="code"><pre><span class="keyword">if</span> ( !onlyHandlers && !event.isDefaultPrevented() ) {
-    <span class="keyword">if</span> ( (!special._default || special._default.apply( eventPath.pop(), data ) === <span class="literal">false</span>) &&
-        jQuery.acceptData( elem ) ) {
-        <span class="keyword">if</span> ( ontype && jQuery.isFunction( elem[ type ] ) && !jQuery.isWindow( elem ) ) {
-            tmp = elem[ ontype ];
-            <span class="keyword">if</span> ( tmp ) {
-                elem[ ontype ] = <span class="literal">null</span>;
-            }
-            jQuery.event.triggered = type;
-            elem[ type ]();
-            jQuery.event.triggered = <span class="literal">undefined</span>;
-            <span class="keyword">if</span> ( tmp ) {
-                elem[ ontype ] = tmp;
-            }
-        }
-    }
-}
-</pre></td></tr></table></figure>
-
-
-<p>onlyHandlers参数为true或事件被调用preventDefault方法，不需要执行事件在浏览器上的默认行为。不符合上述情况时，就需要检测浏览器默认行为来执行了。这里通过检测元素的onXXX属性来获得方法，在执行前需要标记事件已被执行，并在执行后恢复，防止多次触发</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
-</pre></td><td class="code"><pre><span class="keyword">return</span> event.result;
-</pre></td></tr></table></figure>
-
-
-<p>运行完了，返回事件运行的结果</p>
-<h3 id="dispatch_(event)">dispatch (event)</h3>
-<p>可以看到trigger内部并没有遍历回调对象列表来挨个执行回调函数的逻辑，其内部只是运行一个在add中创建的统一回调函数。从add中我们可以看到，统一回调函数中的逻辑实际上就是调用dispatch方法。dispatch方法同样需要注意几个问题：</p>
-<ol>
-<li>事件代理的情况</li>
-<li>特殊事件</li>
-<li>回调终止（stopPropagation）</li>
-<li>事件的命名空间</li>
-</ol>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-</pre></td><td class="code"><pre>event = jQuery.event.fix( event );
-
-<span class="keyword">var</span> i, j, ret, matched, handleObj,
-    handlerQueue = [],
-    args = slice.call( <span class="built_in">arguments</span> ),
-    handlers = ( data_priv.get( <span class="keyword">this</span>, <span class="string">"events"</span> ) || {} )[ event.type ] || [],
-    special = jQuery.event.special[ event.type ] || {};
-
-args[<span class="number">0</span>] = event;
-event.delegateTarget = <span class="keyword">this</span>;
-</pre></td></tr></table></figure>
-
-
-<p>这里首先通过后面的fix工具方法，加工了一下事件对象。从私有数据空间中获得了回调对象列表。另外这里处理了事件代理的情况，可以看到delegateTarget指向触发事件的元素</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
-2
-3
-</pre></td><td class="code"><pre><span class="keyword">if</span> ( special.preDispatch && special.preDispatch.call( <span class="keyword">this</span>, event ) === <span class="literal">false</span> ) {
-    <span class="keyword">return</span>;
-}
-</pre></td></tr></table></figure>
-
-
-<p>钩子你好，钩子再见…这次是preDispatch钩子…</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
-</pre></td><td class="code"><pre>handlerQueue = jQuery.event.handlers.call( <span class="keyword">this</span>, event, handlers );
-</pre></td></tr></table></figure>
-
-
-<p>将回调对象列表进行加工，将在后面的handlers方法中详细介绍，主要是处理事件代理时的情况。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-</pre></td><td class="code"><pre>i = <span class="number">0</span>;
-<span class="keyword">while</span> ( (matched = handlerQueue[ i++ ]) && !event.isPropagationStopped() ) {
-    event.currentTarget = matched.elem;
-    j = <span class="number">0</span>;
-    <span class="keyword">while</span> ( (handleObj = matched.handlers[ j++ ]) && !event.isImmediatePropagationStopped() ) {
-        <span class="keyword">if</span> ( !event.namespace_re || event.namespace_re.test( handleObj.namespace ) ) {
-            event.handleObj = handleObj;
-            event.data = handleObj.data;
-            ret = ( (jQuery.event.special[ handleObj.origType ] || {}).handle || handleObj.handler )
-                    .apply( matched.elem, args );
-            <span class="keyword">if</span> ( ret !== <span class="literal">undefined</span> ) {
-                <span class="keyword">if</span> ( (event.result = ret) === <span class="literal">false</span> ) {
-                    event.preventDefault();
-                    event.stopPropagation();
-                }
-            }
-        }
-    }
-}
-</pre></td></tr></table></figure>
-
-
-<p>遍历执行handlers方法处理过的回调对象列表，这里需要考虑回调执行被终止的情况。如果上一方法已经运行了stopPropagation方法终止回调执行，直接循环就可以结束了。另外如果命名空间不符合，也不会执行。</p>
-<p>执行时其实就是将事件对象拿出来apply一下，然后判断返回值，如果为false，终止回调执行，也不执行浏览器默认行为</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-</pre></td><td class="code"><pre><span class="keyword">if</span> ( special.postDispatch ) {
-    special.postDispatch.call( <span class="keyword">this</span>, event );
-}
-<span class="keyword">return</span> event.result;
-</pre></td></tr></table></figure>
-
-
-<p>钩子你又来了，这次是postDispatch钩子。全部运行完就可以返回了</p>
-<h3 id="handlers_(event,_handlers)">handlers (event, handlers)</h3>
-<p>上面dispatch有提到过使用handlers回调对象列表的加工来处理事件代理的情况。jq的事件代理的观念是使用上和一般事件没有差别。这里依旧需要模拟事件的冒泡机制。这里的冒泡和trigger中的冒泡不同，trigger中的冒泡是从代理的元素（父元素）从上冒泡，而如果使用代理的话，被代理的元素（子元素）到代理元素（父元素）这一段将没有冒泡。这里的冒泡实现就是解决这个问题，只处理了被代理的元素到代理元素的冒泡。handlers最后会将冒泡的元素和回调对象组合成一个新的对象列表进行返回</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-</pre></td><td class="code"><pre><span class="keyword">var</span> i, matches, sel, handleObj,
-    handlerQueue = [],
-    delegateCount = handlers.delegateCount,
-    cur = event.target;
-</pre></td></tr></table></figure>
-
-
-<p>获取当前事件的目标和代理个数</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
-27
-28
-29
-30
-</pre></td><td class="code"><pre><span class="comment">//如果存在代理</span>
-<span class="keyword">if</span> ( delegateCount && cur.nodeType && (!event.button || event.type !== <span class="string">"click"</span>) ) {
-    <span class="comment">//从被代理元素冒泡到代理元素</span>
-    <span class="keyword">for</span> ( ; cur !== <span class="keyword">this</span>; cur = cur.parentNode || <span class="keyword">this</span> ) {
-        <span class="comment">//屏蔽disable元素的点击事件</span>
-        <span class="keyword">if</span> ( cur.disabled !== <span class="literal">true</span> || event.type !== <span class="string">"click"</span> ) {
-            <span class="comment">//cur元素需要执行的回调对象列表</span>
-            matches = [];
-            <span class="comment">//获取回调对象列表中的所有代理回调对象,挨个判断是否需要执行</span>
-            <span class="keyword">for</span> ( i = <span class="number">0</span>; i &lt; delegateCount; i++ ) {
-                handleObj = handlers[ i ];
-                sel = handleObj.selector + <span class="string">" "</span>;
-                <span class="comment">//判断元素是否符合选择器,这里还进行了缓存防止重复判断</span>
-                <span class="keyword">if</span> ( matches[ sel ] === <span class="literal">undefined</span> ) {
-                    matches[ sel ] = handleObj.needsContext ?
-                        jQuery( sel, <span class="keyword">this</span> ).index( cur ) &gt;= <span class="number">0</span> :
-                        jQuery.find( sel, <span class="keyword">this</span>, <span class="literal">null</span>, [ cur ] ).length;
-                }
-                <span class="comment">//如果符合,说明cur元素需要执行这个回调,加到列表中</span>
-                <span class="keyword">if</span> ( matches[ sel ] ) {
-                    matches.push( handleObj );
-                }
-            }
-            <span class="comment">//如果cur元素有需要执行的回调,进行包装,加到包装后的回调对象列表中</span>
-            <span class="keyword">if</span> ( matches.length ) {
-                handlerQueue.push({ elem: cur, handlers: matches });
-            }
-        }
-    }
-}
-</pre></td></tr></table></figure>
-
-
-<p>真正模拟冒泡的方法，这里过滤掉了disable元素的click事件</p>
-<p>看for循环的终止条件中，看到cur是冒泡到的当前元素，而this中存放的是触发事件的真正元素（代理元素），这里用<code>cur !== this</code>判断循环终止，说明冒泡只从被代理的元素运行到代理元素</p>
-<p>首先我们要知道，在add时，如果使用了代理的方式，会将代理的回调函数放在回调对象列表（这里是handlers）的前面而不是后面，具体的个数会使用delegateCount记录。这里对回调对象列表中的每个回调对象，会判断元素是否符合selector选择器，如果符合，就添加回调对象到matches中。这里还用了一点小技巧缓存了判断结果。</p>
-<p>对于冒泡路径上的每个元素，都会确定其需要执行的回调对象的列表。将元素和其需要执行的回调对象列表进行封装，成为一个新的对象，其中有elem表示冒泡的当前元素，以及handlers表明回调函数对象列表。将这些新对象组织成一个经过加工的回调对象列表。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-</pre></td><td class="code"><pre><span class="keyword">if</span> ( delegateCount &lt; handlers.length ) {
-    handlerQueue.push({ elem: <span class="keyword">this</span>, handlers: handlers.slice( delegateCount ) });
-}
-<span class="keyword">return</span> handlerQueue;
-</pre></td></tr></table></figure>
-
-
-<p>对于不使用事件代理的情况，直接将它们按照同样的格式生成新对象后，push到经过加工的回调对象列表后面，就可以得到完整的回调函数列表了</p>
-<h2 id="总结">总结</h2>
-<p>事件管理器这块基本上包含了jq的事件机制的所有核心思想，事件代理、自定事件模拟的冒泡、特殊函数的处理，命名空间的处理等等。事件代理的冒泡机制和trigger中的冒泡需要注意理解，而特殊函数的钩子模式可以说贯穿jQuery始终。由于篇幅太长，这里并没有介绍jq的事件对象，以及一些像fix方法，这些将在下一篇进行介绍</p>
-]]></content>
-    <summary type="html">
-    <![CDATA[这篇主要介绍了jQuery中事件管理器的一些核心方法，涉及事件代理、自定事件模拟的冒泡、特殊函数的处理，命名空间的处理等等]]>
     
     </summary>
     
@@ -7755,79 +7935,6 @@ padding: 0 1em 2em;
       <category term="HTML" scheme="http://lingyu.wang/tags/HTML/"/>
     
       <category term="CSS" scheme="http://lingyu.wang/tags/CSS/"/>
-    
-      <category term="前端技术" scheme="http://lingyu.wang/categories/%E5%89%8D%E7%AB%AF%E6%8A%80%E6%9C%AF/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[JavaScript的MV*模式]]></title>
-    <link href="http://lingyu.wang/2014/05/03/javascript-mvc/"/>
-    <id>http://lingyu.wang/2014/05/03/javascript-mvc/</id>
-    <published>2014-05-02T16:00:00.000Z</published>
-    <updated>2014-09-25T15:03:52.174Z</updated>
-    <content type="html"><![CDATA[<p>虽然在做J2EE的时候就已经对MVC有一定的了解，但平常经常听到的MVVM和MVP模式却完全无法理解是什么意思，《JavaScript设计模式》一书中对MVC、MVP、MVVM做了一个详尽的解释，这里记录了一下上面的知识并做了一个简述，正好在学Angular，这些知识结合Angular一起也更加清晰具体了</p>
-<a id="more"></a>
-
-<p>虽然在做J2EE的时候就已经对MVC有一定的了解，但平常经常听到的MVVM和MVP模式却完全无法理解是什么意思，《JavaScript设计模式》一书中对MVC、MVP、MVVM做了一个详尽的解释，这里记录了一下上面的知识并做了一个简述，正好在学Angular，这些知识结合Angular一起也更加清晰具体了</p>
-<h2 id="MVC">MVC</h2>
-<p>MVC是一种架构设计模式，它将应用分割成业务数据（Model）、用户界面（View）、控制逻辑（Controller）三个部分，其架构图大致是这个样子：</p>
-<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-5-3-javascript-mvc-mvc.png" alt="MVC架构图"></p>
-<h3 id="Model（模型）">Model（模型）</h3>
-<p>Model管理应用程序的数据，Model主要与业务数据相关，其不涉及控制层和表示层逻辑。当Model改变时，它会通过Observer模式（Publish/Subscribe）通知观察它的View，一个Model可以有多个观察它的View。</p>
-<h4 id="Model与View和Controller的关系">Model与View和Controller的关系</h4>
-<p>Model本身不涉及View和Controller的逻辑，它只在乎业务数据模型，并提供相应的接口对其内部数据进行CRUD操作</p>
-<h3 id="View（视图）">View（视图）</h3>
-<p>视图用于将Model中的业务数据进行展示。在Smalltalk的MVC中，视图通常是绘制和维护位图，而在浏览器中，View通常是负责DOM元素的操作。</p>
-<h4 id="View与Model的关系">View与Model的关系</h4>
-<p>当一个Model改变时，它会通知所有观察这个Model的View，而这个View在收到通知之后，根据Model中的数据进行相应的更新。</p>
-<h4 id="View与Controller的关系">View与Controller的关系</h4>
-<p>用于也可以和View（视图）进行交互，包括读取和编辑Model的数据，但由于View是表示层，但一般不使用View直接对Model中的数据进行修改，这个修改过程通常交给Controller来做。View在与用户交互时，在用户操作之后，View不会去了解下一步做什么，而是将用户操作交给Controller来做决定</p>
-<h4 id="视图与模板">视图与模板</h4>
-<p>使用structs+JSP的开发者（或是Express+jade之类的），容易误以为JSP这样的模板就是View视图，但实际上模板只是部分（也可能是全部）View的声明方式，通过模板的规范来生成View，但不代表View的全部。比如Angular中，使用带指令（如<code>ng-hide</code>,<code>ng-show</code>,<code>ng-repeat</code>）的模板来生成DOM节点，其属于View，但实际上如果在Angular中根据scope的属性方法来修改DOM节点（如<code>$scope.$watch</code>），这也属于View范畴</p>
-<h3 id="Controller（控制器）">Controller（控制器）</h3>
-<p>Controller中介于Model和View之间，当用户与View进行交互，操作了View之后，它负责更新Model</p>
-<h4 id="Controller与Model">Controller与Model</h4>
-<p>Controller根据View与用户的交互，来直接对Model进行操作。</p>
-<h4 id="Controller与View">Controller与View</h4>
-<p>事实上可以理解为Controller为View的策略模式的一个实现。View只是负责与用户交互，其具体应该做的工作交给Controller来决定</p>
-<h3 id="MVC模式总结">MVC模式总结</h3>
-<p>MVC将应用程序功能模块化，分离出Model、View和Controller三个部分，互相解耦，使得整体维护更加容易。MVC依赖Observer模式（或是Publish/Subscribe实现）来实现它的核心通信</p>
-<hr>
-<h2 id="MVP">MVP</h2>
-<p>MVP模式（模型-视图-表示器）是MVC设计模式的一种衍生模式，专注于改进表示逻辑。MVP中的P为Presenter（表示器），它包含用于View的用户界面业务逻辑的组件，与MVC中不同的是，在Model进行改变之后，它不会直接通知View，而是将修改封装为事件（Events）来通知Presenter，Persenter来与View通信，具体的架构图如下所示：</p>
-<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-5-3-javascript-mvc-mvp.png" alt="MVP模式架构图"></p>
-<h3 id="Presenter（表示器）">Presenter（表示器）</h3>
-<p>Presenter与Controller相同的是，其依旧介于Model和View之间，但不同的地方在于，在MVC中，Model在改变后会直接通知View而不会经过Controller，在MVP中，Model会将其改变封装成一个事件（或是主题），通过Publish/Subscribe模式来传递给Presenter，然后Presenter将更新交给View</p>
-<h4 id="Presenter与View的关系">Presenter与View的关系</h4>
-<p>Presenter与View的关系与MVC中Controller与View的关系大体相同，但增加了将Model的修改交给View的职责，数据通过调用View的接口来传递</p>
-<h4 id="Presenter与Model的关系">Presenter与Model的关系</h4>
-<p>Presenter与Modle是一个典型的Pubsub，Presenter作为Subscriber，其订阅了Model的修改事件（主题）。而Model作为Publisher在其数据进行修改后，触发这个事件</p>
-<h3 id="MVP模式总结">MVP模式总结</h3>
-<p>MVP通过将MVC的Model和View的关系进行改变，使得Model和View进一步解耦，这样Presenter所担任的工作也就相对于MVC中的仅对Model进行更新而有所增加。各个组件直接的数据通信也更易于通过Presenter进行把控</p>
-<hr>
-<h2 id="MVVM">MVVM</h2>
-<p>MVVM模式(模型-视图-视图模型)是一种基于MVC和MVP的架构模式，它试图更清晰的将用户界面（UI）开发从应用程序的业务逻辑与行为中分离。它采用了MVP中View和Model的解耦方式，而在View和ViewModel之间也通过Pubsub模式和数据绑定来进行通信，其架构图如下所示：</p>
-<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-5-3-javascript-mvc-mvvm.png" alt="MVVM架构图"></p>
-<h3 id="ViewModel（视图模型）">ViewModel（视图模型）</h3>
-<p>与MVP中的Presenter一样，MVVM中的ViewModel依旧介于View和Model之间。可以将其作为一个专门的Controller，充当数据的转换器，将Model的信息进行适合View的信息，从这个层面上，Viewodel更应该被看做另一个Model。</p>
-<h4 id="ViewModel与Model">ViewModel与Model</h4>
-<p>ViewModel与Model在通信方式上与MVP几乎没什么差异，但ViewModel在指责上不再只是将Model中的数据传递给View，其将处理View中的显示逻辑，对Model中的业务数据根据需要进行包装，包装成适配View的数据模型</p>
-<h4 id="ViewModel与View">ViewModel与View</h4>
-<p>与Controller和Presenter所不关心显示逻辑不同的是，ViewModel会处理大部分显示逻辑，并暴露一些方法用于保持View的状态。来源于Model的数据会根据显示逻辑进行包装后，通过Pubsub模式与View进行通信，这里View作为Subscriber而ViewModel作为Publisher。而View层将数据传递给ViewModel则是通过了数据绑定的形式，View处理自己的用户界面事件，必要时将他们映射到ViewModel中</p>
-<h3 id="MVVM总结">MVVM总结</h3>
-<p>MVVM专注于将UI开发从应用程序业务逻辑与行为分离，通过ViewModel为UI开发提供了更加友好的数据，使得UI开发更加容易。但需要注意的是用于实现数据绑定可能产生大量的标记，且MVVM并不适合UI简单的情况</p>
-<hr>
-<h2 id="总结">总结</h2>
-<p>现有的一些前端框架如Backbone，Angular的等等都是基于MVC模式来进行模块的划分和相互通信的。理解MVC模式在JavaScript中的应用时理解这些库实现方式的基础</p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<p>虽然在做J2EE的时候就已经对MVC有一定的了解，但平常经常听到的MVVM和MVP模式却完全无法理解是什么意思，《JavaScript设计模式》一书中对MVC、MVP、MVVM做了一个详尽的解释，这里记录了一下上面的知识并做了一个简述，正好在学Angular，这些知识结合Angular一起也更加清晰具体了</p>
-]]>
-    
-    </summary>
-    
-      <category term="JavaScript" scheme="http://lingyu.wang/tags/JavaScript/"/>
     
       <category term="前端技术" scheme="http://lingyu.wang/categories/%E5%89%8D%E7%AB%AF%E6%8A%80%E6%9C%AF/"/>
     
