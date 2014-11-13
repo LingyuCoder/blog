@@ -1,0 +1,205 @@
+div, ul, li {
+	list-style-type: none;
+}
+body {
+	margin: 0;
+	padding: 0;
+	background: #efefef;
+}
+.box {
+	position: absolute;
+	left: 440px;
+	right: 40px;
+	top: 40px;
+	bottom: 40px;
+	background: #fff;
+	border-radius: 2px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+	padding: 40px;
+}
+.box:before, .box:after {
+	content: "";
+	height: 98%;
+	position: absolute;
+	width: 100%;
+	z-index: -1;
+}
+.box:before {
+	background: #fafafa;
+	box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+	left: -5px;
+	top: 4px;
+	transform: rotate(-2.5deg);
+}
+.box:after {
+	background: #f6f6f6;
+	box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
+	right: -3px;
+	top: 1px;
+	transform: rotate(1.4deg);
+}
+.box .ctn {
+	width: 100%;
+	height: 100%;
+	overflow: auto;
+	padding-right: 20px;
+}
+.box .ctn::-webkit-scrollbar {
+	background: rgba(255, 255, 255, 0.1);
+}
+.box .ctn::-webkit-scrollbar:horizontal {
+	height: 10px;
+}
+.box .ctn::-webkit-scrollbar:vertical {
+	width: 10px;
+}
+.box .ctn::-webkit-scrollbar-track {
+	display: none;
+}
+.box .ctn::-webkit-scrollbar-thumb {
+	background: #333;
+}
+.box .ctn::-webkit-scrollbar-corner {
+	background: rgba(255, 255, 255, 0.1);
+}
+.calendar {
+	position: absolute;
+	font-family: 'Open Sans', sans-serif;
+	width: 394px;
+	left: 0;
+	top: 0;
+	bottom: 0;
+	box-shadow: 0 0 40px rgba(0, 0, 0, 0.5);
+	overflow: hidden;
+	padding: 10px;
+	background-color: #333333;
+}
+.calendar-header {
+	color: #a7a7a7;
+	border-bottom: 1px solid #484848;
+	margin: 0;
+	padding: 0;
+	text-align: justify;
+	line-height: 0px;
+	font-size: 0px;
+	padding-bottom: 10px;
+}
+.calendar-header span {
+	display: block;
+	font-size: 36px;
+	font-weight: 200;
+	text-align: center;
+	line-height: 36px;
+}
+.calendar-header:after {
+	content: '';
+	display: inline-block;
+	width: 100%;
+}
+.btn {
+	width: 30px;
+	cursor: pointer;
+}
+.btn:hover {
+	color: #98cd60;
+}
+.btn-next {
+	float: right;
+}
+.btn-prev {
+	float: left;
+}
+.calendar .title {
+	overflow: hidden;
+}
+.calendar .days th {
+	padding-bottom: 10px;
+}
+table {
+	width: 100%;
+	padding: 10px;
+	color: #9d9d9d;
+}
+th {
+	font-weight: normal;
+	font-size: 22px;
+	color: #5b5b5b;
+}
+td {
+	font-weight: normal;
+	font-size: 20px;
+	height: 42px;
+	text-align: center;
+	cursor: pointer;
+}
+td > span {
+	display: inline-block;
+	text-align: center;
+	padding: 8px;
+	margin: 0px;
+	width: 20px;
+	height: 20px;
+	line-height: 20px;
+}
+td:hover > span, td > span.active {
+	color: #98cd60;
+	border-radius: 50%;
+	border: 2px solid #98cd60;
+	padding: 6px;
+}
+
+td > span.exist {
+	color: #98cd60;
+	font-weight: bolder;
+}
+
+.loading {
+	width: 30px;
+	height: 30px;
+	border: 5px solid #333;
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	margin-left: -15px;
+	margin-top: -15px;
+	border-radius: 50%;
+}
+.loading:after {
+	content: '';
+	position: absolute;
+	width: 40px;
+	height: 10px;
+	background: #fff;
+	top: 10px;
+	left: -5px;
+	-webkit-animation: spin 1.2s infinite;
+	-moz-animation: spin 1.2s infinite;
+	-ms-animation: spin 1.2s infinite;
+	-o-animation: spin 1.2s infinite;
+	animation: spin 1.2s infinite;
+}
+@-webkit-keyframes spin {
+	100% {
+		-webkit-transform: rotate(360deg);
+	}
+}
+@-moz-keyframes spin {
+	100% {
+		-moz-transform: rotate(360deg);
+	}
+}
+@-o-keyframes spin {
+	100% {
+		-o-transform: rotate(360deg);
+	}
+}
+@-ms-keyframes spin {
+	100% {
+		-ms-transform: rotate(360deg);
+	}
+}
+@keyframes spin {
+	100% {
+		transform: rotate(360deg);
+	}
+}

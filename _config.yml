@@ -88,15 +88,28 @@ deploy:
   type:
 
 feed:
-    type: atom
-    path: atom.xml
-    limit: 20
+  type: atom
+  path: atom.xml
+  limit: 20
 
 autoprefixer:
-    enable: true
-    debug: true
-    cascade: false
-    browsers:
-        - '> 1%'
-        - 'last 2 versions'
-    safe: true
+  enable: true
+  debug: true
+  cascade: false
+  browsers:
+      - '> 1%'
+      - 'last 2 versions'
+  safe: true
+
+everyday:
+  path: 'everyday',
+  enable: true,
+  author: '天镶',
+  description: '天镶的日记 | Code everyday, keep girls away~',
+  highlight:
+    languages:
+      - 'javascript'
+      - 'css'
+      - 'xml'
+      - 'markdown'
+    style: 'github'
