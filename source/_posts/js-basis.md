@@ -4,8 +4,7 @@ subtitle: 作用域链、原型链、闭包、UI线程
 tags: 
 - JavaScript
 categories: 
-- 前端技术
-- 笔试面试积累
+- JS技术
 date: 2014/3/28
 ---
 

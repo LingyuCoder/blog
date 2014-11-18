@@ -4,7 +4,7 @@ subtitle: 好好学习，天天向上！
 tags: 
 - 生活
 categories: 
-- 生活情感
+- 前端综合
 date: 2014/4/6
 ---
 

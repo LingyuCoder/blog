@@ -5,7 +5,7 @@ description: 这篇主要介绍了jQuery中事件管理器的一些核心方法�
 tags: 
 - JavaScript
 categories: 
-- 源码阅读
+- JS技术
 date: 2014/5/12
 ---
 

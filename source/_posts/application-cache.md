@@ -4,7 +4,6 @@ subtitle: 前端性能优化系列
 tags: 
 - HTML
 categories: 
-- 前端技术
 - 性能优化
 date: 2014/2/20
 ---

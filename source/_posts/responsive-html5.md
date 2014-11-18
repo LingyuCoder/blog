@@ -7,7 +7,7 @@ tags:
 - CSS
 - 响应式
 categories: 
-- 前端技术
+- 响应式
 date: 2014/2/15
 ---
 

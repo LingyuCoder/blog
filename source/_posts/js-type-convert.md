@@ -4,8 +4,7 @@ subtitle: 转啊转啊转啊转啊转啊转啊转啊转啊转啊转，开始想�
 tags: 
 - JavaScript
 categories: 
-- 前端技术
-- 笔试面试积累
+- JS技术
 date: 2014/3/30
 ---
 

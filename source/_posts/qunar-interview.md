@@ -5,7 +5,7 @@ tags:
 - 笔试面试题
 - JavaScript
 categories: 
-- 笔试面试积累
+- 笔试面试
 date: 2014/3/8
 ---
 

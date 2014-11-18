@@ -4,7 +4,7 @@ subtitle: 闲来没事读源码系列——jQuery
 tags: 
 - JavaScript
 categories: 
-- 源码阅读
+- JS技术
 date: 2014/5/12
 ---
 

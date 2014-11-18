@@ -4,7 +4,7 @@ subtitle: 总结过去，展望未来
 tags: 
 - 生活
 categories: 
-- 生活情感
+- 思考总结
 date: 2014/2/3
 ---
  

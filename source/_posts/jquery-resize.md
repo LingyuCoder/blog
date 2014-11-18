@@ -5,7 +5,7 @@ tags:
 - jQuery
 - JavaScript
 categories: 
-- 前端技术
+- JS技术
 date: 2014/1/28
 ---
 

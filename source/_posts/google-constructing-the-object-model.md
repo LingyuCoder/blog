@@ -2,7 +2,7 @@ layout: art
 title: 构建对象模型
 subtitle: 翻译自谷歌Web开发最佳实践手册
 categories: 
-- 前端技术
+- 翻译
 tags: 
 - HTML
 - CSS

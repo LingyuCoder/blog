@@ -1,0 +1,144 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="author" content="天镶"><meta name="description"><title>Peertc和五子棋 | 天镶的博客</title><link href="/favicon.ico" rel="icon"><link rel="stylesheet" media="screen" href="/stylesheets/plugins/typo/typo-1.1.css"><link rel="stylesheet" media="screen" href="/stylesheets/plugins/highlight/highlight-8.0-dark.css"><link rel="stylesheet" media="screen" href="/stylesheets/app.css"></head><body><a id="totop" href="#page-header" class="iconfont">&#xe60b;</a><header id="page-header"><div class="wrapper"><a href="/page/profile.html"><img alt="avatar" src="/images/avatar.jpg" class="avatar"></a><div class="title"> <a href="/">天镶的博客</a></div><nav class="nav"><ul class="links"><li><a href="/"> 首页</a></li><li><a href="/archives"> 归档</a></li><li><a href="/page/profile.html"> 关于</a></li><li><a href="/gitbook/index.html"> 笔记</a></li><li><a href="/everyday"> 日记</a></li></ul><div class="icons"><a href="/atom.xml" class="icon rss"><i class="iconfont">&#xe602;</i></a><a href="http://weibo.com/lingyucoder" class="icon weibo"><i class="iconfont">&#xe600;</i></a><a href="http://github.com/lingyucoder" class="icon github"><i class="iconfont">&#xe604;</i></a><a href="http://twitter.com/lingyucoder" class="icon twitter"><i class="iconfont">&#xe607;</i></a></div></nav></div></header><section id="wrapper"><div id="main"><article class="post"><div class="content desc typo"><h1 class="blog-title">Peertc和五子棋</h1><div class="toc-index"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#缘起"><span class="toc-number">1.</span> <span class="toc-text">缘起</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Peertc"><span class="toc-number">2.</span> <span class="toc-text">Peertc</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#五子棋"><span class="toc-number">3.</span> <span class="toc-text">五子棋</span></a></li><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#实现"><span class="toc-number">3.1.</span> <span class="toc-text">实现</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#AI"><span class="toc-number">3.2.</span> <span class="toc-text">AI</span></a></li></ol><li class="toc-item toc-level-2"><a class="toc-link" href="#双人对战"><span class="toc-number">4.</span> <span class="toc-text">双人对战</span></a></li><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#开一局"><span class="toc-number">4.1.</span> <span class="toc-text">开一局</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#落子"><span class="toc-number">4.2.</span> <span class="toc-text">落子</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#结束"><span class="toc-number">4.3.</span> <span class="toc-text">结束</span></a></li></ol><li class="toc-item toc-level-2"><a class="toc-link" href="#结语"><span class="toc-number">5.</span> <span class="toc-text">结语</span></a></li></ol></div><p>今天发现博客的分类错乱了。自己写的主题对一篇文章有多个分类的情况处理效果不好，所以就把文章的分类重新弄了一下。然后看了看归档发现这个月还没写过东西，于是乎决定写这么一篇文章介绍一下Peertc，以及使用它实现一个对战的五子棋。下载地址：<a href="https://github.com/LingyuCoder/peertc" target="_blank">Peertc</a>、<a href="https://github.com/LingyuCoder/FiveChess" target="_blank">五子棋</a></p>
+<a id="more"></a>
+
+<h2 id="缘起">缘起</h2>
+<p>之前我曾经写过好几篇关于WebRTC和DataChannel相关的文章。WebRTC是我毕业设计中非常重要的一部分，因此对它做了不少研究。虽然WebRTC的RTC是real-time communication，但它带来的好处并不只局限在即时通信领域。建立点对点通信并在浏览器之间直接传递数据，光这一点就可以提出非常多有趣的设想。有两个应用的点子我一直想做：</p>
+<ul>
+<li>FC红白机那种双人对战（协作）游戏，配合Canvas和WebGL，这也就是这次五子棋想法的来源。</li>
+<li>在线协作编辑：《黑客与画家》中曾经提到过，说在线协作这种工具很有市场。另外除了文档，我们还可以基于Canvas做协作绘图。</li>
+</ul>
+<p>五子棋就来源一第一个点子。至于第二个，做了一些调研，估计用<a href="https://github.com/Operational-Transformation/ot.js" target="_blank">OT.js</a>，只能等有时间的时候去弄了。</p>
+<p>FC那么多牛逼的游戏，我却只是做了一个五子棋。原因很简单，Canvas玩的不够熟练也没有素材。五子棋游戏和其他游戏不同的是，它不需要做循环画面刷新，非常适合Canvas上手。</p>
+<h2 id="Peertc">Peertc</h2>
+<p><a href="https://github.com/LingyuCoder/peertc" target="_blank">Peertc</a>是我在WebRTC DataChannel基础上实现的一个建立点对点通信，发送数据和文件的一个库。由于WebRTC在建立通信信道上还是无法脱离服务器，所以使用Node.js和<a href="https://www.npmjs.org/package/ws" target="_blank">ws</a>在后台弄了个WebSocket服务器，同时WebSocket也是很好的退化方案。</p>
+<p>至于Peertc具体如何建立点对点连接，我已经在文章<a href="http://lingyu.wang/2014/10/21/datachannel/">使用WebRTC DataChannel在浏览器间传递数据</a>中通过老姚和老刘的故事介绍过了</p>
+<p>如果图简单的话，只要知道Peertc就是一个在俩浏览器之间传输数据的库就可以了</p>
+<h2 id="五子棋">五子棋</h2>
+<p>我以前没写过五子棋，玩五子棋也玩的比较渣。乘着这个机会，仔细研究了一下五子棋的实现。</p>
+<h3 id="实现">实现</h3>
+<p>一个棋盘（多大随意，我玩过15*15的，但是也玩过可以无限扩展的）就是一个二维数组，黑白轮流往棋盘上放棋子，也就是往二维数组里赋值。每次放下棋子，判断一下在当前位置的横线、竖线、两条斜线上是否能成五个相连，也就是判断各个方向是否能成5个数字相同。</p>
+<p>状态也只有4个：</p>
+<ol>
+<li>黑色落子</li>
+<li>白色落子</li>
+<li>黑色获胜</li>
+<li>白色获胜</li>
+</ol>
+<p>状态转移：</p>
+<ul>
+<li>初始状态为黑色落子</li>
+<li>黑色落子后judge判断是否获胜，若获胜转黑色获胜，否则转白色落子</li>
+<li>白色落子后judge判断是否获胜，若获胜转白色获胜，否则转黑色落子</li>
+</ul>
+<p>所以，五子棋的核心就是一个judge方法来判断是否连成5子，实现很简单</p>
+<h3 id="AI">AI</h3>
+<p>为什么要写AI？本来只是想实现双人对战的，那就不要AI了，但是觉着如果只能双人对战未免太过无趣，所以就调研了一下五子棋的AI算法。发现它和计算网页内容的readablity一样，通过计算下在各个位置所获得的分值，得分最高的即是最优解。这里需要注意几个地方：</p>
+<ol>
+<li>这是一个对战游戏，自己要下子获胜，也要堵别人子防止别人获胜。因此计算权重时两种情况都要考虑</li>
+<li>下过五子棋的都知道，如果成了一列（无论方向），两头都没有被堵子肯定要比被堵了一头要强，因此这个是否被堵也要加到考虑当中</li>
+<li>连着的越多，越靠近胜利</li>
+<li>放在棋盘较为中间的位置比较好（如果棋盘是固定大小的话）</li>
+</ol>
+<h2 id="双人对战">双人对战</h2>
+<p>既然涉及到双人互动的话，就会涉及到协议了。就算是一个简单的五子棋对战也有协议，这里直接用json好了。由于Peertc帮我们实现了链接和数据传输，A下的子的位置直接传给B就行了。</p>
+<p>这里与AI不同的一个地方就是，AI反应快的一笔，不是玩家下子的时候，不做屏蔽也没太大关系。但是玩家需要思考，网络有延迟，所以在上面的黑色落子和白色落子阶段都需要加上对应的屏蔽，保证不会出现该白色落子，黑色依然能下的情况。</p>
+<p>那么，需要哪些信令呢？</p>
+<h3 id="开一局">开一局</h3>
+<p>开局，这个开局由一方先行发起，发起的一方将自己所持的颜色保存，并将对方应持的颜色和开局指令交给对方，至于颜色怎么来，可以随机或者固定：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+</pre></td><td class="code"><pre>selfColor = <span class="string">'black'</span>;
+connector.send({
+    type: <span class="string">'new'</span>,
+    data: {
+        color: <span class="string">'white'</span>
+    }
+});
+</pre></td></tr></table></figure>
+
+
+<h3 id="落子">落子</h3>
+<p>开局之后，双方都将开始游戏，各自会有自己的游戏数据和状态机。他们的状态应当完全同步。其实可以把对方想象成一个有延迟的AI。落子的关键就在于位置和颜色，位置一般不会有太大问题，而颜色如果错误麻烦就大了</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+</pre></td><td class="code"><pre>connector.send({
+    type: <span class="string">'drop'</span>,
+    data: {
+        color: fiveChess.state,
+        x: x,
+        y: y
+    }
+});
+</pre></td></tr></table></figure>
+
+
+<p>这里使用的是五子棋内部的状态表明的颜色，而不是使用当前持有的颜色，就是为了防止状态机不同步导致错误。</p>
+<h3 id="结束">结束</h3>
+<p>双方在自己或对方落子后可以自行计算是否获胜游戏结束。真正需要传输的游戏结束的信令应当表征有一方认输。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+</pre></td><td class="code"><pre>connector.send({
+    type: <span class="string">'end'</span>
+});
+</pre></td></tr></table></figure>
+
+
+<p>通过这三个信令，一个对战的五子棋就完成了</p>
+<h2 id="结语">结语</h2>
+<p>五子棋属于逻辑比较简单的游戏，因此实现起来很好理解，难度不大。写一个这种基于网络对战游戏，设计好自动机、设计好相互交互的信令是非常重要的。</p>
+<p>希望以后Canvas学好了，能够写出像《魂斗罗》，《雪人兄弟》，《拳皇》这样的游戏。</p>
+<hr><div class="tags"><a href="/tags/Canvas/" class="blog-tag">Canvas</a><a href="/tags/WebRTC/" class="blog-tag">WebRTC</a><a href="/tags/WebIM/" class="blog-tag">WebIM</a><a href="/tags/游戏/" class="blog-tag">游戏</a><a href="/tags/算法/" class="blog-tag">算法</a><a href="/tags/JavaScript/" class="blog-tag">JavaScript</a></div><hr><div class="jia"><div class="jiathis_style_32x32"><a class="jiathis_button_qzone"></a><a class="jiathis_button_tsina"></a><a class="jiathis_button_tqq"></a><a class="jiathis_button_weixin"></a><a class="jiathis_button_renren"></a><a href="http://www.jiathis.com/share?uid=1409314953297200" target="_blank" class="jiathis jiathis_txt jtico jtico_jiathis"></a></div><script type="text/javascript">var jiathis_config = {data_track_clickback:'true'};    </script><script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1409314953297200" charset="utf-8"></script></div><hr><div id="duoshuo" data-url="http://lingyu.wang/2014/11/18/peertc-and-fivechess/" data-thread-key="/blog/2014/11/18/peertc-and-fivechess/" data-title="Peertc和五子棋" class="ds-thread"></div><script type="text/javascript">var duoshuoQuery = {short_name:'skyinlayer'};
+(function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+})();</script></div></article><div class="pager"><a href="/2014/10/21/datachannel/" title="使用WebRTC DataChannel在浏览器间传递数据" class="next">下一页</a></div></div><aside id="aside"><section class="recent"><h3 class="title iconfont">最新文章<i>&#xe601;</i></h3><div class="links"><ul><li><a href="/2014/11/18/peertc-and-fivechess/">Peertc和五子棋</a></li><li><a href="/2014/10/21/datachannel/">使用WebRTC DataChannel在浏览器间传递数据</a></li><li><a href="/2014/10/07/getting-gulpy/">Gulp思维 —— Gulp高级技巧</a></li><li><a href="/2014/10/06/gulp-vision-history-future/">Gulp -- 项目的愿景、过去和将来</a></li><li><a href="/2014/09/24/koa-anywhere/">koa-anywhere</a></li></ul></div></section><section class="categories"><h3 class="title iconfont">分类<i>&#xe605;</i></h3><div class="links"><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/CSS/">CSS</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JS技术/">JS技术</a><span class="category-list-count">12</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/NodeJs/">NodeJs</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端综合/">前端综合</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/即时通信/">即时通信</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/响应式/">响应式</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/思考总结/">思考总结</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/性能优化/">性能优化</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/">数据库</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/笔试面试/">笔试面试</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/翻译/">翻译</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/读书笔记/">读书笔记</a><span class="category-list-count">9</span></li></ul></div></section><section class="tags"><h3 class="title iconfont">标签<i>&#xe603;</i></h3><div class="links"><ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS/">CSS</a><span class="tag-list-count">35</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Canvas/">Canvas</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DataChannel/">DataChannel</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ES6/">ES6</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Generator/">Generator</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Gulp/">Gulp</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/">HTML</a><span class="tag-list-count">29</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/">HTTP</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a><span class="tag-list-count">38</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kissy/">Kissy</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NodeJs/">NodeJs</a><span class="tag-list-count">13</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SEO/">SEO</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WebIM/">WebIM</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WebRTC/">WebRTC</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WebSocket/">WebSocket</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/grunt/">grunt</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jQuery/">jQuery</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/koa/">koa</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/oracle/">oracle</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/xmpp/">xmpp</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/动画/">动画</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/响应式/">响应式</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/存储函数/">存储函数</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/思考/">思考</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/游戏/">游戏</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/生活/">生活</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/笔试面试题/">笔试面试题</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/设计/">设计</a><span class="tag-list-count">9</span></li></ul></div></section><section class="archives"><h3 class="title iconfont"> 归档<i>&#xe60a;</i></h3><div class="links"><ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11">2014年11月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10">2014年10月</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09">2014年9月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07">2014年7月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05">2014年5月</a><span class="archive-list-count">15</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/04">2014年4月</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/03">2014年3月</a><span class="archive-list-count">29</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02">2014年2月</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/01">2014年1月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/12">2013年12月</a><span class="archive-list-count">1</span></li></ul></div></section></aside></section><footer id="page-footer"><span style="float:right"><script type="text/javascript">(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-51090540-1', 'http://plugins.lingyu.wang');
+ga('send', 'pageview');</script></span><span style="float:right"><script type="text/javascript">var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3Fa5aa4945a04cc5a5a4cd6835ccb7d419' type='text/javascript'%3E%3C/script%3E"));</script></span><p>&copy;Powered by<a href="http://hexo.io" target="_blank" title="hexo">&nbsp;hexo&nbsp;</a>and Theme by<a href="https://github.com/LingyuCoder/lingyu-theme">&nbsp;LingyuCoder</a></p></footer><script type="text/javascript" src="http://cdn.staticfile.org/jquery/2.1.1-rc2/jquery.min.js"></script><script type="text/javascript">$(function(){
+    var duoshuoIds = [];
+    var map = {};
+    $('.meta').each(function(){
+        var $this = $(this);
+        var id = $this.attr('thread');
+        duoshuoIds.push(id);
+        map[id] = $this;
+    });
+    duoshuoIds.length && $.ajax({
+        url: 'http://api.duoshuo.com/threads/counts.jsonp',
+        data: {
+            threads: duoshuoIds.join(','),
+            short_name: 'skyinlayer'
+        },
+        success: function(data){
+            $.each(data.response, function(key, value){
+                var $el = map[key];
+                if($el) {
+                    $.each(['comments','likes', 'reposts'], function(index, type){
+                        $el.find('.' + type).append('<span>' + value[type] + '</span>');
+                    });
+                }
+            });
+        },
+        dataType: 'jsonp'
+    });
+});</script></body></html>

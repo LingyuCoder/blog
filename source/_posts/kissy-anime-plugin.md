@@ -2,7 +2,7 @@ layout: art
 title: 如何写一个KISSY动画插件
 subtitle: 一个小作业
 categories: 
-- 前端技术
+- 前端综合
 tags: 
 - HTML
 - CSS

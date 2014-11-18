@@ -2,7 +2,7 @@ layout: art
 title: 响应式Web设计基础
 subtitle: 翻译自谷歌Web开发最佳实践手册
 categories: 
-- 前端技术
+- 翻译
 tags: 
 - HTML
 - CSS

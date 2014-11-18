@@ -4,8 +4,7 @@ subtitle: 对JavaScript继承的一些思考和实践
 tags: 
 - JavaScript
 categories: 
-- 前端技术
-- 笔试面试积累
+- JS技术
 date: 2014/4/18
 ---
 

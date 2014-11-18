@@ -4,7 +4,7 @@ subtitle: 什么是BFC？它如何出现、又干了些什么？
 tags: 
 - CSS
 categories: 
-- 前端技术
+- CSS
 date: 2014/2/26
 ---
 

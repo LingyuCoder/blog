@@ -4,7 +4,7 @@ subtitle: 传统闭合浮动方法与使用
 tags: 
 - CSS
 categories: 
-- 前端技术
+- CSS
 date: 2014/1/9
 ---
 

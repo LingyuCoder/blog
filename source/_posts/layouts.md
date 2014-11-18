@@ -2,7 +2,7 @@ layout: art
 title: 网页布局实例
 subtitle: 一些常见页面布局之我见
 categories: 
-- 前端技术
+- CSS
 tags: 
 - HTML
 - CSS

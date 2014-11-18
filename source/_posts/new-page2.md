@@ -2,7 +2,7 @@ layout: art
 title: 有没有感觉有一些变化？
 subtitle: 博客又换页面啦
 categories: 
-- 前端技术
+- 思考总结
 tags: 
 - HTML
 - CSS

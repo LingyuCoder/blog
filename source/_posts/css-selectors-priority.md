@@ -4,7 +4,7 @@ subtitle: 记录CSS优先级计算的规则，再也不用害怕面试官问了
 tags: 
 - CSS
 categories: 
-- 前端技术
+- CSS
 date: 2014/2/25
 ---
 

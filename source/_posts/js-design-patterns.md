@@ -4,7 +4,7 @@ subtitle: 《JavaScript设计模式》读书笔记
 tags: 
 - JavaScript
 categories: 
-- 前端技术
+- JS技术
 date: 2014/4/20
 ---
 

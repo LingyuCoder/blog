@@ -2,7 +2,7 @@ layout: art
 title: 初识Grunt
 subtitle: 运用Grunt构建前端项目开发流程自动化
 categories: 
-- 网站建设
+- NodeJs
 tags: 
 - grunt
 date: 2014/2/28

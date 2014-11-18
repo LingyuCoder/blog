@@ -2,7 +2,7 @@ layout: art
 title: CSS的渲染阻塞
 subtitle: 翻译自谷歌Web开发最佳实践手册
 categories: 
-- 前端技术
+- 翻译
 tags: 
 - HTML
 - CSS

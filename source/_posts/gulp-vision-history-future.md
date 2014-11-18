@@ -5,7 +5,7 @@ tags:
 - JavaScript
 - Gulp
 categories: 
-- NodeJs
+- 翻译
 date: 2014/10/6
 ---
 

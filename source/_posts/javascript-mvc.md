@@ -4,7 +4,7 @@ subtitle: 简要介绍MVC、MVP和MVVM架构模式之间的异同
 tags: 
 - JavaScript
 categories: 
-- 前端技术
+- JS技术
 date: 2014/5/3
 ---
 

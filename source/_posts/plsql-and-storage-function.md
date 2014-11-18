@@ -2,7 +2,7 @@ layout: art
 title: PL/SQL编写存储函数
 subtitle: PL/SQL安装使用 + 简单的存储函数编写
 categories: 
-- 数据库技术
+- 数据库
 tags: 
 - oracle
 - 存储函数

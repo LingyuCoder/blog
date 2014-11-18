@@ -2,7 +2,7 @@ layout: art
 title: 使用导航计时监测渲染关键路径
 subtitle: 翻译自谷歌Web开发最佳实践手册
 categories: 
-- 前端技术
+- 翻译
 tags: 
 - HTML
 - CSS

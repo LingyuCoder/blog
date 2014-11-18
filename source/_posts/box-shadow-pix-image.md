@@ -2,7 +2,7 @@ layout: art
 title: 使用box-shadow绘制像素画
 subtitle: 使用CSS3属性box-shadow，绘制超级玛丽
 categories: 
-- 前端技术
+- CSS
 tags: 
 - CSS
 date: 2014/2/9

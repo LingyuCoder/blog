@@ -2,7 +2,7 @@ layout: art
 title: 博客换页面了
 subtitle: 记录一下重写博客页面的过程
 categories: 
-- 前端技术
+- 思考总结
 tags: 
 - HTML
 - CSS

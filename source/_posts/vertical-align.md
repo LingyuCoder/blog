@@ -4,7 +4,7 @@ subtitle: CSS布局之vertical-align
 tags: 
 - CSS
 categories: 
-- 前端技术
+- CSS
 date: 2014/4/13
 ---
 

@@ -4,8 +4,7 @@ subtitle: HTTP协议基础内容，简要介绍Web组件、URL、HTTP报文以�
 tags: 
 - HTTP
 categories: 
-- 前端技术
-- "网站建设"
+- 前端综合
 date: 2014/4/16
 ---
 

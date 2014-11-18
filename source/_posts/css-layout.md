@@ -4,7 +4,7 @@ subtitle: 包含块、浮动、相对定位、绝对定位以及布局属性相�
 tags: 
 - CSS
 categories: 
-- 前端技术
+- CSS
 date: 2014/3/31
 ---
 

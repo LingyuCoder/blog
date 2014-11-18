@@ -2,7 +2,7 @@ layout: art
 title: Google的HTML/CSS样式指南
 subtitle: 写更简洁、更美观的HTML和CSS
 categories: 
-- 前端技术
+- 翻译
 tags: 
 - HTML
 - CSS

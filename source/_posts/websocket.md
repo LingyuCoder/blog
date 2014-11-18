@@ -7,7 +7,7 @@ tags:
 - xmpp
 - WebIM
 categories: 
-- 网站建设
+- 即时通信
 date: 2013/12/8
 ---
 

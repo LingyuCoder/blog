@@ -4,7 +4,7 @@ subtitle: 通过实例对比display的block、inline、inline-block属性
 tags: 
 - CSS
 categories: 
-- 前端技术
+- CSS
 date: 2014/3/7
 ---
 

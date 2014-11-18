@@ -7,7 +7,7 @@ tags:
 - CSS
 - 思考
 categories: 
-- 前端技术
+- 思考总结
 date: 2014/9/22
 ---
 

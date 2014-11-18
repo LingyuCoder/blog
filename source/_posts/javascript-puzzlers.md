@@ -4,7 +4,7 @@ subtitle: javascript puzzlers的个人解答
 tags: 
 - JavaScript
 categories: 
-- 笔试面试积累
+- 笔试面试
 date: 2014/2/10
 ---
 

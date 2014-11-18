@@ -4,7 +4,7 @@ subtitle: 转载自王建硕的博客
 tags: 
 - 思考
 categories: 
-- 生活情感
+- 思考总结
 date: 2014/2/5
 ---
  
