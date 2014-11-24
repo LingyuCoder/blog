@@ -29,6 +29,8 @@ body {
 	box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
 	left: -5px;
 	top: 4px;
+	-webkit-transform: rotate(-2.5deg);
+	-ms-transform: rotate(-2.5deg);
 	transform: rotate(-2.5deg);
 }
 .box:after {
@@ -36,6 +38,8 @@ body {
 	box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
 	right: -3px;
 	top: 1px;
+	-webkit-transform: rotate(1.4deg);
+	-ms-transform: rotate(1.4deg);
 	transform: rotate(1.4deg);
 }
 .box .ctn {
@@ -173,24 +177,12 @@ td > span.exist {
 	top: 10px;
 	left: -5px;
 	-webkit-animation: spin 1.2s infinite;
-	-moz-animation: spin 1.2s infinite;
 	-ms-animation: spin 1.2s infinite;
-	-o-animation: spin 1.2s infinite;
 	animation: spin 1.2s infinite;
 }
 @-webkit-keyframes spin {
 	100% {
 		-webkit-transform: rotate(360deg);
-	}
-}
-@-moz-keyframes spin {
-	100% {
-		-moz-transform: rotate(360deg);
-	}
-}
-@-o-keyframes spin {
-	100% {
-		-o-transform: rotate(360deg);
 	}
 }
 @-ms-keyframes spin {
@@ -200,6 +192,7 @@ td > span.exist {
 }
 @keyframes spin {
 	100% {
+		-webkit-transform: rotate(360deg);
 		transform: rotate(360deg);
 	}
 }
