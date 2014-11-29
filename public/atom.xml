@@ -4,7 +4,7 @@
   
   <link href="/atom.xml" rel="self"/>
   <link href="http://lingyu.wang/"/>
-  <updated>2014-11-29T15:51:16.130Z</updated>
+  <updated>2014-11-29T16:47:41.323Z</updated>
   <id>http://lingyu.wang/</id>
   
   <author>
@@ -13,6 +13,188 @@
   </author>
   
   <generator uri="http://zespia.tw/hexo/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[构建华丽UI的7条准则（上部）]]></title>
+    <link href="http://lingyu.wang/2014/11/24/7-rules-for-creating-gorgeous-ui-part-1/"/>
+    <id>http://lingyu.wang/2014/11/24/7-rules-for-creating-gorgeous-ui-part-1/</id>
+    <published>2014-11-23T16:00:00.000Z</published>
+    <updated>2014-11-24T09:13:40.330Z</updated>
+    <content type="html"><![CDATA[<p>本文翻译自Erik D. Kennedy的<a href="https://medium.com/@erikdkennedy/7-rules-for-creating-gorgeous-ui-part-1-559d4e805cda?hn=1" target="_blank">7 Rules for Creating Gorgeous UI (Part 1)</a></p>
+<a id="more"></a>
+
+<h2 id="简介">简介</h2>
+<p>好吧，首先需要说明的是，这篇指南并不适合每一个人。那么它适合哪些人呢？</p>
+<ul>
+<li>那些要在紧要关头设计他们自己的好看的UI的<strong>开发者</strong></li>
+<li>那些希望自己的作品集看起来比五边形PPT更炫酷或是那些将优秀的用户体验和漂亮的UI打包出售的<strong>用户体验（以下简称UX）设计师</strong></li>
+</ul>
+<p>如果你曾经上过艺术学校，或是认为自己已经是一个UI设计师，你很可能会觉着这篇指南充斥着a.) 无聊, b.) 错误, and c.) 不爽。没关系。你的所有批评都是对的。关掉页面，该干啥干啥。</p>
+<p>让我来告诉你这篇指南里都有些什么。</p>
+<p>首先，我是一个没有UI技能的UX设计师。我喜欢设计用户体验，但<br>我干的时间不长，直到我了解到如下这些驱动我去学界面美化的原因：</p>
+<ul>
+<li>我的作品集看起来很废，无法很好的反映我的工作和思想进程；</li>
+<li>我的UX咨询客户更愿意去找那些不只会画方框和箭头，而懂得更多专业知识的人；</li>
+<li>我是否在某些时候需要在项目初期干活？不只是帮忙扫扫地</li>
+</ul>
+<p>我有我自己的理由。我并不了解垃圾美学观。我是个做工程的，而最令我自豪的就是构建一些帅气的东西。</p>
+<p>最后，我学到了应用程序的每学，它和任何其他创造性的活动中的一样：冰冷，难以分析。以及无耻的从他人作品中模仿。我曾在一个UI项目上花费了10个小时，但只赚了一个小时的钱。其他的9个小时都是在瞎逛式的学习。无休止的搜索Google、Pinterest和Dribbble来找可以模仿的作品。</p>
+<p>这些准则就是这样总结出来的</p>
+<p><strong>所以有一些话希望告诉那些书呆子们：如果做出了优秀的设计，并不是因为我参透了美感和平衡，而是因为我分析出了成果。</strong></p>
+<p>这篇文章并不是一些理论，都是纯粹的应用。你不会看到任何和黄金分割相关的东西。我甚至都没有提及色彩理论。只有那些我不断失败不断练习所学到的东西。</p>
+<p>可以这样说：柔道是基于几个世纪的日本无数和哲学传统发展而来的。你参与了柔道训练，并进行了实战，你就会听到很多关于能量、流动、平和以及之类的东西。</p>
+<p>另一方面，马伽术是一些在20世纪30年代捷克斯洛伐克的一些强硬的犹太人，为了在街头对抗纳粹所发明的。其中没有任何艺术科研，在它的课程中，你学到的是如何通过一支笔去刺瞎别人的眼镜。</p>
+<p>这里就是屏幕上的马伽术</p>
+<p>这些准则包括：</p>
+<ol>
+<li>光来自天空</li>
+<li>黑白先行</li>
+<li>使用双倍的留白</li>
+<li>学习如何在图像上叠加文字</li>
+<li>让文字弹出——并且反流行</li>
+<li>仅使用好的字体</li>
+<li>像艺术家一样去偷</li>
+</ol>
+<p>让我们开始吧</p>
+<h2 id="准则一：光来自天空">准则一：光来自天空</h2>
+<p><em>阴影是用来帮助大脑用来分辨用户界面上元素的宝贵线索</em></p>
+<p>这可能是在学习UI设计中<strong>最重要且常被忽略</strong>的了：光来自天空。光线时常来自于天空，如果从下方来的话会看起来很怪异。</p>
+<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-11-24/1.jpeg" alt="wooooo"></p>
+<p>当光线来自天空，它照亮了物体的顶部并在他们下方留下阴影。物体的顶部更亮，底部更暗。</p>
+<p>你不会把人的下眼睑当做特别的阴影，但当光照在上面时，瞬间就好像一个妖娆的女孩站在你的门前。</p>
+<p>是的，UI也是一样。正如我们的所有五官下侧都会有较小的阴影，在我们所看到的每个UI元素下面也有阴影。<strong>屏幕是扁平的，但我们已经找到了很多方法使得他们看起来像是3D的</strong></p>
+<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-11-24/2.png" alt="My favorite part of this image is the poker finger in the lower-right."></p>
+<p>就拿按钮来说。即使这种相对“扁平”的按钮，它仍有一些与光线相关的细节：</p>
+<ol>
+<li>未按下的按钮（上图）有一个较暗的底部边缘。太阳光照不到那里；</li>
+<li>未按下的按钮的<strong>顶部比底部稍微亮一些</strong>。这是因为它模拟了一个稍微弯曲的表面。就和你需要倾斜你面前的镜子才能看到里面的太阳一样，倾斜向上的表面对你反射了的太阳光多了那么一点点；</li>
+<li>未按下的按钮蒙上了<strong>细微的阴影</strong>，可能你将部分进行放大才能看见</li>
+<li>按下的按钮，底部依然要比顶部更暗，但它<strong>整体都变暗了</strong>——这是因为它在屏幕同意平面上，而光不再那么容易地照到它。可能有人会说了，现实生活中我们按下的按钮颜色也会较深，事实上那是因为我们的双手遮挡住了光线。</li>
+</ol>
+<p>这只是一个按钮，但也呈现出4个小的光线效果。那么问题来了，我们需要将这些运用到所有元素下。</p>
+<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-11-24/3.png" alt="iOS 6 is a little outdated, but it makes a good case study in light behavior."></p>
+<p>这是iOS 6的“请勿打扰”和“通知”的设定。很漂亮不是吗？那么我们来看看它有多少光线效果。</p>
+<ul>
+<li>面板的顶部上有细小的阴影</li>
+<li>“ON”开关的滑动轨道上也有</li>
+<li>“ON”开关的滑动轨道是凹陷的，而底部反射更多的光</li>
+<li>图标突出了一点，是否看到它顶部的边框更亮？这代表了一个垂直于光源的面，因此接收到了不少的光，也因此反射更多光到你眼睛</li>
+<li>面板分割的缺口远离阳光的角度蒙有阴影，反之亦然</li>
+</ul>
+<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-11-24/4.png" alt="A close-up of a divider notch. From an old Hubster concept of mine."></p>
+<p>以下元素通常看起来是<strong>内嵌</strong>的：</p>
+<ul>
+<li>文本输入框</li>
+<li>按下的按钮</li>
+<li>开关的滑动轨道</li>
+<li>单选按钮（未被选择）（radio）</li>
+<li>复选按钮（checkbox）</li>
+</ul>
+<p>以下元素通常看起来是<strong>外凸</strong>的：</p>
+<ul>
+<li>按钮（未按下）</li>
+<li>开关</li>
+<li>下拉控件</li>
+<li>卡片</li>
+<li>被选择的单选按钮的按钮部分</li>
+<li>弹出窗口</li>
+</ul>
+<p>现在你学到了，你会发现到处都是这样。欢迎你，孩子</p>
+<h3 id="等等，扁平化设计怎么办呢，Erik？">等等，扁平化设计怎么办呢，Erik？</h3>
+<p>iOS7的“扁平化设计”轰动了技术社区。如字面上所说，它是平的。没有凸起或凹陷，只是纯色的线条和形状。</p>
+<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-11-24/5.png" alt="iOS 7 扁平设计"></p>
+<p>我和后面那个家伙一样喜欢干净和简洁，但我不认为这是个长期的趋势。我们在界面上对于3D的模拟，还远远没有自然到能够放弃一切。</p>
+<p><strong>很有可能在不久的将来我们就会见到半扁平UI</strong>（我推荐你能够精通这样的设计）。进一步可以称之为“扁平化的设计（flatty design）”。依然干净，依然简洁，但那些需要触碰、滑动、点击的元素会有一些阴影和线索。</p>
+<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-11-24/6.png" alt="OS X Yosemite—不只是扁平，而是扁平化"></p>
+<p>在我写这篇文章时，Google在他们的产品之上推出了“Material Design”语言。这是一个统一的视觉语言，它的核心思想就旨在模仿现实世界。</p>
+<p>从Material Design的设计图中可以看出，它展示了如何通过不同的阴影来表现元素不同的深度。</p>
+<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-11-24/7.png" alt="Material Design 1"></p>
+<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-11-24/8.png" alt="Material Design 2"></p>
+<p>这是我一直坚持做的事情。</p>
+<p>它采用了细微的现实世界的线索来传达信息。<strong>关键字，细微</strong>。</p>
+<p>你不能说它没有模仿现实世界，但也没有像2006年的网站上那样的纹理、渐变和光亮。</p>
+<p>我认为扁平化是未来。扁平？那只是过去。</p>
+<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-11-24/9.png" alt="扁平设计现在似乎大热"></p>
+<h2 id="规则二——黑白先行">规则二——黑白先行</h2>
+<p><em>在添加颜色之前使用灰度进行设计能让最复杂元素的视觉设计也变得简单。</em></p>
+<p>如今UX设计师也进行“移动先行”的设计。这就意味着，先在手机上考虑页面样式及交互，然后再扩展到高像素的Retina屏幕上</p>
+<p><strong>这是个非常好的约束。它传达了一个思想。</strong>先从困难的问题开始（在较小的屏幕上可用的应用程序），然后将解决方案适配到简单的问题上（在大屏幕上可用的应用程序）。</p>
+<p>还有一个类似的约束：先用黑白进行设计。在没有颜色的帮助下，以让应用在各个角度下漂亮且可用这样的困难问题作为开始。最后再添加颜色，即使如此，明确目标。</p>
+<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-11-24/10.png" alt="Haraldur Thorleifsson’s grayscale wireframes look as good as lesser designer’s finished sites."></p>
+<p>这是一个保持应用程序看起来“简洁”的较为可靠且简单的方式。<strong>过多的颜色很容易破坏“简洁”。</strong>黑白先行使得你更加专注于留白、尺寸和布局。而这些正式“简洁”设计所关注的。</p>
+<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-11-24/11.png" alt="Classy grayscale."><br><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-11-24/12.jpeg" alt="Classy grayscale."><br><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-11-24/13.png" alt="Classy grayscale."></p>
+<p>在某些情况下黑白先行并没有效果。那些有很强特定风格的设计——“运动的”、“浮华的”、“卡通的”，等等——需要设计师非常好的使用颜色。但<strong>大多数应用程序除了“简洁”以外都没有特定的风格。</strong>不可否认，那些设计更难。</p>
+<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-11-24/14.png" alt="Flashy and vibrant designs by Julien Renvoye (left) and Cosmin Capitanu (right). Harder than it looks."></p>
+<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-11-24/15.png" alt="Flashy and vibrant designs by Julien Renvoye (left) and Cosmin Capitanu (right). Harder than it looks."></p>
+<p>对于其他的，都可以用黑白先行</p>
+<h3 id="第二步：如何上色">第二步：如何上色</h3>
+<p>最简单的上色方式就是只添加一种颜色</p>
+<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-11-24/16.png" alt="添加一种颜色"></p>
+<p>往黑白的网页中添加一种颜色是简单而有效地吸引眼球方式</p>
+<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-11-24/17.png" alt="添加一种颜色"></p>
+<p>你也可以更进一步，灰度+两种颜色，或是灰度+单一色调的多种颜色</p>
+<blockquote>
+<p><strong>实践中的色码——等等，什么事色调？</strong></p>
+<p>网页和大多数人都是用16进制RGB编码表示颜色。最好忽略这些。RGB并不是一个好的颜色设计框架。<a href="http://demosthenes.info/blog/61/An-Easy-Guide-To-HSL-Color-In-CSS3" target="_blank">HSB</a>更有用（HSB与HSV或HSL“基本上是同义的”）</p>
+<p>HSB比RGB更好，以为它符合我们自然思考颜色的方式，你能从HSB值的改变中预测到颜色的变化。</p>
+<p>如果这对你来说是个新闻，这里有一个对于<a href="http://demosthenes.info/blog/61/An-Easy-Guide-To-HSL-Color-In-CSS3" target="_blank">HSB颜色的介绍</a>。</p>
+</blockquote>
+<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-11-24/18.jpeg" alt="来自Smashing Magazine的单色调的金色主题"></p>
+<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-11-24/19.jpeg" alt="来自Smashing Magazine的单色调的蓝色主题"></p>
+<p>通过修改单一色相的<strong>饱和度</strong>和<strong>亮度</strong>，可以生成更多的颜色——深色的、浅色的、当背景的、做强调的、吸引眼球的——但它并不会在你眼前压倒一切。</p>
+<p>使用来自一种或两种色相的多个颜色是在<strong>不破坏设计的前提下突出和弱化元素的最可靠的方法。</strong></p>
+<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-11-24/20.png" alt="Countdown timer by Kerem Suer"></p>
+<h2 id="颜色使用的一些其他的注意事项">颜色使用的一些其他的注意事项</h2>
+<p>颜色是视觉设计中最复杂的部分。虽然颜色上的很多东西并不精细，而且对于你面前的设计并不适用，我还是看到了一些不错的东西：</p>
+<p>一些小工具：</p>
+<ul>
+<li><a href="http://ianstormtaylor.com/design-tip-never-use-black/" target="_blank">永远不要使用纯黑</a> (Ian Storm Taylor)。这篇文章中说，纯粹的灰色几乎不会出现在现实世界，灰色的色调的饱和度——尤其是较暗的色调——能为你的设计添加丰富的视觉效果。此外，饱和的灰色更好的模拟了现实世界，这正是它的美之所在。</li>
+<li><a href="https://color.adobe.com/" target="_blank">Adobe Color CC</a>.一个用来发现、修改和创建颜色方案的优秀工具</li>
+<li><a href="https://dribbble.com/colors/BADA55" target="_blank">通过颜色搜索Dribbble</a>. 另外一个找到某一个特定颜色实践的不错方式。这很实用。如果你已经决定使用某个颜色，看看世界上最好的设计师们如何使用这个颜色。</li>
+</ul>
+<h2 id="规则三：使用双倍的留白">规则三：使用双倍的留白</h2>
+<p><em>增加更多呼吸空间可以让你的UI看起来有设计感</em></p>
+<p>我曾在规则二中说过，“黑白先行”迫使设计师在考虑配色之前先考虑留白和布局，以及这为什么好。那么，现在来聊聊留白和布局。</p>
+<p>如果你曾在<a href="http://baike.baidu.com/subview/526745/15420063.htm" target="_blank">scratch</a>（一款面向少年的简易编程工具），你可能比较熟悉HTML默认情况下在页面上的布局。</p>
+<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-11-24/21.png" alt="页面上默认的布局"></p>
+<p>基本上，一切都被堆砌在屏幕的顶端。字体比较小，行与行之间完全没有空白。段与段之间有那么一丁点的空白，但并不多。各个段落随着页面伸缩，不管是100像素，还是10000像素。</p>
+<p>从美学上讲，这非常的难看。<strong>如果你希望你的UI看起来有设计感，你需要给它增加一些呼吸的空间。</strong></p>
+<p>有时候需要的留白很夸张。</p>
+<blockquote>
+<p>留白、HTML和CSS</p>
+<p>如果你，和我一样，曾经使用CSS来实现各种格式，<strong>默认情况下没有留白</strong>，现在是时候从中解脱出来了。试着默认情况下从留白开始思考——一切都以空白开始，直到你拿一个元素来替换它。</p>
+<p>很有禅意对吗？我想这是一个人们这么设计的重要原因。</p>
+<p><strong>从一个空白页面开始，意味着以一个只有空白的页面开始。</strong>你在一开始就考虑外边距和留白。你画的所有东西都是有意识的在删除空白。</p>
+<p><strong>从一堆没样式的HTML开始意味着从内容出发。</strong>事后再考虑空白。必须正确的描述这些。</p>
+</blockquote>
+<p>以下是<a href="http://www.piotrkwiatkowski.co.uk/" target="_blank">Piotr Kwiatkowski</a>的一个音乐播放器的设计图</p>
+<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-11-24/22.jpeg" alt="音乐播放器"></p>
+<p>尤其注意左边的菜单</p>
+<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-11-24/23.png" alt="左侧的菜单"></p>
+<p>在两个菜单项的垂直空白是文字本身的两倍。12px的字体，上下的内边距也是一样。</p>
+<p>再看一下列表的标题。在单词“PLAYLISTS”上下有15像素的留白，而且它有下划线。也就是说，在列表与列表之间相距25px。</p>
+<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-11-24/24.png" alt="导航条上有更多的空白。“Search all music”的文字大小只占导航条高度的20%。图标也差不多大"></p>
+<p>不错，大的空白能让凌乱的界面看起来更加诱人和简单——比如下面这个论坛。</p>
+<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-11-24/25.png" alt="Matt Sisto设计的论坛"></p>
+<p>或者维基百科。</p>
+<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-11-24/26.png" alt="Aurélien Salomon设计的维基百科"></p>
+<p>你会发现存在很多争议说，这个重新设计的维基百科省去了使用网页的关键功能。但你必须承认，这是一个不错的学习体验。</p>
+<p>增加线条之间的留白</p>
+<p>增加元素之间的留白</p>
+<p>增加每组元素之间的留白</p>
+<p><strong>分析是什么在起作用</strong></p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>本文翻译自Erik D. Kennedy的<a href="https://medium.com/@erikdkennedy/7-rules-for-creating-gorgeous-ui-part-1-559d4e805cda?hn=1" target="_blank">7 Rules for Creating Gorgeous UI (Part 1)</a></p>
+]]>
+    
+    </summary>
+    
+      <category term="设计" scheme="http://lingyu.wang/tags/%E8%AE%BE%E8%AE%A1/"/>
+    
+      <category term="翻译" scheme="http://lingyu.wang/categories/%E7%BF%BB%E8%AF%91/"/>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[RisingStack的Node.js风格指南]]></title>
@@ -2259,188 +2441,6 @@
   </entry>
   
   <entry>
-    <title><![CDATA[构建华丽UI的7条准则（上部）]]></title>
-    <link href="http://lingyu.wang/2014/11/24/7-rules-for-creating-gorgeous-ui-part-1/"/>
-    <id>http://lingyu.wang/2014/11/24/7-rules-for-creating-gorgeous-ui-part-1/</id>
-    <published>2014-11-23T16:00:00.000Z</published>
-    <updated>2014-11-24T09:13:40.330Z</updated>
-    <content type="html"><![CDATA[<p>本文翻译自Erik D. Kennedy的<a href="https://medium.com/@erikdkennedy/7-rules-for-creating-gorgeous-ui-part-1-559d4e805cda?hn=1" target="_blank">7 Rules for Creating Gorgeous UI (Part 1)</a></p>
-<a id="more"></a>
-
-<h2 id="简介">简介</h2>
-<p>好吧，首先需要说明的是，这篇指南并不适合每一个人。那么它适合哪些人呢？</p>
-<ul>
-<li>那些要在紧要关头设计他们自己的好看的UI的<strong>开发者</strong></li>
-<li>那些希望自己的作品集看起来比五边形PPT更炫酷或是那些将优秀的用户体验和漂亮的UI打包出售的<strong>用户体验（以下简称UX）设计师</strong></li>
-</ul>
-<p>如果你曾经上过艺术学校，或是认为自己已经是一个UI设计师，你很可能会觉着这篇指南充斥着a.) 无聊, b.) 错误, and c.) 不爽。没关系。你的所有批评都是对的。关掉页面，该干啥干啥。</p>
-<p>让我来告诉你这篇指南里都有些什么。</p>
-<p>首先，我是一个没有UI技能的UX设计师。我喜欢设计用户体验，但<br>我干的时间不长，直到我了解到如下这些驱动我去学界面美化的原因：</p>
-<ul>
-<li>我的作品集看起来很废，无法很好的反映我的工作和思想进程；</li>
-<li>我的UX咨询客户更愿意去找那些不只会画方框和箭头，而懂得更多专业知识的人；</li>
-<li>我是否在某些时候需要在项目初期干活？不只是帮忙扫扫地</li>
-</ul>
-<p>我有我自己的理由。我并不了解垃圾美学观。我是个做工程的，而最令我自豪的就是构建一些帅气的东西。</p>
-<p>最后，我学到了应用程序的每学，它和任何其他创造性的活动中的一样：冰冷，难以分析。以及无耻的从他人作品中模仿。我曾在一个UI项目上花费了10个小时，但只赚了一个小时的钱。其他的9个小时都是在瞎逛式的学习。无休止的搜索Google、Pinterest和Dribbble来找可以模仿的作品。</p>
-<p>这些准则就是这样总结出来的</p>
-<p><strong>所以有一些话希望告诉那些书呆子们：如果做出了优秀的设计，并不是因为我参透了美感和平衡，而是因为我分析出了成果。</strong></p>
-<p>这篇文章并不是一些理论，都是纯粹的应用。你不会看到任何和黄金分割相关的东西。我甚至都没有提及色彩理论。只有那些我不断失败不断练习所学到的东西。</p>
-<p>可以这样说：柔道是基于几个世纪的日本无数和哲学传统发展而来的。你参与了柔道训练，并进行了实战，你就会听到很多关于能量、流动、平和以及之类的东西。</p>
-<p>另一方面，马伽术是一些在20世纪30年代捷克斯洛伐克的一些强硬的犹太人，为了在街头对抗纳粹所发明的。其中没有任何艺术科研，在它的课程中，你学到的是如何通过一支笔去刺瞎别人的眼镜。</p>
-<p>这里就是屏幕上的马伽术</p>
-<p>这些准则包括：</p>
-<ol>
-<li>光来自天空</li>
-<li>黑白先行</li>
-<li>使用双倍的留白</li>
-<li>学习如何在图像上叠加文字</li>
-<li>让文字弹出——并且反流行</li>
-<li>仅使用好的字体</li>
-<li>像艺术家一样去偷</li>
-</ol>
-<p>让我们开始吧</p>
-<h2 id="准则一：光来自天空">准则一：光来自天空</h2>
-<p><em>阴影是用来帮助大脑用来分辨用户界面上元素的宝贵线索</em></p>
-<p>这可能是在学习UI设计中<strong>最重要且常被忽略</strong>的了：光来自天空。光线时常来自于天空，如果从下方来的话会看起来很怪异。</p>
-<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-11-24/1.jpeg" alt="wooooo"></p>
-<p>当光线来自天空，它照亮了物体的顶部并在他们下方留下阴影。物体的顶部更亮，底部更暗。</p>
-<p>你不会把人的下眼睑当做特别的阴影，但当光照在上面时，瞬间就好像一个妖娆的女孩站在你的门前。</p>
-<p>是的，UI也是一样。正如我们的所有五官下侧都会有较小的阴影，在我们所看到的每个UI元素下面也有阴影。<strong>屏幕是扁平的，但我们已经找到了很多方法使得他们看起来像是3D的</strong></p>
-<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-11-24/2.png" alt="My favorite part of this image is the poker finger in the lower-right."></p>
-<p>就拿按钮来说。即使这种相对“扁平”的按钮，它仍有一些与光线相关的细节：</p>
-<ol>
-<li>未按下的按钮（上图）有一个较暗的底部边缘。太阳光照不到那里；</li>
-<li>未按下的按钮的<strong>顶部比底部稍微亮一些</strong>。这是因为它模拟了一个稍微弯曲的表面。就和你需要倾斜你面前的镜子才能看到里面的太阳一样，倾斜向上的表面对你反射了的太阳光多了那么一点点；</li>
-<li>未按下的按钮蒙上了<strong>细微的阴影</strong>，可能你将部分进行放大才能看见</li>
-<li>按下的按钮，底部依然要比顶部更暗，但它<strong>整体都变暗了</strong>——这是因为它在屏幕同意平面上，而光不再那么容易地照到它。可能有人会说了，现实生活中我们按下的按钮颜色也会较深，事实上那是因为我们的双手遮挡住了光线。</li>
-</ol>
-<p>这只是一个按钮，但也呈现出4个小的光线效果。那么问题来了，我们需要将这些运用到所有元素下。</p>
-<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-11-24/3.png" alt="iOS 6 is a little outdated, but it makes a good case study in light behavior."></p>
-<p>这是iOS 6的“请勿打扰”和“通知”的设定。很漂亮不是吗？那么我们来看看它有多少光线效果。</p>
-<ul>
-<li>面板的顶部上有细小的阴影</li>
-<li>“ON”开关的滑动轨道上也有</li>
-<li>“ON”开关的滑动轨道是凹陷的，而底部反射更多的光</li>
-<li>图标突出了一点，是否看到它顶部的边框更亮？这代表了一个垂直于光源的面，因此接收到了不少的光，也因此反射更多光到你眼睛</li>
-<li>面板分割的缺口远离阳光的角度蒙有阴影，反之亦然</li>
-</ul>
-<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-11-24/4.png" alt="A close-up of a divider notch. From an old Hubster concept of mine."></p>
-<p>以下元素通常看起来是<strong>内嵌</strong>的：</p>
-<ul>
-<li>文本输入框</li>
-<li>按下的按钮</li>
-<li>开关的滑动轨道</li>
-<li>单选按钮（未被选择）（radio）</li>
-<li>复选按钮（checkbox）</li>
-</ul>
-<p>以下元素通常看起来是<strong>外凸</strong>的：</p>
-<ul>
-<li>按钮（未按下）</li>
-<li>开关</li>
-<li>下拉控件</li>
-<li>卡片</li>
-<li>被选择的单选按钮的按钮部分</li>
-<li>弹出窗口</li>
-</ul>
-<p>现在你学到了，你会发现到处都是这样。欢迎你，孩子</p>
-<h3 id="等等，扁平化设计怎么办呢，Erik？">等等，扁平化设计怎么办呢，Erik？</h3>
-<p>iOS7的“扁平化设计”轰动了技术社区。如字面上所说，它是平的。没有凸起或凹陷，只是纯色的线条和形状。</p>
-<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-11-24/5.png" alt="iOS 7 扁平设计"></p>
-<p>我和后面那个家伙一样喜欢干净和简洁，但我不认为这是个长期的趋势。我们在界面上对于3D的模拟，还远远没有自然到能够放弃一切。</p>
-<p><strong>很有可能在不久的将来我们就会见到半扁平UI</strong>（我推荐你能够精通这样的设计）。进一步可以称之为“扁平化的设计（flatty design）”。依然干净，依然简洁，但那些需要触碰、滑动、点击的元素会有一些阴影和线索。</p>
-<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-11-24/6.png" alt="OS X Yosemite—不只是扁平，而是扁平化"></p>
-<p>在我写这篇文章时，Google在他们的产品之上推出了“Material Design”语言。这是一个统一的视觉语言，它的核心思想就旨在模仿现实世界。</p>
-<p>从Material Design的设计图中可以看出，它展示了如何通过不同的阴影来表现元素不同的深度。</p>
-<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-11-24/7.png" alt="Material Design 1"></p>
-<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-11-24/8.png" alt="Material Design 2"></p>
-<p>这是我一直坚持做的事情。</p>
-<p>它采用了细微的现实世界的线索来传达信息。<strong>关键字，细微</strong>。</p>
-<p>你不能说它没有模仿现实世界，但也没有像2006年的网站上那样的纹理、渐变和光亮。</p>
-<p>我认为扁平化是未来。扁平？那只是过去。</p>
-<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-11-24/9.png" alt="扁平设计现在似乎大热"></p>
-<h2 id="规则二——黑白先行">规则二——黑白先行</h2>
-<p><em>在添加颜色之前使用灰度进行设计能让最复杂元素的视觉设计也变得简单。</em></p>
-<p>如今UX设计师也进行“移动先行”的设计。这就意味着，先在手机上考虑页面样式及交互，然后再扩展到高像素的Retina屏幕上</p>
-<p><strong>这是个非常好的约束。它传达了一个思想。</strong>先从困难的问题开始（在较小的屏幕上可用的应用程序），然后将解决方案适配到简单的问题上（在大屏幕上可用的应用程序）。</p>
-<p>还有一个类似的约束：先用黑白进行设计。在没有颜色的帮助下，以让应用在各个角度下漂亮且可用这样的困难问题作为开始。最后再添加颜色，即使如此，明确目标。</p>
-<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-11-24/10.png" alt="Haraldur Thorleifsson’s grayscale wireframes look as good as lesser designer’s finished sites."></p>
-<p>这是一个保持应用程序看起来“简洁”的较为可靠且简单的方式。<strong>过多的颜色很容易破坏“简洁”。</strong>黑白先行使得你更加专注于留白、尺寸和布局。而这些正式“简洁”设计所关注的。</p>
-<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-11-24/11.png" alt="Classy grayscale."><br><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-11-24/12.jpeg" alt="Classy grayscale."><br><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-11-24/13.png" alt="Classy grayscale."></p>
-<p>在某些情况下黑白先行并没有效果。那些有很强特定风格的设计——“运动的”、“浮华的”、“卡通的”，等等——需要设计师非常好的使用颜色。但<strong>大多数应用程序除了“简洁”以外都没有特定的风格。</strong>不可否认，那些设计更难。</p>
-<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-11-24/14.png" alt="Flashy and vibrant designs by Julien Renvoye (left) and Cosmin Capitanu (right). Harder than it looks."></p>
-<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-11-24/15.png" alt="Flashy and vibrant designs by Julien Renvoye (left) and Cosmin Capitanu (right). Harder than it looks."></p>
-<p>对于其他的，都可以用黑白先行</p>
-<h3 id="第二步：如何上色">第二步：如何上色</h3>
-<p>最简单的上色方式就是只添加一种颜色</p>
-<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-11-24/16.png" alt="添加一种颜色"></p>
-<p>往黑白的网页中添加一种颜色是简单而有效地吸引眼球方式</p>
-<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-11-24/17.png" alt="添加一种颜色"></p>
-<p>你也可以更进一步，灰度+两种颜色，或是灰度+单一色调的多种颜色</p>
-<blockquote>
-<p><strong>实践中的色码——等等，什么事色调？</strong></p>
-<p>网页和大多数人都是用16进制RGB编码表示颜色。最好忽略这些。RGB并不是一个好的颜色设计框架。<a href="http://demosthenes.info/blog/61/An-Easy-Guide-To-HSL-Color-In-CSS3" target="_blank">HSB</a>更有用（HSB与HSV或HSL“基本上是同义的”）</p>
-<p>HSB比RGB更好，以为它符合我们自然思考颜色的方式，你能从HSB值的改变中预测到颜色的变化。</p>
-<p>如果这对你来说是个新闻，这里有一个对于<a href="http://demosthenes.info/blog/61/An-Easy-Guide-To-HSL-Color-In-CSS3" target="_blank">HSB颜色的介绍</a>。</p>
-</blockquote>
-<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-11-24/18.jpeg" alt="来自Smashing Magazine的单色调的金色主题"></p>
-<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-11-24/19.jpeg" alt="来自Smashing Magazine的单色调的蓝色主题"></p>
-<p>通过修改单一色相的<strong>饱和度</strong>和<strong>亮度</strong>，可以生成更多的颜色——深色的、浅色的、当背景的、做强调的、吸引眼球的——但它并不会在你眼前压倒一切。</p>
-<p>使用来自一种或两种色相的多个颜色是在<strong>不破坏设计的前提下突出和弱化元素的最可靠的方法。</strong></p>
-<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-11-24/20.png" alt="Countdown timer by Kerem Suer"></p>
-<h2 id="颜色使用的一些其他的注意事项">颜色使用的一些其他的注意事项</h2>
-<p>颜色是视觉设计中最复杂的部分。虽然颜色上的很多东西并不精细，而且对于你面前的设计并不适用，我还是看到了一些不错的东西：</p>
-<p>一些小工具：</p>
-<ul>
-<li><a href="http://ianstormtaylor.com/design-tip-never-use-black/" target="_blank">永远不要使用纯黑</a> (Ian Storm Taylor)。这篇文章中说，纯粹的灰色几乎不会出现在现实世界，灰色的色调的饱和度——尤其是较暗的色调——能为你的设计添加丰富的视觉效果。此外，饱和的灰色更好的模拟了现实世界，这正是它的美之所在。</li>
-<li><a href="https://color.adobe.com/" target="_blank">Adobe Color CC</a>.一个用来发现、修改和创建颜色方案的优秀工具</li>
-<li><a href="https://dribbble.com/colors/BADA55" target="_blank">通过颜色搜索Dribbble</a>. 另外一个找到某一个特定颜色实践的不错方式。这很实用。如果你已经决定使用某个颜色，看看世界上最好的设计师们如何使用这个颜色。</li>
-</ul>
-<h2 id="规则三：使用双倍的留白">规则三：使用双倍的留白</h2>
-<p><em>增加更多呼吸空间可以让你的UI看起来有设计感</em></p>
-<p>我曾在规则二中说过，“黑白先行”迫使设计师在考虑配色之前先考虑留白和布局，以及这为什么好。那么，现在来聊聊留白和布局。</p>
-<p>如果你曾在<a href="http://baike.baidu.com/subview/526745/15420063.htm" target="_blank">scratch</a>（一款面向少年的简易编程工具），你可能比较熟悉HTML默认情况下在页面上的布局。</p>
-<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-11-24/21.png" alt="页面上默认的布局"></p>
-<p>基本上，一切都被堆砌在屏幕的顶端。字体比较小，行与行之间完全没有空白。段与段之间有那么一丁点的空白，但并不多。各个段落随着页面伸缩，不管是100像素，还是10000像素。</p>
-<p>从美学上讲，这非常的难看。<strong>如果你希望你的UI看起来有设计感，你需要给它增加一些呼吸的空间。</strong></p>
-<p>有时候需要的留白很夸张。</p>
-<blockquote>
-<p>留白、HTML和CSS</p>
-<p>如果你，和我一样，曾经使用CSS来实现各种格式，<strong>默认情况下没有留白</strong>，现在是时候从中解脱出来了。试着默认情况下从留白开始思考——一切都以空白开始，直到你拿一个元素来替换它。</p>
-<p>很有禅意对吗？我想这是一个人们这么设计的重要原因。</p>
-<p><strong>从一个空白页面开始，意味着以一个只有空白的页面开始。</strong>你在一开始就考虑外边距和留白。你画的所有东西都是有意识的在删除空白。</p>
-<p><strong>从一堆没样式的HTML开始意味着从内容出发。</strong>事后再考虑空白。必须正确的描述这些。</p>
-</blockquote>
-<p>以下是<a href="http://www.piotrkwiatkowski.co.uk/" target="_blank">Piotr Kwiatkowski</a>的一个音乐播放器的设计图</p>
-<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-11-24/22.jpeg" alt="音乐播放器"></p>
-<p>尤其注意左边的菜单</p>
-<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-11-24/23.png" alt="左侧的菜单"></p>
-<p>在两个菜单项的垂直空白是文字本身的两倍。12px的字体，上下的内边距也是一样。</p>
-<p>再看一下列表的标题。在单词“PLAYLISTS”上下有15像素的留白，而且它有下划线。也就是说，在列表与列表之间相距25px。</p>
-<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-11-24/24.png" alt="导航条上有更多的空白。“Search all music”的文字大小只占导航条高度的20%。图标也差不多大"></p>
-<p>不错，大的空白能让凌乱的界面看起来更加诱人和简单——比如下面这个论坛。</p>
-<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-11-24/25.png" alt="Matt Sisto设计的论坛"></p>
-<p>或者维基百科。</p>
-<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-11-24/26.png" alt="Aurélien Salomon设计的维基百科"></p>
-<p>你会发现存在很多争议说，这个重新设计的维基百科省去了使用网页的关键功能。但你必须承认，这是一个不错的学习体验。</p>
-<p>增加线条之间的留白</p>
-<p>增加元素之间的留白</p>
-<p>增加每组元素之间的留白</p>
-<p><strong>分析是什么在起作用</strong></p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<p>本文翻译自Erik D. Kennedy的<a href="https://medium.com/@erikdkennedy/7-rules-for-creating-gorgeous-ui-part-1-559d4e805cda?hn=1" target="_blank">7 Rules for Creating Gorgeous UI (Part 1)</a></p>
-]]>
-    
-    </summary>
-    
-      <category term="设计" scheme="http://lingyu.wang/tags/%E8%AE%BE%E8%AE%A1/"/>
-    
-      <category term="翻译" scheme="http://lingyu.wang/categories/%E7%BF%BB%E8%AF%91/"/>
-    
-  </entry>
-  
-  <entry>
     <title><![CDATA[Peertc和五子棋]]></title>
     <link href="http://lingyu.wang/2014/11/18/peertc-and-fivechess/"/>
     <id>http://lingyu.wang/2014/11/18/peertc-and-fivechess/</id>
@@ -4555,62 +4555,97 @@ dataChannel.onclose = <span class="function"><span class="keyword">function</spa
   </entry>
   
   <entry>
-    <title><![CDATA[CSS的渲染阻塞]]></title>
-    <link href="http://lingyu.wang/2014/05/21/google-render-blocking-css/"/>
-    <id>http://lingyu.wang/2014/05/21/google-render-blocking-css/</id>
+    <title><![CDATA[使用导航计时监测渲染关键路径]]></title>
+    <link href="http://lingyu.wang/2014/05/21/google-measuring-the-critical-rendering-path-with-navigation-timing/"/>
+    <id>http://lingyu.wang/2014/05/21/google-measuring-the-critical-rendering-path-with-navigation-timing/</id>
     <published>2014-05-20T16:00:00.000Z</published>
-    <updated>2014-11-18T07:41:45.171Z</updated>
-    <content type="html"><![CDATA[<p>默认情况下，CSS会被看做是渲染阻塞资源，也就是说，浏览器在CSSOM建立前，已经处理过的网页内容不会被显示到页面上。所以，保证你的CSS代码能够快速从服务器获取且尽可能的简短，并注意使用媒体类型（media types）和媒体查询（media queries）去进行非阻塞的渲染。</p>
-<a id="more"></a>
-
-<p>在之前的章节中，我们已经知道了要建立渲染树，必须先建立好DOM树和CSSOM树，这里有一个很重要的性能要点：HTML和CSS都是渲染阻塞资源。HTML很明显，因为如果没有创建好DOM树，浏览器都不知道有什么东西需要渲染。但CSS就不那么明显了。如果我们尝试不使用CSS的阻塞渲染去渲染一个典型的页面，会发生什么呢？</p>
+    <updated>2014-11-18T07:41:42.952Z</updated>
+    <content type="html"><![CDATA[<p>没办法监测，就没办法优化。幸运的是，浏览器提供了一系列用来监测渲染关键路径上每一步的接口，叫导航计时接口（Navigation Timing API）<br><a id="more"></a></p>
 <h3 id="长话短说">长话短说</h3>
 <ul>
-<li>默认情况下CSS是渲染阻塞资源</li>
-<li>媒体类型和媒体查询可以让一些CSS变成非渲染阻塞资源</li>
-<li>所有CSS资源，无论是阻塞还是非阻塞，都需要通过浏览器进行下载</li>
+<li>导航计时为监测渲染关键路径提供了高分辨率的时间戳</li>
+<li>浏览器在到达渲染关键路径的不同阶段时，会触发一系列的事件</li>
 </ul>
-<h3 id="CSS是渲染阻塞资源">CSS是渲染阻塞资源</h3>
-<p>浏览器将会阻塞渲染直到DOM树和CSSOM树都创建完毕</p>
-<p><strong>CSS是渲染阻塞元素，尽可能快速的让浏览器下载到文件，这样可以减少阻塞的时间</strong></p>
-<p>然而，如果我们有一些只有在特定条件下才使用的样式，比如打印或是在大的显示器中显示等情况，我们当然不希望这些特定条件下才会使用的样式阻塞渲染。</p>
-<h3 id="媒体类型和媒体查询">媒体类型和媒体查询</h3>
-<p>CSS中的媒体类型和媒体查询就可以达到这种效果：</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre>1
-2
-3
-</pre></td><td class="code"><pre><span class="tag">&lt;<span class="title">link</span> <span class="attribute">href</span>=<span class="value">"style.css"</span> <span class="attribute">rel</span>=<span class="value">"stylesheet"</span>&gt;</span>
-<span class="tag">&lt;<span class="title">link</span> <span class="attribute">href</span>=<span class="value">"print.css"</span> <span class="attribute">rel</span>=<span class="value">"stylesheet"</span> <span class="attribute">media</span>=<span class="value">"print"</span>&gt;</span>
-<span class="tag">&lt;<span class="title">link</span> <span class="attribute">href</span>=<span class="value">"other.css"</span> <span class="attribute">rel</span>=<span class="value">"stylesheet"</span> <span class="attribute">media</span>=<span class="value">"(min-width: 40em)"</span>&gt;</span>
-</pre></td></tr></table></figure>
-
-
-<p>一个媒体查询可以由一个媒体类型和查询表达式构成，查询表达式可以是任意个数，他们检测了当前设备的特点。比如，在第一个样式表申明中并没有使用媒体类型和媒体查询，因此它在所有情况下都会被应用，也就是说，它总汇总阿红才呢过渲染阻塞。而另一方面，第二个样式表仅仅在网页内容被打印时才会被应用，可能你需要在打印时改换一下布局，改变一下字体等等，因此，这个样式表不会再页面首次加载时造成渲染阻塞。而最后一个样式表提供了一个媒体查询，浏览器将判断条件是否满足。如果浏览器满足媒体查询中的条件，浏览器将在下载并处理完这个样式表之前阻塞渲染。</p>
-<p>通过使用媒体查询，我们可以根据特定的用例来定制展现的样式，比如显示和打印。同时，还能动态的判断诸如屏幕方向，缩放事件等等。在申明样式表时，重点关注媒体类型和媒体查询，他们将很大程度影响网页渲染的效率。</p>
-<p>让我们考虑如下例子：</p>
+<h3 id="用于监测的时间戳">用于监测的时间戳</h3>
+<p>好的性能策略都是建立在良好的测量基础之上的。下面这张图说明了导航计时接口提供的API：</p>
+<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-5-21/1.png" alt="导航计时接口提供的API"></p>
+<p>上面的每一个标签都提供了一个方法，用于检测每一个页面加载的高分辨率的时间戳。在这里，我们仅仅介绍除了与网络相关的时间戳的哪些一部分时间戳，剩下的我们会在以后的章节作介绍</p>
+<p>那么，这些时间戳代表着什么？</p>
+<ul>
+<li>domLoading：整个处理过程开始的时间，也就是浏览器开始解析HTML文档的第一个字节的时间</li>
+<li>domInteractive：浏览器解析完所有HTML，并完成DOM构建的时间</li>
+<li>domContentLoaded：开始构建渲染树的时间点，就是DOM构建完毕后，若没有样式以及阻塞的JavaScript运行的时间点<ul>
+<li>许多JavaScript框架都会监听这个事件，然后执行他们自己的逻辑。因此浏览器提供了EventStart和EventEnd两个时间戳来允许我们知道具体运行消耗的时间</li>
+</ul>
+</li>
+<li>domComplete：和名字一样，记录了页面上的所有资源都下载完成（包括图片）以及所有处理逻辑都结束后的时间点。这个时间点过后，浏览器旋转的加载标记将不再旋转了</li>
+<li>loadEvent：最后，浏览器触发onload事件来执行一些其他的应用逻辑</li>
+</ul>
+<h3 id="里程碑">里程碑</h3>
+<p>根据HTML的规范，浏览器会检测所有事件：什么时候应该触发事件，应该满足哪些条件等等。对于我们来说，我们只需要关注渲染关键路径上的一些“里程碑”事件：</p>
+<ul>
+<li>domIneractive：说明DOM构建完毕</li>
+<li>domContentLoaded：当DOM和CSSOM都完成后触发<ul>
+<li>如果没有“解析器阻塞”的JavaScript代码，documentContentLoaded将直接在domInteractive之后触发</li>
+</ul>
+</li>
+<li>domComplete：当页面及其所有资源全部完毕时触发</li>
+</ul>
 <figure class="highlight html"><table><tr><td class="gutter"><pre>1
 2
 3
 4
-</pre></td><td class="code"><pre><span class="tag">&lt;<span class="title">link</span> <span class="attribute">href</span>=<span class="value">"style.css"</span>    <span class="attribute">rel</span>=<span class="value">"stylesheet"</span>&gt;</span>
-<span class="tag">&lt;<span class="title">link</span> <span class="attribute">href</span>=<span class="value">"style.css"</span>    <span class="attribute">rel</span>=<span class="value">"stylesheet"</span> <span class="attribute">media</span>=<span class="value">"screen"</span>&gt;</span>
-<span class="tag">&lt;<span class="title">link</span> <span class="attribute">href</span>=<span class="value">"portrait.css"</span> <span class="attribute">rel</span>=<span class="value">"stylesheet"</span> <span class="attribute">media</span>=<span class="value">"orientation:portrait"</span>&gt;</span>
-<span class="tag">&lt;<span class="title">link</span> <span class="attribute">href</span>=<span class="value">"print.css"</span>    <span class="attribute">rel</span>=<span class="value">"stylesheet"</span> <span class="attribute">media</span>=<span class="value">"print"</span>&gt;</span>
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+</pre></td><td class="code"><pre><span class="tag">&lt;<span class="title">html</span>&gt;</span>
+  <span class="tag">&lt;<span class="title">head</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">title</span>&gt;</span>Critical Path: Measure<span class="tag">&lt;/<span class="title">title</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">meta</span> <span class="attribute">name</span>=<span class="value">"viewport"</span> <span class="attribute">content</span>=<span class="value">"width=device-width,initial-scale=1.0"</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">link</span> <span class="attribute">href</span>=<span class="value">"style.css"</span> <span class="attribute">rel</span>=<span class="value">"stylesheet"</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">script</span>&gt;</span><span class="javascript">
+      <span class="function"><span class="keyword">function</span> <span class="title">measureCRP</span><span class="params">()</span> {</span>
+        <span class="keyword">var</span> t = window.performance.timing,
+          interactive = t.domInteractive - t.domLoading,
+          dcl = t.domContentLoadedEventStart - t.domLoading,
+          complete = t.domComplete - t.domLoading;
+        <span class="keyword">var</span> stats = document.createElement(<span class="string">'p'</span>);
+        stats.textContent = <span class="string">'interactive: '</span> + interactive + <span class="string">'ms, '</span> +
+            <span class="string">'dcl: '</span> + dcl + <span class="string">'ms, complete: '</span> + complete + <span class="string">'ms'</span>;
+        document.body.appendChild(stats);
+      }
+    </span><span class="tag">&lt;/<span class="title">script</span>&gt;</span>
+  <span class="tag">&lt;/<span class="title">head</span>&gt;</span>
+  <span class="tag">&lt;<span class="title">body</span> <span class="attribute">onload</span>=<span class="value">"measureCRP()"</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">p</span>&gt;</span>Hello <span class="tag">&lt;<span class="title">span</span>&gt;</span>web performance<span class="tag">&lt;/<span class="title">span</span>&gt;</span> students!<span class="tag">&lt;/<span class="title">p</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">div</span>&gt;</span><span class="tag">&lt;<span class="title">img</span> <span class="attribute">src</span>=<span class="value">"awesome-photo.jpg"</span>&gt;</span><span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+  <span class="tag">&lt;/<span class="title">body</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">html</span>&gt;</span>
 </pre></td></tr></table></figure>
 
 
-<ol>
-<li>第一个样式申明将会造成渲染阻塞，它在任意情况下都会被应用；</li>
-<li>第二个样式申明也会造成渲染阻塞：“screen”是默认类型，除非你执行了一个其他类型，否则浏览器总是显示的设定媒体类型为“screen”。因此这个样式申明和第一个样式申明等价；</li>
-<li>第三个样式申明是一个动态的媒体查询，他会在页面加载完成之后进行计算。根据页面加载完成后的设备横竖屏来决定样式是否会阻塞渲染；</li>
-<li>最后一个样式申明仅仅在页面被打印的时候起作用，因此他不会在页面首次加载进浏览器中时造成渲染阻塞</li>
-</ol>
-<h3 id="浏览器下载">浏览器下载</h3>
-<p>最后，注意一下渲染阻塞只是指浏览器是否要在页面初始渲染时，是否需要渲染该资源内部的样式。无论在何种情况下，尽管非阻塞资源的优先级较低，CSS文件依旧必须要由浏览器进行下载。</p>
+<p>上面的例子乍看之下可能比较吓人，但实际上非常简单，导航计时API捕获了相关的时间戳，而我们的JavaScript代码放在onload事件的回调函数中，只有触发了onload事件，才会执行。onload事件只有在domInteractive、domContentLoaded和domComplete事件都完成之后才会触发，所以我们可以捕获到这些时间戳之间的差值，算出每个阶段所耗费的时间</p>
+<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-5-21/2.png" alt="时间戳检测结果"></p>
+<p>综上所述，我们可以获得一些“里程碑事件”以及一些简单的函数来输出测量结果。当然我们可以不将这些数据输出到页面上，而是发送这些分析的数据到专门的分析服务器（Google的分析工具就会自动做这些事），这样就能很方便的检测网页的性能，确定候选页面，并尝到优化所带来的甜头。</p>
 ]]></content>
     <summary type="html">
-    <![CDATA[<p>默认情况下，CSS会被看做是渲染阻塞资源，也就是说，浏览器在CSSOM建立前，已经处理过的网页内容不会被显示到页面上。所以，保证你的CSS代码能够快速从服务器获取且尽可能的简短，并注意使用媒体类型（media types）和媒体查询（media queries）去进行非阻塞的渲染。</p>
-]]>
+    <![CDATA[<p>没办法监测，就没办法优化。幸运的是，浏览器提供了一系列用来监测渲染关键路径上每一步的接口，叫导航计时接口（Navigation Timing API）<br>]]>
     
     </summary>
     
@@ -4800,42 +4835,89 @@ document.body.appendChild(loadTime);
   </entry>
   
   <entry>
-    <title><![CDATA[使用导航计时监测渲染关键路径]]></title>
-    <link href="http://lingyu.wang/2014/05/21/google-measuring-the-critical-rendering-path-with-navigation-timing/"/>
-    <id>http://lingyu.wang/2014/05/21/google-measuring-the-critical-rendering-path-with-navigation-timing/</id>
+    <title><![CDATA[CSS的渲染阻塞]]></title>
+    <link href="http://lingyu.wang/2014/05/21/google-render-blocking-css/"/>
+    <id>http://lingyu.wang/2014/05/21/google-render-blocking-css/</id>
     <published>2014-05-20T16:00:00.000Z</published>
-    <updated>2014-11-18T07:41:42.952Z</updated>
-    <content type="html"><![CDATA[<p>没办法监测，就没办法优化。幸运的是，浏览器提供了一系列用来监测渲染关键路径上每一步的接口，叫导航计时接口（Navigation Timing API）<br><a id="more"></a></p>
+    <updated>2014-11-18T07:41:45.171Z</updated>
+    <content type="html"><![CDATA[<p>默认情况下，CSS会被看做是渲染阻塞资源，也就是说，浏览器在CSSOM建立前，已经处理过的网页内容不会被显示到页面上。所以，保证你的CSS代码能够快速从服务器获取且尽可能的简短，并注意使用媒体类型（media types）和媒体查询（media queries）去进行非阻塞的渲染。</p>
+<a id="more"></a>
+
+<p>在之前的章节中，我们已经知道了要建立渲染树，必须先建立好DOM树和CSSOM树，这里有一个很重要的性能要点：HTML和CSS都是渲染阻塞资源。HTML很明显，因为如果没有创建好DOM树，浏览器都不知道有什么东西需要渲染。但CSS就不那么明显了。如果我们尝试不使用CSS的阻塞渲染去渲染一个典型的页面，会发生什么呢？</p>
 <h3 id="长话短说">长话短说</h3>
 <ul>
-<li>导航计时为监测渲染关键路径提供了高分辨率的时间戳</li>
-<li>浏览器在到达渲染关键路径的不同阶段时，会触发一系列的事件</li>
+<li>默认情况下CSS是渲染阻塞资源</li>
+<li>媒体类型和媒体查询可以让一些CSS变成非渲染阻塞资源</li>
+<li>所有CSS资源，无论是阻塞还是非阻塞，都需要通过浏览器进行下载</li>
 </ul>
-<h3 id="用于监测的时间戳">用于监测的时间戳</h3>
-<p>好的性能策略都是建立在良好的测量基础之上的。下面这张图说明了导航计时接口提供的API：</p>
-<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-5-21/1.png" alt="导航计时接口提供的API"></p>
-<p>上面的每一个标签都提供了一个方法，用于检测每一个页面加载的高分辨率的时间戳。在这里，我们仅仅介绍除了与网络相关的时间戳的哪些一部分时间戳，剩下的我们会在以后的章节作介绍</p>
-<p>那么，这些时间戳代表着什么？</p>
+<h3 id="CSS是渲染阻塞资源">CSS是渲染阻塞资源</h3>
+<p>浏览器将会阻塞渲染直到DOM树和CSSOM树都创建完毕</p>
+<p><strong>CSS是渲染阻塞元素，尽可能快速的让浏览器下载到文件，这样可以减少阻塞的时间</strong></p>
+<p>然而，如果我们有一些只有在特定条件下才使用的样式，比如打印或是在大的显示器中显示等情况，我们当然不希望这些特定条件下才会使用的样式阻塞渲染。</p>
+<h3 id="媒体类型和媒体查询">媒体类型和媒体查询</h3>
+<p>CSS中的媒体类型和媒体查询就可以达到这种效果：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre>1
+2
+3
+</pre></td><td class="code"><pre><span class="tag">&lt;<span class="title">link</span> <span class="attribute">href</span>=<span class="value">"style.css"</span> <span class="attribute">rel</span>=<span class="value">"stylesheet"</span>&gt;</span>
+<span class="tag">&lt;<span class="title">link</span> <span class="attribute">href</span>=<span class="value">"print.css"</span> <span class="attribute">rel</span>=<span class="value">"stylesheet"</span> <span class="attribute">media</span>=<span class="value">"print"</span>&gt;</span>
+<span class="tag">&lt;<span class="title">link</span> <span class="attribute">href</span>=<span class="value">"other.css"</span> <span class="attribute">rel</span>=<span class="value">"stylesheet"</span> <span class="attribute">media</span>=<span class="value">"(min-width: 40em)"</span>&gt;</span>
+</pre></td></tr></table></figure>
+
+
+<p>一个媒体查询可以由一个媒体类型和查询表达式构成，查询表达式可以是任意个数，他们检测了当前设备的特点。比如，在第一个样式表申明中并没有使用媒体类型和媒体查询，因此它在所有情况下都会被应用，也就是说，它总汇总阿红才呢过渲染阻塞。而另一方面，第二个样式表仅仅在网页内容被打印时才会被应用，可能你需要在打印时改换一下布局，改变一下字体等等，因此，这个样式表不会再页面首次加载时造成渲染阻塞。而最后一个样式表提供了一个媒体查询，浏览器将判断条件是否满足。如果浏览器满足媒体查询中的条件，浏览器将在下载并处理完这个样式表之前阻塞渲染。</p>
+<p>通过使用媒体查询，我们可以根据特定的用例来定制展现的样式，比如显示和打印。同时，还能动态的判断诸如屏幕方向，缩放事件等等。在申明样式表时，重点关注媒体类型和媒体查询，他们将很大程度影响网页渲染的效率。</p>
+<p>让我们考虑如下例子：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+</pre></td><td class="code"><pre><span class="tag">&lt;<span class="title">link</span> <span class="attribute">href</span>=<span class="value">"style.css"</span>    <span class="attribute">rel</span>=<span class="value">"stylesheet"</span>&gt;</span>
+<span class="tag">&lt;<span class="title">link</span> <span class="attribute">href</span>=<span class="value">"style.css"</span>    <span class="attribute">rel</span>=<span class="value">"stylesheet"</span> <span class="attribute">media</span>=<span class="value">"screen"</span>&gt;</span>
+<span class="tag">&lt;<span class="title">link</span> <span class="attribute">href</span>=<span class="value">"portrait.css"</span> <span class="attribute">rel</span>=<span class="value">"stylesheet"</span> <span class="attribute">media</span>=<span class="value">"orientation:portrait"</span>&gt;</span>
+<span class="tag">&lt;<span class="title">link</span> <span class="attribute">href</span>=<span class="value">"print.css"</span>    <span class="attribute">rel</span>=<span class="value">"stylesheet"</span> <span class="attribute">media</span>=<span class="value">"print"</span>&gt;</span>
+</pre></td></tr></table></figure>
+
+
+<ol>
+<li>第一个样式申明将会造成渲染阻塞，它在任意情况下都会被应用；</li>
+<li>第二个样式申明也会造成渲染阻塞：“screen”是默认类型，除非你执行了一个其他类型，否则浏览器总是显示的设定媒体类型为“screen”。因此这个样式申明和第一个样式申明等价；</li>
+<li>第三个样式申明是一个动态的媒体查询，他会在页面加载完成之后进行计算。根据页面加载完成后的设备横竖屏来决定样式是否会阻塞渲染；</li>
+<li>最后一个样式申明仅仅在页面被打印的时候起作用，因此他不会在页面首次加载进浏览器中时造成渲染阻塞</li>
+</ol>
+<h3 id="浏览器下载">浏览器下载</h3>
+<p>最后，注意一下渲染阻塞只是指浏览器是否要在页面初始渲染时，是否需要渲染该资源内部的样式。无论在何种情况下，尽管非阻塞资源的优先级较低，CSS文件依旧必须要由浏览器进行下载。</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>默认情况下，CSS会被看做是渲染阻塞资源，也就是说，浏览器在CSSOM建立前，已经处理过的网页内容不会被显示到页面上。所以，保证你的CSS代码能够快速从服务器获取且尽可能的简短，并注意使用媒体类型（media types）和媒体查询（media queries）去进行非阻塞的渲染。</p>
+]]>
+    
+    </summary>
+    
+      <category term="HTML" scheme="http://lingyu.wang/tags/HTML/"/>
+    
+      <category term="CSS" scheme="http://lingyu.wang/tags/CSS/"/>
+    
+      <category term="翻译" scheme="http://lingyu.wang/categories/%E7%BF%BB%E8%AF%91/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[构建对象模型]]></title>
+    <link href="http://lingyu.wang/2014/05/20/google-constructing-the-object-model/"/>
+    <id>http://lingyu.wang/2014/05/20/google-constructing-the-object-model/</id>
+    <published>2014-05-19T16:00:00.000Z</published>
+    <updated>2014-11-18T07:41:34.945Z</updated>
+    <content type="html"><![CDATA[<p>浏览器渲染页面之前会构建DOM树和CSSOM树<br><a id="more"></a></p>
+<h2 id="长话短说">长话短说</h2>
 <ul>
-<li>domLoading：整个处理过程开始的时间，也就是浏览器开始解析HTML文档的第一个字节的时间</li>
-<li>domInteractive：浏览器解析完所有HTML，并完成DOM构建的时间</li>
-<li>domContentLoaded：开始构建渲染树的时间点，就是DOM构建完毕后，若没有样式以及阻塞的JavaScript运行的时间点<ul>
-<li>许多JavaScript框架都会监听这个事件，然后执行他们自己的逻辑。因此浏览器提供了EventStart和EventEnd两个时间戳来允许我们知道具体运行消耗的时间</li>
+<li>字节(bytes) → 字符(characters) → 标记(tokens) → 节点(nodes) → 对象模型(object model)</li>
+<li>HTML标记将会被转化为一个文档对象模型（Document Object<code>enter code here</code> Module，以下简称DOM），而CSS标记将会被转化成一个CSS对象模型（CSSOM）</li>
+<li>DOM和CSSOM是互相独立的数据结构</li>
+<li>Chrome的开发者工具的Timeline里面可以捕捉到DOM和CSSOM的构建和处理</li>
 </ul>
-</li>
-<li>domComplete：和名字一样，记录了页面上的所有资源都下载完成（包括图片）以及所有处理逻辑都结束后的时间点。这个时间点过后，浏览器旋转的加载标记将不再旋转了</li>
-<li>loadEvent：最后，浏览器触发onload事件来执行一些其他的应用逻辑</li>
-</ul>
-<h3 id="里程碑">里程碑</h3>
-<p>根据HTML的规范，浏览器会检测所有事件：什么时候应该触发事件，应该满足哪些条件等等。对于我们来说，我们只需要关注渲染关键路径上的一些“里程碑”事件：</p>
-<ul>
-<li>domIneractive：说明DOM构建完毕</li>
-<li>domContentLoaded：当DOM和CSSOM都完成后触发<ul>
-<li>如果没有“解析器阻塞”的JavaScript代码，documentContentLoaded将直接在domInteractive之后触发</li>
-</ul>
-</li>
-<li>domComplete：当页面及其所有资源全部完毕时触发</li>
-</ul>
+<h2 id="DOM树构建">DOM树构建</h2>
+<p>比如一段如下HTML</p>
 <figure class="highlight html"><table><tr><td class="gutter"><pre>1
 2
 3
@@ -4847,37 +4929,13 @@ document.body.appendChild(loadTime);
 9
 10
 11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
 </pre></td><td class="code"><pre><span class="tag">&lt;<span class="title">html</span>&gt;</span>
   <span class="tag">&lt;<span class="title">head</span>&gt;</span>
-    <span class="tag">&lt;<span class="title">title</span>&gt;</span>Critical Path: Measure<span class="tag">&lt;/<span class="title">title</span>&gt;</span>
     <span class="tag">&lt;<span class="title">meta</span> <span class="attribute">name</span>=<span class="value">"viewport"</span> <span class="attribute">content</span>=<span class="value">"width=device-width,initial-scale=1.0"</span>&gt;</span>
     <span class="tag">&lt;<span class="title">link</span> <span class="attribute">href</span>=<span class="value">"style.css"</span> <span class="attribute">rel</span>=<span class="value">"stylesheet"</span>&gt;</span>
-    <span class="tag">&lt;<span class="title">script</span>&gt;</span><span class="javascript">
-      <span class="function"><span class="keyword">function</span> <span class="title">measureCRP</span><span class="params">()</span> {</span>
-        <span class="keyword">var</span> t = window.performance.timing,
-          interactive = t.domInteractive - t.domLoading,
-          dcl = t.domContentLoadedEventStart - t.domLoading,
-          complete = t.domComplete - t.domLoading;
-        <span class="keyword">var</span> stats = document.createElement(<span class="string">'p'</span>);
-        stats.textContent = <span class="string">'interactive: '</span> + interactive + <span class="string">'ms, '</span> +
-            <span class="string">'dcl: '</span> + dcl + <span class="string">'ms, complete: '</span> + complete + <span class="string">'ms'</span>;
-        document.body.appendChild(stats);
-      }
-    </span><span class="tag">&lt;/<span class="title">script</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">title</span>&gt;</span>Critical Path<span class="tag">&lt;/<span class="title">title</span>&gt;</span>
   <span class="tag">&lt;/<span class="title">head</span>&gt;</span>
-  <span class="tag">&lt;<span class="title">body</span> <span class="attribute">onload</span>=<span class="value">"measureCRP()"</span>&gt;</span>
+  <span class="tag">&lt;<span class="title">body</span>&gt;</span>
     <span class="tag">&lt;<span class="title">p</span>&gt;</span>Hello <span class="tag">&lt;<span class="title">span</span>&gt;</span>web performance<span class="tag">&lt;/<span class="title">span</span>&gt;</span> students!<span class="tag">&lt;/<span class="title">p</span>&gt;</span>
     <span class="tag">&lt;<span class="title">div</span>&gt;</span><span class="tag">&lt;<span class="title">img</span> <span class="attribute">src</span>=<span class="value">"awesome-photo.jpg"</span>&gt;</span><span class="tag">&lt;/<span class="title">div</span>&gt;</span>
   <span class="tag">&lt;/<span class="title">body</span>&gt;</span>
@@ -4885,12 +4943,49 @@ document.body.appendChild(loadTime);
 </pre></td></tr></table></figure>
 
 
-<p>上面的例子乍看之下可能比较吓人，但实际上非常简单，导航计时API捕获了相关的时间戳，而我们的JavaScript代码放在onload事件的回调函数中，只有触发了onload事件，才会执行。onload事件只有在domInteractive、domContentLoaded和domComplete事件都完成之后才会触发，所以我们可以捕获到这些时间戳之间的差值，算出每个阶段所耗费的时间</p>
-<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-5-21/2.png" alt="时间戳检测结果"></p>
-<p>综上所述，我们可以获得一些“里程碑事件”以及一些简单的函数来输出测量结果。当然我们可以不将这些数据输出到页面上，而是发送这些分析的数据到专门的分析服务器（Google的分析工具就会自动做这些事），这样就能很方便的检测网页的性能，确定候选页面，并尝到优化所带来的甜头。</p>
+<p>其从字节到DOM树的过程如下图所示：</p>
+<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-5-20/1.png" alt="从字节到DOM树的过程"></p>
+<p>具体的过程分为如下几步：</p>
+<ol>
+<li>转换（Conversion）：浏览器从网络或硬盘中读取原始的字节，并根据其编码方式转换为独立的字符</li>
+<li>标记化（Tokenizing）：浏览器根据W3C的html5标准解析出尖括号内的字符串，每一个标记有自己的意义和规则</li>
+<li>对象化（Lexing）：将标记转变为对象，对象内定义了他们的值和规则</li>
+<li>DOM构建（DOM construction）：由于HTML标记定义了节点之间的关系，且这个关系是树型结构的（某个节点包含多个节点），所以通过一个树来保存</li>
+</ol>
+<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-5-20/2.png" alt="DOM树的树状结构"></p>
+<p>整个过程输出的是一个DOM，它是网页的DOM树，后面的处理都会用到DOM树</p>
+<p>每一次浏览器要讲HTML标记转换成DOM树，都需要经过这些过程：从字节转换到字符，获取其中的标记，转换标记到节点，通过节点构建DOM树，这些过程需要消耗一定的时间</p>
+<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-5-20/3.png" alt="Chrome DevTools中的DOM树构建过程"></p>
+<p>如果打开Chrome开发者工具，并在页面加载时记录Timeline，你讲看到这些步骤的具体时间。在上例中，浏览器花费了约5ms将一个HTML碎片从字节转换到DOM树，当然，如果页面较大，这个时间会更长。在接下来的创建流畅动画的章节中，如果浏览器需要处理大量的HTML，这里很容易成为瓶颈。</p>
+<p>DOM树构建好后，我们还需要将其渲染到屏幕上。DOM树中并没有告诉浏览器应该如何渲染这些节点，而完成这个职责的就是下面的CSSOM树了</p>
+<h2 id="CSSOM树构建">CSSOM树构建</h2>
+<p>当浏览器为页面构建DOM树的时候，它会统计head部分的link标签，指向外部CSS样式文件。浏览器需要这些文件来渲染页面，它会直接发送请求来获取文件</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+</pre></td><td class="code"><pre><span class="tag">body</span> <span class="rules">{ <span class="rule"><span class="attribute">font-size</span>:<span class="value"> <span class="number">16</span>px </span></span></span>}
+<span class="tag">p</span> <span class="rules">{ <span class="rule"><span class="attribute">font-weight</span>:<span class="value"> bold </span></span></span>}
+<span class="tag">span</span> <span class="rules">{ <span class="rule"><span class="attribute">color</span>:<span class="value"> red </span></span></span>}
+<span class="tag">p</span> <span class="tag">span</span> <span class="rules">{ <span class="rule"><span class="attribute">display</span>:<span class="value"> none </span></span></span>}
+<span class="tag">img</span> <span class="rules">{ <span class="rule"><span class="attribute">float</span>:<span class="value"> right </span></span></span>}
+</pre></td></tr></table></figure>
+
+
+<p>当然我们也可以在HTML标记中声明CSS样式（内联样式），但保持CSS和HTML的独立使得我们能够将设计与内容分离：设计者基于CSS工作，而开发者则专注于HTML，等等</p>
+<p>和HTML一样，我们将CSS样式转换到某种浏览器能够理解且使用的结构。其大致过程如下：</p>
+<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-5-20/4.png" alt="浏览器将CSS字节转换到CSSOM"></p>
+<p>浏览器将CSS字节转换成字符，然后构建标记和节点，最后练级到一个叫做CSS对象模型（CSSOM）的树型数据结构</p>
+<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-5-20/5.png" alt="树状CSSOM"></p>
+<p>HTML是树状结构很好理解，那么为什么CSSOM也是树状结构呢？在计算页面上对象的需要使用的样式集时，浏览器首先将最常规的样式赋给节点（如果是body元素的孩子，那么会使用body的所有样式），然后递归细化，逐步添加上特殊的规则，这也就是级联样式表中“级联”的意思</p>
+<p>上面的树并不是完整的CSSOM树，目前只是展示了样式表中的样式如何互相覆盖。么一个浏览器都提供了一套自己的样式，也就是“用户代理样式（user agent styles）”，在我们不提供任何样式的时候，就会使用这些央视。如果在Chrome开发者工具里面查看“计算后样式（computed styles）”，可以看到所有节点中样式的来源</p>
+<p>如果想知道CSS处理花费多长时间，可以在开发者工具中记录Timeline，并查看“Resalcuate”事件：与DOM解析不同的是，这里不会分开的“Parse CSS”各个阶段，解析、CSSOM树构建以及样式的递归计算都放在这一个事件之中</p>
+<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-5-20/6.png" alt="通过开发者工具查看样式处理"></p>
+<p>这里可以看到，这次样式处理花费了约0.6ms，涉及页面上的8个元素。那这8个元素从哪儿来？CSSOM和DOM是完全独立的数据结构，浏览器隐藏了很重要的一步，通过渲染树（render tree）将CSSOM和DOM连接起来，下一章就将介绍这个渲染树</p>
 ]]></content>
     <summary type="html">
-    <![CDATA[<p>没办法监测，就没办法优化。幸运的是，浏览器提供了一系列用来监测渲染关键路径上每一步的接口，叫导航计时接口（Navigation Timing API）<br>]]>
+    <![CDATA[<p>浏览器渲染页面之前会构建DOM树和CSSOM树<br>]]>
     
     </summary>
     
@@ -4989,101 +5084,6 @@ document.body.appendChild(loadTime);
     <summary type="html">
     <![CDATA[<p>CSSOM树和DOM树组合生成渲染树，渲染树将决定每一个可见元素的计算样式，并作为输入交给绘制线程，绘制线程将会把他们渲染成像素打到屏幕上。优化这些步骤将是提升渲染性能的关键所在。</p>
 ]]>
-    
-    </summary>
-    
-      <category term="HTML" scheme="http://lingyu.wang/tags/HTML/"/>
-    
-      <category term="CSS" scheme="http://lingyu.wang/tags/CSS/"/>
-    
-      <category term="翻译" scheme="http://lingyu.wang/categories/%E7%BF%BB%E8%AF%91/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[构建对象模型]]></title>
-    <link href="http://lingyu.wang/2014/05/20/google-constructing-the-object-model/"/>
-    <id>http://lingyu.wang/2014/05/20/google-constructing-the-object-model/</id>
-    <published>2014-05-19T16:00:00.000Z</published>
-    <updated>2014-11-18T07:41:34.945Z</updated>
-    <content type="html"><![CDATA[<p>浏览器渲染页面之前会构建DOM树和CSSOM树<br><a id="more"></a></p>
-<h2 id="长话短说">长话短说</h2>
-<ul>
-<li>字节(bytes) → 字符(characters) → 标记(tokens) → 节点(nodes) → 对象模型(object model)</li>
-<li>HTML标记将会被转化为一个文档对象模型（Document Object<code>enter code here</code> Module，以下简称DOM），而CSS标记将会被转化成一个CSS对象模型（CSSOM）</li>
-<li>DOM和CSSOM是互相独立的数据结构</li>
-<li>Chrome的开发者工具的Timeline里面可以捕捉到DOM和CSSOM的构建和处理</li>
-</ul>
-<h2 id="DOM树构建">DOM树构建</h2>
-<p>比如一段如下HTML</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-</pre></td><td class="code"><pre><span class="tag">&lt;<span class="title">html</span>&gt;</span>
-  <span class="tag">&lt;<span class="title">head</span>&gt;</span>
-    <span class="tag">&lt;<span class="title">meta</span> <span class="attribute">name</span>=<span class="value">"viewport"</span> <span class="attribute">content</span>=<span class="value">"width=device-width,initial-scale=1.0"</span>&gt;</span>
-    <span class="tag">&lt;<span class="title">link</span> <span class="attribute">href</span>=<span class="value">"style.css"</span> <span class="attribute">rel</span>=<span class="value">"stylesheet"</span>&gt;</span>
-    <span class="tag">&lt;<span class="title">title</span>&gt;</span>Critical Path<span class="tag">&lt;/<span class="title">title</span>&gt;</span>
-  <span class="tag">&lt;/<span class="title">head</span>&gt;</span>
-  <span class="tag">&lt;<span class="title">body</span>&gt;</span>
-    <span class="tag">&lt;<span class="title">p</span>&gt;</span>Hello <span class="tag">&lt;<span class="title">span</span>&gt;</span>web performance<span class="tag">&lt;/<span class="title">span</span>&gt;</span> students!<span class="tag">&lt;/<span class="title">p</span>&gt;</span>
-    <span class="tag">&lt;<span class="title">div</span>&gt;</span><span class="tag">&lt;<span class="title">img</span> <span class="attribute">src</span>=<span class="value">"awesome-photo.jpg"</span>&gt;</span><span class="tag">&lt;/<span class="title">div</span>&gt;</span>
-  <span class="tag">&lt;/<span class="title">body</span>&gt;</span>
-<span class="tag">&lt;/<span class="title">html</span>&gt;</span>
-</pre></td></tr></table></figure>
-
-
-<p>其从字节到DOM树的过程如下图所示：</p>
-<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-5-20/1.png" alt="从字节到DOM树的过程"></p>
-<p>具体的过程分为如下几步：</p>
-<ol>
-<li>转换（Conversion）：浏览器从网络或硬盘中读取原始的字节，并根据其编码方式转换为独立的字符</li>
-<li>标记化（Tokenizing）：浏览器根据W3C的html5标准解析出尖括号内的字符串，每一个标记有自己的意义和规则</li>
-<li>对象化（Lexing）：将标记转变为对象，对象内定义了他们的值和规则</li>
-<li>DOM构建（DOM construction）：由于HTML标记定义了节点之间的关系，且这个关系是树型结构的（某个节点包含多个节点），所以通过一个树来保存</li>
-</ol>
-<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-5-20/2.png" alt="DOM树的树状结构"></p>
-<p>整个过程输出的是一个DOM，它是网页的DOM树，后面的处理都会用到DOM树</p>
-<p>每一次浏览器要讲HTML标记转换成DOM树，都需要经过这些过程：从字节转换到字符，获取其中的标记，转换标记到节点，通过节点构建DOM树，这些过程需要消耗一定的时间</p>
-<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-5-20/3.png" alt="Chrome DevTools中的DOM树构建过程"></p>
-<p>如果打开Chrome开发者工具，并在页面加载时记录Timeline，你讲看到这些步骤的具体时间。在上例中，浏览器花费了约5ms将一个HTML碎片从字节转换到DOM树，当然，如果页面较大，这个时间会更长。在接下来的创建流畅动画的章节中，如果浏览器需要处理大量的HTML，这里很容易成为瓶颈。</p>
-<p>DOM树构建好后，我们还需要将其渲染到屏幕上。DOM树中并没有告诉浏览器应该如何渲染这些节点，而完成这个职责的就是下面的CSSOM树了</p>
-<h2 id="CSSOM树构建">CSSOM树构建</h2>
-<p>当浏览器为页面构建DOM树的时候，它会统计head部分的link标签，指向外部CSS样式文件。浏览器需要这些文件来渲染页面，它会直接发送请求来获取文件</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-</pre></td><td class="code"><pre><span class="tag">body</span> <span class="rules">{ <span class="rule"><span class="attribute">font-size</span>:<span class="value"> <span class="number">16</span>px </span></span></span>}
-<span class="tag">p</span> <span class="rules">{ <span class="rule"><span class="attribute">font-weight</span>:<span class="value"> bold </span></span></span>}
-<span class="tag">span</span> <span class="rules">{ <span class="rule"><span class="attribute">color</span>:<span class="value"> red </span></span></span>}
-<span class="tag">p</span> <span class="tag">span</span> <span class="rules">{ <span class="rule"><span class="attribute">display</span>:<span class="value"> none </span></span></span>}
-<span class="tag">img</span> <span class="rules">{ <span class="rule"><span class="attribute">float</span>:<span class="value"> right </span></span></span>}
-</pre></td></tr></table></figure>
-
-
-<p>当然我们也可以在HTML标记中声明CSS样式（内联样式），但保持CSS和HTML的独立使得我们能够将设计与内容分离：设计者基于CSS工作，而开发者则专注于HTML，等等</p>
-<p>和HTML一样，我们将CSS样式转换到某种浏览器能够理解且使用的结构。其大致过程如下：</p>
-<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-5-20/4.png" alt="浏览器将CSS字节转换到CSSOM"></p>
-<p>浏览器将CSS字节转换成字符，然后构建标记和节点，最后练级到一个叫做CSS对象模型（CSSOM）的树型数据结构</p>
-<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-5-20/5.png" alt="树状CSSOM"></p>
-<p>HTML是树状结构很好理解，那么为什么CSSOM也是树状结构呢？在计算页面上对象的需要使用的样式集时，浏览器首先将最常规的样式赋给节点（如果是body元素的孩子，那么会使用body的所有样式），然后递归细化，逐步添加上特殊的规则，这也就是级联样式表中“级联”的意思</p>
-<p>上面的树并不是完整的CSSOM树，目前只是展示了样式表中的样式如何互相覆盖。么一个浏览器都提供了一套自己的样式，也就是“用户代理样式（user agent styles）”，在我们不提供任何样式的时候，就会使用这些央视。如果在Chrome开发者工具里面查看“计算后样式（computed styles）”，可以看到所有节点中样式的来源</p>
-<p>如果想知道CSS处理花费多长时间，可以在开发者工具中记录Timeline，并查看“Resalcuate”事件：与DOM解析不同的是，这里不会分开的“Parse CSS”各个阶段，解析、CSSOM树构建以及样式的递归计算都放在这一个事件之中</p>
-<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-5-20/6.png" alt="通过开发者工具查看样式处理"></p>
-<p>这里可以看到，这次样式处理花费了约0.6ms，涉及页面上的8个元素。那这8个元素从哪儿来？CSSOM和DOM是完全独立的数据结构，浏览器隐藏了很重要的一步，通过渲染树（render tree）将CSSOM和DOM连接起来，下一章就将介绍这个渲染树</p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<p>浏览器渲染页面之前会构建DOM树和CSSOM树<br>]]>
     
     </summary>
     
@@ -6034,6 +6034,836 @@ promise.promise( deferred );
   </entry>
   
   <entry>
+    <title><![CDATA[jQuery的事件机制——核心篇]]></title>
+    <link href="http://lingyu.wang/2014/05/12/read-jq-src-3/"/>
+    <id>http://lingyu.wang/2014/05/12/read-jq-src-3/</id>
+    <published>2014-05-11T16:00:00.000Z</published>
+    <updated>2014-11-18T07:49:29.164Z</updated>
+    <content type="html"><![CDATA[<p>这篇主要介绍了jQuery中事件管理器的一些核心方法，涉及事件代理、自定事件模拟的冒泡、特殊函数的处理，命名空间的处理等等</p>
+<a id="more"></a>
+
+<h1 id="jQuery源码——事件机制">jQuery源码——事件机制</h1>
+<p>jQuery提供了一套完善的事件管理机制，这一整套事件管理机制构建在jQuery的data之上，使用元素的私有数据域来保存事件的相关配置和回调函数列表。jQuery提供了自定义事件的处理，并模拟了事件的冒泡机制。通过冒泡机制，提供了一套事件代理接口</p>
+<h2 id="事件管理器">事件管理器</h2>
+<p>jQuery提供一个<code>jQuery.event</code>的辅助类，它提供了一系列管理事件的方法。主题思想来自Dean Edwards的库。事实上，事件亦无外乎CRUD操作，只不过多了个触发操作（实际上属于R操作的一种），这个辅助类提供了add、remove、trigger、dispatch几个核心方法用添加、删除、触发事件、执行回调函数等功能，另外还提供了一些钩子和辅助函数用于兼容一些特殊事件</p>
+<h3 id="global">global</h3>
+<p>存放事件是否存在</p>
+<h3 id="add_(elem,_types,_handler,_data,_selector)">add (elem, types, handler, data, selector)</h3>
+<p>这个函数用于绑定对应的事件，整体思路大致是：确定事件在元素的私有数据空间中是否存在，如果不存在就创建，创建时为事件绑定一个回调函数，里面使用dispatch执行事件的回调函数列表</p>
+<p>所以代码大致流程如下：</p>
+<h4 id="事件创建逻辑">事件创建逻辑</h4>
+<p>在元素么有绑定过这个事件，或者压根没有绑定过事件时，需要创建事件的对应存储空间以及事件的统一回调函数</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+</pre></td><td class="code"><pre><span class="keyword">var</span> handleObjIn, eventHandle, tmp,
+    events, t, handleObj,
+    special, handlers, type, namespaces, origType,
+    elemData = data_priv.get( elem );
+    
+<span class="keyword">if</span> ( !elemData ) {
+    <span class="keyword">return</span>;
+}
+</pre></td></tr></table></figure>
+
+
+<p>获取元素的私有数据空间，如果无法获得私有数据空间，说明是文本节点或注释节点，那么也无法绑定时间了，直接返回</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+</pre></td><td class="code"><pre><span class="keyword">if</span> ( handler.handler ) {
+    handleObjIn = handler;
+    handler = handleObjIn.handler;
+    selector = handleObjIn.selector;
+}
+</pre></td></tr></table></figure>
+
+
+<p>接着确定配置中的回调函数，如果存在事件代理，需要确定需要被代理的元素的选择器</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+</pre></td><td class="code"><pre><span class="keyword">if</span> ( !handler.guid ) {
+    handler.guid = jQuery.guid++;
+}
+</pre></td></tr></table></figure>
+
+
+<p>为回调函数创建一个唯一的id来提供优化，实际上还是通过jQuery的guid得到</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+</pre></td><td class="code"><pre><span class="keyword">if</span> ( !(events = elemData.events) ) {
+    events = elemData.events = {};
+}
+<span class="keyword">if</span> ( !(eventHandle = elemData.handle) ) {
+    eventHandle = elemData.handle = <span class="function"><span class="keyword">function</span><span class="params">( e )</span> {</span>
+        <span class="keyword">return</span> <span class="keyword">typeof</span> jQuery !== strundefined && jQuery.event.triggered !== e.type ?
+            jQuery.event.dispatch.apply( elem, <span class="built_in">arguments</span> ) : <span class="literal">undefined</span>;
+    };
+}
+</pre></td></tr></table></figure>
+
+
+<p>从元素的私有数据空间中获取存放事件的对象，如果不存在就新建一个。然后从元素的私有数据中获取事件处理函数，如果没有，就新建一个函数。每一个事件对应一个回调函数，这个回调函数使用dispatch方法来执行事件的回调函数列表中的所有函数</p>
+<h4 id="事件绑定逻辑">事件绑定逻辑</h4>
+<p>在创建完事件的存储空间，或者获取到已有的存储空间之后，就需要把往事件的回调函数列表中添加事件了。这里需要处理的问题包括：</p>
+<ol>
+<li>type字符串中可以通过<code>event1 event2 event3</code>这样的方式包含多个事件</li>
+<li>有可能存在命名空间如<code>event.namespace</code>的情况</li>
+<li>特殊事件需要进行名称转换，以及钩子调用</li>
+<li>如果是事件代理也需要注意代理逻辑</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+</pre></td><td class="code"><pre>types = ( types || <span class="string">""</span> ).match( rnotwhite ) || [ <span class="string">""</span> ];
+t = types.length;
+<span class="keyword">while</span> ( t-- ) {
+    <span class="comment">//后面的代码</span>
+}
+</pre></td></tr></table></figure>
+
+
+<p>处理情况1，通过切分将多个事件名称切分出来，分别进行处理</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+</pre></td><td class="code"><pre>tmp = rtypenamespace.exec( types[t] ) || [];
+type = origType = tmp[<span class="number">1</span>];
+namespaces = ( tmp[<span class="number">2</span>] || <span class="string">""</span> ).split( <span class="string">"."</span> ).sort();
+
+<span class="keyword">if</span> ( !type ) {
+    <span class="keyword">continue</span>;
+}
+</pre></td></tr></table></figure>
+
+
+<p>处理情况2，同样是使用正则获取到命名空间和事件名称，如果获取不到事件名称，那么直接continue略过</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+</pre></td><td class="code"><pre>special = jQuery.event.special[ type ] || {};
+
+type = ( selector ? special.delegateType : special.bindType ) || type;
+
+special = jQuery.event.special[ type ] || {};
+</pre></td></tr></table></figure>
+
+
+<p>情况3下，如果事件是特殊事件，需要获取特殊事件需要被映射的事件名称</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+</pre></td><td class="code"><pre>handleObj = jQuery.extend({
+    type: type,
+    origType: origType,
+    data: data,
+    handler: handler,
+    guid: handler.guid,
+    selector: selector,
+    needsContext: selector && jQuery.expr.match.needsContext.test( selector ),
+    namespace: namespaces.join(<span class="string">"."</span>)
+}, handleObjIn );
+</pre></td></tr></table></figure>
+
+
+<p>这里将回调函数封装成带有配置的回调对象，方便后续的删除、查找等操作。这里记录了很多信息：</p>
+<ol>
+<li>type：事件的映射后的名称</li>
+<li>origType：事件的原始名称</li>
+<li>data：事件的默认数据</li>
+<li>handler：回调函数</li>
+<li>guid：回调函数的id</li>
+<li>selector：启用事件代理时，被代理的节点的选择器</li>
+<li>needsContext：如果是事件代理模式，通过Sizzle判断元素是否需要上下文</li>
+<li>namespace：重组后的命名空间</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+</pre></td><td class="code"><pre><span class="keyword">if</span> ( !(handlers = events[ type ]) ) {
+    handlers = events[ type ] = [];
+    handlers.delegateCount = <span class="number">0</span>;
+
+    <span class="keyword">if</span> ( !special.setup || special.setup.call( elem, data, namespaces, eventHandle ) === <span class="literal">false</span> ) {
+        <span class="keyword">if</span> ( elem.addEventListener ) {
+            elem.addEventListener( type, eventHandle, <span class="literal">false</span> );
+        }
+    }
+}
+</pre></td></tr></table></figure>
+
+
+<p>如果这个事件刚注册，给它一个回调对象列表，并设定代理数为0。在情况3下，需要处理setup钩子</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+</pre></td><td class="code"><pre><span class="keyword">if</span> ( special.add ) {
+    special.add.call( elem, handleObj );
+
+    <span class="keyword">if</span> ( !handleObj.handler.guid ) {
+        handleObj.handler.guid = handler.guid;
+    }
+}
+</pre></td></tr></table></figure>
+
+
+<p>这里同样是情况3下的钩子处理，上面setup是事件注册钩子，而这里则是方法添加的钩子</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+</pre></td><td class="code"><pre><span class="keyword">if</span> ( selector ) {
+    handlers.splice( handlers.delegateCount++, <span class="number">0</span>, handleObj );
+} <span class="keyword">else</span> {
+    handlers.push( handleObj );
+}
+</pre></td></tr></table></figure>
+
+
+<p>好了，该玩的钩子都玩完了，将回调对象加入到回调对象列表中吧，这里需要处理情况4，如果是事件代理的话，元素的代理数增加，如果是代理情况，代理的回调对象加载列表前头</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+</pre></td><td class="code"><pre>jQuery.event.global[ type ] = <span class="literal">true</span>;
+</pre></td></tr></table></figure>
+
+
+<p>最后再全局中标记一下事件已存在就行了</p>
+<h3 id="remove_(elem,_types,_handler,_selector,_mappedTypes)">remove (elem, types, handler, selector, mappedTypes)</h3>
+<p>删除逻辑也一样，从一个节点的事件存储中删除一个或个事件的一个回调或所有回调，这里同样需要考虑几个地方：</p>
+<ol>
+<li>type字符串中可以通过<code>event1 event2 event3</code>这样的方式包含多个事件</li>
+<li>有可能存在命名空间如<code>event.namespace</code>的情况</li>
+<li>特殊事件需要进行名称转换，以及钩子调用</li>
+<li>如果是事件代理也需要注意代理逻辑</li>
+<li>在移除了一个事件的所有回调对象后，可以移除这个事件</li>
+<li>在移除了一个元素的所有事件后，可以释放这个元素的事件存储空间了</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+</pre></td><td class="code"><pre><span class="keyword">var</span> j, origCount, tmp,
+    events, t, handleObj,
+    special, handlers, type, namespaces, origType,
+    elemData = data_priv.hasData( elem ) && data_priv.get( elem );
+<span class="keyword">if</span> ( !elemData || !(events = elemData.events) ) {
+    <span class="keyword">return</span>;
+}
+</pre></td></tr></table></figure>
+
+
+<p>获取元素的私有数据空间以及其事件存储空间，如果没有，那没必要删除了</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+</pre></td><td class="code"><pre>types = ( types || <span class="string">""</span> ).match( rnotwhite ) || [ <span class="string">""</span> ];
+t = types.length;
+<span class="keyword">while</span> ( t-- ) {
+    <span class="comment">//后面的代码</span>
+}
+</pre></td></tr></table></figure>
+
+
+<p>处理情况1，和上面的add一样</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+</pre></td><td class="code"><pre>tmp = rtypenamespace.exec( types[t] ) || [];
+type = origType = tmp[<span class="number">1</span>];
+
+namespaces = ( tmp[<span class="number">2</span>] || <span class="string">""</span> ).split( <span class="string">"."</span> ).sort();
+</pre></td></tr></table></figure>
+
+
+<p>获取事件的命名空间，和add方法一样</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+</pre></td><td class="code"><pre><span class="keyword">if</span> ( !type ) {
+    <span class="keyword">for</span> ( type <span class="keyword">in</span> events ) {
+        jQuery.event.remove( elem, type + types[ t ], handler, selector, <span class="literal">true</span> );
+    }
+    <span class="keyword">continue</span>;
+}
+</pre></td></tr></table></figure>
+
+
+<p>如果没有获取到事件名称，就得遍历事件存储空间中所有的事件删除handler对应的方法了，这里直接递归了</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+</pre></td><td class="code"><pre>special = jQuery.event.special[ type ] || {};
+type = ( selector ? special.delegateType : special.bindType ) || type;
+handlers = events[ type ] || [];
+origCount = j = handlers.length;
+<span class="keyword">while</span> ( j-- ) {
+    <span class="comment">//详细删除代码</span>
+}
+</pre></td></tr></table></figure>
+
+
+<p>这里处理了情况3和4，和add中一样，获取了事件需要被映射的名称，然后通过这个名称获取了事件回调对象列表。然后我们可以遍历回调函谁对象列表，进行删除操作了</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+</pre></td><td class="code"><pre>handleObj = handlers[ j ];
+<span class="keyword">if</span> ( ( mappedTypes || origType === handleObj.origType ) &&
+    ( !handler || handler.guid === handleObj.guid ) &&
+    ( !tmp || tmp.test( handleObj.namespace ) ) &&
+    ( !selector || selector === handleObj.selector || selector === <span class="string">"**"</span> && handleObj.selector ) ) {
+    handlers.splice( j, <span class="number">1</span> );
+
+    <span class="keyword">if</span> ( handleObj.selector ) {
+        handlers.delegateCount--;
+    }
+    <span class="keyword">if</span> ( special.remove ) {
+        special.remove.call( elem, handleObj );
+    }
+}
+</pre></td></tr></table></figure>
+
+
+<p>这里就是删除的真正代码了，需要判断代理，判断命名空间，判断方法的guid，如果有map映射，判断名称。所有判断都通过之后，使用数组的splice进行删除。另外在删除之后，如果有代理，代理个数自然要减一，而如果是特殊事件，需要弟阿勇remove钩子了</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+</pre></td><td class="code"><pre><span class="keyword">if</span> ( origCount && !handlers.length ) {
+    <span class="keyword">if</span> ( !special.teardown || special.teardown.call( elem, namespaces, elemData.handle ) === <span class="literal">false</span> ) {
+        jQuery.removeEvent( elem, type, elemData.handle );
+    }
+    <span class="keyword">delete</span> events[ type ];
+}
+</pre></td></tr></table></figure>
+
+
+<p>这里处理情况5，如果事件的回调函数列表为空，那么可以delete掉这个事件了。特殊事件依旧有钩子，调用teardown</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+</pre></td><td class="code"><pre><span class="keyword">if</span> ( jQuery.isEmptyObject( events ) ) {
+    <span class="keyword">delete</span> elemData.handle;
+    data_priv.remove( elem, <span class="string">"events"</span> );
+}
+</pre></td></tr></table></figure>
+
+
+<p>如果节点中没有任何事件了，直接释放掉事件存储空间</p>
+<h3 id="trigger_(event,_data,_elem,_onlyHandlers)">trigger (event, data, elem, onlyHandlers)</h3>
+<p>触发事件的方法，这里模拟了事件的冒泡机制，并且兼容了onXXX绑定的事件回调函数，另外还处理了preventDefault的情况</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+</pre></td><td class="code"><pre><span class="keyword">var</span> i, cur, tmp, bubbleType, ontype, handle, special,
+    eventPath = [ elem || document ],
+    type = hasOwn.call( event, <span class="string">"type"</span> ) ? event.type : event,
+    namespaces = hasOwn.call( event, <span class="string">"namespace"</span> ) ? event.namespace.split(<span class="string">"."</span>) : [];
+
+cur = tmp = elem = elem || document;
+
+<span class="keyword">if</span> ( elem.nodeType === <span class="number">3</span> || elem.nodeType === <span class="number">8</span> ) {
+    <span class="keyword">return</span>;
+}
+</pre></td></tr></table></figure>
+
+
+<p>做了一些准备工作，获取了事件的命名空间，初始化了冒泡的路径，如果没有提供trigger的元素则默认document，另外文本和注释节点无法触发事件</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+</pre></td><td class="code"><pre><span class="keyword">if</span> ( rfocusMorph.test( type + jQuery.event.triggered ) ) {
+    <span class="keyword">return</span>;
+}
+</pre></td></tr></table></figure>
+
+
+<p>检测是否有focus和blur事件，它们不会在这里被触发</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+</pre></td><td class="code"><pre><span class="keyword">if</span> ( type.indexOf(<span class="string">"."</span>) &gt;= <span class="number">0</span> ) {
+    namespaces = type.split(<span class="string">"."</span>);
+    type = namespaces.shift();
+    namespaces.sort();
+}
+ontype = type.indexOf(<span class="string">":"</span>) &lt; <span class="number">0</span> && <span class="string">"on"</span> + type;
+</pre></td></tr></table></figure>
+
+
+<p>获取事件的名称和命名空间，另外还需要生成一个带on开头的事件名称，方便在兼容onXXX时使用</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+</pre></td><td class="code"><pre>event = event[ jQuery.expando ] ?
+    event :
+    <span class="keyword">new</span> jQuery.Event( type, <span class="keyword">typeof</span> event === <span class="string">"object"</span> && event );
+
+event.isTrigger = onlyHandlers ? <span class="number">2</span> : <span class="number">3</span>;
+event.namespace = namespaces.join(<span class="string">"."</span>);
+event.namespace_re = event.namespace ?
+    <span class="keyword">new</span> <span class="built_in">RegExp</span>( <span class="string">"(^|\\.)"</span> + namespaces.join(<span class="string">"\\.(?:.*\\.|)"</span>) + <span class="string">"(\\.|$)"</span> ) :
+    <span class="literal">null</span>;
+
+event.result = <span class="literal">undefined</span>;
+<span class="keyword">if</span> ( !event.target ) {
+    event.target = elem;
+}
+</pre></td></tr></table></figure>
+
+
+<p>常使用事件的都会使用event这个事件对象，jq模拟的事件机制也是一样，不过它自己新建了一个事件对象。这个事件对象包裹了浏览器原生的事件对象，并添加了很多其他的属性:</p>
+<ol>
+<li>isTrigger: 判断是否需要出发浏览器本身的事件回调</li>
+<li>namespace: 事件的命名空间</li>
+<li>namespace_re: 一个用于匹配当前命名空间的正则</li>
+<li>result: 事件运行的结果</li>
+<li>target：触发事件的元素，需要注意的是事件代理情况下，target是被代理的元素</li>
+</ol>
+<p>事件对象的具体实现，后面会说</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+</pre></td><td class="code"><pre>data = data == <span class="literal">null</span> ?
+    [ event ] :
+    jQuery.makeArray( data, [ event ] );
+
+special = jQuery.event.special[ type ] || {};
+<span class="keyword">if</span> ( !onlyHandlers && special.trigger && special.trigger.apply( elem, data ) === <span class="literal">false</span> ) {
+    <span class="keyword">return</span>;
+}
+</pre></td></tr></table></figure>
+
+
+<p>将event和data进行包裹，装成一个数组方便后面apply调用。这里处理了一下特殊事件，调用了其trigger钩子</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+</pre></td><td class="code"><pre><span class="keyword">if</span> ( !onlyHandlers && !special.noBubble && !jQuery.isWindow( elem ) ) {
+    <span class="comment">/*如果是特殊事件，需要找到对应的真实名称*/</span>
+    bubbleType = special.delegateType || type;
+    <span class="keyword">if</span> ( !rfocusMorph.test( bubbleType + type ) ) {
+        cur = cur.parentNode;
+    }
+    <span class="keyword">for</span> ( ; cur; cur = cur.parentNode ) {
+        eventPath.push( cur );
+        tmp = cur;
+    }
+
+    <span class="comment">// Only add window if we got to document (e.g., not plain obj or detached DOM)</span>
+    <span class="keyword">if</span> ( tmp === (elem.ownerDocument || document) ) {
+        eventPath.push( tmp.defaultView || tmp.parentWindow || window );
+    }
+}
+</pre></td></tr></table></figure>
+
+
+<p>jq为除了不需要冒泡的特殊事件或者本身就在window上触发的事件以外的情况都模拟了冒泡机制。这里就是不断通过<code>elem.parentNode</code>来获取元素到window的路径</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+</pre></td><td class="code"><pre>i = <span class="number">0</span>;
+<span class="keyword">while</span> ( (cur = eventPath[i++]) && !event.isPropagationStopped() ) {
+    event.type = i &gt; <span class="number">1</span> ?
+        bubbleType :
+        special.bindType || type;
+
+    handle = ( data_priv.get( cur, <span class="string">"events"</span> ) || {} )[ event.type ] && data_priv.get( cur, <span class="string">"handle"</span> );
+    <span class="keyword">if</span> ( handle ) {
+        handle.apply( cur, data );
+    }
+
+    handle = ontype && cur[ ontype ];
+    <span class="keyword">if</span> ( handle && handle.apply && jQuery.acceptData( cur ) ) {
+        event.result = handle.apply( cur, data );
+        <span class="keyword">if</span> ( event.result === <span class="literal">false</span> ) {
+            event.preventDefault();
+        }
+    }
+}
+event.type = type;
+</pre></td></tr></table></figure>
+
+
+<p>顺着上面生成的冒泡路径依次执行事件绑定的统一回调函数（实际上就是dispatch）。这里首先需要从私有数据空间中获取到需要执行的具体方法，然后使用apply调用。另外，如果元素有通过onXXX绑定方法，也需要执行。另外如果执行的结果为false，调用事件对象的preventDefault</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+</pre></td><td class="code"><pre><span class="keyword">if</span> ( !onlyHandlers && !event.isDefaultPrevented() ) {
+    <span class="keyword">if</span> ( (!special._default || special._default.apply( eventPath.pop(), data ) === <span class="literal">false</span>) &&
+        jQuery.acceptData( elem ) ) {
+        <span class="keyword">if</span> ( ontype && jQuery.isFunction( elem[ type ] ) && !jQuery.isWindow( elem ) ) {
+            tmp = elem[ ontype ];
+            <span class="keyword">if</span> ( tmp ) {
+                elem[ ontype ] = <span class="literal">null</span>;
+            }
+            jQuery.event.triggered = type;
+            elem[ type ]();
+            jQuery.event.triggered = <span class="literal">undefined</span>;
+            <span class="keyword">if</span> ( tmp ) {
+                elem[ ontype ] = tmp;
+            }
+        }
+    }
+}
+</pre></td></tr></table></figure>
+
+
+<p>onlyHandlers参数为true或事件被调用preventDefault方法，不需要执行事件在浏览器上的默认行为。不符合上述情况时，就需要检测浏览器默认行为来执行了。这里通过检测元素的onXXX属性来获得方法，在执行前需要标记事件已被执行，并在执行后恢复，防止多次触发</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+</pre></td><td class="code"><pre><span class="keyword">return</span> event.result;
+</pre></td></tr></table></figure>
+
+
+<p>运行完了，返回事件运行的结果</p>
+<h3 id="dispatch_(event)">dispatch (event)</h3>
+<p>可以看到trigger内部并没有遍历回调对象列表来挨个执行回调函数的逻辑，其内部只是运行一个在add中创建的统一回调函数。从add中我们可以看到，统一回调函数中的逻辑实际上就是调用dispatch方法。dispatch方法同样需要注意几个问题：</p>
+<ol>
+<li>事件代理的情况</li>
+<li>特殊事件</li>
+<li>回调终止（stopPropagation）</li>
+<li>事件的命名空间</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+</pre></td><td class="code"><pre>event = jQuery.event.fix( event );
+
+<span class="keyword">var</span> i, j, ret, matched, handleObj,
+    handlerQueue = [],
+    args = slice.call( <span class="built_in">arguments</span> ),
+    handlers = ( data_priv.get( <span class="keyword">this</span>, <span class="string">"events"</span> ) || {} )[ event.type ] || [],
+    special = jQuery.event.special[ event.type ] || {};
+
+args[<span class="number">0</span>] = event;
+event.delegateTarget = <span class="keyword">this</span>;
+</pre></td></tr></table></figure>
+
+
+<p>这里首先通过后面的fix工具方法，加工了一下事件对象。从私有数据空间中获得了回调对象列表。另外这里处理了事件代理的情况，可以看到delegateTarget指向触发事件的元素</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+</pre></td><td class="code"><pre><span class="keyword">if</span> ( special.preDispatch && special.preDispatch.call( <span class="keyword">this</span>, event ) === <span class="literal">false</span> ) {
+    <span class="keyword">return</span>;
+}
+</pre></td></tr></table></figure>
+
+
+<p>钩子你好，钩子再见…这次是preDispatch钩子…</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+</pre></td><td class="code"><pre>handlerQueue = jQuery.event.handlers.call( <span class="keyword">this</span>, event, handlers );
+</pre></td></tr></table></figure>
+
+
+<p>将回调对象列表进行加工，将在后面的handlers方法中详细介绍，主要是处理事件代理时的情况。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+</pre></td><td class="code"><pre>i = <span class="number">0</span>;
+<span class="keyword">while</span> ( (matched = handlerQueue[ i++ ]) && !event.isPropagationStopped() ) {
+    event.currentTarget = matched.elem;
+    j = <span class="number">0</span>;
+    <span class="keyword">while</span> ( (handleObj = matched.handlers[ j++ ]) && !event.isImmediatePropagationStopped() ) {
+        <span class="keyword">if</span> ( !event.namespace_re || event.namespace_re.test( handleObj.namespace ) ) {
+            event.handleObj = handleObj;
+            event.data = handleObj.data;
+            ret = ( (jQuery.event.special[ handleObj.origType ] || {}).handle || handleObj.handler )
+                    .apply( matched.elem, args );
+            <span class="keyword">if</span> ( ret !== <span class="literal">undefined</span> ) {
+                <span class="keyword">if</span> ( (event.result = ret) === <span class="literal">false</span> ) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+            }
+        }
+    }
+}
+</pre></td></tr></table></figure>
+
+
+<p>遍历执行handlers方法处理过的回调对象列表，这里需要考虑回调执行被终止的情况。如果上一方法已经运行了stopPropagation方法终止回调执行，直接循环就可以结束了。另外如果命名空间不符合，也不会执行。</p>
+<p>执行时其实就是将事件对象拿出来apply一下，然后判断返回值，如果为false，终止回调执行，也不执行浏览器默认行为</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+</pre></td><td class="code"><pre><span class="keyword">if</span> ( special.postDispatch ) {
+    special.postDispatch.call( <span class="keyword">this</span>, event );
+}
+<span class="keyword">return</span> event.result;
+</pre></td></tr></table></figure>
+
+
+<p>钩子你又来了，这次是postDispatch钩子。全部运行完就可以返回了</p>
+<h3 id="handlers_(event,_handlers)">handlers (event, handlers)</h3>
+<p>上面dispatch有提到过使用handlers回调对象列表的加工来处理事件代理的情况。jq的事件代理的观念是使用上和一般事件没有差别。这里依旧需要模拟事件的冒泡机制。这里的冒泡和trigger中的冒泡不同，trigger中的冒泡是从代理的元素（父元素）从上冒泡，而如果使用代理的话，被代理的元素（子元素）到代理元素（父元素）这一段将没有冒泡。这里的冒泡实现就是解决这个问题，只处理了被代理的元素到代理元素的冒泡。handlers最后会将冒泡的元素和回调对象组合成一个新的对象列表进行返回</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+</pre></td><td class="code"><pre><span class="keyword">var</span> i, matches, sel, handleObj,
+    handlerQueue = [],
+    delegateCount = handlers.delegateCount,
+    cur = event.target;
+</pre></td></tr></table></figure>
+
+
+<p>获取当前事件的目标和代理个数</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+</pre></td><td class="code"><pre><span class="comment">//如果存在代理</span>
+<span class="keyword">if</span> ( delegateCount && cur.nodeType && (!event.button || event.type !== <span class="string">"click"</span>) ) {
+    <span class="comment">//从被代理元素冒泡到代理元素</span>
+    <span class="keyword">for</span> ( ; cur !== <span class="keyword">this</span>; cur = cur.parentNode || <span class="keyword">this</span> ) {
+        <span class="comment">//屏蔽disable元素的点击事件</span>
+        <span class="keyword">if</span> ( cur.disabled !== <span class="literal">true</span> || event.type !== <span class="string">"click"</span> ) {
+            <span class="comment">//cur元素需要执行的回调对象列表</span>
+            matches = [];
+            <span class="comment">//获取回调对象列表中的所有代理回调对象,挨个判断是否需要执行</span>
+            <span class="keyword">for</span> ( i = <span class="number">0</span>; i &lt; delegateCount; i++ ) {
+                handleObj = handlers[ i ];
+                sel = handleObj.selector + <span class="string">" "</span>;
+                <span class="comment">//判断元素是否符合选择器,这里还进行了缓存防止重复判断</span>
+                <span class="keyword">if</span> ( matches[ sel ] === <span class="literal">undefined</span> ) {
+                    matches[ sel ] = handleObj.needsContext ?
+                        jQuery( sel, <span class="keyword">this</span> ).index( cur ) &gt;= <span class="number">0</span> :
+                        jQuery.find( sel, <span class="keyword">this</span>, <span class="literal">null</span>, [ cur ] ).length;
+                }
+                <span class="comment">//如果符合,说明cur元素需要执行这个回调,加到列表中</span>
+                <span class="keyword">if</span> ( matches[ sel ] ) {
+                    matches.push( handleObj );
+                }
+            }
+            <span class="comment">//如果cur元素有需要执行的回调,进行包装,加到包装后的回调对象列表中</span>
+            <span class="keyword">if</span> ( matches.length ) {
+                handlerQueue.push({ elem: cur, handlers: matches });
+            }
+        }
+    }
+}
+</pre></td></tr></table></figure>
+
+
+<p>真正模拟冒泡的方法，这里过滤掉了disable元素的click事件</p>
+<p>看for循环的终止条件中，看到cur是冒泡到的当前元素，而this中存放的是触发事件的真正元素（代理元素），这里用<code>cur !== this</code>判断循环终止，说明冒泡只从被代理的元素运行到代理元素</p>
+<p>首先我们要知道，在add时，如果使用了代理的方式，会将代理的回调函数放在回调对象列表（这里是handlers）的前面而不是后面，具体的个数会使用delegateCount记录。这里对回调对象列表中的每个回调对象，会判断元素是否符合selector选择器，如果符合，就添加回调对象到matches中。这里还用了一点小技巧缓存了判断结果。</p>
+<p>对于冒泡路径上的每个元素，都会确定其需要执行的回调对象的列表。将元素和其需要执行的回调对象列表进行封装，成为一个新的对象，其中有elem表示冒泡的当前元素，以及handlers表明回调函数对象列表。将这些新对象组织成一个经过加工的回调对象列表。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+</pre></td><td class="code"><pre><span class="keyword">if</span> ( delegateCount &lt; handlers.length ) {
+    handlerQueue.push({ elem: <span class="keyword">this</span>, handlers: handlers.slice( delegateCount ) });
+}
+<span class="keyword">return</span> handlerQueue;
+</pre></td></tr></table></figure>
+
+
+<p>对于不使用事件代理的情况，直接将它们按照同样的格式生成新对象后，push到经过加工的回调对象列表后面，就可以得到完整的回调函数列表了</p>
+<h2 id="总结">总结</h2>
+<p>事件管理器这块基本上包含了jq的事件机制的所有核心思想，事件代理、自定事件模拟的冒泡、特殊函数的处理，命名空间的处理等等。事件代理的冒泡机制和trigger中的冒泡需要注意理解，而特殊函数的钩子模式可以说贯穿jQuery始终。由于篇幅太长，这里并没有介绍jq的事件对象，以及一些像fix方法，这些将在下一篇进行介绍</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[这篇主要介绍了jQuery中事件管理器的一些核心方法，涉及事件代理、自定事件模拟的冒泡、特殊函数的处理，命名空间的处理等等]]>
+    
+    </summary>
+    
+      <category term="JavaScript" scheme="http://lingyu.wang/tags/JavaScript/"/>
+    
+      <category term="JS技术" scheme="http://lingyu.wang/categories/JS%E6%8A%80%E6%9C%AF/"/>
+    
+  </entry>
+  
+  <entry>
     <title><![CDATA[jQuery的事件机制——事件对象、兼容、接口]]></title>
     <link href="http://lingyu.wang/2014/05/12/read-jq-src-4/"/>
     <id>http://lingyu.wang/2014/05/12/read-jq-src-4/</id>
@@ -6867,836 +7697,6 @@ triggerHandler: <span class="function"><span class="keyword">function</span><spa
     <summary type="html">
     <![CDATA[<p>这篇主要介绍了jQuery中事件管理器的事件对象、兼容实现以及在jQuery对象上暴露的接口</p>
 ]]>
-    
-    </summary>
-    
-      <category term="JavaScript" scheme="http://lingyu.wang/tags/JavaScript/"/>
-    
-      <category term="JS技术" scheme="http://lingyu.wang/categories/JS%E6%8A%80%E6%9C%AF/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[jQuery的事件机制——核心篇]]></title>
-    <link href="http://lingyu.wang/2014/05/12/read-jq-src-3/"/>
-    <id>http://lingyu.wang/2014/05/12/read-jq-src-3/</id>
-    <published>2014-05-11T16:00:00.000Z</published>
-    <updated>2014-11-18T07:49:29.164Z</updated>
-    <content type="html"><![CDATA[<p>这篇主要介绍了jQuery中事件管理器的一些核心方法，涉及事件代理、自定事件模拟的冒泡、特殊函数的处理，命名空间的处理等等</p>
-<a id="more"></a>
-
-<h1 id="jQuery源码——事件机制">jQuery源码——事件机制</h1>
-<p>jQuery提供了一套完善的事件管理机制，这一整套事件管理机制构建在jQuery的data之上，使用元素的私有数据域来保存事件的相关配置和回调函数列表。jQuery提供了自定义事件的处理，并模拟了事件的冒泡机制。通过冒泡机制，提供了一套事件代理接口</p>
-<h2 id="事件管理器">事件管理器</h2>
-<p>jQuery提供一个<code>jQuery.event</code>的辅助类，它提供了一系列管理事件的方法。主题思想来自Dean Edwards的库。事实上，事件亦无外乎CRUD操作，只不过多了个触发操作（实际上属于R操作的一种），这个辅助类提供了add、remove、trigger、dispatch几个核心方法用添加、删除、触发事件、执行回调函数等功能，另外还提供了一些钩子和辅助函数用于兼容一些特殊事件</p>
-<h3 id="global">global</h3>
-<p>存放事件是否存在</p>
-<h3 id="add_(elem,_types,_handler,_data,_selector)">add (elem, types, handler, data, selector)</h3>
-<p>这个函数用于绑定对应的事件，整体思路大致是：确定事件在元素的私有数据空间中是否存在，如果不存在就创建，创建时为事件绑定一个回调函数，里面使用dispatch执行事件的回调函数列表</p>
-<p>所以代码大致流程如下：</p>
-<h4 id="事件创建逻辑">事件创建逻辑</h4>
-<p>在元素么有绑定过这个事件，或者压根没有绑定过事件时，需要创建事件的对应存储空间以及事件的统一回调函数</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-</pre></td><td class="code"><pre><span class="keyword">var</span> handleObjIn, eventHandle, tmp,
-    events, t, handleObj,
-    special, handlers, type, namespaces, origType,
-    elemData = data_priv.get( elem );
-    
-<span class="keyword">if</span> ( !elemData ) {
-    <span class="keyword">return</span>;
-}
-</pre></td></tr></table></figure>
-
-
-<p>获取元素的私有数据空间，如果无法获得私有数据空间，说明是文本节点或注释节点，那么也无法绑定时间了，直接返回</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-</pre></td><td class="code"><pre><span class="keyword">if</span> ( handler.handler ) {
-    handleObjIn = handler;
-    handler = handleObjIn.handler;
-    selector = handleObjIn.selector;
-}
-</pre></td></tr></table></figure>
-
-
-<p>接着确定配置中的回调函数，如果存在事件代理，需要确定需要被代理的元素的选择器</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
-2
-3
-</pre></td><td class="code"><pre><span class="keyword">if</span> ( !handler.guid ) {
-    handler.guid = jQuery.guid++;
-}
-</pre></td></tr></table></figure>
-
-
-<p>为回调函数创建一个唯一的id来提供优化，实际上还是通过jQuery的guid得到</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-</pre></td><td class="code"><pre><span class="keyword">if</span> ( !(events = elemData.events) ) {
-    events = elemData.events = {};
-}
-<span class="keyword">if</span> ( !(eventHandle = elemData.handle) ) {
-    eventHandle = elemData.handle = <span class="function"><span class="keyword">function</span><span class="params">( e )</span> {</span>
-        <span class="keyword">return</span> <span class="keyword">typeof</span> jQuery !== strundefined && jQuery.event.triggered !== e.type ?
-            jQuery.event.dispatch.apply( elem, <span class="built_in">arguments</span> ) : <span class="literal">undefined</span>;
-    };
-}
-</pre></td></tr></table></figure>
-
-
-<p>从元素的私有数据空间中获取存放事件的对象，如果不存在就新建一个。然后从元素的私有数据中获取事件处理函数，如果没有，就新建一个函数。每一个事件对应一个回调函数，这个回调函数使用dispatch方法来执行事件的回调函数列表中的所有函数</p>
-<h4 id="事件绑定逻辑">事件绑定逻辑</h4>
-<p>在创建完事件的存储空间，或者获取到已有的存储空间之后，就需要把往事件的回调函数列表中添加事件了。这里需要处理的问题包括：</p>
-<ol>
-<li>type字符串中可以通过<code>event1 event2 event3</code>这样的方式包含多个事件</li>
-<li>有可能存在命名空间如<code>event.namespace</code>的情况</li>
-<li>特殊事件需要进行名称转换，以及钩子调用</li>
-<li>如果是事件代理也需要注意代理逻辑</li>
-</ol>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-</pre></td><td class="code"><pre>types = ( types || <span class="string">""</span> ).match( rnotwhite ) || [ <span class="string">""</span> ];
-t = types.length;
-<span class="keyword">while</span> ( t-- ) {
-    <span class="comment">//后面的代码</span>
-}
-</pre></td></tr></table></figure>
-
-
-<p>处理情况1，通过切分将多个事件名称切分出来，分别进行处理</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-</pre></td><td class="code"><pre>tmp = rtypenamespace.exec( types[t] ) || [];
-type = origType = tmp[<span class="number">1</span>];
-namespaces = ( tmp[<span class="number">2</span>] || <span class="string">""</span> ).split( <span class="string">"."</span> ).sort();
-
-<span class="keyword">if</span> ( !type ) {
-    <span class="keyword">continue</span>;
-}
-</pre></td></tr></table></figure>
-
-
-<p>处理情况2，同样是使用正则获取到命名空间和事件名称，如果获取不到事件名称，那么直接continue略过</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-</pre></td><td class="code"><pre>special = jQuery.event.special[ type ] || {};
-
-type = ( selector ? special.delegateType : special.bindType ) || type;
-
-special = jQuery.event.special[ type ] || {};
-</pre></td></tr></table></figure>
-
-
-<p>情况3下，如果事件是特殊事件，需要获取特殊事件需要被映射的事件名称</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-</pre></td><td class="code"><pre>handleObj = jQuery.extend({
-    type: type,
-    origType: origType,
-    data: data,
-    handler: handler,
-    guid: handler.guid,
-    selector: selector,
-    needsContext: selector && jQuery.expr.match.needsContext.test( selector ),
-    namespace: namespaces.join(<span class="string">"."</span>)
-}, handleObjIn );
-</pre></td></tr></table></figure>
-
-
-<p>这里将回调函数封装成带有配置的回调对象，方便后续的删除、查找等操作。这里记录了很多信息：</p>
-<ol>
-<li>type：事件的映射后的名称</li>
-<li>origType：事件的原始名称</li>
-<li>data：事件的默认数据</li>
-<li>handler：回调函数</li>
-<li>guid：回调函数的id</li>
-<li>selector：启用事件代理时，被代理的节点的选择器</li>
-<li>needsContext：如果是事件代理模式，通过Sizzle判断元素是否需要上下文</li>
-<li>namespace：重组后的命名空间</li>
-</ol>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-</pre></td><td class="code"><pre><span class="keyword">if</span> ( !(handlers = events[ type ]) ) {
-    handlers = events[ type ] = [];
-    handlers.delegateCount = <span class="number">0</span>;
-
-    <span class="keyword">if</span> ( !special.setup || special.setup.call( elem, data, namespaces, eventHandle ) === <span class="literal">false</span> ) {
-        <span class="keyword">if</span> ( elem.addEventListener ) {
-            elem.addEventListener( type, eventHandle, <span class="literal">false</span> );
-        }
-    }
-}
-</pre></td></tr></table></figure>
-
-
-<p>如果这个事件刚注册，给它一个回调对象列表，并设定代理数为0。在情况3下，需要处理setup钩子</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-</pre></td><td class="code"><pre><span class="keyword">if</span> ( special.add ) {
-    special.add.call( elem, handleObj );
-
-    <span class="keyword">if</span> ( !handleObj.handler.guid ) {
-        handleObj.handler.guid = handler.guid;
-    }
-}
-</pre></td></tr></table></figure>
-
-
-<p>这里同样是情况3下的钩子处理，上面setup是事件注册钩子，而这里则是方法添加的钩子</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-</pre></td><td class="code"><pre><span class="keyword">if</span> ( selector ) {
-    handlers.splice( handlers.delegateCount++, <span class="number">0</span>, handleObj );
-} <span class="keyword">else</span> {
-    handlers.push( handleObj );
-}
-</pre></td></tr></table></figure>
-
-
-<p>好了，该玩的钩子都玩完了，将回调对象加入到回调对象列表中吧，这里需要处理情况4，如果是事件代理的话，元素的代理数增加，如果是代理情况，代理的回调对象加载列表前头</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
-</pre></td><td class="code"><pre>jQuery.event.global[ type ] = <span class="literal">true</span>;
-</pre></td></tr></table></figure>
-
-
-<p>最后再全局中标记一下事件已存在就行了</p>
-<h3 id="remove_(elem,_types,_handler,_selector,_mappedTypes)">remove (elem, types, handler, selector, mappedTypes)</h3>
-<p>删除逻辑也一样，从一个节点的事件存储中删除一个或个事件的一个回调或所有回调，这里同样需要考虑几个地方：</p>
-<ol>
-<li>type字符串中可以通过<code>event1 event2 event3</code>这样的方式包含多个事件</li>
-<li>有可能存在命名空间如<code>event.namespace</code>的情况</li>
-<li>特殊事件需要进行名称转换，以及钩子调用</li>
-<li>如果是事件代理也需要注意代理逻辑</li>
-<li>在移除了一个事件的所有回调对象后，可以移除这个事件</li>
-<li>在移除了一个元素的所有事件后，可以释放这个元素的事件存储空间了</li>
-</ol>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-</pre></td><td class="code"><pre><span class="keyword">var</span> j, origCount, tmp,
-    events, t, handleObj,
-    special, handlers, type, namespaces, origType,
-    elemData = data_priv.hasData( elem ) && data_priv.get( elem );
-<span class="keyword">if</span> ( !elemData || !(events = elemData.events) ) {
-    <span class="keyword">return</span>;
-}
-</pre></td></tr></table></figure>
-
-
-<p>获取元素的私有数据空间以及其事件存储空间，如果没有，那没必要删除了</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-</pre></td><td class="code"><pre>types = ( types || <span class="string">""</span> ).match( rnotwhite ) || [ <span class="string">""</span> ];
-t = types.length;
-<span class="keyword">while</span> ( t-- ) {
-    <span class="comment">//后面的代码</span>
-}
-</pre></td></tr></table></figure>
-
-
-<p>处理情况1，和上面的add一样</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-</pre></td><td class="code"><pre>tmp = rtypenamespace.exec( types[t] ) || [];
-type = origType = tmp[<span class="number">1</span>];
-
-namespaces = ( tmp[<span class="number">2</span>] || <span class="string">""</span> ).split( <span class="string">"."</span> ).sort();
-</pre></td></tr></table></figure>
-
-
-<p>获取事件的命名空间，和add方法一样</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-</pre></td><td class="code"><pre><span class="keyword">if</span> ( !type ) {
-    <span class="keyword">for</span> ( type <span class="keyword">in</span> events ) {
-        jQuery.event.remove( elem, type + types[ t ], handler, selector, <span class="literal">true</span> );
-    }
-    <span class="keyword">continue</span>;
-}
-</pre></td></tr></table></figure>
-
-
-<p>如果没有获取到事件名称，就得遍历事件存储空间中所有的事件删除handler对应的方法了，这里直接递归了</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-</pre></td><td class="code"><pre>special = jQuery.event.special[ type ] || {};
-type = ( selector ? special.delegateType : special.bindType ) || type;
-handlers = events[ type ] || [];
-origCount = j = handlers.length;
-<span class="keyword">while</span> ( j-- ) {
-    <span class="comment">//详细删除代码</span>
-}
-</pre></td></tr></table></figure>
-
-
-<p>这里处理了情况3和4，和add中一样，获取了事件需要被映射的名称，然后通过这个名称获取了事件回调对象列表。然后我们可以遍历回调函谁对象列表，进行删除操作了</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-</pre></td><td class="code"><pre>handleObj = handlers[ j ];
-<span class="keyword">if</span> ( ( mappedTypes || origType === handleObj.origType ) &&
-    ( !handler || handler.guid === handleObj.guid ) &&
-    ( !tmp || tmp.test( handleObj.namespace ) ) &&
-    ( !selector || selector === handleObj.selector || selector === <span class="string">"**"</span> && handleObj.selector ) ) {
-    handlers.splice( j, <span class="number">1</span> );
-
-    <span class="keyword">if</span> ( handleObj.selector ) {
-        handlers.delegateCount--;
-    }
-    <span class="keyword">if</span> ( special.remove ) {
-        special.remove.call( elem, handleObj );
-    }
-}
-</pre></td></tr></table></figure>
-
-
-<p>这里就是删除的真正代码了，需要判断代理，判断命名空间，判断方法的guid，如果有map映射，判断名称。所有判断都通过之后，使用数组的splice进行删除。另外在删除之后，如果有代理，代理个数自然要减一，而如果是特殊事件，需要弟阿勇remove钩子了</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-</pre></td><td class="code"><pre><span class="keyword">if</span> ( origCount && !handlers.length ) {
-    <span class="keyword">if</span> ( !special.teardown || special.teardown.call( elem, namespaces, elemData.handle ) === <span class="literal">false</span> ) {
-        jQuery.removeEvent( elem, type, elemData.handle );
-    }
-    <span class="keyword">delete</span> events[ type ];
-}
-</pre></td></tr></table></figure>
-
-
-<p>这里处理情况5，如果事件的回调函数列表为空，那么可以delete掉这个事件了。特殊事件依旧有钩子，调用teardown</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-</pre></td><td class="code"><pre><span class="keyword">if</span> ( jQuery.isEmptyObject( events ) ) {
-    <span class="keyword">delete</span> elemData.handle;
-    data_priv.remove( elem, <span class="string">"events"</span> );
-}
-</pre></td></tr></table></figure>
-
-
-<p>如果节点中没有任何事件了，直接释放掉事件存储空间</p>
-<h3 id="trigger_(event,_data,_elem,_onlyHandlers)">trigger (event, data, elem, onlyHandlers)</h3>
-<p>触发事件的方法，这里模拟了事件的冒泡机制，并且兼容了onXXX绑定的事件回调函数，另外还处理了preventDefault的情况</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-</pre></td><td class="code"><pre><span class="keyword">var</span> i, cur, tmp, bubbleType, ontype, handle, special,
-    eventPath = [ elem || document ],
-    type = hasOwn.call( event, <span class="string">"type"</span> ) ? event.type : event,
-    namespaces = hasOwn.call( event, <span class="string">"namespace"</span> ) ? event.namespace.split(<span class="string">"."</span>) : [];
-
-cur = tmp = elem = elem || document;
-
-<span class="keyword">if</span> ( elem.nodeType === <span class="number">3</span> || elem.nodeType === <span class="number">8</span> ) {
-    <span class="keyword">return</span>;
-}
-</pre></td></tr></table></figure>
-
-
-<p>做了一些准备工作，获取了事件的命名空间，初始化了冒泡的路径，如果没有提供trigger的元素则默认document，另外文本和注释节点无法触发事件</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
-2
-3
-</pre></td><td class="code"><pre><span class="keyword">if</span> ( rfocusMorph.test( type + jQuery.event.triggered ) ) {
-    <span class="keyword">return</span>;
-}
-</pre></td></tr></table></figure>
-
-
-<p>检测是否有focus和blur事件，它们不会在这里被触发</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-</pre></td><td class="code"><pre><span class="keyword">if</span> ( type.indexOf(<span class="string">"."</span>) &gt;= <span class="number">0</span> ) {
-    namespaces = type.split(<span class="string">"."</span>);
-    type = namespaces.shift();
-    namespaces.sort();
-}
-ontype = type.indexOf(<span class="string">":"</span>) &lt; <span class="number">0</span> && <span class="string">"on"</span> + type;
-</pre></td></tr></table></figure>
-
-
-<p>获取事件的名称和命名空间，另外还需要生成一个带on开头的事件名称，方便在兼容onXXX时使用</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-</pre></td><td class="code"><pre>event = event[ jQuery.expando ] ?
-    event :
-    <span class="keyword">new</span> jQuery.Event( type, <span class="keyword">typeof</span> event === <span class="string">"object"</span> && event );
-
-event.isTrigger = onlyHandlers ? <span class="number">2</span> : <span class="number">3</span>;
-event.namespace = namespaces.join(<span class="string">"."</span>);
-event.namespace_re = event.namespace ?
-    <span class="keyword">new</span> <span class="built_in">RegExp</span>( <span class="string">"(^|\\.)"</span> + namespaces.join(<span class="string">"\\.(?:.*\\.|)"</span>) + <span class="string">"(\\.|$)"</span> ) :
-    <span class="literal">null</span>;
-
-event.result = <span class="literal">undefined</span>;
-<span class="keyword">if</span> ( !event.target ) {
-    event.target = elem;
-}
-</pre></td></tr></table></figure>
-
-
-<p>常使用事件的都会使用event这个事件对象，jq模拟的事件机制也是一样，不过它自己新建了一个事件对象。这个事件对象包裹了浏览器原生的事件对象，并添加了很多其他的属性:</p>
-<ol>
-<li>isTrigger: 判断是否需要出发浏览器本身的事件回调</li>
-<li>namespace: 事件的命名空间</li>
-<li>namespace_re: 一个用于匹配当前命名空间的正则</li>
-<li>result: 事件运行的结果</li>
-<li>target：触发事件的元素，需要注意的是事件代理情况下，target是被代理的元素</li>
-</ol>
-<p>事件对象的具体实现，后面会说</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-</pre></td><td class="code"><pre>data = data == <span class="literal">null</span> ?
-    [ event ] :
-    jQuery.makeArray( data, [ event ] );
-
-special = jQuery.event.special[ type ] || {};
-<span class="keyword">if</span> ( !onlyHandlers && special.trigger && special.trigger.apply( elem, data ) === <span class="literal">false</span> ) {
-    <span class="keyword">return</span>;
-}
-</pre></td></tr></table></figure>
-
-
-<p>将event和data进行包裹，装成一个数组方便后面apply调用。这里处理了一下特殊事件，调用了其trigger钩子</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-</pre></td><td class="code"><pre><span class="keyword">if</span> ( !onlyHandlers && !special.noBubble && !jQuery.isWindow( elem ) ) {
-    <span class="comment">/*如果是特殊事件，需要找到对应的真实名称*/</span>
-    bubbleType = special.delegateType || type;
-    <span class="keyword">if</span> ( !rfocusMorph.test( bubbleType + type ) ) {
-        cur = cur.parentNode;
-    }
-    <span class="keyword">for</span> ( ; cur; cur = cur.parentNode ) {
-        eventPath.push( cur );
-        tmp = cur;
-    }
-
-    <span class="comment">// Only add window if we got to document (e.g., not plain obj or detached DOM)</span>
-    <span class="keyword">if</span> ( tmp === (elem.ownerDocument || document) ) {
-        eventPath.push( tmp.defaultView || tmp.parentWindow || window );
-    }
-}
-</pre></td></tr></table></figure>
-
-
-<p>jq为除了不需要冒泡的特殊事件或者本身就在window上触发的事件以外的情况都模拟了冒泡机制。这里就是不断通过<code>elem.parentNode</code>来获取元素到window的路径</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-</pre></td><td class="code"><pre>i = <span class="number">0</span>;
-<span class="keyword">while</span> ( (cur = eventPath[i++]) && !event.isPropagationStopped() ) {
-    event.type = i &gt; <span class="number">1</span> ?
-        bubbleType :
-        special.bindType || type;
-
-    handle = ( data_priv.get( cur, <span class="string">"events"</span> ) || {} )[ event.type ] && data_priv.get( cur, <span class="string">"handle"</span> );
-    <span class="keyword">if</span> ( handle ) {
-        handle.apply( cur, data );
-    }
-
-    handle = ontype && cur[ ontype ];
-    <span class="keyword">if</span> ( handle && handle.apply && jQuery.acceptData( cur ) ) {
-        event.result = handle.apply( cur, data );
-        <span class="keyword">if</span> ( event.result === <span class="literal">false</span> ) {
-            event.preventDefault();
-        }
-    }
-}
-event.type = type;
-</pre></td></tr></table></figure>
-
-
-<p>顺着上面生成的冒泡路径依次执行事件绑定的统一回调函数（实际上就是dispatch）。这里首先需要从私有数据空间中获取到需要执行的具体方法，然后使用apply调用。另外，如果元素有通过onXXX绑定方法，也需要执行。另外如果执行的结果为false，调用事件对象的preventDefault</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-</pre></td><td class="code"><pre><span class="keyword">if</span> ( !onlyHandlers && !event.isDefaultPrevented() ) {
-    <span class="keyword">if</span> ( (!special._default || special._default.apply( eventPath.pop(), data ) === <span class="literal">false</span>) &&
-        jQuery.acceptData( elem ) ) {
-        <span class="keyword">if</span> ( ontype && jQuery.isFunction( elem[ type ] ) && !jQuery.isWindow( elem ) ) {
-            tmp = elem[ ontype ];
-            <span class="keyword">if</span> ( tmp ) {
-                elem[ ontype ] = <span class="literal">null</span>;
-            }
-            jQuery.event.triggered = type;
-            elem[ type ]();
-            jQuery.event.triggered = <span class="literal">undefined</span>;
-            <span class="keyword">if</span> ( tmp ) {
-                elem[ ontype ] = tmp;
-            }
-        }
-    }
-}
-</pre></td></tr></table></figure>
-
-
-<p>onlyHandlers参数为true或事件被调用preventDefault方法，不需要执行事件在浏览器上的默认行为。不符合上述情况时，就需要检测浏览器默认行为来执行了。这里通过检测元素的onXXX属性来获得方法，在执行前需要标记事件已被执行，并在执行后恢复，防止多次触发</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
-</pre></td><td class="code"><pre><span class="keyword">return</span> event.result;
-</pre></td></tr></table></figure>
-
-
-<p>运行完了，返回事件运行的结果</p>
-<h3 id="dispatch_(event)">dispatch (event)</h3>
-<p>可以看到trigger内部并没有遍历回调对象列表来挨个执行回调函数的逻辑，其内部只是运行一个在add中创建的统一回调函数。从add中我们可以看到，统一回调函数中的逻辑实际上就是调用dispatch方法。dispatch方法同样需要注意几个问题：</p>
-<ol>
-<li>事件代理的情况</li>
-<li>特殊事件</li>
-<li>回调终止（stopPropagation）</li>
-<li>事件的命名空间</li>
-</ol>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-</pre></td><td class="code"><pre>event = jQuery.event.fix( event );
-
-<span class="keyword">var</span> i, j, ret, matched, handleObj,
-    handlerQueue = [],
-    args = slice.call( <span class="built_in">arguments</span> ),
-    handlers = ( data_priv.get( <span class="keyword">this</span>, <span class="string">"events"</span> ) || {} )[ event.type ] || [],
-    special = jQuery.event.special[ event.type ] || {};
-
-args[<span class="number">0</span>] = event;
-event.delegateTarget = <span class="keyword">this</span>;
-</pre></td></tr></table></figure>
-
-
-<p>这里首先通过后面的fix工具方法，加工了一下事件对象。从私有数据空间中获得了回调对象列表。另外这里处理了事件代理的情况，可以看到delegateTarget指向触发事件的元素</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
-2
-3
-</pre></td><td class="code"><pre><span class="keyword">if</span> ( special.preDispatch && special.preDispatch.call( <span class="keyword">this</span>, event ) === <span class="literal">false</span> ) {
-    <span class="keyword">return</span>;
-}
-</pre></td></tr></table></figure>
-
-
-<p>钩子你好，钩子再见…这次是preDispatch钩子…</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
-</pre></td><td class="code"><pre>handlerQueue = jQuery.event.handlers.call( <span class="keyword">this</span>, event, handlers );
-</pre></td></tr></table></figure>
-
-
-<p>将回调对象列表进行加工，将在后面的handlers方法中详细介绍，主要是处理事件代理时的情况。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-</pre></td><td class="code"><pre>i = <span class="number">0</span>;
-<span class="keyword">while</span> ( (matched = handlerQueue[ i++ ]) && !event.isPropagationStopped() ) {
-    event.currentTarget = matched.elem;
-    j = <span class="number">0</span>;
-    <span class="keyword">while</span> ( (handleObj = matched.handlers[ j++ ]) && !event.isImmediatePropagationStopped() ) {
-        <span class="keyword">if</span> ( !event.namespace_re || event.namespace_re.test( handleObj.namespace ) ) {
-            event.handleObj = handleObj;
-            event.data = handleObj.data;
-            ret = ( (jQuery.event.special[ handleObj.origType ] || {}).handle || handleObj.handler )
-                    .apply( matched.elem, args );
-            <span class="keyword">if</span> ( ret !== <span class="literal">undefined</span> ) {
-                <span class="keyword">if</span> ( (event.result = ret) === <span class="literal">false</span> ) {
-                    event.preventDefault();
-                    event.stopPropagation();
-                }
-            }
-        }
-    }
-}
-</pre></td></tr></table></figure>
-
-
-<p>遍历执行handlers方法处理过的回调对象列表，这里需要考虑回调执行被终止的情况。如果上一方法已经运行了stopPropagation方法终止回调执行，直接循环就可以结束了。另外如果命名空间不符合，也不会执行。</p>
-<p>执行时其实就是将事件对象拿出来apply一下，然后判断返回值，如果为false，终止回调执行，也不执行浏览器默认行为</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-</pre></td><td class="code"><pre><span class="keyword">if</span> ( special.postDispatch ) {
-    special.postDispatch.call( <span class="keyword">this</span>, event );
-}
-<span class="keyword">return</span> event.result;
-</pre></td></tr></table></figure>
-
-
-<p>钩子你又来了，这次是postDispatch钩子。全部运行完就可以返回了</p>
-<h3 id="handlers_(event,_handlers)">handlers (event, handlers)</h3>
-<p>上面dispatch有提到过使用handlers回调对象列表的加工来处理事件代理的情况。jq的事件代理的观念是使用上和一般事件没有差别。这里依旧需要模拟事件的冒泡机制。这里的冒泡和trigger中的冒泡不同，trigger中的冒泡是从代理的元素（父元素）从上冒泡，而如果使用代理的话，被代理的元素（子元素）到代理元素（父元素）这一段将没有冒泡。这里的冒泡实现就是解决这个问题，只处理了被代理的元素到代理元素的冒泡。handlers最后会将冒泡的元素和回调对象组合成一个新的对象列表进行返回</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-</pre></td><td class="code"><pre><span class="keyword">var</span> i, matches, sel, handleObj,
-    handlerQueue = [],
-    delegateCount = handlers.delegateCount,
-    cur = event.target;
-</pre></td></tr></table></figure>
-
-
-<p>获取当前事件的目标和代理个数</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
-27
-28
-29
-30
-</pre></td><td class="code"><pre><span class="comment">//如果存在代理</span>
-<span class="keyword">if</span> ( delegateCount && cur.nodeType && (!event.button || event.type !== <span class="string">"click"</span>) ) {
-    <span class="comment">//从被代理元素冒泡到代理元素</span>
-    <span class="keyword">for</span> ( ; cur !== <span class="keyword">this</span>; cur = cur.parentNode || <span class="keyword">this</span> ) {
-        <span class="comment">//屏蔽disable元素的点击事件</span>
-        <span class="keyword">if</span> ( cur.disabled !== <span class="literal">true</span> || event.type !== <span class="string">"click"</span> ) {
-            <span class="comment">//cur元素需要执行的回调对象列表</span>
-            matches = [];
-            <span class="comment">//获取回调对象列表中的所有代理回调对象,挨个判断是否需要执行</span>
-            <span class="keyword">for</span> ( i = <span class="number">0</span>; i &lt; delegateCount; i++ ) {
-                handleObj = handlers[ i ];
-                sel = handleObj.selector + <span class="string">" "</span>;
-                <span class="comment">//判断元素是否符合选择器,这里还进行了缓存防止重复判断</span>
-                <span class="keyword">if</span> ( matches[ sel ] === <span class="literal">undefined</span> ) {
-                    matches[ sel ] = handleObj.needsContext ?
-                        jQuery( sel, <span class="keyword">this</span> ).index( cur ) &gt;= <span class="number">0</span> :
-                        jQuery.find( sel, <span class="keyword">this</span>, <span class="literal">null</span>, [ cur ] ).length;
-                }
-                <span class="comment">//如果符合,说明cur元素需要执行这个回调,加到列表中</span>
-                <span class="keyword">if</span> ( matches[ sel ] ) {
-                    matches.push( handleObj );
-                }
-            }
-            <span class="comment">//如果cur元素有需要执行的回调,进行包装,加到包装后的回调对象列表中</span>
-            <span class="keyword">if</span> ( matches.length ) {
-                handlerQueue.push({ elem: cur, handlers: matches });
-            }
-        }
-    }
-}
-</pre></td></tr></table></figure>
-
-
-<p>真正模拟冒泡的方法，这里过滤掉了disable元素的click事件</p>
-<p>看for循环的终止条件中，看到cur是冒泡到的当前元素，而this中存放的是触发事件的真正元素（代理元素），这里用<code>cur !== this</code>判断循环终止，说明冒泡只从被代理的元素运行到代理元素</p>
-<p>首先我们要知道，在add时，如果使用了代理的方式，会将代理的回调函数放在回调对象列表（这里是handlers）的前面而不是后面，具体的个数会使用delegateCount记录。这里对回调对象列表中的每个回调对象，会判断元素是否符合selector选择器，如果符合，就添加回调对象到matches中。这里还用了一点小技巧缓存了判断结果。</p>
-<p>对于冒泡路径上的每个元素，都会确定其需要执行的回调对象的列表。将元素和其需要执行的回调对象列表进行封装，成为一个新的对象，其中有elem表示冒泡的当前元素，以及handlers表明回调函数对象列表。将这些新对象组织成一个经过加工的回调对象列表。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-</pre></td><td class="code"><pre><span class="keyword">if</span> ( delegateCount &lt; handlers.length ) {
-    handlerQueue.push({ elem: <span class="keyword">this</span>, handlers: handlers.slice( delegateCount ) });
-}
-<span class="keyword">return</span> handlerQueue;
-</pre></td></tr></table></figure>
-
-
-<p>对于不使用事件代理的情况，直接将它们按照同样的格式生成新对象后，push到经过加工的回调对象列表后面，就可以得到完整的回调函数列表了</p>
-<h2 id="总结">总结</h2>
-<p>事件管理器这块基本上包含了jq的事件机制的所有核心思想，事件代理、自定事件模拟的冒泡、特殊函数的处理，命名空间的处理等等。事件代理的冒泡机制和trigger中的冒泡需要注意理解，而特殊函数的钩子模式可以说贯穿jQuery始终。由于篇幅太长，这里并没有介绍jq的事件对象，以及一些像fix方法，这些将在下一篇进行介绍</p>
-]]></content>
-    <summary type="html">
-    <![CDATA[这篇主要介绍了jQuery中事件管理器的一些核心方法，涉及事件代理、自定事件模拟的冒泡、特殊函数的处理，命名空间的处理等等]]>
     
     </summary>
     
