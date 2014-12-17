@@ -4,7 +4,7 @@
   
   <link href="/atom.xml" rel="self"/>
   <link href="http://lingyu.wang/"/>
-  <updated>2014-12-15T14:45:16.769Z</updated>
+  <updated>2014-12-17T15:45:36.551Z</updated>
   <id>http://lingyu.wang/</id>
   
   <author>
@@ -4555,74 +4555,6 @@ dataChannel.onclose = <span class="function"><span class="keyword">function</spa
   </entry>
   
   <entry>
-    <title><![CDATA[CSS的渲染阻塞]]></title>
-    <link href="http://lingyu.wang/2014/05/21/google-render-blocking-css/"/>
-    <id>http://lingyu.wang/2014/05/21/google-render-blocking-css/</id>
-    <published>2014-05-20T16:00:00.000Z</published>
-    <updated>2014-11-18T07:41:45.171Z</updated>
-    <content type="html"><![CDATA[<p>默认情况下，CSS会被看做是渲染阻塞资源，也就是说，浏览器在CSSOM建立前，已经处理过的网页内容不会被显示到页面上。所以，保证你的CSS代码能够快速从服务器获取且尽可能的简短，并注意使用媒体类型（media types）和媒体查询（media queries）去进行非阻塞的渲染。</p>
-<a id="more"></a>
-
-<p>在之前的章节中，我们已经知道了要建立渲染树，必须先建立好DOM树和CSSOM树，这里有一个很重要的性能要点：HTML和CSS都是渲染阻塞资源。HTML很明显，因为如果没有创建好DOM树，浏览器都不知道有什么东西需要渲染。但CSS就不那么明显了。如果我们尝试不使用CSS的阻塞渲染去渲染一个典型的页面，会发生什么呢？</p>
-<h3 id="长话短说">长话短说</h3>
-<ul>
-<li>默认情况下CSS是渲染阻塞资源</li>
-<li>媒体类型和媒体查询可以让一些CSS变成非渲染阻塞资源</li>
-<li>所有CSS资源，无论是阻塞还是非阻塞，都需要通过浏览器进行下载</li>
-</ul>
-<h3 id="CSS是渲染阻塞资源">CSS是渲染阻塞资源</h3>
-<p>浏览器将会阻塞渲染直到DOM树和CSSOM树都创建完毕</p>
-<p><strong>CSS是渲染阻塞元素，尽可能快速的让浏览器下载到文件，这样可以减少阻塞的时间</strong></p>
-<p>然而，如果我们有一些只有在特定条件下才使用的样式，比如打印或是在大的显示器中显示等情况，我们当然不希望这些特定条件下才会使用的样式阻塞渲染。</p>
-<h3 id="媒体类型和媒体查询">媒体类型和媒体查询</h3>
-<p>CSS中的媒体类型和媒体查询就可以达到这种效果：</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre>1
-2
-3
-</pre></td><td class="code"><pre><span class="tag">&lt;<span class="title">link</span> <span class="attribute">href</span>=<span class="value">"style.css"</span> <span class="attribute">rel</span>=<span class="value">"stylesheet"</span>&gt;</span>
-<span class="tag">&lt;<span class="title">link</span> <span class="attribute">href</span>=<span class="value">"print.css"</span> <span class="attribute">rel</span>=<span class="value">"stylesheet"</span> <span class="attribute">media</span>=<span class="value">"print"</span>&gt;</span>
-<span class="tag">&lt;<span class="title">link</span> <span class="attribute">href</span>=<span class="value">"other.css"</span> <span class="attribute">rel</span>=<span class="value">"stylesheet"</span> <span class="attribute">media</span>=<span class="value">"(min-width: 40em)"</span>&gt;</span>
-</pre></td></tr></table></figure>
-
-
-<p>一个媒体查询可以由一个媒体类型和查询表达式构成，查询表达式可以是任意个数，他们检测了当前设备的特点。比如，在第一个样式表申明中并没有使用媒体类型和媒体查询，因此它在所有情况下都会被应用，也就是说，它总汇总阿红才呢过渲染阻塞。而另一方面，第二个样式表仅仅在网页内容被打印时才会被应用，可能你需要在打印时改换一下布局，改变一下字体等等，因此，这个样式表不会再页面首次加载时造成渲染阻塞。而最后一个样式表提供了一个媒体查询，浏览器将判断条件是否满足。如果浏览器满足媒体查询中的条件，浏览器将在下载并处理完这个样式表之前阻塞渲染。</p>
-<p>通过使用媒体查询，我们可以根据特定的用例来定制展现的样式，比如显示和打印。同时，还能动态的判断诸如屏幕方向，缩放事件等等。在申明样式表时，重点关注媒体类型和媒体查询，他们将很大程度影响网页渲染的效率。</p>
-<p>让我们考虑如下例子：</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-</pre></td><td class="code"><pre><span class="tag">&lt;<span class="title">link</span> <span class="attribute">href</span>=<span class="value">"style.css"</span>    <span class="attribute">rel</span>=<span class="value">"stylesheet"</span>&gt;</span>
-<span class="tag">&lt;<span class="title">link</span> <span class="attribute">href</span>=<span class="value">"style.css"</span>    <span class="attribute">rel</span>=<span class="value">"stylesheet"</span> <span class="attribute">media</span>=<span class="value">"screen"</span>&gt;</span>
-<span class="tag">&lt;<span class="title">link</span> <span class="attribute">href</span>=<span class="value">"portrait.css"</span> <span class="attribute">rel</span>=<span class="value">"stylesheet"</span> <span class="attribute">media</span>=<span class="value">"orientation:portrait"</span>&gt;</span>
-<span class="tag">&lt;<span class="title">link</span> <span class="attribute">href</span>=<span class="value">"print.css"</span>    <span class="attribute">rel</span>=<span class="value">"stylesheet"</span> <span class="attribute">media</span>=<span class="value">"print"</span>&gt;</span>
-</pre></td></tr></table></figure>
-
-
-<ol>
-<li>第一个样式申明将会造成渲染阻塞，它在任意情况下都会被应用；</li>
-<li>第二个样式申明也会造成渲染阻塞：“screen”是默认类型，除非你执行了一个其他类型，否则浏览器总是显示的设定媒体类型为“screen”。因此这个样式申明和第一个样式申明等价；</li>
-<li>第三个样式申明是一个动态的媒体查询，他会在页面加载完成之后进行计算。根据页面加载完成后的设备横竖屏来决定样式是否会阻塞渲染；</li>
-<li>最后一个样式申明仅仅在页面被打印的时候起作用，因此他不会在页面首次加载进浏览器中时造成渲染阻塞</li>
-</ol>
-<h3 id="浏览器下载">浏览器下载</h3>
-<p>最后，注意一下渲染阻塞只是指浏览器是否要在页面初始渲染时，是否需要渲染该资源内部的样式。无论在何种情况下，尽管非阻塞资源的优先级较低，CSS文件依旧必须要由浏览器进行下载。</p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<p>默认情况下，CSS会被看做是渲染阻塞资源，也就是说，浏览器在CSSOM建立前，已经处理过的网页内容不会被显示到页面上。所以，保证你的CSS代码能够快速从服务器获取且尽可能的简短，并注意使用媒体类型（media types）和媒体查询（media queries）去进行非阻塞的渲染。</p>
-]]>
-    
-    </summary>
-    
-      <category term="HTML" scheme="http://lingyu.wang/tags/HTML/"/>
-    
-      <category term="CSS" scheme="http://lingyu.wang/tags/CSS/"/>
-    
-      <category term="翻译" scheme="http://lingyu.wang/categories/%E7%BF%BB%E8%AF%91/"/>
-    
-  </entry>
-  
-  <entry>
     <title><![CDATA[使用导航计时监测渲染关键路径]]></title>
     <link href="http://lingyu.wang/2014/05/21/google-measuring-the-critical-rendering-path-with-navigation-timing/"/>
     <id>http://lingyu.wang/2014/05/21/google-measuring-the-critical-rendering-path-with-navigation-timing/</id>
@@ -4903,91 +4835,61 @@ document.body.appendChild(loadTime);
   </entry>
   
   <entry>
-    <title><![CDATA[渲染树的构建，布局和绘制]]></title>
-    <link href="http://lingyu.wang/2014/05/20/google-render-tree-construction-layout-and-paint/"/>
-    <id>http://lingyu.wang/2014/05/20/google-render-tree-construction-layout-and-paint/</id>
-    <published>2014-05-19T16:00:00.000Z</published>
-    <updated>2014-11-18T07:41:47.114Z</updated>
-    <content type="html"><![CDATA[<p>CSSOM树和DOM树组合生成渲染树，渲染树将决定每一个可见元素的计算样式，并作为输入交给绘制线程，绘制线程将会把他们渲染成像素打到屏幕上。优化这些步骤将是提升渲染性能的关键所在。</p>
+    <title><![CDATA[CSS的渲染阻塞]]></title>
+    <link href="http://lingyu.wang/2014/05/21/google-render-blocking-css/"/>
+    <id>http://lingyu.wang/2014/05/21/google-render-blocking-css/</id>
+    <published>2014-05-20T16:00:00.000Z</published>
+    <updated>2014-11-18T07:41:45.171Z</updated>
+    <content type="html"><![CDATA[<p>默认情况下，CSS会被看做是渲染阻塞资源，也就是说，浏览器在CSSOM建立前，已经处理过的网页内容不会被显示到页面上。所以，保证你的CSS代码能够快速从服务器获取且尽可能的简短，并注意使用媒体类型（media types）和媒体查询（media queries）去进行非阻塞的渲染。</p>
 <a id="more"></a>
 
-<p>上一章节介绍了如何构建对象模型。我们从HTML和CSS构建出了DOM树和CSSOM树。但是，他们描述的是文档的不同方面：DOM树描述的是页面内容，而CSSOM树则描述的是需要被使用到页面内容上的样式规则，由此可见，他们是相互独立的数据结构。那么我们应当如何去合并这两棵树来让浏览器渲染像素到屏幕呢？</p>
+<p>在之前的章节中，我们已经知道了要建立渲染树，必须先建立好DOM树和CSSOM树，这里有一个很重要的性能要点：HTML和CSS都是渲染阻塞资源。HTML很明显，因为如果没有创建好DOM树，浏览器都不知道有什么东西需要渲染。但CSS就不那么明显了。如果我们尝试不使用CSS的阻塞渲染去渲染一个典型的页面，会发生什么呢？</p>
 <h3 id="长话短说">长话短说</h3>
 <ul>
-<li>DOM树和CSSOM树结合组成了渲染树</li>
-<li>渲染树（Render tree）只会包含需要绘制到页面上的节点</li>
-<li>布局（Layout）会计算出每一个对象的具体位置和大小</li>
-<li>绘制（Paint）是最后异步，将会将渲染树渲染成像素，显示到屏幕上</li>
+<li>默认情况下CSS是渲染阻塞资源</li>
+<li>媒体类型和媒体查询可以让一些CSS变成非渲染阻塞资源</li>
+<li>所有CSS资源，无论是阻塞还是非阻塞，都需要通过浏览器进行下载</li>
 </ul>
-<h3 id="构建渲染树">构建渲染树</h3>
-<p>浏览器首先需要结合DOM树和CSSOM树到渲染树，渲染树获取所有页面上可见的DOM内容，再吧CSSOM中的样式信息附着到每一个节点上</p>
-<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-5-20/7.png" alt="组合DOM树和CSSOM树，生成渲染树"></p>
-<p>为了构建渲染树，浏览器所做的工作大致如下：</p>
-<ol>
-<li>从DOM树的根节点开始，遍历每个可见的节点<ul>
-<li>有些节点本身不可见（比如script、meta等等）</li>
-<li>有些节点被CSS隐藏了，这些节点也会被渲染树忽略</li>
-</ul>
-</li>
-<li>对于每一个可见节点，会从CSSOM中找并应用到其对应的样式信息</li>
-<li>提交可见的节点和他们的内容和样式</li>
-</ol>
-<p><strong>需要注意的是，<code>visibility:hidden</code>和<code>display:none</code>是不同的。前者会将元素隐藏，但元素依旧在页面中占据空间（会被绘制成空的盒子），所以需要递交给布局阶段进行处理。而后者会从渲染树中移除元素及所有子元素，他们被递交给布局阶段</strong></p>
-<p>这个阶段完毕后，会生成一个包含所有可见节点的内容和样式信息的渲染树。接下来可以进行布局阶段了</p>
-<h3 id="布局阶段">布局阶段</h3>
-<p>目前为止，我们已经获取了可见节点的计算样式，但我们还没有计算元素在设备视口中的最终的位置和尺寸——计算这些就是布局阶段的工作，它还有另外一个我们熟知的名称：回流（reflow）</p>
-<p>为了计算每个节点的最终位置和尺寸，需要从根节点开始遍历渲染树，计算渲染树中每个对象在页面上的几何图形。比如如下例子：</p>
+<h3 id="CSS是渲染阻塞资源">CSS是渲染阻塞资源</h3>
+<p>浏览器将会阻塞渲染直到DOM树和CSSOM树都创建完毕</p>
+<p><strong>CSS是渲染阻塞元素，尽可能快速的让浏览器下载到文件，这样可以减少阻塞的时间</strong></p>
+<p>然而，如果我们有一些只有在特定条件下才使用的样式，比如打印或是在大的显示器中显示等情况，我们当然不希望这些特定条件下才会使用的样式阻塞渲染。</p>
+<h3 id="媒体类型和媒体查询">媒体类型和媒体查询</h3>
+<p>CSS中的媒体类型和媒体查询就可以达到这种效果：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre>1
+2
+3
+</pre></td><td class="code"><pre><span class="tag">&lt;<span class="title">link</span> <span class="attribute">href</span>=<span class="value">"style.css"</span> <span class="attribute">rel</span>=<span class="value">"stylesheet"</span>&gt;</span>
+<span class="tag">&lt;<span class="title">link</span> <span class="attribute">href</span>=<span class="value">"print.css"</span> <span class="attribute">rel</span>=<span class="value">"stylesheet"</span> <span class="attribute">media</span>=<span class="value">"print"</span>&gt;</span>
+<span class="tag">&lt;<span class="title">link</span> <span class="attribute">href</span>=<span class="value">"other.css"</span> <span class="attribute">rel</span>=<span class="value">"stylesheet"</span> <span class="attribute">media</span>=<span class="value">"(min-width: 40em)"</span>&gt;</span>
+</pre></td></tr></table></figure>
+
+
+<p>一个媒体查询可以由一个媒体类型和查询表达式构成，查询表达式可以是任意个数，他们检测了当前设备的特点。比如，在第一个样式表申明中并没有使用媒体类型和媒体查询，因此它在所有情况下都会被应用，也就是说，它总汇总阿红才呢过渲染阻塞。而另一方面，第二个样式表仅仅在网页内容被打印时才会被应用，可能你需要在打印时改换一下布局，改变一下字体等等，因此，这个样式表不会再页面首次加载时造成渲染阻塞。而最后一个样式表提供了一个媒体查询，浏览器将判断条件是否满足。如果浏览器满足媒体查询中的条件，浏览器将在下载并处理完这个样式表之前阻塞渲染。</p>
+<p>通过使用媒体查询，我们可以根据特定的用例来定制展现的样式，比如显示和打印。同时，还能动态的判断诸如屏幕方向，缩放事件等等。在申明样式表时，重点关注媒体类型和媒体查询，他们将很大程度影响网页渲染的效率。</p>
+<p>让我们考虑如下例子：</p>
 <figure class="highlight html"><table><tr><td class="gutter"><pre>1
 2
 3
 4
-5
-6
-7
-8
-9
-10
-11
-</pre></td><td class="code"><pre><span class="tag">&lt;<span class="title">html</span>&gt;</span>
-  <span class="tag">&lt;<span class="title">head</span>&gt;</span>
-    <span class="tag">&lt;<span class="title">meta</span> <span class="attribute">name</span>=<span class="value">"viewport"</span> <span class="attribute">content</span>=<span class="value">"width=device-width,initial-scale=1.0"</span>&gt;</span>
-    <span class="tag">&lt;<span class="title">title</span>&gt;</span>Critial Path: Hello world!<span class="tag">&lt;/<span class="title">title</span>&gt;</span>
-  <span class="tag">&lt;/<span class="title">head</span>&gt;</span>
-  <span class="tag">&lt;<span class="title">body</span>&gt;</span>
-    <span class="tag">&lt;<span class="title">div</span> <span class="attribute">style</span>=<span class="value">"width: 50%"</span>&gt;</span>
-      <span class="tag">&lt;<span class="title">div</span> <span class="attribute">style</span>=<span class="value">"width: 50%"</span>&gt;</span>Hello world!<span class="tag">&lt;/<span class="title">div</span>&gt;</span>
-    <span class="tag">&lt;/<span class="title">div</span>&gt;</span>
-  <span class="tag">&lt;/<span class="title">body</span>&gt;</span>
-<span class="tag">&lt;/<span class="title">html</span>&gt;</span>
+</pre></td><td class="code"><pre><span class="tag">&lt;<span class="title">link</span> <span class="attribute">href</span>=<span class="value">"style.css"</span>    <span class="attribute">rel</span>=<span class="value">"stylesheet"</span>&gt;</span>
+<span class="tag">&lt;<span class="title">link</span> <span class="attribute">href</span>=<span class="value">"style.css"</span>    <span class="attribute">rel</span>=<span class="value">"stylesheet"</span> <span class="attribute">media</span>=<span class="value">"screen"</span>&gt;</span>
+<span class="tag">&lt;<span class="title">link</span> <span class="attribute">href</span>=<span class="value">"portrait.css"</span> <span class="attribute">rel</span>=<span class="value">"stylesheet"</span> <span class="attribute">media</span>=<span class="value">"orientation:portrait"</span>&gt;</span>
+<span class="tag">&lt;<span class="title">link</span> <span class="attribute">href</span>=<span class="value">"print.css"</span>    <span class="attribute">rel</span>=<span class="value">"stylesheet"</span> <span class="attribute">media</span>=<span class="value">"print"</span>&gt;</span>
 </pre></td></tr></table></figure>
 
 
-<p>上面的页面的body元素包含两个嵌套的div，第一个div（父元素）其节点的宽度为视口宽度的50%，第二个div在第一个div之中，宽度是第一个元素的50%，也就是视口宽的的50%。</p>
-<p>布局阶段输出的是一个盒子模型，它精确地描述了元素在视口中的确切位置和尺寸：所有相对单位都会被转变为屏幕上的绝对像素值，等等</p>
-<p>现在我们知道了哪些元素可见，他们的计算样式，以及他们的几何图形，我们终于能够将这些信息传递给最终阶段。这个阶段将渲染树中的每个节点绘制成屏幕上像素。通常这个阶段叫做绘制阶段（painting）或是光栅化（rasterizing）</p>
-<h3 id="绘制阶段">绘制阶段</h3>
-<p>这里面每个步骤都需要浏览器惊醒一定量的工作，也就说会花费一定的时间。我们可以通过Chrome开发者工具看我们上面所说到的三个阶段。</p>
-<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-5-20/8.png" alt="开发者工具中查看布局阶段"></p>
-<ul>
-<li>Timeline中的Layout事件包含渲染树的构建阶段和位置尺寸的计算阶段</li>
-<li>一旦布局阶段完成，浏览器会开启“Paint Setup”和“Paint”事件，用来将渲染树转变成屏幕上的像素</li>
-</ul>
-<p>上面所说的渲染树构建、布局阶段、绘制阶段所需要的事件会根据文档的大小、样式的多少、设备的配置有关。文档越大，浏览器需要做更多的工作。样式越复杂，浏览器需要考虑更多的绘制（绘制一个固定颜色代价很低，但绘制一个阴影代价很大）。</p>
-<p>这些都完成后，我们的页面终于展示在视口里了</p>
-<h3 id="总结">总结</h3>
-<p>我们来重温一下所有的步骤：</p>
 <ol>
-<li>处理HTML标记，构建DOM树</li>
-<li>处理CSS标记，构建CSSOM树</li>
-<li>合并DOM树和CSSOM树，构建渲染树</li>
-<li>在渲染树上运行布局阶段，计算每个可见节点的几何图形</li>
-<li>绘制每个独立的节点到屏幕上</li>
+<li>第一个样式申明将会造成渲染阻塞，它在任意情况下都会被应用；</li>
+<li>第二个样式申明也会造成渲染阻塞：“screen”是默认类型，除非你执行了一个其他类型，否则浏览器总是显示的设定媒体类型为“screen”。因此这个样式申明和第一个样式申明等价；</li>
+<li>第三个样式申明是一个动态的媒体查询，他会在页面加载完成之后进行计算。根据页面加载完成后的设备横竖屏来决定样式是否会阻塞渲染；</li>
+<li>最后一个样式申明仅仅在页面被打印的时候起作用，因此他不会在页面首次加载进浏览器中时造成渲染阻塞</li>
 </ol>
-<p>考虑如果DOM或CSSOM发生改变时，会发生些什么？我们需要重复这些工作来确定如何回执到屏幕上</p>
-<p>优化渲染的关键就是减少这5步所花费的时间。减少这5步所花费的事件能够让页面尽可能快的展示到页面上。在首次页面渲染之后，每次更新后的渲染效率也会提高。</p>
+<h3 id="浏览器下载">浏览器下载</h3>
+<p>最后，注意一下渲染阻塞只是指浏览器是否要在页面初始渲染时，是否需要渲染该资源内部的样式。无论在何种情况下，尽管非阻塞资源的优先级较低，CSS文件依旧必须要由浏览器进行下载。</p>
 ]]></content>
     <summary type="html">
-    <![CDATA[<p>CSSOM树和DOM树组合生成渲染树，渲染树将决定每一个可见元素的计算样式，并作为输入交给绘制线程，绘制线程将会把他们渲染成像素打到屏幕上。优化这些步骤将是提升渲染性能的关键所在。</p>
+    <![CDATA[<p>默认情况下，CSS会被看做是渲染阻塞资源，也就是说，浏览器在CSSOM建立前，已经处理过的网页内容不会被显示到页面上。所以，保证你的CSS代码能够快速从服务器获取且尽可能的简短，并注意使用媒体类型（media types）和媒体查询（media queries）去进行非阻塞的渲染。</p>
 ]]>
     
     </summary>
@@ -5084,6 +4986,104 @@ document.body.appendChild(loadTime);
 ]]></content>
     <summary type="html">
     <![CDATA[<p>浏览器渲染页面之前会构建DOM树和CSSOM树<br>]]>
+    
+    </summary>
+    
+      <category term="HTML" scheme="http://lingyu.wang/tags/HTML/"/>
+    
+      <category term="CSS" scheme="http://lingyu.wang/tags/CSS/"/>
+    
+      <category term="翻译" scheme="http://lingyu.wang/categories/%E7%BF%BB%E8%AF%91/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[渲染树的构建，布局和绘制]]></title>
+    <link href="http://lingyu.wang/2014/05/20/google-render-tree-construction-layout-and-paint/"/>
+    <id>http://lingyu.wang/2014/05/20/google-render-tree-construction-layout-and-paint/</id>
+    <published>2014-05-19T16:00:00.000Z</published>
+    <updated>2014-11-18T07:41:47.114Z</updated>
+    <content type="html"><![CDATA[<p>CSSOM树和DOM树组合生成渲染树，渲染树将决定每一个可见元素的计算样式，并作为输入交给绘制线程，绘制线程将会把他们渲染成像素打到屏幕上。优化这些步骤将是提升渲染性能的关键所在。</p>
+<a id="more"></a>
+
+<p>上一章节介绍了如何构建对象模型。我们从HTML和CSS构建出了DOM树和CSSOM树。但是，他们描述的是文档的不同方面：DOM树描述的是页面内容，而CSSOM树则描述的是需要被使用到页面内容上的样式规则，由此可见，他们是相互独立的数据结构。那么我们应当如何去合并这两棵树来让浏览器渲染像素到屏幕呢？</p>
+<h3 id="长话短说">长话短说</h3>
+<ul>
+<li>DOM树和CSSOM树结合组成了渲染树</li>
+<li>渲染树（Render tree）只会包含需要绘制到页面上的节点</li>
+<li>布局（Layout）会计算出每一个对象的具体位置和大小</li>
+<li>绘制（Paint）是最后异步，将会将渲染树渲染成像素，显示到屏幕上</li>
+</ul>
+<h3 id="构建渲染树">构建渲染树</h3>
+<p>浏览器首先需要结合DOM树和CSSOM树到渲染树，渲染树获取所有页面上可见的DOM内容，再吧CSSOM中的样式信息附着到每一个节点上</p>
+<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-5-20/7.png" alt="组合DOM树和CSSOM树，生成渲染树"></p>
+<p>为了构建渲染树，浏览器所做的工作大致如下：</p>
+<ol>
+<li>从DOM树的根节点开始，遍历每个可见的节点<ul>
+<li>有些节点本身不可见（比如script、meta等等）</li>
+<li>有些节点被CSS隐藏了，这些节点也会被渲染树忽略</li>
+</ul>
+</li>
+<li>对于每一个可见节点，会从CSSOM中找并应用到其对应的样式信息</li>
+<li>提交可见的节点和他们的内容和样式</li>
+</ol>
+<p><strong>需要注意的是，<code>visibility:hidden</code>和<code>display:none</code>是不同的。前者会将元素隐藏，但元素依旧在页面中占据空间（会被绘制成空的盒子），所以需要递交给布局阶段进行处理。而后者会从渲染树中移除元素及所有子元素，他们被递交给布局阶段</strong></p>
+<p>这个阶段完毕后，会生成一个包含所有可见节点的内容和样式信息的渲染树。接下来可以进行布局阶段了</p>
+<h3 id="布局阶段">布局阶段</h3>
+<p>目前为止，我们已经获取了可见节点的计算样式，但我们还没有计算元素在设备视口中的最终的位置和尺寸——计算这些就是布局阶段的工作，它还有另外一个我们熟知的名称：回流（reflow）</p>
+<p>为了计算每个节点的最终位置和尺寸，需要从根节点开始遍历渲染树，计算渲染树中每个对象在页面上的几何图形。比如如下例子：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+</pre></td><td class="code"><pre><span class="tag">&lt;<span class="title">html</span>&gt;</span>
+  <span class="tag">&lt;<span class="title">head</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">meta</span> <span class="attribute">name</span>=<span class="value">"viewport"</span> <span class="attribute">content</span>=<span class="value">"width=device-width,initial-scale=1.0"</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">title</span>&gt;</span>Critial Path: Hello world!<span class="tag">&lt;/<span class="title">title</span>&gt;</span>
+  <span class="tag">&lt;/<span class="title">head</span>&gt;</span>
+  <span class="tag">&lt;<span class="title">body</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">div</span> <span class="attribute">style</span>=<span class="value">"width: 50%"</span>&gt;</span>
+      <span class="tag">&lt;<span class="title">div</span> <span class="attribute">style</span>=<span class="value">"width: 50%"</span>&gt;</span>Hello world!<span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+    <span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+  <span class="tag">&lt;/<span class="title">body</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">html</span>&gt;</span>
+</pre></td></tr></table></figure>
+
+
+<p>上面的页面的body元素包含两个嵌套的div，第一个div（父元素）其节点的宽度为视口宽度的50%，第二个div在第一个div之中，宽度是第一个元素的50%，也就是视口宽的的50%。</p>
+<p>布局阶段输出的是一个盒子模型，它精确地描述了元素在视口中的确切位置和尺寸：所有相对单位都会被转变为屏幕上的绝对像素值，等等</p>
+<p>现在我们知道了哪些元素可见，他们的计算样式，以及他们的几何图形，我们终于能够将这些信息传递给最终阶段。这个阶段将渲染树中的每个节点绘制成屏幕上像素。通常这个阶段叫做绘制阶段（painting）或是光栅化（rasterizing）</p>
+<h3 id="绘制阶段">绘制阶段</h3>
+<p>这里面每个步骤都需要浏览器惊醒一定量的工作，也就说会花费一定的时间。我们可以通过Chrome开发者工具看我们上面所说到的三个阶段。</p>
+<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-5-20/8.png" alt="开发者工具中查看布局阶段"></p>
+<ul>
+<li>Timeline中的Layout事件包含渲染树的构建阶段和位置尺寸的计算阶段</li>
+<li>一旦布局阶段完成，浏览器会开启“Paint Setup”和“Paint”事件，用来将渲染树转变成屏幕上的像素</li>
+</ul>
+<p>上面所说的渲染树构建、布局阶段、绘制阶段所需要的事件会根据文档的大小、样式的多少、设备的配置有关。文档越大，浏览器需要做更多的工作。样式越复杂，浏览器需要考虑更多的绘制（绘制一个固定颜色代价很低，但绘制一个阴影代价很大）。</p>
+<p>这些都完成后，我们的页面终于展示在视口里了</p>
+<h3 id="总结">总结</h3>
+<p>我们来重温一下所有的步骤：</p>
+<ol>
+<li>处理HTML标记，构建DOM树</li>
+<li>处理CSS标记，构建CSSOM树</li>
+<li>合并DOM树和CSSOM树，构建渲染树</li>
+<li>在渲染树上运行布局阶段，计算每个可见节点的几何图形</li>
+<li>绘制每个独立的节点到屏幕上</li>
+</ol>
+<p>考虑如果DOM或CSSOM发生改变时，会发生些什么？我们需要重复这些工作来确定如何回执到屏幕上</p>
+<p>优化渲染的关键就是减少这5步所花费的时间。减少这5步所花费的事件能够让页面尽可能快的展示到页面上。在首次页面渲染之后，每次更新后的渲染效率也会提高。</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>CSSOM树和DOM树组合生成渲染树，渲染树将决定每一个可见元素的计算样式，并作为输入交给绘制线程，绘制线程将会把他们渲染成像素打到屏幕上。优化这些步骤将是提升渲染性能的关键所在。</p>
+]]>
     
     </summary>
     
