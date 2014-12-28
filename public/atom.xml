@@ -4,7 +4,7 @@
   
   <link href="/atom.xml" rel="self"/>
   <link href="http://lingyu.wang/"/>
-  <updated>2014-12-27T15:54:16.899Z</updated>
+  <updated>2014-12-28T06:49:49.818Z</updated>
   <id>http://lingyu.wang/</id>
   
   <author>
@@ -4555,6 +4555,109 @@ dataChannel.onclose = <span class="function"><span class="keyword">function</spa
   </entry>
   
   <entry>
+    <title><![CDATA[使用导航计时监测渲染关键路径]]></title>
+    <link href="http://lingyu.wang/2014/05/21/google-measuring-the-critical-rendering-path-with-navigation-timing/"/>
+    <id>http://lingyu.wang/2014/05/21/google-measuring-the-critical-rendering-path-with-navigation-timing/</id>
+    <published>2014-05-20T16:00:00.000Z</published>
+    <updated>2014-11-18T07:41:42.952Z</updated>
+    <content type="html"><![CDATA[<p>没办法监测，就没办法优化。幸运的是，浏览器提供了一系列用来监测渲染关键路径上每一步的接口，叫导航计时接口（Navigation Timing API）<br><a id="more"></a></p>
+<h3 id="长话短说">长话短说</h3>
+<ul>
+<li>导航计时为监测渲染关键路径提供了高分辨率的时间戳</li>
+<li>浏览器在到达渲染关键路径的不同阶段时，会触发一系列的事件</li>
+</ul>
+<h3 id="用于监测的时间戳">用于监测的时间戳</h3>
+<p>好的性能策略都是建立在良好的测量基础之上的。下面这张图说明了导航计时接口提供的API：</p>
+<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-5-21/1.png" alt="导航计时接口提供的API"></p>
+<p>上面的每一个标签都提供了一个方法，用于检测每一个页面加载的高分辨率的时间戳。在这里，我们仅仅介绍除了与网络相关的时间戳的哪些一部分时间戳，剩下的我们会在以后的章节作介绍</p>
+<p>那么，这些时间戳代表着什么？</p>
+<ul>
+<li>domLoading：整个处理过程开始的时间，也就是浏览器开始解析HTML文档的第一个字节的时间</li>
+<li>domInteractive：浏览器解析完所有HTML，并完成DOM构建的时间</li>
+<li>domContentLoaded：开始构建渲染树的时间点，就是DOM构建完毕后，若没有样式以及阻塞的JavaScript运行的时间点<ul>
+<li>许多JavaScript框架都会监听这个事件，然后执行他们自己的逻辑。因此浏览器提供了EventStart和EventEnd两个时间戳来允许我们知道具体运行消耗的时间</li>
+</ul>
+</li>
+<li>domComplete：和名字一样，记录了页面上的所有资源都下载完成（包括图片）以及所有处理逻辑都结束后的时间点。这个时间点过后，浏览器旋转的加载标记将不再旋转了</li>
+<li>loadEvent：最后，浏览器触发onload事件来执行一些其他的应用逻辑</li>
+</ul>
+<h3 id="里程碑">里程碑</h3>
+<p>根据HTML的规范，浏览器会检测所有事件：什么时候应该触发事件，应该满足哪些条件等等。对于我们来说，我们只需要关注渲染关键路径上的一些“里程碑”事件：</p>
+<ul>
+<li>domIneractive：说明DOM构建完毕</li>
+<li>domContentLoaded：当DOM和CSSOM都完成后触发<ul>
+<li>如果没有“解析器阻塞”的JavaScript代码，documentContentLoaded将直接在domInteractive之后触发</li>
+</ul>
+</li>
+<li>domComplete：当页面及其所有资源全部完毕时触发</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+</pre></td><td class="code"><pre><span class="tag">&lt;<span class="title">html</span>&gt;</span>
+  <span class="tag">&lt;<span class="title">head</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">title</span>&gt;</span>Critical Path: Measure<span class="tag">&lt;/<span class="title">title</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">meta</span> <span class="attribute">name</span>=<span class="value">"viewport"</span> <span class="attribute">content</span>=<span class="value">"width=device-width,initial-scale=1.0"</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">link</span> <span class="attribute">href</span>=<span class="value">"style.css"</span> <span class="attribute">rel</span>=<span class="value">"stylesheet"</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">script</span>&gt;</span><span class="javascript">
+      <span class="function"><span class="keyword">function</span> <span class="title">measureCRP</span><span class="params">()</span> {</span>
+        <span class="keyword">var</span> t = window.performance.timing,
+          interactive = t.domInteractive - t.domLoading,
+          dcl = t.domContentLoadedEventStart - t.domLoading,
+          complete = t.domComplete - t.domLoading;
+        <span class="keyword">var</span> stats = document.createElement(<span class="string">'p'</span>);
+        stats.textContent = <span class="string">'interactive: '</span> + interactive + <span class="string">'ms, '</span> +
+            <span class="string">'dcl: '</span> + dcl + <span class="string">'ms, complete: '</span> + complete + <span class="string">'ms'</span>;
+        document.body.appendChild(stats);
+      }
+    </span><span class="tag">&lt;/<span class="title">script</span>&gt;</span>
+  <span class="tag">&lt;/<span class="title">head</span>&gt;</span>
+  <span class="tag">&lt;<span class="title">body</span> <span class="attribute">onload</span>=<span class="value">"measureCRP()"</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">p</span>&gt;</span>Hello <span class="tag">&lt;<span class="title">span</span>&gt;</span>web performance<span class="tag">&lt;/<span class="title">span</span>&gt;</span> students!<span class="tag">&lt;/<span class="title">p</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">div</span>&gt;</span><span class="tag">&lt;<span class="title">img</span> <span class="attribute">src</span>=<span class="value">"awesome-photo.jpg"</span>&gt;</span><span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+  <span class="tag">&lt;/<span class="title">body</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">html</span>&gt;</span>
+</pre></td></tr></table></figure>
+
+
+<p>上面的例子乍看之下可能比较吓人，但实际上非常简单，导航计时API捕获了相关的时间戳，而我们的JavaScript代码放在onload事件的回调函数中，只有触发了onload事件，才会执行。onload事件只有在domInteractive、domContentLoaded和domComplete事件都完成之后才会触发，所以我们可以捕获到这些时间戳之间的差值，算出每个阶段所耗费的时间</p>
+<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-5-21/2.png" alt="时间戳检测结果"></p>
+<p>综上所述，我们可以获得一些“里程碑事件”以及一些简单的函数来输出测量结果。当然我们可以不将这些数据输出到页面上，而是发送这些分析的数据到专门的分析服务器（Google的分析工具就会自动做这些事），这样就能很方便的检测网页的性能，确定候选页面，并尝到优化所带来的甜头。</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>没办法监测，就没办法优化。幸运的是，浏览器提供了一系列用来监测渲染关键路径上每一步的接口，叫导航计时接口（Navigation Timing API）<br>]]>
+    
+    </summary>
+    
+      <category term="HTML" scheme="http://lingyu.wang/tags/HTML/"/>
+    
+      <category term="CSS" scheme="http://lingyu.wang/tags/CSS/"/>
+    
+      <category term="翻译" scheme="http://lingyu.wang/categories/%E7%BF%BB%E8%AF%91/"/>
+    
+  </entry>
+  
+  <entry>
     <title><![CDATA[通过JavaScript增加交互性]]></title>
     <link href="http://lingyu.wang/2014/05/21/google-adding-interactivity-with-javaScript/"/>
     <id>http://lingyu.wang/2014/05/21/google-adding-interactivity-with-javaScript/</id>
@@ -4800,42 +4903,40 @@ document.body.appendChild(loadTime);
   </entry>
   
   <entry>
-    <title><![CDATA[使用导航计时监测渲染关键路径]]></title>
-    <link href="http://lingyu.wang/2014/05/21/google-measuring-the-critical-rendering-path-with-navigation-timing/"/>
-    <id>http://lingyu.wang/2014/05/21/google-measuring-the-critical-rendering-path-with-navigation-timing/</id>
-    <published>2014-05-20T16:00:00.000Z</published>
-    <updated>2014-11-18T07:41:42.952Z</updated>
-    <content type="html"><![CDATA[<p>没办法监测，就没办法优化。幸运的是，浏览器提供了一系列用来监测渲染关键路径上每一步的接口，叫导航计时接口（Navigation Timing API）<br><a id="more"></a></p>
+    <title><![CDATA[渲染树的构建，布局和绘制]]></title>
+    <link href="http://lingyu.wang/2014/05/20/google-render-tree-construction-layout-and-paint/"/>
+    <id>http://lingyu.wang/2014/05/20/google-render-tree-construction-layout-and-paint/</id>
+    <published>2014-05-19T16:00:00.000Z</published>
+    <updated>2014-11-18T07:41:47.114Z</updated>
+    <content type="html"><![CDATA[<p>CSSOM树和DOM树组合生成渲染树，渲染树将决定每一个可见元素的计算样式，并作为输入交给绘制线程，绘制线程将会把他们渲染成像素打到屏幕上。优化这些步骤将是提升渲染性能的关键所在。</p>
+<a id="more"></a>
+
+<p>上一章节介绍了如何构建对象模型。我们从HTML和CSS构建出了DOM树和CSSOM树。但是，他们描述的是文档的不同方面：DOM树描述的是页面内容，而CSSOM树则描述的是需要被使用到页面内容上的样式规则，由此可见，他们是相互独立的数据结构。那么我们应当如何去合并这两棵树来让浏览器渲染像素到屏幕呢？</p>
 <h3 id="长话短说">长话短说</h3>
 <ul>
-<li>导航计时为监测渲染关键路径提供了高分辨率的时间戳</li>
-<li>浏览器在到达渲染关键路径的不同阶段时，会触发一系列的事件</li>
+<li>DOM树和CSSOM树结合组成了渲染树</li>
+<li>渲染树（Render tree）只会包含需要绘制到页面上的节点</li>
+<li>布局（Layout）会计算出每一个对象的具体位置和大小</li>
+<li>绘制（Paint）是最后异步，将会将渲染树渲染成像素，显示到屏幕上</li>
 </ul>
-<h3 id="用于监测的时间戳">用于监测的时间戳</h3>
-<p>好的性能策略都是建立在良好的测量基础之上的。下面这张图说明了导航计时接口提供的API：</p>
-<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-5-21/1.png" alt="导航计时接口提供的API"></p>
-<p>上面的每一个标签都提供了一个方法，用于检测每一个页面加载的高分辨率的时间戳。在这里，我们仅仅介绍除了与网络相关的时间戳的哪些一部分时间戳，剩下的我们会在以后的章节作介绍</p>
-<p>那么，这些时间戳代表着什么？</p>
-<ul>
-<li>domLoading：整个处理过程开始的时间，也就是浏览器开始解析HTML文档的第一个字节的时间</li>
-<li>domInteractive：浏览器解析完所有HTML，并完成DOM构建的时间</li>
-<li>domContentLoaded：开始构建渲染树的时间点，就是DOM构建完毕后，若没有样式以及阻塞的JavaScript运行的时间点<ul>
-<li>许多JavaScript框架都会监听这个事件，然后执行他们自己的逻辑。因此浏览器提供了EventStart和EventEnd两个时间戳来允许我们知道具体运行消耗的时间</li>
-</ul>
-</li>
-<li>domComplete：和名字一样，记录了页面上的所有资源都下载完成（包括图片）以及所有处理逻辑都结束后的时间点。这个时间点过后，浏览器旋转的加载标记将不再旋转了</li>
-<li>loadEvent：最后，浏览器触发onload事件来执行一些其他的应用逻辑</li>
-</ul>
-<h3 id="里程碑">里程碑</h3>
-<p>根据HTML的规范，浏览器会检测所有事件：什么时候应该触发事件，应该满足哪些条件等等。对于我们来说，我们只需要关注渲染关键路径上的一些“里程碑”事件：</p>
-<ul>
-<li>domIneractive：说明DOM构建完毕</li>
-<li>domContentLoaded：当DOM和CSSOM都完成后触发<ul>
-<li>如果没有“解析器阻塞”的JavaScript代码，documentContentLoaded将直接在domInteractive之后触发</li>
+<h3 id="构建渲染树">构建渲染树</h3>
+<p>浏览器首先需要结合DOM树和CSSOM树到渲染树，渲染树获取所有页面上可见的DOM内容，再吧CSSOM中的样式信息附着到每一个节点上</p>
+<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-5-20/7.png" alt="组合DOM树和CSSOM树，生成渲染树"></p>
+<p>为了构建渲染树，浏览器所做的工作大致如下：</p>
+<ol>
+<li>从DOM树的根节点开始，遍历每个可见的节点<ul>
+<li>有些节点本身不可见（比如script、meta等等）</li>
+<li>有些节点被CSS隐藏了，这些节点也会被渲染树忽略</li>
 </ul>
 </li>
-<li>domComplete：当页面及其所有资源全部完毕时触发</li>
-</ul>
+<li>对于每一个可见节点，会从CSSOM中找并应用到其对应的样式信息</li>
+<li>提交可见的节点和他们的内容和样式</li>
+</ol>
+<p><strong>需要注意的是，<code>visibility:hidden</code>和<code>display:none</code>是不同的。前者会将元素隐藏，但元素依旧在页面中占据空间（会被绘制成空的盒子），所以需要递交给布局阶段进行处理。而后者会从渲染树中移除元素及所有子元素，他们被递交给布局阶段</strong></p>
+<p>这个阶段完毕后，会生成一个包含所有可见节点的内容和样式信息的渲染树。接下来可以进行布局阶段了</p>
+<h3 id="布局阶段">布局阶段</h3>
+<p>目前为止，我们已经获取了可见节点的计算样式，但我们还没有计算元素在设备视口中的最终的位置和尺寸——计算这些就是布局阶段的工作，它还有另外一个我们熟知的名称：回流（reflow）</p>
+<p>为了计算每个节点的最终位置和尺寸，需要从根节点开始遍历渲染树，计算渲染树中每个对象在页面上的几何图形。比如如下例子：</p>
 <figure class="highlight html"><table><tr><td class="gutter"><pre>1
 2
 3
@@ -4847,50 +4948,47 @@ document.body.appendChild(loadTime);
 9
 10
 11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
 </pre></td><td class="code"><pre><span class="tag">&lt;<span class="title">html</span>&gt;</span>
   <span class="tag">&lt;<span class="title">head</span>&gt;</span>
-    <span class="tag">&lt;<span class="title">title</span>&gt;</span>Critical Path: Measure<span class="tag">&lt;/<span class="title">title</span>&gt;</span>
     <span class="tag">&lt;<span class="title">meta</span> <span class="attribute">name</span>=<span class="value">"viewport"</span> <span class="attribute">content</span>=<span class="value">"width=device-width,initial-scale=1.0"</span>&gt;</span>
-    <span class="tag">&lt;<span class="title">link</span> <span class="attribute">href</span>=<span class="value">"style.css"</span> <span class="attribute">rel</span>=<span class="value">"stylesheet"</span>&gt;</span>
-    <span class="tag">&lt;<span class="title">script</span>&gt;</span><span class="javascript">
-      <span class="function"><span class="keyword">function</span> <span class="title">measureCRP</span><span class="params">()</span> {</span>
-        <span class="keyword">var</span> t = window.performance.timing,
-          interactive = t.domInteractive - t.domLoading,
-          dcl = t.domContentLoadedEventStart - t.domLoading,
-          complete = t.domComplete - t.domLoading;
-        <span class="keyword">var</span> stats = document.createElement(<span class="string">'p'</span>);
-        stats.textContent = <span class="string">'interactive: '</span> + interactive + <span class="string">'ms, '</span> +
-            <span class="string">'dcl: '</span> + dcl + <span class="string">'ms, complete: '</span> + complete + <span class="string">'ms'</span>;
-        document.body.appendChild(stats);
-      }
-    </span><span class="tag">&lt;/<span class="title">script</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">title</span>&gt;</span>Critial Path: Hello world!<span class="tag">&lt;/<span class="title">title</span>&gt;</span>
   <span class="tag">&lt;/<span class="title">head</span>&gt;</span>
-  <span class="tag">&lt;<span class="title">body</span> <span class="attribute">onload</span>=<span class="value">"measureCRP()"</span>&gt;</span>
-    <span class="tag">&lt;<span class="title">p</span>&gt;</span>Hello <span class="tag">&lt;<span class="title">span</span>&gt;</span>web performance<span class="tag">&lt;/<span class="title">span</span>&gt;</span> students!<span class="tag">&lt;/<span class="title">p</span>&gt;</span>
-    <span class="tag">&lt;<span class="title">div</span>&gt;</span><span class="tag">&lt;<span class="title">img</span> <span class="attribute">src</span>=<span class="value">"awesome-photo.jpg"</span>&gt;</span><span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+  <span class="tag">&lt;<span class="title">body</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">div</span> <span class="attribute">style</span>=<span class="value">"width: 50%"</span>&gt;</span>
+      <span class="tag">&lt;<span class="title">div</span> <span class="attribute">style</span>=<span class="value">"width: 50%"</span>&gt;</span>Hello world!<span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+    <span class="tag">&lt;/<span class="title">div</span>&gt;</span>
   <span class="tag">&lt;/<span class="title">body</span>&gt;</span>
 <span class="tag">&lt;/<span class="title">html</span>&gt;</span>
 </pre></td></tr></table></figure>
 
 
-<p>上面的例子乍看之下可能比较吓人，但实际上非常简单，导航计时API捕获了相关的时间戳，而我们的JavaScript代码放在onload事件的回调函数中，只有触发了onload事件，才会执行。onload事件只有在domInteractive、domContentLoaded和domComplete事件都完成之后才会触发，所以我们可以捕获到这些时间戳之间的差值，算出每个阶段所耗费的时间</p>
-<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-5-21/2.png" alt="时间戳检测结果"></p>
-<p>综上所述，我们可以获得一些“里程碑事件”以及一些简单的函数来输出测量结果。当然我们可以不将这些数据输出到页面上，而是发送这些分析的数据到专门的分析服务器（Google的分析工具就会自动做这些事），这样就能很方便的检测网页的性能，确定候选页面，并尝到优化所带来的甜头。</p>
+<p>上面的页面的body元素包含两个嵌套的div，第一个div（父元素）其节点的宽度为视口宽度的50%，第二个div在第一个div之中，宽度是第一个元素的50%，也就是视口宽的的50%。</p>
+<p>布局阶段输出的是一个盒子模型，它精确地描述了元素在视口中的确切位置和尺寸：所有相对单位都会被转变为屏幕上的绝对像素值，等等</p>
+<p>现在我们知道了哪些元素可见，他们的计算样式，以及他们的几何图形，我们终于能够将这些信息传递给最终阶段。这个阶段将渲染树中的每个节点绘制成屏幕上像素。通常这个阶段叫做绘制阶段（painting）或是光栅化（rasterizing）</p>
+<h3 id="绘制阶段">绘制阶段</h3>
+<p>这里面每个步骤都需要浏览器惊醒一定量的工作，也就说会花费一定的时间。我们可以通过Chrome开发者工具看我们上面所说到的三个阶段。</p>
+<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-5-20/8.png" alt="开发者工具中查看布局阶段"></p>
+<ul>
+<li>Timeline中的Layout事件包含渲染树的构建阶段和位置尺寸的计算阶段</li>
+<li>一旦布局阶段完成，浏览器会开启“Paint Setup”和“Paint”事件，用来将渲染树转变成屏幕上的像素</li>
+</ul>
+<p>上面所说的渲染树构建、布局阶段、绘制阶段所需要的事件会根据文档的大小、样式的多少、设备的配置有关。文档越大，浏览器需要做更多的工作。样式越复杂，浏览器需要考虑更多的绘制（绘制一个固定颜色代价很低，但绘制一个阴影代价很大）。</p>
+<p>这些都完成后，我们的页面终于展示在视口里了</p>
+<h3 id="总结">总结</h3>
+<p>我们来重温一下所有的步骤：</p>
+<ol>
+<li>处理HTML标记，构建DOM树</li>
+<li>处理CSS标记，构建CSSOM树</li>
+<li>合并DOM树和CSSOM树，构建渲染树</li>
+<li>在渲染树上运行布局阶段，计算每个可见节点的几何图形</li>
+<li>绘制每个独立的节点到屏幕上</li>
+</ol>
+<p>考虑如果DOM或CSSOM发生改变时，会发生些什么？我们需要重复这些工作来确定如何回执到屏幕上</p>
+<p>优化渲染的关键就是减少这5步所花费的时间。减少这5步所花费的事件能够让页面尽可能快的展示到页面上。在首次页面渲染之后，每次更新后的渲染效率也会提高。</p>
 ]]></content>
     <summary type="html">
-    <![CDATA[<p>没办法监测，就没办法优化。幸运的是，浏览器提供了一系列用来监测渲染关键路径上每一步的接口，叫导航计时接口（Navigation Timing API）<br>]]>
+    <![CDATA[<p>CSSOM树和DOM树组合生成渲染树，渲染树将决定每一个可见元素的计算样式，并作为输入交给绘制线程，绘制线程将会把他们渲染成像素打到屏幕上。优化这些步骤将是提升渲染性能的关键所在。</p>
+]]>
     
     </summary>
     
@@ -4986,104 +5084,6 @@ document.body.appendChild(loadTime);
 ]]></content>
     <summary type="html">
     <![CDATA[<p>浏览器渲染页面之前会构建DOM树和CSSOM树<br>]]>
-    
-    </summary>
-    
-      <category term="HTML" scheme="http://lingyu.wang/tags/HTML/"/>
-    
-      <category term="CSS" scheme="http://lingyu.wang/tags/CSS/"/>
-    
-      <category term="翻译" scheme="http://lingyu.wang/categories/%E7%BF%BB%E8%AF%91/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[渲染树的构建，布局和绘制]]></title>
-    <link href="http://lingyu.wang/2014/05/20/google-render-tree-construction-layout-and-paint/"/>
-    <id>http://lingyu.wang/2014/05/20/google-render-tree-construction-layout-and-paint/</id>
-    <published>2014-05-19T16:00:00.000Z</published>
-    <updated>2014-11-18T07:41:47.114Z</updated>
-    <content type="html"><![CDATA[<p>CSSOM树和DOM树组合生成渲染树，渲染树将决定每一个可见元素的计算样式，并作为输入交给绘制线程，绘制线程将会把他们渲染成像素打到屏幕上。优化这些步骤将是提升渲染性能的关键所在。</p>
-<a id="more"></a>
-
-<p>上一章节介绍了如何构建对象模型。我们从HTML和CSS构建出了DOM树和CSSOM树。但是，他们描述的是文档的不同方面：DOM树描述的是页面内容，而CSSOM树则描述的是需要被使用到页面内容上的样式规则，由此可见，他们是相互独立的数据结构。那么我们应当如何去合并这两棵树来让浏览器渲染像素到屏幕呢？</p>
-<h3 id="长话短说">长话短说</h3>
-<ul>
-<li>DOM树和CSSOM树结合组成了渲染树</li>
-<li>渲染树（Render tree）只会包含需要绘制到页面上的节点</li>
-<li>布局（Layout）会计算出每一个对象的具体位置和大小</li>
-<li>绘制（Paint）是最后异步，将会将渲染树渲染成像素，显示到屏幕上</li>
-</ul>
-<h3 id="构建渲染树">构建渲染树</h3>
-<p>浏览器首先需要结合DOM树和CSSOM树到渲染树，渲染树获取所有页面上可见的DOM内容，再吧CSSOM中的样式信息附着到每一个节点上</p>
-<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-5-20/7.png" alt="组合DOM树和CSSOM树，生成渲染树"></p>
-<p>为了构建渲染树，浏览器所做的工作大致如下：</p>
-<ol>
-<li>从DOM树的根节点开始，遍历每个可见的节点<ul>
-<li>有些节点本身不可见（比如script、meta等等）</li>
-<li>有些节点被CSS隐藏了，这些节点也会被渲染树忽略</li>
-</ul>
-</li>
-<li>对于每一个可见节点，会从CSSOM中找并应用到其对应的样式信息</li>
-<li>提交可见的节点和他们的内容和样式</li>
-</ol>
-<p><strong>需要注意的是，<code>visibility:hidden</code>和<code>display:none</code>是不同的。前者会将元素隐藏，但元素依旧在页面中占据空间（会被绘制成空的盒子），所以需要递交给布局阶段进行处理。而后者会从渲染树中移除元素及所有子元素，他们被递交给布局阶段</strong></p>
-<p>这个阶段完毕后，会生成一个包含所有可见节点的内容和样式信息的渲染树。接下来可以进行布局阶段了</p>
-<h3 id="布局阶段">布局阶段</h3>
-<p>目前为止，我们已经获取了可见节点的计算样式，但我们还没有计算元素在设备视口中的最终的位置和尺寸——计算这些就是布局阶段的工作，它还有另外一个我们熟知的名称：回流（reflow）</p>
-<p>为了计算每个节点的最终位置和尺寸，需要从根节点开始遍历渲染树，计算渲染树中每个对象在页面上的几何图形。比如如下例子：</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-</pre></td><td class="code"><pre><span class="tag">&lt;<span class="title">html</span>&gt;</span>
-  <span class="tag">&lt;<span class="title">head</span>&gt;</span>
-    <span class="tag">&lt;<span class="title">meta</span> <span class="attribute">name</span>=<span class="value">"viewport"</span> <span class="attribute">content</span>=<span class="value">"width=device-width,initial-scale=1.0"</span>&gt;</span>
-    <span class="tag">&lt;<span class="title">title</span>&gt;</span>Critial Path: Hello world!<span class="tag">&lt;/<span class="title">title</span>&gt;</span>
-  <span class="tag">&lt;/<span class="title">head</span>&gt;</span>
-  <span class="tag">&lt;<span class="title">body</span>&gt;</span>
-    <span class="tag">&lt;<span class="title">div</span> <span class="attribute">style</span>=<span class="value">"width: 50%"</span>&gt;</span>
-      <span class="tag">&lt;<span class="title">div</span> <span class="attribute">style</span>=<span class="value">"width: 50%"</span>&gt;</span>Hello world!<span class="tag">&lt;/<span class="title">div</span>&gt;</span>
-    <span class="tag">&lt;/<span class="title">div</span>&gt;</span>
-  <span class="tag">&lt;/<span class="title">body</span>&gt;</span>
-<span class="tag">&lt;/<span class="title">html</span>&gt;</span>
-</pre></td></tr></table></figure>
-
-
-<p>上面的页面的body元素包含两个嵌套的div，第一个div（父元素）其节点的宽度为视口宽度的50%，第二个div在第一个div之中，宽度是第一个元素的50%，也就是视口宽的的50%。</p>
-<p>布局阶段输出的是一个盒子模型，它精确地描述了元素在视口中的确切位置和尺寸：所有相对单位都会被转变为屏幕上的绝对像素值，等等</p>
-<p>现在我们知道了哪些元素可见，他们的计算样式，以及他们的几何图形，我们终于能够将这些信息传递给最终阶段。这个阶段将渲染树中的每个节点绘制成屏幕上像素。通常这个阶段叫做绘制阶段（painting）或是光栅化（rasterizing）</p>
-<h3 id="绘制阶段">绘制阶段</h3>
-<p>这里面每个步骤都需要浏览器惊醒一定量的工作，也就说会花费一定的时间。我们可以通过Chrome开发者工具看我们上面所说到的三个阶段。</p>
-<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-5-20/8.png" alt="开发者工具中查看布局阶段"></p>
-<ul>
-<li>Timeline中的Layout事件包含渲染树的构建阶段和位置尺寸的计算阶段</li>
-<li>一旦布局阶段完成，浏览器会开启“Paint Setup”和“Paint”事件，用来将渲染树转变成屏幕上的像素</li>
-</ul>
-<p>上面所说的渲染树构建、布局阶段、绘制阶段所需要的事件会根据文档的大小、样式的多少、设备的配置有关。文档越大，浏览器需要做更多的工作。样式越复杂，浏览器需要考虑更多的绘制（绘制一个固定颜色代价很低，但绘制一个阴影代价很大）。</p>
-<p>这些都完成后，我们的页面终于展示在视口里了</p>
-<h3 id="总结">总结</h3>
-<p>我们来重温一下所有的步骤：</p>
-<ol>
-<li>处理HTML标记，构建DOM树</li>
-<li>处理CSS标记，构建CSSOM树</li>
-<li>合并DOM树和CSSOM树，构建渲染树</li>
-<li>在渲染树上运行布局阶段，计算每个可见节点的几何图形</li>
-<li>绘制每个独立的节点到屏幕上</li>
-</ol>
-<p>考虑如果DOM或CSSOM发生改变时，会发生些什么？我们需要重复这些工作来确定如何回执到屏幕上</p>
-<p>优化渲染的关键就是减少这5步所花费的时间。减少这5步所花费的事件能够让页面尽可能快的展示到页面上。在首次页面渲染之后，每次更新后的渲染效率也会提高。</p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<p>CSSOM树和DOM树组合生成渲染树，渲染树将决定每一个可见元素的计算样式，并作为输入交给绘制线程，绘制线程将会把他们渲染成像素打到屏幕上。优化这些步骤将是提升渲染性能的关键所在。</p>
-]]>
     
     </summary>
     

@@ -233,7 +233,7 @@ var childIst = new Child();
 console.log(childIst instanceof Child);
 //输出：true
 console.log(childIst instanceof Parent);
-//输出：true
+//输出：false
 console.log(childIst.constructor);
 //输出：function Child(){}
 console.log(childIst);
