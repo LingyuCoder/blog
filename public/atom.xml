@@ -4,7 +4,7 @@
   
   <link href="/atom.xml" rel="self"/>
   <link href="http://lingyu.wang/"/>
-  <updated>2015-01-30T15:29:41.970Z</updated>
+  <updated>2015-01-30T15:34:20.909Z</updated>
   <id>http://lingyu.wang/</id>
   
   <author>
@@ -4677,6 +4677,74 @@ dataChannel.onclose = <span class="function"><span class="keyword">function</spa
   </entry>
   
   <entry>
+    <title><![CDATA[CSS的渲染阻塞]]></title>
+    <link href="http://lingyu.wang/2014/05/21/google-render-blocking-css/"/>
+    <id>http://lingyu.wang/2014/05/21/google-render-blocking-css/</id>
+    <published>2014-05-20T16:00:00.000Z</published>
+    <updated>2014-11-18T07:41:45.171Z</updated>
+    <content type="html"><![CDATA[<p>默认情况下，CSS会被看做是渲染阻塞资源，也就是说，浏览器在CSSOM建立前，已经处理过的网页内容不会被显示到页面上。所以，保证你的CSS代码能够快速从服务器获取且尽可能的简短，并注意使用媒体类型（media types）和媒体查询（media queries）去进行非阻塞的渲染。</p>
+<a id="more"></a>
+
+<p>在之前的章节中，我们已经知道了要建立渲染树，必须先建立好DOM树和CSSOM树，这里有一个很重要的性能要点：HTML和CSS都是渲染阻塞资源。HTML很明显，因为如果没有创建好DOM树，浏览器都不知道有什么东西需要渲染。但CSS就不那么明显了。如果我们尝试不使用CSS的阻塞渲染去渲染一个典型的页面，会发生什么呢？</p>
+<h3 id="长话短说">长话短说</h3>
+<ul>
+<li>默认情况下CSS是渲染阻塞资源</li>
+<li>媒体类型和媒体查询可以让一些CSS变成非渲染阻塞资源</li>
+<li>所有CSS资源，无论是阻塞还是非阻塞，都需要通过浏览器进行下载</li>
+</ul>
+<h3 id="CSS是渲染阻塞资源">CSS是渲染阻塞资源</h3>
+<p>浏览器将会阻塞渲染直到DOM树和CSSOM树都创建完毕</p>
+<p><strong>CSS是渲染阻塞元素，尽可能快速的让浏览器下载到文件，这样可以减少阻塞的时间</strong></p>
+<p>然而，如果我们有一些只有在特定条件下才使用的样式，比如打印或是在大的显示器中显示等情况，我们当然不希望这些特定条件下才会使用的样式阻塞渲染。</p>
+<h3 id="媒体类型和媒体查询">媒体类型和媒体查询</h3>
+<p>CSS中的媒体类型和媒体查询就可以达到这种效果：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre>1
+2
+3
+</pre></td><td class="code"><pre><span class="tag">&lt;<span class="title">link</span> <span class="attribute">href</span>=<span class="value">"style.css"</span> <span class="attribute">rel</span>=<span class="value">"stylesheet"</span>&gt;</span>
+<span class="tag">&lt;<span class="title">link</span> <span class="attribute">href</span>=<span class="value">"print.css"</span> <span class="attribute">rel</span>=<span class="value">"stylesheet"</span> <span class="attribute">media</span>=<span class="value">"print"</span>&gt;</span>
+<span class="tag">&lt;<span class="title">link</span> <span class="attribute">href</span>=<span class="value">"other.css"</span> <span class="attribute">rel</span>=<span class="value">"stylesheet"</span> <span class="attribute">media</span>=<span class="value">"(min-width: 40em)"</span>&gt;</span>
+</pre></td></tr></table></figure>
+
+
+<p>一个媒体查询可以由一个媒体类型和查询表达式构成，查询表达式可以是任意个数，他们检测了当前设备的特点。比如，在第一个样式表申明中并没有使用媒体类型和媒体查询，因此它在所有情况下都会被应用，也就是说，它总汇总阿红才呢过渲染阻塞。而另一方面，第二个样式表仅仅在网页内容被打印时才会被应用，可能你需要在打印时改换一下布局，改变一下字体等等，因此，这个样式表不会再页面首次加载时造成渲染阻塞。而最后一个样式表提供了一个媒体查询，浏览器将判断条件是否满足。如果浏览器满足媒体查询中的条件，浏览器将在下载并处理完这个样式表之前阻塞渲染。</p>
+<p>通过使用媒体查询，我们可以根据特定的用例来定制展现的样式，比如显示和打印。同时，还能动态的判断诸如屏幕方向，缩放事件等等。在申明样式表时，重点关注媒体类型和媒体查询，他们将很大程度影响网页渲染的效率。</p>
+<p>让我们考虑如下例子：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+</pre></td><td class="code"><pre><span class="tag">&lt;<span class="title">link</span> <span class="attribute">href</span>=<span class="value">"style.css"</span>    <span class="attribute">rel</span>=<span class="value">"stylesheet"</span>&gt;</span>
+<span class="tag">&lt;<span class="title">link</span> <span class="attribute">href</span>=<span class="value">"style.css"</span>    <span class="attribute">rel</span>=<span class="value">"stylesheet"</span> <span class="attribute">media</span>=<span class="value">"screen"</span>&gt;</span>
+<span class="tag">&lt;<span class="title">link</span> <span class="attribute">href</span>=<span class="value">"portrait.css"</span> <span class="attribute">rel</span>=<span class="value">"stylesheet"</span> <span class="attribute">media</span>=<span class="value">"orientation:portrait"</span>&gt;</span>
+<span class="tag">&lt;<span class="title">link</span> <span class="attribute">href</span>=<span class="value">"print.css"</span>    <span class="attribute">rel</span>=<span class="value">"stylesheet"</span> <span class="attribute">media</span>=<span class="value">"print"</span>&gt;</span>
+</pre></td></tr></table></figure>
+
+
+<ol>
+<li>第一个样式申明将会造成渲染阻塞，它在任意情况下都会被应用；</li>
+<li>第二个样式申明也会造成渲染阻塞：“screen”是默认类型，除非你执行了一个其他类型，否则浏览器总是显示的设定媒体类型为“screen”。因此这个样式申明和第一个样式申明等价；</li>
+<li>第三个样式申明是一个动态的媒体查询，他会在页面加载完成之后进行计算。根据页面加载完成后的设备横竖屏来决定样式是否会阻塞渲染；</li>
+<li>最后一个样式申明仅仅在页面被打印的时候起作用，因此他不会在页面首次加载进浏览器中时造成渲染阻塞</li>
+</ol>
+<h3 id="浏览器下载">浏览器下载</h3>
+<p>最后，注意一下渲染阻塞只是指浏览器是否要在页面初始渲染时，是否需要渲染该资源内部的样式。无论在何种情况下，尽管非阻塞资源的优先级较低，CSS文件依旧必须要由浏览器进行下载。</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>默认情况下，CSS会被看做是渲染阻塞资源，也就是说，浏览器在CSSOM建立前，已经处理过的网页内容不会被显示到页面上。所以，保证你的CSS代码能够快速从服务器获取且尽可能的简短，并注意使用媒体类型（media types）和媒体查询（media queries）去进行非阻塞的渲染。</p>
+]]>
+    
+    </summary>
+    
+      <category term="HTML" scheme="http://lingyu.wang/tags/HTML/"/>
+    
+      <category term="CSS" scheme="http://lingyu.wang/tags/CSS/"/>
+    
+      <category term="翻译" scheme="http://lingyu.wang/categories/%E7%BF%BB%E8%AF%91/"/>
+    
+  </entry>
+  
+  <entry>
     <title><![CDATA[使用导航计时监测渲染关键路径]]></title>
     <link href="http://lingyu.wang/2014/05/21/google-measuring-the-critical-rendering-path-with-navigation-timing/"/>
     <id>http://lingyu.wang/2014/05/21/google-measuring-the-critical-rendering-path-with-navigation-timing/</id>
@@ -4768,74 +4836,6 @@ dataChannel.onclose = <span class="function"><span class="keyword">function</spa
 ]]></content>
     <summary type="html">
     <![CDATA[<p>没办法监测，就没办法优化。幸运的是，浏览器提供了一系列用来监测渲染关键路径上每一步的接口，叫导航计时接口（Navigation Timing API）<br>]]>
-    
-    </summary>
-    
-      <category term="HTML" scheme="http://lingyu.wang/tags/HTML/"/>
-    
-      <category term="CSS" scheme="http://lingyu.wang/tags/CSS/"/>
-    
-      <category term="翻译" scheme="http://lingyu.wang/categories/%E7%BF%BB%E8%AF%91/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[CSS的渲染阻塞]]></title>
-    <link href="http://lingyu.wang/2014/05/21/google-render-blocking-css/"/>
-    <id>http://lingyu.wang/2014/05/21/google-render-blocking-css/</id>
-    <published>2014-05-20T16:00:00.000Z</published>
-    <updated>2014-11-18T07:41:45.171Z</updated>
-    <content type="html"><![CDATA[<p>默认情况下，CSS会被看做是渲染阻塞资源，也就是说，浏览器在CSSOM建立前，已经处理过的网页内容不会被显示到页面上。所以，保证你的CSS代码能够快速从服务器获取且尽可能的简短，并注意使用媒体类型（media types）和媒体查询（media queries）去进行非阻塞的渲染。</p>
-<a id="more"></a>
-
-<p>在之前的章节中，我们已经知道了要建立渲染树，必须先建立好DOM树和CSSOM树，这里有一个很重要的性能要点：HTML和CSS都是渲染阻塞资源。HTML很明显，因为如果没有创建好DOM树，浏览器都不知道有什么东西需要渲染。但CSS就不那么明显了。如果我们尝试不使用CSS的阻塞渲染去渲染一个典型的页面，会发生什么呢？</p>
-<h3 id="长话短说">长话短说</h3>
-<ul>
-<li>默认情况下CSS是渲染阻塞资源</li>
-<li>媒体类型和媒体查询可以让一些CSS变成非渲染阻塞资源</li>
-<li>所有CSS资源，无论是阻塞还是非阻塞，都需要通过浏览器进行下载</li>
-</ul>
-<h3 id="CSS是渲染阻塞资源">CSS是渲染阻塞资源</h3>
-<p>浏览器将会阻塞渲染直到DOM树和CSSOM树都创建完毕</p>
-<p><strong>CSS是渲染阻塞元素，尽可能快速的让浏览器下载到文件，这样可以减少阻塞的时间</strong></p>
-<p>然而，如果我们有一些只有在特定条件下才使用的样式，比如打印或是在大的显示器中显示等情况，我们当然不希望这些特定条件下才会使用的样式阻塞渲染。</p>
-<h3 id="媒体类型和媒体查询">媒体类型和媒体查询</h3>
-<p>CSS中的媒体类型和媒体查询就可以达到这种效果：</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre>1
-2
-3
-</pre></td><td class="code"><pre><span class="tag">&lt;<span class="title">link</span> <span class="attribute">href</span>=<span class="value">"style.css"</span> <span class="attribute">rel</span>=<span class="value">"stylesheet"</span>&gt;</span>
-<span class="tag">&lt;<span class="title">link</span> <span class="attribute">href</span>=<span class="value">"print.css"</span> <span class="attribute">rel</span>=<span class="value">"stylesheet"</span> <span class="attribute">media</span>=<span class="value">"print"</span>&gt;</span>
-<span class="tag">&lt;<span class="title">link</span> <span class="attribute">href</span>=<span class="value">"other.css"</span> <span class="attribute">rel</span>=<span class="value">"stylesheet"</span> <span class="attribute">media</span>=<span class="value">"(min-width: 40em)"</span>&gt;</span>
-</pre></td></tr></table></figure>
-
-
-<p>一个媒体查询可以由一个媒体类型和查询表达式构成，查询表达式可以是任意个数，他们检测了当前设备的特点。比如，在第一个样式表申明中并没有使用媒体类型和媒体查询，因此它在所有情况下都会被应用，也就是说，它总汇总阿红才呢过渲染阻塞。而另一方面，第二个样式表仅仅在网页内容被打印时才会被应用，可能你需要在打印时改换一下布局，改变一下字体等等，因此，这个样式表不会再页面首次加载时造成渲染阻塞。而最后一个样式表提供了一个媒体查询，浏览器将判断条件是否满足。如果浏览器满足媒体查询中的条件，浏览器将在下载并处理完这个样式表之前阻塞渲染。</p>
-<p>通过使用媒体查询，我们可以根据特定的用例来定制展现的样式，比如显示和打印。同时，还能动态的判断诸如屏幕方向，缩放事件等等。在申明样式表时，重点关注媒体类型和媒体查询，他们将很大程度影响网页渲染的效率。</p>
-<p>让我们考虑如下例子：</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-</pre></td><td class="code"><pre><span class="tag">&lt;<span class="title">link</span> <span class="attribute">href</span>=<span class="value">"style.css"</span>    <span class="attribute">rel</span>=<span class="value">"stylesheet"</span>&gt;</span>
-<span class="tag">&lt;<span class="title">link</span> <span class="attribute">href</span>=<span class="value">"style.css"</span>    <span class="attribute">rel</span>=<span class="value">"stylesheet"</span> <span class="attribute">media</span>=<span class="value">"screen"</span>&gt;</span>
-<span class="tag">&lt;<span class="title">link</span> <span class="attribute">href</span>=<span class="value">"portrait.css"</span> <span class="attribute">rel</span>=<span class="value">"stylesheet"</span> <span class="attribute">media</span>=<span class="value">"orientation:portrait"</span>&gt;</span>
-<span class="tag">&lt;<span class="title">link</span> <span class="attribute">href</span>=<span class="value">"print.css"</span>    <span class="attribute">rel</span>=<span class="value">"stylesheet"</span> <span class="attribute">media</span>=<span class="value">"print"</span>&gt;</span>
-</pre></td></tr></table></figure>
-
-
-<ol>
-<li>第一个样式申明将会造成渲染阻塞，它在任意情况下都会被应用；</li>
-<li>第二个样式申明也会造成渲染阻塞：“screen”是默认类型，除非你执行了一个其他类型，否则浏览器总是显示的设定媒体类型为“screen”。因此这个样式申明和第一个样式申明等价；</li>
-<li>第三个样式申明是一个动态的媒体查询，他会在页面加载完成之后进行计算。根据页面加载完成后的设备横竖屏来决定样式是否会阻塞渲染；</li>
-<li>最后一个样式申明仅仅在页面被打印的时候起作用，因此他不会在页面首次加载进浏览器中时造成渲染阻塞</li>
-</ol>
-<h3 id="浏览器下载">浏览器下载</h3>
-<p>最后，注意一下渲染阻塞只是指浏览器是否要在页面初始渲染时，是否需要渲染该资源内部的样式。无论在何种情况下，尽管非阻塞资源的优先级较低，CSS文件依旧必须要由浏览器进行下载。</p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<p>默认情况下，CSS会被看做是渲染阻塞资源，也就是说，浏览器在CSSOM建立前，已经处理过的网页内容不会被显示到页面上。所以，保证你的CSS代码能够快速从服务器获取且尽可能的简短，并注意使用媒体类型（media types）和媒体查询（media queries）去进行非阻塞的渲染。</p>
-]]>
     
     </summary>
     
