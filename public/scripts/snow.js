@@ -1,114 +1,169 @@
-function microtime() {
-    return new Date().getTime() * 0.001;
-}
-
-// returns a random integer from min to max
-function irand(min, max) {
-    return Math.floor((min || 0) + Math.random() * ((max + 1 || 100) - (min || 0)));
-}
-
-// returns a random float from min to max
-function frand(min, max) {
-    return (min || 0) + Math.random() * ((max || 1) - (min || 0));
-}
-
-function clamp(value, min, max) {
-    return Math.min(Math.max(value, min), max);
-}
-
-// Two component vector class
-function Vector2(x, y) {
-    this.x = x || 0;
-    this.y = y || 0;
-
-    this.add = function(other) {
-        this.x += other.x;
-        this.y += other.y;
+var Util = function() {
+    function isType(type) {
+        return function(value) {
+            return Object.prototype.toString.call(value).toLowerCase() === '[object ' + type + ']';
+        }
     }
 
-    this.magnitude = function() {
-        return Math.sqrt(this.x * this.x + this.y * this.y);
+    function irand(min, max) {
+        return Math.floor((min || 0) + Math.random() * ((max + 1 || Number.MAX_SAFE_INTEGER) - (min || 0)));
     }
-}
 
-function Color(r, g, b) {
-    this.r = r || 0;
-    this.g = g || 0;
-    this.b = b || 0;
-}
+    function frand(min, max) {
+        return (min || 0) + Math.random() * ((max || 1) - (min || 0));
+    }
 
+    function sequence(min, max) {
+        var seq = [];
+        var i, pos;
 
-window.addEventListener('resize', function() {
-    jsCanvasSnow.resize(window.innerWidth, window.innerHeight);
-    jsCanvasSnow.init("snow", options);
-}, false);
+        if (isType('array')(min)) {
+            seq = min.slice(0);
+        } else {
+            for (i = min; i <= max; i++) {
+                seq[i - min] = i;
+            }
+        }
 
-window.addEventListener('load', function() {
-    //var options = {};
-    var options = {
-        'amount': 200,
-        'size': [8, 20],
-        'rotation': [1, 5],
-        'speed': [40, 80],
-        'swing': [0.1, 1],
-        'amplitude': [30, 50],
-        'alpha': [0.1, 0.95],
-        'images': ["http://i.imgur.com/jbSVFgy.png", "http://i.imgur.com/TT2lmN4.png", "http://i.imgur.com/do8589m.png", "http://i.imgur.com/3BxEO8i.png"]
+        for (i = seq.length; i--;) {
+            pos = irand(0, i)
+            seq[i] = [seq[pos], seq[pos] = seq[i]][0];
+        }
+
+        return seq;
+    }
+
+    return {
+        isType: isType,
+        Rand: {
+            irand: irand,
+            frand: frand,
+            sequence: sequence
+        }
     };
+}(this);
 
-    jsCanvasSnow.init("snow", options);
-    jsCanvasSnow.start();
-}, false);
+var Vector2 = (function() {
+    function Vector2(x, y) {
+        if (!this instanceof Vector2) return new Vector2(x, y);
+        if (x instanceof Vector2) {
+            this.x = x.x;
+            this.y = x.y;
+            return;
+        }
+        this.x = x || 0;
+        this.y = y || 0;
+    }
 
-function jsParticle(origin, velocity, size, amplitude, rspeed, alpha, image) {
-    this.origin = origin;
-    this.position = new Vector2(origin.x, origin.y);
-    this.velocity = velocity || new Vector2(0, 0);
-    this.size = size;
-    this.rspeed = rspeed;
-    this.amplitude = amplitude;
-    this.alpha = alpha;
-    this.image = image;
+    var proto = Vector2.prototype;
 
-    this.dx = Math.random() * 100;
-    this.rotation = Math.random() * 360;
+    proto.add = function(vector) {
+        this.x += vector.x;
+        this.y += vector.y;
+    }
 
-    this.update = function(delta_time) {
+    proto.magnitude = function() {
+        return Math.sqrt(this.squaredMagnitude());
+    }
+
+    proto.scale = function(scale) {
+        this.x *= scale;
+        this.y *= scale;
+    }
+
+    proto.sub = function(vector) {
+        this.x -= vector.x;
+        this.y -= vector.y;
+        return this;
+    }
+
+    proto.negate = function() {
+        this.x = -this.x;
+        this.y = -this.y;
+        return this;
+    }
+
+    proto.squaredMagnitude = function() {
+        return this.x * this.x + this.y * this.y;
+    }
+
+    proto.normalize = function() {
+        var magnitude = this.magnitude();
+        if (magnitude) {
+            this.x /= magnitude;
+            this.y /= magnitude;
+        }
+        return this;
+    }
+
+    proto.rotate = function(angle) {
+        var x = this.x;
+        var y = this.y;
+        var cos = Math.cos(angle);
+        var sin = Math.sin(angle);
+
+        this.x = x * cos - y * sin;
+        this.y = x * sin + y * cos;
+        return this;
+    }
+
+    proto.dot = function(vector) {
+        return this.x * vector.x + this.y * vector.y;
+    }
+
+    proto.toString = function() {
+        return '(' + this.x.toFixed(3) + ',' + this.y.toFixed(3) + ')';
+    }
+
+    return Vector2;
+}(this));
+
+var Snow = (function() {
+    function microtime() {
+        return new Date().getTime() * 0.001;
+    }
+
+    function Particle(origin, velocity, size, amplitude, rspeed, alpha, image) {
+        this.origin = origin;
+        this.position = new Vector2(origin.x, origin.y);
+        this.velocity = velocity || new Vector2(0, 0);
+        this.size = size;
+        this.rspeed = rspeed;
+        this.amplitude = amplitude;
+        this.alpha = alpha;
+        this.image = image;
+
+        this.dx = Math.random() * 100;
+        this.rotation = Math.random() * 360;
+    }
+
+    Particle.prototype.update = function(delta_time) {
         this.dx += this.velocity.x * delta_time;
         this.position.y += this.velocity.y * delta_time;
         this.position.x = this.origin.x + (this.amplitude * Math.sin(this.dx));
         this.rotation += this.rspeed * delta_time;
     }
-}
 
-var jsCanvasSnow = {
-    canvas: null,
-    ctx: null,
-    particles: [],
-    running: false,
 
-    pImageObjects: [],
-
-    start_time: 0,
-    frame_time: 0,
-
-    init: function(canvas_id, options) {
-        // use the container width and height
+    function Snow(canvas_id, options) {
         this.canvas = document.getElementById(canvas_id);
         this.ctx = this.canvas.getContext('2d');
+        this.particles = [];
+        this.running = false;
+        this.pImageObjects = [];
+        this.start_time = this.frame_time = 0;
+
         this.resize(window.innerWidth, window.innerHeight);
 
-        // default values
         this.pAmount = options.amount || 500;
         this.pSize = options.size || [8, 26];
         this.pRotation = options.rotation || [-5, 5];
         this.pSwing = options.swing || [0.1, 1];
-        this.pSpeed = options.speed || [40, 100],
-            this.pAmplitude = options.amplitude || [20, 50];
+        this.pSpeed = options.speed || [40, 100];
+        this.pAmplitude = options.amplitude || [20, 50];
         this.pAlpha = options.alpha || [0.25, 1];
         this.pImageNames = options.images || [];
 
-        // initialize all the images
         for (var i = 0; i < this.pImageNames.length; i++) {
             var image = new Image();
             image.src = this.pImageNames[i];
@@ -116,50 +171,51 @@ var jsCanvasSnow = {
         }
 
         this._init_particles();
-    },
+    }
 
-    start: function() {
+    var proto = Snow.prototype;
+
+    proto.start = function() {
         this.running = true;
         this.start_time = this.frame_time = microtime();
         this._loop();
-    },
+    };
 
-    stop: function() {
+    proto.end = function() {
         this.running = false;
-    },
+    };
 
-    resize: function(w, h) {
-        this.canvas.width = w;
-        this.canvas.height = h;
-    },
+    proto.resize = function(width, height) {
+        this.canvas.width = width;
+        this.canvas.height = height;
+    };
 
-    _loop: function() {
-        if (jsCanvasSnow.running) {
-            jsCanvasSnow._clear();
-            jsCanvasSnow._update();
-            jsCanvasSnow._draw();
-            jsCanvasSnow._queue();
+    proto._loop = function() {
+        if (this.running) {
+            this._clear();
+            this._update();
+            this._draw();
+            this._tick();
         }
-    },
+    };
 
-    _init_particles: function() {
-        // clear the particles array
+    proto._init_particles = function() {
         this.particles.length = 0;
 
         for (var i = 0; i < this.pAmount; i++) {
-            var origin = new Vector2(frand(0, this.canvas.width), frand(-this.canvas.height, 0));
-            var velocity = new Vector2(frand(this.pSwing[0], this.pSwing[1]), frand(this.pSpeed[0], this.pSpeed[1]));
-            var size = frand(this.pSize[0], this.pSize[1]);
-            var amplitude = frand(this.pAmplitude[0], this.pAmplitude[1]);
-            var rspeed = frand(this.pRotation[0], this.pRotation[1]) * ((Math.random() < 0.5) ? -1 : 1);
-            var alpha = frand(this.pAlpha[0], this.pAlpha[1]);
-            var image = (this.pImageObjects.length > 0) ? irand(0, this.pImageObjects.length - 1) : -1;
+            var origin = new Vector2(Util.Rand.frand(0, this.canvas.width), Util.Rand.frand(-this.canvas.height, 0));
+            var velocity = new Vector2(Util.Rand.frand(this.pSwing[0], this.pSwing[1]), Util.Rand.frand(this.pSpeed[0], this.pSpeed[1]));
+            var size = Util.Rand.frand(this.pSize[0], this.pSize[1]);
+            var amplitude = Util.Rand.frand(this.pAmplitude[0], this.pAmplitude[1]);
+            var rspeed = Util.Rand.frand(this.pRotation[0], this.pRotation[1]) * ((Math.random() < 0.5) ? -1 : 1);
+            var alpha = Util.Rand.frand(this.pAlpha[0], this.pAlpha[1]);
+            var image = (this.pImageObjects.length > 0) ? Util.Rand.irand(0, this.pImageObjects.length - 1) : -1;
 
-            this.particles.push(new jsParticle(origin, velocity, size, amplitude, rspeed, alpha, image));
+            this.particles.push(new Particle(origin, velocity, size, amplitude, rspeed, alpha, image));
         }
-    },
+    };
 
-    _update: function() {
+    proto._update = function() {
         var now_time = microtime();
         var delta_time = now_time - this.frame_time;
 
@@ -174,9 +230,9 @@ var jsCanvasSnow = {
         }
 
         this.frame_time = now_time;
-    },
+    };
 
-    _draw: function() {
+    proto._draw = function() {
         this.ctx.fillStyle = 'rgb(255,255,255)';
 
         for (var i = 0; i < this.particles.length; i++) {
@@ -195,13 +251,16 @@ var jsCanvasSnow = {
 
             this.ctx.restore();
         }
-    },
+    };
 
-    _clear: function() {
+    proto._clear = function() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    },
+    };
 
-    _queue: function() {
-        window.requestAnimationFrame(jsCanvasSnow._loop);
-    },
-}
+    proto._tick = function() {
+        window.requestAnimationFrame(this._loop.bind(this));
+    };
+
+    return Snow;
+}(this));
+
