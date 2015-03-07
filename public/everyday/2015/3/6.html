@@ -1,0 +1,53 @@
+<h2 id="阅读">阅读</h2>
+<p><a href="http://www.html-js.com/article/Understanding-the-Yield-principle">yield 原理篇</a>：</p>
+<p>迭代器模式中，一个迭代器应当有三个方法：</p>
+<ol>
+<li>hasNext()</li>
+<li>next()</li>
+<li>reset()</li>
+</ol>
+<p>而事实上yield也可以看做使用了迭代器模式，通过done来实现hasNext</p>
+<pre><code class="javascript"><span class="function"><span class="keyword">function</span>* <span class="title">Gen</span><span class="params">()</span> {</span>
+    <span class="keyword">yield</span> <span class="number">1</span>;
+    <span class="keyword">yield</span> <span class="number">2</span>;
+    <span class="keyword">yield</span> <span class="number">3</span>;
+}
+
+<span class="keyword">var</span> g = Gen();
+
+<span class="keyword">while</span> (<span class="literal">true</span>) {
+    <span class="keyword">var</span> v = g.next();
+    <span class="keyword">if</span> (v.done) <span class="keyword">break</span>;
+    console.log(v.value);
+}
+
+<span class="comment">//output:</span>
+<span class="comment">//1</span>
+<span class="comment">//2</span>
+<span class="comment">//3</span>
+</code></pre>
+<p><a href="http://www.html-js.com/article/Understanding-the-Yield-yield-iterative-article">yield迭代篇</a>：通过yield，配合上一篇文章的迭代器模式，能够很好地完成对数组等的迭代处理，创造出如下API。准备自己也实现一套类似的玩一玩</p>
+<pre><code class="javascript"><span class="keyword">var</span> data = [];
+<span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">1</span>; i &lt;= <span class="number">100</span>; i++) {
+    data.push(i);
+}
+
+<span class="keyword">var</span> arr = iter(data)
+    .where(<span class="function"><span class="keyword">function</span><span class="params">(v)</span> {</span>
+        <span class="keyword">return</span> v % <span class="number">2</span> == <span class="number">0</span>
+    })
+    .take(<span class="number">10</span>)
+    .map(<span class="function"><span class="keyword">function</span><span class="params">(v)</span> {</span>
+        <span class="keyword">return</span> v * v
+    })
+    .toArray();
+</code></pre>
+<p><a href="http://www.html-js.com/article/In-depth-understanding-of-Yield-third-yield-asynchronous-discourse">yield 异步篇</a>：由于generator在遇到yield暂停时，只有再次调用next才会继续，因此可以在异步回调函数中执行next来控制异步，这也就是co的实现原理</p>
+<h2 id="收获">收获</h2>
+<p>觉着如果要进行碰撞检测，Item作为展示对象的基类本身可能无法做碰撞检测了</p>
+<p>常用的碰撞检测至少有三种：圆形对圆形，圆形对多边形，多边形对多边形。因此至少应当在Item上实现Circle类和Polygon两个类</p>
+<p>至于像椭圆等等，呵呵，随它去吧</p>
+<p>缓动函数也比较难办，怎么应用上也是一个问题</p>
+<h2 id="生活">生活</h2>
+<p>把感想改叫生活了…主要写一些生活相关的东西</p>
+<p>《超能陆战队》这部电影挺有意思的，大白很萌(●—●)</p>
