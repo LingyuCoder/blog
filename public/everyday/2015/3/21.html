@@ -1,0 +1,13 @@
+<h2 id="阅读">阅读</h2>
+<p><a href="http://www.w3ctech.com/topic/778">CSS media queries在JavaScript中的应用(一) </a>和<a href="http://www.w3ctech.com/topic/782">CSS media queries在JavaScript中的应用(二)</a>：很多响应式页面无法通过纯粹的CSS实现，因此JS代码中也需要判断是否匹配media queries的查询条件，要点有：</p>
+<ol>
+<li>往body中插入一个元素，设定一个宽度，然后往文档中加入一个带需要判断匹配的media属性的style元素，改变其宽度，如果宽度改变，就说明当前页面符合查询，否则就不符合</li>
+<li>通过window.matchMedia()方法也可以实现，还能够通过addListener和removeListener来随时监测</li>
+<li>这个matchMedia实现还有一些bug，至少需要定义一个初始的css规则。另外不兼容的时候，可以通过<a href="https://github.com/fofr/matchMedia.js">matchMedia.js</a>来polyfill，内部实际上通过CSS transition实现，如果出现了transitionEnd事件，说明修改了，就要重新检测了</li>
+</ol>
+<p><a href="http://www.html-js.com/article/2704">判断js中的数据类型</a>：通过Object.prototype.toString来进行基础类型的检测</p>
+<p><a href="http://www.codeceo.com/article/high-performance-javascript-template-engine.html">高性能JavaScript模板引擎原理解析</a>：artTemplate好像挺不错的，效率很高，有时间看看源码</p>
+<h2 id="收获">收获</h2>
+<p>无</p>
+<h2 id="生活">生活</h2>
+<p>妈的，伤口越来越疼了，完全没有心思敲码和看书了</p>
