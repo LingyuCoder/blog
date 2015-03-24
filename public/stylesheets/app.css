@@ -140,6 +140,7 @@ blockquote {
   border-radius: 50%;
   vertical-align: top;
   margin-right: 1rem;
+  -webkit-transition: all .4s linear;
   transition: all .4s linear;
 }
 #page-header .avatar:hover {
@@ -186,6 +187,7 @@ blockquote {
   vertical-align: middle;
   opacity: .5;
   cursor: pointer;
+  -webkit-transition: all .2s linear;
   transition: all .2s linear;
 }
 #page-header .nav .icons .icon:hover {
@@ -226,6 +228,7 @@ blockquote {
   }
   #page-header .title a:hover {
     color: #16a085;
+    -webkit-transition: all .2s linear;
     transition: all .2s linear;
   }
   #page-header .links {
@@ -240,11 +243,16 @@ blockquote {
     height: 6px;
     background-color: #16a085;
     opacity: 0;
+    -webkit-transform: translateY(15px);
+    -ms-transform: translateY(15px);
     transform: translateY(15px);
+    -webkit-transition: all 0.4s ease-in;
     transition: all 0.4s ease-in;
   }
   #page-header .links li a:hover:after {
     opacity: 1;
+    -webkit-transform: translateY(-3px);
+    -ms-transform: translateY(-3px);
     transform: translateY(-3px);
   }
 }
@@ -381,6 +389,7 @@ blockquote {
   left: -2rem;
   color: #16a085;
   cursor: pointer;
+  -webkit-transition: all .3s linear;
   transition: all .3s linear;
 }
 #main .post .blog-title:hover {
@@ -445,6 +454,7 @@ blockquote {
   border-top: .6rem solid transparent;
   border-bottom: .6rem solid transparent;
   margin-left: .6em;
+  -webkit-transition: all .2s linear;
   transition: all .2s linear;
   opacity: 0;
 }
@@ -472,13 +482,26 @@ blockquote {
   border-radius: 50%;
 }
 #main .post .blog-tag:hover:before {
+  -webkit-animation: 1s tagRotate linear infinite;
   animation: 1s tagRotate linear infinite;
 }
-@keyframes tagRotate {
+@-webkit-keyframes tagRotate {
   0% {
+    -webkit-transform: rotateY(0deg);
     transform: rotateY(0deg);
   }
   100% {
+    -webkit-transform: rotateY(360deg);
+    transform: rotateY(360deg);
+  }
+}
+@keyframes tagRotate {
+  0% {
+    -webkit-transform: rotateY(0deg);
+    transform: rotateY(0deg);
+  }
+  100% {
+    -webkit-transform: rotateY(360deg);
     transform: rotateY(360deg);
   }
 }
@@ -635,6 +658,7 @@ blockquote {
   font-weight: bold;
   text-decoration: none;
   line-height: 2rem;
+  -webkit-transition: all .4s linear;
   transition: all .4s linear;
   float: left;
   margin-left: 1rem;
@@ -672,6 +696,7 @@ blockquote {
   font-weight: bold;
   text-decoration: none;
   line-height: 2rem;
+  -webkit-transition: all .4s linear;
   transition: all .4s linear;
   float: right;
   margin-right: 1rem;
