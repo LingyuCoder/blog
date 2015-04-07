@@ -1,0 +1,236 @@
+<h1 id="阅读">阅读</h1>
+<h2 id="ECMAScript_6_Features_中文版："><a href="https://github.com/lenville/es6features/blob/master/README.md">ECMAScript 6 Features 中文版</a>：</h2>
+<h3 id="箭头函数">箭头函数</h3>
+<p>箭头函数和其上下文中的代码共享一个this</p>
+<pre><code class="javascript">nums.forEach(v =&gt; {
+  <span class="keyword">if</span> (v % <span class="number">5</span> === <span class="number">0</span>)
+    fives.push(v);
+});
+</code></pre>
+<h3 id="类">类</h3>
+<p>语法糖，支持基于原型的继承、super 调用、实例和静态方法以及构造函数</p>
+<pre><code class="javascript"><span class="keyword">class</span> Dog extends Animal {
+    constructor(color) {
+        super();
+
+        <span class="keyword">this</span>.color = color;
+    }
+    swim() {
+        <span class="comment">//...</span>
+    }
+    static find() {
+        <span class="comment">//...</span>
+    }
+}
+</code></pre>
+<h3 id="增强的Object字面量">增强的Object字面量</h3>
+<p>可以直接使用super，定义<code>__proto__</code></p>
+<pre><code class="javascript"><span class="keyword">var</span> obj = {
+    __proto__: theProtoObj,
+    <span class="comment">// ‘handler: handler’ 的简写形式</span>
+    handler,
+    <span class="comment">// Methods</span>
+    toString() {
+        <span class="keyword">return</span> <span class="string">"d "</span> + super.toString();
+    },
+    <span class="comment">// 计算所得的（动态的）属性名称</span>
+    [<span class="string">'prop_'</span> + (() =&gt; <span class="number">42</span>)()]: <span class="number">42</span>
+};
+</code></pre>
+<h3 id="模板字符串">模板字符串</h3>
+<p>构造字符串的语法糖</p>
+<pre><code class="javascript"><span class="keyword">var</span> name = <span class="string">"Bob"</span>, time = <span class="string">"today"</span>;
+`Hello ${name}, how are you ${time}?`
+</code></pre>
+<h3 id="解构">解构</h3>
+<p>允许在（变量-值）绑定时使用模式匹配，支持匹配数组和对象</p>
+<pre><code class="javascript"><span class="keyword">var</span> [a, , b] = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];
+
+<span class="function"><span class="keyword">function</span> <span class="title">today</span><span class="params">()</span> {</span>
+    <span class="keyword">return</span> {
+        d: <span class="number">2</span>,
+        m: <span class="number">3</span>,
+        y: <span class="number">2015</span>
+    };
+}
+<span class="keyword">var</span> {
+    m: month,
+    y: year
+} = today();
+</code></pre>
+<h3 id="默认值+多余参数组合+参数伸展">默认值+多余参数组合+参数伸展</h3>
+<p>使用 … 运算符，可以将作为参数的数组拆解为连续的多个参数</p>
+<pre><code class="javascript"><span class="comment">//默认参数</span>
+<span class="function"><span class="keyword">function</span> <span class="title">f</span><span class="params">(x, y = 12)</span> {</span>
+    <span class="keyword">return</span> x + y;
+}
+
+<span class="comment">//获取连续多个参数</span>
+<span class="function"><span class="keyword">function</span> <span class="title">f</span><span class="params">(x, ...y)</span> {</span>
+    <span class="keyword">return</span> x * y.length;
+}
+
+<span class="comment">//传入数组形式的参数</span>
+f(...[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]);
+</code></pre>
+<h3 id="Let_+_Const_操作符">Let + Const 操作符</h3>
+<p>块级作用域，const声明常量，不允许修改</p>
+<pre><code class="javascript"><span class="function"><span class="keyword">function</span> <span class="title">f</span><span class="params">()</span> {</span>
+    {
+        <span class="keyword">let</span> x; {
+            <span class="keyword">const</span> x = <span class="string">"sneaky"</span>;
+            <span class="comment">// 错误，const不能修改</span>
+            x = <span class="string">"foo"</span>;
+        }
+        <span class="comment">// 错误，x在块级作用域中已经声明</span>
+        <span class="keyword">let</span> x = <span class="string">"inner"</span>;
+    }
+}
+</code></pre>
+<h3 id="Iterators_+_For-Of_迭代器_+_For-of_循环">Iterators + For..Of 迭代器 + For..of 循环</h3>
+<p>允许使用迭代器，并自定义迭代方式</p>
+<pre><code class="javascript"><span class="keyword">let</span> fibonacci = {
+    [Symbol.iterator]() {
+        <span class="keyword">let</span> pre = <span class="number">0</span>,
+            cur = <span class="number">1</span>;
+        <span class="keyword">return</span> {
+            next() {
+                [pre, cur] = [cur, pre + cur];
+                <span class="keyword">return</span> {
+                    done: <span class="literal">false</span>,
+                    value: cur
+                }
+            }
+        }
+    }
+}
+
+<span class="keyword">for</span> (<span class="keyword">var</span> n of fibonacci) {
+    <span class="keyword">if</span> (n &gt; <span class="number">1000</span>)
+        <span class="keyword">break</span>;
+    console.log(n);
+}
+</code></pre>
+<h3 id="Generators_生成器">Generators 生成器</h3>
+<p>生成器是迭代器的子类型，并附加next和throw</p>
+<pre><code class="javascript"><span class="keyword">var</span> fibonacci = {
+    [Symbol.iterator]: <span class="function"><span class="keyword">function</span>*<span class="params">()</span> {</span>
+        <span class="keyword">var</span> pre = <span class="number">0</span>,
+            cur = <span class="number">1</span>;
+        <span class="keyword">for</span> (;;) {
+            <span class="keyword">var</span> temp = pre;
+            pre = cur;
+            cur += temp;
+            <span class="keyword">yield</span> cur;
+        }
+    }
+}
+
+<span class="keyword">for</span> (<span class="keyword">var</span> n of fibonacci) {
+    <span class="comment">// truncate the sequence at 1000</span>
+    <span class="keyword">if</span> (n &gt; <span class="number">1000</span>)
+        <span class="keyword">break</span>;
+    console.log(n);
+}
+</code></pre>
+<h3 id="Unicode_统一码">Unicode 统一码</h3>
+<p>字符串支持新的Unicode文本形式</p>
+<h3 id="Modules_模块">Modules 模块</h3>
+<p>提供了模块加载机制</p>
+<pre><code class="javascript"><span class="comment">// lib/math.js</span>
+export <span class="function"><span class="keyword">function</span> <span class="title">sum</span><span class="params">(x, y)</span> {</span>
+    <span class="keyword">return</span> x + y;
+}
+export <span class="keyword">var</span> pi = <span class="number">3.141593</span>;
+
+<span class="comment">// app.js</span>
+import * as math from <span class="string">"lib/math"</span>;
+alert(<span class="string">"2π = "</span> + math.sum(math.pi, math.pi));
+</code></pre>
+<h3 id="模块加载器">模块加载器</h3>
+<p>模块加载器支持:</p>
+<ul>
+<li>动态加载</li>
+<li>状态隔离</li>
+<li>全局命名空间隔离</li>
+<li>编译钩子</li>
+<li>嵌套虚拟化(注: 在模块内调用模块)</li>
+</ul>
+<pre><code class="javscript"><span class="transposed_variable">System.</span>import(<span class="string">'lib/math'</span>).<span class="keyword">then</span>(<span class="function"><span class="keyword">function</span><span class="params">(m)</span> {</span>
+    alert(<span class="string">"2π = "</span> + <span class="transposed_variable">m.</span><span class="built_in">sum</span>(<span class="transposed_variable">m.</span>pi, <span class="transposed_variable">m.</span>pi));
+});
+</code></pre>
+<h3 id="Map_+_Set_+_WeakMap_+_WeakSet_数据结构">Map + Set + WeakMap + WeakSet 数据结构</h3>
+<p>WeakMap会出现自动回收，防止内存泄露，WeakSet类似</p>
+<h3 id="Proxies_代理">Proxies 代理</h3>
+<p>代理可以创造一个具备宿主对象全部可用行为的对象</p>
+<pre><code class="javascript"><span class="keyword">var</span> target = {};
+<span class="keyword">var</span> handler = {
+    get: <span class="function"><span class="keyword">function</span><span class="params">(receiver, name)</span> {</span>
+        <span class="keyword">return</span> `Hello, ${name}!`;
+    }
+};
+
+<span class="keyword">var</span> p = <span class="keyword">new</span> Proxy(target, handler);
+p.world === <span class="string">'Hello, world!'</span>;
+</code></pre>
+<h3 id="Symbols_符号">Symbols 符号</h3>
+<p>能够访问控制对象的状态，允许使用 string 或 symbol 作为键来访问属性</p>
+<pre><code class="javascript"><span class="keyword">var</span> MyClass = (<span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
+
+    <span class="comment">// module scoped symbol</span>
+    <span class="keyword">var</span> key = Symbol(<span class="string">"key"</span>);
+
+    <span class="function"><span class="keyword">function</span> <span class="title">MyClass</span><span class="params">(privateData)</span> {</span>
+        <span class="keyword">this</span>[key] = privateData;
+    }
+
+    MyClass.prototype = {
+        doStuff: <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
+            ...this[key]...
+        }
+    };
+
+    <span class="keyword">return</span> MyClass;
+})();
+
+<span class="keyword">var</span> c = <span class="keyword">new</span> MyClass(<span class="string">"hello"</span>)
+c[<span class="string">"key"</span>] === <span class="literal">undefined</span>
+</code></pre>
+<h3 id="Subclassable_Built-ins_可子类化的内建对象">Subclassable Built-ins 可子类化的内建对象</h3>
+<p>在ES6中，类似 Array 、 Date 的内建对象和 DOM Elements 可以被子类化</p>
+<pre><code class="javascript"><span class="keyword">class</span> <span class="built_in">Array</span> {
+    constructor(...args) { <span class="comment">/* ... */</span> }
+    static[Symbol.create]() {
+        <span class="comment">// Install special [[DefineOwnProperty]]</span>
+        <span class="comment">// to magically update 'length'</span>
+    }
+}
+
+<span class="keyword">class</span> MyArray extends <span class="built_in">Array</span> {
+    constructor(...args) {
+        super(...args);
+    }
+}
+
+<span class="keyword">var</span> arr = <span class="keyword">new</span> MyArray();
+arr[<span class="number">1</span>] = <span class="number">12</span>;
+arr.length == <span class="number">2</span>
+</code></pre>
+<h3 id="Math_+_Number_+_String_+_Object_APIs_扩展">Math + Number + String + Object APIs 扩展</h3>
+<p>一些扩展函数</p>
+<h3 id="二进制和八进制字面量">二进制和八进制字面量</h3>
+<p>对二进制( b )和八进制( o )字面量的支持</p>
+<pre><code class="javascript"><span class="number">0</span>b111110111 === <span class="number">503</span> <span class="comment">// true</span>
+<span class="number">0</span>o767 === <span class="number">503</span> <span class="comment">// true</span>
+</code></pre>
+<h3 id="Promises_对象">Promises 对象</h3>
+<p>内置Promise</p>
+<h3 id="Reflect_API_反射API">Reflect API 反射API</h3>
+<p>暴露了运行级的元操作，方便做代理</p>
+<h3 id="Tail_Calls_尾调用">Tail Calls 尾调用</h3>
+<p>尾递归增加安全机制</p>
+<h2 id="收获">收获</h2>
+<p>无</p>
+<h2 id="生活">生活</h2>
+<p>无</p>

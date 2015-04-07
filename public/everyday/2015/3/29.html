@@ -1,0 +1,85 @@
+<h1 id="阅读">阅读</h1>
+<h2 id="Node-JS之我见："><a href="http://www.cnblogs.com/pugang/p/4374681.html">Node.JS之我见</a>：</h2>
+<p>里面的一些观点无法苟同…</p>
+<ol>
+<li>Nodejs最多也就是做了其他工具早已可以完成的事情：零散的工具并不如Nodejs这样适合工程化，同时前端工程师的加入也使得服务器端上运行的工具更加多元化，更加适合前后端多样化的需求</li>
+<li>V8是C++写的，难道C++走不到NODE在服务器端做的事么：…无力吐槽…既然C什么都能干为啥还要C++，C++那么强大为什么还要Java，Java那么健全却那么多人使用PHP和Python，不考虑生产效率都是耍流氓</li>
+</ol>
+<h2 id="Service_Worker入门"><a href="http://web.jobbole.com/82247/">Service Worker入门</a></h2>
+<p>Service Worker独立于页面，能够在网页背后悄悄地执行一些逻辑。App Cache在多页面的离线应用场景有很大的局限性，而Service Worker解决了这些痛点。有如下特点：</p>
+<ul>
+<li>JavaScript Worker，不阻塞主线程地执行逻辑，通过消息机制与页面交互</li>
+<li>可编程的网络代理，允许开发者控制页面的网络请求</li>
+<li>可以使用IndexedDB API来持久化数据</li>
+<li>空闲时自动终止，用到时自动激活</li>
+<li>采用promise做异步控制，简洁美观</li>
+</ul>
+<p>Service Worker拥有完全独立于Web页面的生命周期，使用步骤是：注册 → 激活 → 运行</p>
+<h3 id="注册">注册</h3>
+<p>通过如下代码注册：</p>
+<pre><code class="javascript">navigator.serviceWorker.register(<span class="string">'/somefile.js'</span>).then(<span class="function"><span class="keyword">function</span><span class="params">(registration)</span> {</span>
+    <span class="comment">//after registration</span>
+}).catch(<span class="function"><span class="keyword">function</span><span class="params">(err)</span> {</span>
+    <span class="comment">//handle error</span>
+})
+</code></pre>
+<p>Service Worker与网站同源，会接收这个域下所有的fetch事件，如果修改为 /example/somefile.js，那么只能接收 /example/ 下的fetch事件</p>
+<p>可以通过chrome://inspect/#service-workers 检查service worker的状态</p>
+<h3 id="安装">安装</h3>
+<p>在worker脚本如上面的somefile.js中，可以通过install事件来实现安装。在安装中可以通过caches.open来打开缓存并进行控制：</p>
+<pre><code class="javascript">self.addEventListener(<span class="string">'install'</span>, <span class="function"><span class="keyword">function</span><span class="params">(event)</span> {</span>
+    event.waitUntil(
+        caches.open(<span class="string">'some_cache_name'</span>).then(<span class="function"><span class="keyword">function</span><span class="params">(cache)</span> {</span>
+            <span class="keyword">return</span> cache.addAll([
+                <span class="string">'/'</span>,
+                <span class="string">'/someStyle.css'</span>,
+                <span class="string">'/someScript.js'</span>
+            ]);
+        });
+    );
+});
+</code></pre>
+<h3 id="处理请求">处理请求</h3>
+<p>在worker脚本中监听fetch事件，能够处理网页中的请求。如下面代码所示，可以将已经缓存的资源直接返回而不用真正发送请求，而未缓存的请求在从服务器端获取后亦可加入到缓存中：</p>
+<pre><code class="javascript">self.addEventListener(<span class="string">'fetch'</span>, <span class="function"><span class="keyword">function</span><span class="params">(event)</span> {</span>
+    event.respondWith(
+        caches.match(event.request).then(<span class="function"><span class="keyword">function</span><span class="params">(response)</span> {</span>
+            <span class="keyword">if</span> (response) {
+                <span class="keyword">return</span> response;
+            }
+            <span class="keyword">return</span> fetch(event.request).then(<span class="function"><span class="keyword">function</span><span class="params">(response)</span> {</span>
+                <span class="keyword">if</span> (!response || response.status !== <span class="number">200</span> || response.type !== <span class="string">'basic'</span>) {
+                    <span class="keyword">return</span> response;
+                }
+                <span class="keyword">var</span> responseToCache = response.clone();
+                caches.open(<span class="string">'some_cache_name'</span>).then(<span class="function"><span class="keyword">function</span><span class="params">(cache)</span> {</span>
+                    cache.put(event.request, responseToCache);
+                });
+                <span class="keyword">return</span> response;
+            });
+        });
+    );
+});
+</code></pre>
+<h3 id="更新">更新</h3>
+<p>如果worker脚本出现更改，浏览器就将进行更新，这一点与App Cache的manifest文件类似。更新后，install事件将会重新出发，但这时依旧是老版本的Service Worker起效果，只有在页面关闭之后，新的Service Worker才正式生效。这种二次生效也与App Cache一致。在新Service Worker生效时，会触发一个activate事件，可以在这个事件中清除缓存</p>
+<pre><code class="javascript">self.addEventListener(<span class="string">'activate'</span>, <span class="function"><span class="keyword">function</span><span class="params">(event)</span> {</span>
+    event.waitUntil(caches.keys().then(<span class="function"><span class="keyword">function</span><span class="params">(cacheNames)</span> {</span>
+        <span class="keyword">return</span> Promise.all(cacheNames.map(<span class="function"><span class="keyword">function</span><span class="params">(cacheName)</span> {</span>
+            <span class="keyword">return</span> caches.delete(cacheName);
+        }));
+    }));
+});
+</code></pre>
+<h2 id="坑">坑</h2>
+<ul>
+<li>安装失败后，没有优雅的方式获得通知</li>
+<li>fetch()目前仅支持service worker</li>
+<li>fetch()默认不会带上cookie，需要配置credentials: ‘include’选项才行</li>
+<li>默认不支持跨域</li>
+<li>fetch()不遵循30x重定向</li>
+</ul>
+<h1 id="收获">收获</h1>
+<p>学习react，尝试着用思维脑图去学，一边读react的文档一边画脑图</p>
+<h1 id="生活">生活</h1>
+<p>断网之后提交代码又没法提交代码了</p>
