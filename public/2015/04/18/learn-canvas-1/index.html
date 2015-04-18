@@ -1,0 +1,161 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="author" content="天镶"><meta name="description"><title>前端动画对比 | 天镶的博客</title><link href="/favicon.ico" rel="icon"><link rel="stylesheet" media="screen" href="/stylesheets/plugins/typo/typo-1.1.css"><link rel="stylesheet" media="screen" href="/stylesheets/plugins/highlight/highlight-8.0-dark.css"><link rel="stylesheet" media="screen" href="/stylesheets/app.css"></head><body><a id="totop" href="#page-header" class="iconfont">&#xe60b;</a><header id="page-header"><div class="wrapper"><a href="/page/profile.html"><img alt="avatar" src="/images/avatar.jpg" class="avatar"></a><div class="title"> <a href="/">天镶的博客</a></div><nav class="nav"><ul class="links"><li><a href="/"> 首页</a></li><li><a href="/archives"> 归档</a></li><li><a href="/page/profile.html"> 关于</a></li><li><a href="http://read.lingyu.wang/"> 笔记</a></li><li><a href="/everyday"> 日记</a></li></ul><div class="icons"><a href="/atom.xml" class="icon rss"><i class="iconfont">&#xe602;</i></a><a href="http://weibo.com/lingyucoder" class="icon weibo"><i class="iconfont">&#xe600;</i></a><a href="http://github.com/lingyucoder" class="icon github"><i class="iconfont">&#xe604;</i></a><a href="http://twitter.com/lingyucoder" class="icon twitter"><i class="iconfont">&#xe607;</i></a></div></nav></div></header><section id="wrapper"><div id="main"><article class="post"><div class="content desc typo"><h1 class="blog-title">前端动画对比</h1><div class="toc-index"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#动画？"><span class="toc-number">1.</span> <span class="toc-text">动画？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CSS动画"><span class="toc-number">2.</span> <span class="toc-text">CSS动画</span></a></li><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#transition"><span class="toc-number">2.1.</span> <span class="toc-text">transition</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#animation"><span class="toc-number">2.2.</span> <span class="toc-text">animation</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#优势和缺陷"><span class="toc-number">2.3.</span> <span class="toc-text">优势和缺陷</span></a></li></ol><li class="toc-item toc-level-2"><a class="toc-link" href="#JavaScript动画"><span class="toc-number">3.</span> <span class="toc-text">JavaScript动画</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Canvas、WebGL动画"><span class="toc-number">4.</span> <span class="toc-text">Canvas、WebGL动画</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#最后"><span class="toc-number">5.</span> <span class="toc-text">最后</span></a></li></ol></div><p>将近三个月没写文章了，就在这三个月内，我从一只学生狗变成了上班族。现在一切都稳定下来了，决定重新开始写点东西了。以后的计划是每周一篇，努力坚持~</p>
+<p>之前玩了很长时间的Canvas动画，也写了一些工具和一些demo，放在了我Github上的<a href="https://github.com/LingyuCoder/learn-canvas" target="_blank">learn-canvas</a>仓库里。在学习Canvas动画的过程中学到了不少宝贵的新知识，这篇主要是个人对于Canvas动画的一些想法以及与其他前端动画实现的一些对比。</p>
+<a id="more"></a>
+
+
+<h2 id="动画？">动画？</h2>
+<p>几年前，网页开发主要的侧重点还在于功能的实现。那时候的界面虽然不漂亮甚至很丑，但只要提供了用户切实需要的功能，也往往能够得到认可。但如今，随着互联网的快速发展，提供相同功能的互联网产品层出不穷，相互之间的竞争也日益增大。</p>
+<p>互联网产品与传统的软件产品不同，以前用户通常是通过购买软件安装软体来获取服务，这种方式使得用户在竞品之间相互转换的代价很高，因此产品往往会有一批自己的用户，竞品相互之间会各有一片领地，然后通过销售、广告等等渠道缓慢的蚕食对手的地盘。</p>
+<p>然而互联网产品的情境就完全不同了，用户只需要在浏览器中敲入一个网址，就可以轻松的获取服务。这方便了产品的推广和传播，同时也大大降低了用户对于产品的依赖程度，用户可以很方便的获取到其他同类产品的服务。因此服务提供商就需要想尽各种办法来留住用户。</p>
+<p>当然留住用户的方法有很多，比如提供竞品没有的功能、仔细研究特殊用户群的痛点并提供针对性的解决方案等等，但其中的一个比较直接的方式就是“让我们的产品用起来比别人的用起来爽”，说白了也就是提升用户体验。浏览器的性能提升以及对CSS3和HTML5规范的支持，为用户带来了多种多样前所未有的互联网产品体验，动画就是其中一个。</p>
+<p>动画给用户带来的体验提升是非常直接的，添加了动画后，信息的展现不再是冰冷冷的文字和图片，变得更加生动、直观，各种模仿现实的动画效果也使得页面元素的展现更加自然、亲切。在页面上实现动画比较常见的有三种方法：</p>
+<ol>
+<li>CSS动画</li>
+<li>JavaScript动画</li>
+<li>Canvas、WebGL动画</li>
+</ol>
+<p>这里就说说这三种动画</p>
+<h2 id="CSS动画">CSS动画</h2>
+<p>CSS3可以很方便的通过修改页面元素的样式来实现动画，主要是两种：<code>transition</code>和<code>animation</code>：</p>
+<h3 id="transition">transition</h3>
+<p><code>transition</code>为状态的转变提供了过渡动画，比如<code>transition: width 1s linear</code>，如果当前宽度为200，修改其宽度为400，那么就会发生一个时长为1s的动画，在这个动画过程中宽度逐渐增加转变为400。具体的转变方式由linear这种缓动函数来指定，linear就是线性的变化</p>
+<h3 id="animation">animation</h3>
+<p><code>animation</code>则是通过定义<code>keyframes</code>关键帧来实现动画，一个典型的keyframes大致是这个样子的：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+</pre></td><td class="code"><pre><span class="at_rule">@<span class="keyword">keyframes</span> myAnime </span>{
+    0% <span class="rules">{
+        <span class="rule"><span class="attribute">top</span>:<span class="value"> <span class="number">0</span>
+    </span></span></span>},
+    50% <span class="rules">{
+        <span class="rule"><span class="attribute">top</span>:<span class="value"> <span class="number">200</span>px</span></span>;
+    <span class="rule">}</span></span>,
+    100% <span class="rules">{
+        <span class="rule"><span class="attribute">top</span>:<span class="value"> -<span class="number">200</span>px</span></span>;   
+    <span class="rule">}</span></span>
+}
+</pre></td></tr></table></figure>
+
+
+<p>然后在通过在元素样式中定义<code>animation</code>：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre>1
+2
+3
+</pre></td><td class="code"><pre><span class="class">.ele</span> <span class="rules">{
+    <span class="rule"><span class="attribute">animation</span>:<span class="value"> myAnime <span class="number">5</span>s linear <span class="number">2</span>s infinite alternate</span></span>;
+<span class="rule">}</span></span>
+</pre></td></tr></table></figure>
+
+
+<p>通过这种方法就可以让元素动起来，具体每个参数有什么作用，可以去看看W3C或是MDN的介绍</p>
+<h3 id="优势和缺陷">优势和缺陷</h3>
+<p>CSS动画有很多优点：</p>
+<ol>
+<li>写起来很简单，也比较直观，非常适合实现一些元素动效</li>
+<li>在绝大部分时间CSS动画的性能都比较好（不触发重布局和重绘，还能使用上GPU加速）</li>
+</ol>
+<p>但缺陷也很多：</p>
+<ol>
+<li>动画过程控制能力较弱，逐帧控制不可行</li>
+<li>部分浏览器不兼容，现在大部分都可以，尤其是移动端</li>
+<li>若触发重布局和重绘，会大幅度降低性能</li>
+<li>由于是CSS实现因此有不少局限性（页面滚动动画等）</li>
+<li>基于页面元素，不可能实现像素级的渲染控制</li>
+</ol>
+<h2 id="JavaScript动画">JavaScript动画</h2>
+<p>JavaScript的动画本质上和CSS动画相似，同样是构建在页面元素的基础之上，比如jQuery的<code>$.fn.animate</code>就实现了JavaScript动画。</p>
+<p>JavaScript动画本质上就是通过每隔一小段时间修改一次元素的CSS样式来实现动画。由于每一帧元素的样式都需要计算当前时间点所需要展现的样式属性值，因此只要修改计算的方式就能干预动画过程。这种逐帧绘制的方式有很多好处：由于每一帧都能进行干预，因此拥有极强的控制能力，可以单帧的控制、变换，写得好完全可以兼容IE6，并且像页面滚动这样的效果也可以实现。但由于计算过程需要自己实现，因此JavaScript动画往往较为复杂，所以性能上很容易出现问题，而且一般需要依赖外部动画库（不久之后就不需要了）。另外JavaScript动画和CSS动画同样是基于页面元素和CSS样式，因此有自己的局限性，像素级的控制无法实现。</p>
+<p>JavaScript动画往往用于CSS动画无法完成动画的场景，比如兼容低级浏览器、实现一些细粒度动画等等</p>
+<h2 id="Canvas、WebGL动画">Canvas、WebGL动画</h2>
+<p>Canvas和WebGL分别提供了2D和3D的画布进行绘制，这种绘制脱离元素和CSS，因此可以随心所欲定义绘制方案。这里就以Canvas为主，因为WebGL我不会哈哈。</p>
+<p>Canvas本身提供了一系列的绘制方法，但同样需要JavaScript来控制，与JavaScript动画类似。Canvas本质上可以看做一叠白纸，并且提供了一些圆规直尺的工具，然后画一个动画的过程就是：画一帧，然后把换下一张白纸再画下一帧，和童年在书上画翻页动画原理一样。因此Canvas动画的好处有：</p>
+<ol>
+<li>拥有JavaScript动画的控制能力</li>
+<li>完全脱离CSS和元素，绘制的方式和结果完全由自己控制，可以实现像素级别的控制</li>
+<li>能够利用GPU加速，性能不错</li>
+<li>可以进行画布控制，导入图像或导出图像</li>
+<li>可以进行图像分析</li>
+</ol>
+<p>但是这些好处也是需要付出代价的：</p>
+<ol>
+<li>所有的绘制细节都要自己去控制，需要大量代码</li>
+<li>不再基于CSS和DOM，因此在交互上很麻烦，只能在canvas上监听然后再计算位置投射到对应的元素上</li>
+</ol>
+<p>由于这种像素级别的控制能力，往往会使用Canvas做游戏和像音频可视化这样的复杂视觉效果</p>
+<h2 id="最后">最后</h2>
+<p>今天先写到这里，下一篇写一写Canvas动画里的一些基础知识</p>
+<hr><div class="tags"><a href="/tags/Canvas/" class="blog-tag">Canvas</a><a href="/tags/JavaScript/" class="blog-tag">JavaScript</a><a href="/tags/动画/" class="blog-tag">动画</a><a href="/tags/游戏/" class="blog-tag">游戏</a></div><hr><div class="jia"><div class="jiathis_style_32x32"><a class="jiathis_button_qzone"></a><a class="jiathis_button_tsina"></a><a class="jiathis_button_tqq"></a><a class="jiathis_button_weixin"></a><a class="jiathis_button_renren"></a><a href="http://www.jiathis.com/share?uid=1409314953297200" target="_blank" class="jiathis jiathis_txt jtico jtico_jiathis"></a></div><script type="text/javascript">var jiathis_config = {data_track_clickback:'true'};    </script><script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1409314953297200" charset="utf-8"></script></div><hr><div id="duoshuo" data-url="http://lingyu.wang/2015/04/18/learn-canvas-1/" data-thread-key="/blog/2015/04/18/learn-canvas-1/" data-title="前端动画对比" class="ds-thread"></div><script type="text/javascript">var duoshuoQuery = {short_name:'skyinlayer'};
+(function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+})();</script></div></article><div class="pager"><a href="/2015/01/26/18-books/" title="读书破万卷，敲码别走神" class="next">下一页</a></div></div><aside id="aside"><section class="recent"><h3 class="title iconfont">最新文章<i>&#xe601;</i></h3><div class="links"><ul><li><a href="/2015/04/18/learn-canvas-1/">前端动画对比</a></li><li><a href="/2015/01/26/18-books/">读书破万卷，敲码别走神</a></li><li><a href="/2014/11/24/7-rules-for-creating-gorgeous-ui-part-1/">构建华丽UI的7条准则（上部）</a></li><li><a href="/2014/11/24/risingstack-nodejs-style-guide/">RisingStack的Node.js风格指南</a></li><li><a href="/2014/11/18/peertc-and-fivechess/">Peertc和五子棋</a></li></ul></div></section><section class="categories"><h3 class="title iconfont">分类<i>&#xe605;</i></h3><div class="links"><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/CSS/">CSS</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JS技术/">JS技术</a><span class="category-list-count">12</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/NodeJs/">NodeJs</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端综合/">前端综合</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/即时通信/">即时通信</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/响应式/">响应式</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/思考总结/">思考总结</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/性能优化/">性能优化</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/">数据库</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/游戏开发/">游戏开发</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/笔试面试/">笔试面试</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/翻译/">翻译</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/读书笔记/">读书笔记</a><span class="category-list-count">10</span></li></ul></div></section><section class="tags"><h3 class="title iconfont">标签<i>&#xe603;</i></h3><div class="links"><ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS/">CSS</a><span class="tag-list-count">35</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Canvas/">Canvas</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DataChannel/">DataChannel</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ES6/">ES6</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Generator/">Generator</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Gulp/">Gulp</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/">HTML</a><span class="tag-list-count">29</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/">HTTP</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a><span class="tag-list-count">39</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kissy/">Kissy</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NodeJs/">NodeJs</a><span class="tag-list-count">14</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SEO/">SEO</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WebIM/">WebIM</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WebRTC/">WebRTC</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WebSocket/">WebSocket</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/grunt/">grunt</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jQuery/">jQuery</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/koa/">koa</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/oracle/">oracle</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/xmpp/">xmpp</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/动画/">动画</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/响应式/">响应式</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/存储函数/">存储函数</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/思考/">思考</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/游戏/">游戏</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/生活/">生活</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/笔试面试题/">笔试面试题</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/设计/">设计</a><span class="tag-list-count">10</span></li></ul></div></section><section class="archives"><h3 class="title iconfont"> 归档<i>&#xe60a;</i></h3><div class="links"><ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04">2015年4月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01">2015年1月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11">2014年11月</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10">2014年10月</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09">2014年9月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07">2014年7月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05">2014年5月</a><span class="archive-list-count">15</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/04">2014年4月</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/03">2014年3月</a><span class="archive-list-count">29</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02">2014年2月</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/01">2014年1月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/12">2013年12月</a><span class="archive-list-count">1</span></li></ul></div></section></aside></section><footer id="page-footer"><span style="float:right"><script type="text/javascript">var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3Fa5aa4945a04cc5a5a4cd6835ccb7d419' type='text/javascript'%3E%3C/script%3E"));</script></span><p>&copy;Powered by<a href="http://hexo.io" target="_blank" title="hexo">&nbsp;hexo&nbsp;</a>and Theme by<a href="https://github.com/LingyuCoder/lingyu-theme">&nbsp;LingyuCoder</a></p></footer><canvas id="snow"></canvas><style type="text/css">#snow {
+    position: fixed;
+    display: block;
+    pointer-events: none;
+    top: 0;
+    left: 0;
+}
+</style><script type="text/javascript" src="/scripts/snow.js"></script><script type="text/javascript">var snow = new Snow('snow', {
+    'amount': 10,
+    'size': [8, 20],
+    'rotation': [1, 5],
+    'speed': [40, 80],
+    'swing': [0.1, 1],
+    'amplitude': [30, 50],
+    'alpha': [0.1, 0.95],
+    'images': [
+        'http://skyinlayerblog.qiniudn.com/blog/img/snow_1.png',
+        'http://skyinlayerblog.qiniudn.com/blog/img/snow_2.png',
+        'http://skyinlayerblog.qiniudn.com/blog/img/snow_3.png',
+        'http://skyinlayerblog.qiniudn.com/blog/img/snow_4.png'
+    ]
+});
+
+window.addEventListener('resize', function() {
+    snow.resize(window.innerWidth, window.innerHeight);
+}, false);
+
+window.addEventListener('load', function() {
+    snow.start();
+}, false);</script><script type="text/javascript" src="http://cdn.staticfile.org/jquery/2.1.1-rc2/jquery.min.js"></script><script type="text/javascript">$(function(){
+    var duoshuoIds = [];
+    var map = {};
+    $('.meta').each(function(){
+        var $this = $(this);
+        var id = $this.attr('thread');
+        duoshuoIds.push(id);
+        map[id] = $this;
+    });
+    duoshuoIds.length && $.ajax({
+        url: 'http://api.duoshuo.com/threads/counts.jsonp',
+        data: {
+            threads: duoshuoIds.join(','),
+            short_name: 'skyinlayer'
+        },
+        success: function(data){
+            $.each(data.response, function(key, value){
+                var $el = map[key];
+                if($el) {
+                    $.each(['comments','likes', 'reposts'], function(index, type){
+                        $el.find('.' + type).append('<span>' + value[type] + '</span>');
+                    });
+                }
+            });
+        },
+        dataType: 'jsonp'
+    });
+});</script></body></html>

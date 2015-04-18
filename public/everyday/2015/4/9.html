@@ -1,0 +1,46 @@
+<h1 id="阅读">阅读</h1>
+<h2 id="学习JavaScript的必备读物"><a href="http://www.imooc.com/wenda/detail/250927">学习JavaScript的必备读物</a></h2>
+<p>读了一些书就会发现，书中知识密集，每次读完能记住的东西不多，还是需要配合实践，边读边实践。实践完之后回头再读，又会有新的收获</p>
+<h2 id="JavaScript奇技淫巧45招"><a href="http://www.imooc.com/wenda/detail/251228">JavaScript奇技淫巧45招</a></h2>
+<p>摘取其中几个有意思的代码片段：</p>
+<pre><code class="javascript"><span class="comment">//生成随机字符串</span>
+<span class="function"><span class="keyword">function</span> <span class="title">generateRandomAlphaNum</span><span class="params">(len)</span> {</span>
+    <span class="keyword">var</span> rdmString = “”;
+    <span class="keyword">for</span>( ; rdmString.length &lt; len; rdmString += <span class="built_in">Math</span>.random().toString(<span class="number">36</span>).substr(<span class="number">2</span>));
+    <span class="keyword">return</span> rdmString.substr(<span class="number">0</span>, len);
+}
+
+<span class="comment">//打乱数组顺序</span>
+<span class="keyword">var</span> numbers = [<span class="number">5</span>, <span class="number">458</span> , <span class="number">120</span> , -<span class="number">215</span> , <span class="number">228</span> , <span class="number">400</span> , <span class="number">122205</span>, -<span class="number">85411</span>];
+numbers = numbers.sort(<span class="function"><span class="keyword">function</span><span class="params">()</span>{</span> <span class="keyword">return</span> <span class="built_in">Math</span>.random() – <span class="number">0.5</span>});
+
+<span class="comment">//去掉手尾空格，jQuery好像用的就是这个方法</span>
+<span class="built_in">String</span>.prototype.trim = <span class="function"><span class="keyword">function</span><span class="params">()</span>{</span><span class="keyword">return</span> <span class="keyword">this</span>.replace(<span class="regexp">/^\s+|\s+$/g</span>, <span class="string">""</span>);};
+
+<span class="comment">//switch数字区间</span>
+<span class="function"><span class="keyword">function</span> <span class="title">getCategory</span><span class="params">(age)</span> {</span>
+    <span class="keyword">var</span> category = “”;
+    <span class="keyword">switch</span> (<span class="literal">true</span>) {
+        <span class="keyword">case</span> <span class="built_in">isNaN</span>(age):
+            category = “not an age”;
+            <span class="keyword">break</span>;
+        <span class="keyword">case</span> (age &gt;= <span class="number">50</span>):
+            category = “Old”;
+            <span class="keyword">break</span>;
+        <span class="keyword">case</span> (age &lt;= <span class="number">20</span>):
+            category = “Baby”;
+            <span class="keyword">break</span>;
+        <span class="keyword">default</span>:
+            category = “Young”;
+            <span class="keyword">break</span>;
+    };
+    <span class="keyword">return</span> category;
+}
+getCategory(<span class="number">5</span>);
+</code></pre>
+<h1 id="收获">收获</h1>
+<p>无</p>
+<h1 id="生活">生活</h1>
+<p>正式入职了，从此就是上班族了…</p>
+<p>又回到了当年熟悉的地方</p>
+<p>领了台air被师兄们鄙视了，赶紧申请了一个pro。好久没有用mac了，都不太会玩了</p>
