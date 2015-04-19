@@ -1,0 +1,32 @@
+<h1 id="阅读">阅读</h1>
+<h2 id="浅析nodejs的buffer类"><a href="https://cnodejs.org/topic/5189ff4f63e9f8a54207f60c">浅析nodejs的buffer类</a></h2>
+<p>其实buffer在拼接字符串时，读写速度都比string慢，但当需要处理二进制数据必须使用buffer<br>，而且buffer也比较快</p>
+<p>buffer的数据都是8kb的块，如果数据少，可以放在已经申请的8kb<br>块中，就不会申请，而是直接放入，并更新剩余信息。否则就会重新申请，这里就有内存泄露的可能</p>
+<p>刷掉一块buffer上的数据最快的办法是buffer.fill</p>
+<h2 id="给Node-js新手的7条小建议"><a href="https://cnodejs.org/topic/525216a3f29c7bbd3c877cbf">给Node.js新手的7条小建议</a></h2>
+<ol>
+<li>给函数命名，不要使用匿名函数</li>
+<li>不需要的对象解引用，方便GC回收</li>
+<li>不要复制代码，其实任何时候都是这样</li>
+<li>在引入模块时，注意模块所支持的node版本</li>
+<li>用async或promise做异步控制</li>
+<li>注意做缓存，防止数据都堆置在内存中</li>
+<li>采用事件来做异步通知，方便逻辑解耦</li>
+</ol>
+<h1 id="收获">收获</h1>
+<p>上班，开始学习框架了，好多东西都变了，各种工具都要重新学。看了看大神的源码，记录了一些优秀的node库：</p>
+<ol>
+<li>open：打开网页或者文件</li>
+<li>debug：调试</li>
+<li>fs-extra：加强文件操作</li>
+<li>fs-readdir-recursive：递归读文件夹</li>
+<li>copy-to：对象拷贝</li>
+<li>urllib-sync：同步请求</li>
+<li>only：获取对象中的特定属性</li>
+<li>multiline：用注释的方式实现多行字符串</li>
+<li>autod：解析node_modules生成package.json依赖</li>
+<li>freeport：自动分配一个端口</li>
+<li>semver：npm用的版本解析器</li>
+</ol>
+<h1 id="生活">生活</h1>
+<p>能与大神共事，读到大神写的源码，也是一种幸福</p>
