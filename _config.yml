@@ -100,16 +100,3 @@ autoprefixer:
       - '> 1%'
       - 'last 2 versions'
   safe: true
-
-everyday:
-  path: 'everyday',
-  enable: true,
-  author: '天镶',
-  description: '天镶的日记 | Code everyday, keep girls away~',
-  highlight:
-    languages:
-      - 'javascript'
-      - 'css'
-      - 'xml'
-      - 'markdown'
-    style: 'github'
