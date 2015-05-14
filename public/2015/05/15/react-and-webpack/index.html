@@ -1,0 +1,616 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="author" content="天镶"><meta name="description"><title>轻松入门React和Webpack | 天镶的博客</title><link href="/favicon.ico" rel="icon"><link rel="stylesheet" media="screen" href="/stylesheets/plugins/typo/typo-1.1.css"><link rel="stylesheet" media="screen" href="/stylesheets/plugins/highlight/highlight-8.0-dark.css"><link rel="stylesheet" media="screen" href="/stylesheets/app.css"></head><body><a id="totop" href="#page-header" class="iconfont">&#xe60b;</a><header id="page-header"><div class="wrapper"><a href="/page/profile.html"><img alt="avatar" src="/images/avatar.jpg" class="avatar"></a><div class="title"> <a href="/">天镶的博客</a></div><nav class="nav"><ul class="links"><li><a href="/"> 首页</a></li><li><a href="/archives"> 归档</a></li><li><a href="/page/profile.html"> 关于</a></li><li><a href="http://read.lingyu.wang/"> 笔记</a></li><li><a href="http://lingyucoder.github.io/diary"> 日记</a></li></ul><div class="icons"><a href="/atom.xml" class="icon rss"><i class="iconfont">&#xe602;</i></a><a href="http://weibo.com/lingyucoder" class="icon weibo"><i class="iconfont">&#xe600;</i></a><a href="http://github.com/lingyucoder" class="icon github"><i class="iconfont">&#xe604;</i></a><a href="http://twitter.com/lingyucoder" class="icon twitter"><i class="iconfont">&#xe607;</i></a></div></nav></div></header><section id="wrapper"><div id="main"><article class="post"><div class="content desc typo"><h1 class="blog-title">轻松入门React和Webpack</h1><div class="toc-index"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#说说React"><span class="toc-number">1.</span> <span class="toc-text">说说React</span></a></li><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#结构和逻辑"><span class="toc-number">1.1.</span> <span class="toc-text">结构和逻辑</span></a></li><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#结构"><span class="toc-number">1.1.1.</span> <span class="toc-text">结构</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#逻辑"><span class="toc-number">1.1.2.</span> <span class="toc-text">逻辑</span></a></li><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#事件响应"><span class="toc-number">1.1.2.1.</span> <span class="toc-text">事件响应</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#暴露接口"><span class="toc-number">1.1.2.2.</span> <span class="toc-text">暴露接口</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#配置参数"><span class="toc-number">1.1.2.3.</span> <span class="toc-text">配置参数</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#组件状态"><span class="toc-number">1.1.2.4.</span> <span class="toc-text">组件状态</span></a></li></ol><li class="toc-item toc-level-4"><a class="toc-link" href="#小节"><span class="toc-number">1.1.3.</span> <span class="toc-text">小节</span></a></li></ol><li class="toc-item toc-level-3"><a class="toc-link" href="#资源加载"><span class="toc-number">1.2.</span> <span class="toc-text">资源加载</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#组件依赖"><span class="toc-number">1.3.</span> <span class="toc-text">组件依赖</span></a></li><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#组件加载"><span class="toc-number">1.3.1.</span> <span class="toc-text">组件加载</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#组件使用"><span class="toc-number">1.3.2.</span> <span class="toc-text">组件使用</span></a></li></ol><li class="toc-item toc-level-3"><a class="toc-link" href="#疑问"><span class="toc-number">1.4.</span> <span class="toc-text">疑问</span></a></li><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#虚拟DOM"><span class="toc-number">1.4.1.</span> <span class="toc-text">虚拟DOM</span></a></li></ol></ol><li class="toc-item toc-level-2"><a class="toc-link" href="#说说Webpack"><span class="toc-number">2.</span> <span class="toc-text">说说Webpack</span></a></li><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#什么是Webpack？"><span class="toc-number">2.1.</span> <span class="toc-text">什么是Webpack？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#安装Webpack"><span class="toc-number">2.2.</span> <span class="toc-text">安装Webpack</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#配置Webpack"><span class="toc-number">2.3.</span> <span class="toc-text">配置Webpack</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#执行打包"><span class="toc-number">2.4.</span> <span class="toc-text">执行打包</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#组件编写"><span class="toc-number">2.5.</span> <span class="toc-text">组件编写</span></a></li><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#使用Babel提升逼格"><span class="toc-number">2.5.1.</span> <span class="toc-text">使用Babel提升逼格</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#样式编写"><span class="toc-number">2.5.2.</span> <span class="toc-text">样式编写</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#其他"><span class="toc-number">2.5.3.</span> <span class="toc-text">其他</span></a></li></ol></ol><li class="toc-item toc-level-2"><a class="toc-link" href="#在Webpack下实时调试React组件"><span class="toc-number">3.</span> <span class="toc-text">在Webpack下实时调试React组件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#结束"><span class="toc-number">4.</span> <span class="toc-text">结束</span></a></li></ol></div><p>最近在学习React.js，之前都是直接用最原生的方式去写React代码，发现组织起来特别麻烦，之前听人说用Webpack组织React组件得心应手，就花了点时间学习了一下，收获颇丰</p>
+<a id="more"></a>
+
+<h2 id="说说React">说说React</h2>
+<p>一个组件，有自己的结构，有自己的逻辑，有自己的样式，会依赖一些资源，会依赖某些其他组件。比如日常写一个组件，比较常规的方式：</p>
+<p>－ 通过前端模板引擎定义结构<br>－ JS文件中写自己的逻辑<br>－ CSS中写组件的样式<br>－ 通过RequireJS、SeaJS这样的库来解决模块之间的相互依赖，<br>那么在React中是什么样子呢？</p>
+<h3 id="结构和逻辑">结构和逻辑</h3>
+<p>在React的世界里，结构和逻辑交由JSX文件组织，React将模板内嵌到逻辑内部，实现了一个JS代码和HTML混合的JSX。</p>
+<h4 id="结构">结构</h4>
+<p>在JSX文件中，可以直接通过<code>React.createClass</code>来定义组件：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+</pre></td><td class="code"><pre><span class="keyword">var</span> CustomComponent = React.creatClass({
+    render: <span class="function"><span class="keyword">function</span><span class="params">()</span>{</span>
+        <span class="keyword">return</span> (<span class="xml"><span class="tag">&lt;<span class="title">div</span> <span class="attribute">className</span>=<span class="value">"custom-component"</span>&gt;</span><span class="tag">&lt;/<span class="title">div</span>&gt;</span>);
+    }
+});</span>
+</pre></td></tr></table></figure>
+
+
+<p>通过这种方式可以很方便的定义一个组件，组件的结构定义在render函数中，但这并不是简单的模板引擎，我们可以通过js方便、直观的操控组件结构，比如我想给组件增加几个节点：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+</pre></td><td class="code"><pre><span class="keyword">var</span> CustomComponent = React.creatClass({
+    render: <span class="function"><span class="keyword">function</span><span class="params">()</span>{</span>
+        <span class="keyword">var</span> $nodes = [<span class="string">'h'</span>,<span class="string">'e'</span>,<span class="string">'l'</span>,<span class="string">'l'</span>,<span class="string">'o'</span>].map(<span class="function"><span class="keyword">function</span><span class="params">(str)</span>{</span>
+            <span class="keyword">return</span> (<span class="xml"><span class="tag">&lt;<span class="title">span</span>&gt;</span>{str}<span class="tag">&lt;/<span class="title">span</span>&gt;</span>);
+        });
+        return (<span class="tag">&lt;<span class="title">div</span> <span class="attribute">className</span>=<span class="value">"custom-component"</span>&gt;</span>{$nodes}<span class="tag">&lt;/<span class="title">div</span>&gt;</span>);
+    }
+});</span>
+</pre></td></tr></table></figure>
+
+
+<p>通过这种方式，React使得组件拥有灵活的结构。那么React又是如何处理逻辑的呢？</p>
+<h4 id="逻辑">逻辑</h4>
+<p>写过前端组件的人都知道，组件通常首先需要相应自身DOM事件，做一些处理。必要时候还需要暴露一些外部接口，那么React组件要怎么做到这两点呢？</p>
+<h5 id="事件响应">事件响应</h5>
+<p>比如我有个按钮组件，点击之后需要做一些处理逻辑，那么React组件大致上长这样：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+</pre></td><td class="code"><pre><span class="keyword">var</span> ButtonComponent = React.createClass({
+    render: <span class="function"><span class="keyword">function</span><span class="params">()</span>{</span>
+        <span class="keyword">return</span> (<span class="xml"><span class="tag">&lt;<span class="title">button</span>&gt;</span>屠龙宝刀，点击就送<span class="tag">&lt;/<span class="title">button</span>&gt;</span>);
+    }
+});</span>
+</pre></td></tr></table></figure>
+
+
+<p>点击按钮应当触发相应地逻辑，一种比较直观的方式就是给button绑定一个<code>onclick</code>事件，里面就是需要执行的逻辑了：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+</pre></td><td class="code"><pre><span class="function"><span class="keyword">function</span> <span class="title">getDragonKillingSword</span><span class="params">()</span> {</span>
+    <span class="comment">//送宝刀</span>
+}
+<span class="keyword">var</span> ButtonComponent = React.createClass({
+    render: <span class="function"><span class="keyword">function</span><span class="params">()</span>{</span>
+        <span class="keyword">return</span> (<span class="xml"><span class="tag">&lt;<span class="title">button</span> <span class="attribute">onclick</span>=<span class="value">"getDragonKillingSword()"</span>&gt;</span>屠龙宝刀，点击就送<span class="tag">&lt;/<span class="title">button</span>&gt;</span>);
+    }
+});</span>
+</pre></td></tr></table></figure>
+
+
+<p>但事实上<code>getDragonKillingSword()</code>的逻辑属于组件内部行为，显然应当包装在组件内部，于是在React中就可以这么写：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+</pre></td><td class="code"><pre><span class="keyword">var</span> ButtonComponent = React.createClass({
+    getDragonKillingSword: <span class="function"><span class="keyword">function</span><span class="params">()</span>{</span>
+        <span class="comment">//送宝刀</span>
+    },
+    render: <span class="function"><span class="keyword">function</span><span class="params">()</span>{</span>
+        <span class="keyword">return</span> (<span class="xml"><span class="tag">&lt;<span class="title">button</span> <span class="attribute">onClick</span>=<span class="value">{this.getDragonKillingSword}</span>&gt;</span>屠龙宝刀，点击就送<span class="tag">&lt;/<span class="title">button</span>&gt;</span>);
+    }
+});</span>
+</pre></td></tr></table></figure>
+
+
+<p>这样就实现内部事件的响应了，那如果需要暴露接口怎么办呢？</p>
+<h5 id="暴露接口">暴露接口</h5>
+<p>事实上现在<code>getDragonKillingSword</code>已经是一个接口了，如果有一个父组件，想要调用这个接口怎么办呢？</p>
+<p>父组件大概长这样：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+</pre></td><td class="code"><pre><span class="keyword">var</span> ImDaddyComponent = React.createClass({
+    render: <span class="function"><span class="keyword">function</span><span class="params">()</span>{</span>
+        <span class="keyword">return</span> (
+            <span class="xml"><span class="tag">&lt;<span class="title">div</span>&gt;</span>
+                //其他组件
+                <span class="tag">&lt;<span class="title">ButtonComponent</span> /&gt;</span>
+                //其他组件
+            <span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+        );
+    }
+});</span>
+</pre></td></tr></table></figure>
+
+
+<p>那么如果想手动调用组件的方法，首先在ButtonComponent上设置一个<code>ref=&quot;&quot;</code>属性来标记一下，比如这里把子组件设置成<code>&lt;ButtonComponent ref=&quot;getSwordButton&quot;/&gt;</code>，那么在父组件的逻辑里，就可以在父组件自己的方法中通过这种方式来调用接口方法：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+</pre></td><td class="code"><pre><span class="keyword">this</span>.refs.getSwordButton.getDragonKillingSword();
+</pre></td></tr></table></figure>
+
+
+<p>看起来屌屌哒~那么问题又来了，父组件希望自己能够按钮点击时调用的方法，那该怎么办呢？</p>
+<h5 id="配置参数">配置参数</h5>
+<p>父组件可以直接将需要执行的函数传递给子组件：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+</pre></td><td class="code"><pre>&lt;ButtonComponent clickCallback={<span class="keyword">this</span>.getSwordButtonClickCallback}/&gt;
+</pre></td></tr></table></figure>
+
+
+<p>然后在子组件中调用父组件方法：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+</pre></td><td class="code"><pre><span class="keyword">var</span> ButtonComponent = React.createClass({
+    render: <span class="function"><span class="keyword">function</span><span class="params">()</span>{</span>
+        <span class="keyword">return</span> (<span class="xml"><span class="tag">&lt;<span class="title">button</span> <span class="attribute">onClick</span>=<span class="value">{this.props.clickCallback}</span>&gt;</span>屠龙宝刀，点击就送<span class="tag">&lt;/<span class="title">button</span>&gt;</span>);
+    }
+});</span>
+</pre></td></tr></table></figure>
+
+
+<p>子组件通过<code>this.props</code>能够获取在父组件创建子组件时传入的任何参数，因此<code>this.props</code>也常被当做配置参数来使用</p>
+<p>屠龙宝刀每个人只能领取一把，按钮点击一下就应该灰掉，应当在子组件中增加一个是否点击过的状态，这又应当处理呢？</p>
+<h5 id="组件状态">组件状态</h5>
+<p>在React中，每个组件都有自己的状态，可以在自身的方法中通过<code>this.state</code>取到，而初始状态则通过<code>getInitialState()</code>方法来定义，比如这个屠龙宝刀按钮组件，它的初始状态应该是没有点击过，所以<code>getInitialState</code>方法里面应当定义初始状态<code>clicked: false</code>。而在点击执行的方法中，应当修改这个状态值为<code>click: true</code>：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+</pre></td><td class="code"><pre><span class="keyword">var</span> ButtonComponent = React.createClass({
+    getInitialState: <span class="function"><span class="keyword">function</span><span class="params">()</span>{</span>
+        <span class="comment">//确定初始状态</span>
+        <span class="keyword">return</span> {
+            clicked: <span class="literal">false</span>
+        };
+    },
+    getDragonKillingSword: <span class="function"><span class="keyword">function</span><span class="params">()</span>{</span>
+        <span class="comment">//送宝刀</span>
+        
+        <span class="comment">//修改点击状态</span>
+        <span class="keyword">this</span>.setState({
+            clicked: <span class="literal">true</span>
+        });
+    },
+    render: <span class="function"><span class="keyword">function</span><span class="params">()</span>{</span>
+        <span class="keyword">return</span> (<span class="xml"><span class="tag">&lt;<span class="title">button</span> <span class="attribute">onClick</span>=<span class="value">{this.getDragonKillingSword}</span>&gt;</span>屠龙宝刀，点击就送<span class="tag">&lt;/<span class="title">button</span>&gt;</span>);
+    }
+});</span>
+</pre></td></tr></table></figure>
+
+
+<p>这样点击状态的维护就完成了，那么render函数中也应当根据状态来维护节点的样式，比如这里将按钮设置为<code>disabled</code>，那么render函数就要添加相应的判断逻辑：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+</pre></td><td class="code"><pre>render: <span class="function"><span class="keyword">function</span><span class="params">()</span>{</span>
+    <span class="keyword">var</span> clicked = <span class="keyword">this</span>.state.clicked;
+    <span class="keyword">if</span>(clicked)
+        <span class="keyword">return</span> (<span class="xml"><span class="tag">&lt;<span class="title">button</span> <span class="attribute">disabled</span>=<span class="value">"disabled"</span> <span class="attribute">onClick</span>=<span class="value">{this.getDragonKillingSword}</span>&gt;</span>屠龙宝刀，点击就送<span class="tag">&lt;/<span class="title">button</span>&gt;</span>);
+    else 
+        return (<span class="tag">&lt;<span class="title">button</span> <span class="attribute">onClick</span>=<span class="value">{this.getDragonKillingSword}</span>&gt;</span>屠龙宝刀，点击就送<span class="tag">&lt;/<span class="title">button</span>&gt;</span>);
+}</span>
+</pre></td></tr></table></figure>
+
+
+<h4 id="小节">小节</h4>
+<p>这里简单介绍了通过JSX来管理组件的结构和逻辑，事实上React给组件还定义了很多方法，以及组件自身的生命周期，这些都使得组件的逻辑处理更加强大</p>
+<h3 id="资源加载">资源加载</h3>
+<p>CSS文件定义了组件的样式，现在的模块加载器通常都能够加载CSS文件，如果不能一般也提供了相应的插件。事实上CSS、图片可以看做是一种资源，因为加载过来后一般不需要做什么处理。</p>
+<p>React对这一方面并没有做特别的处理，虽然它提供了Inline Style的方式把CSS写在JSX里面，但估计没有多少人会去尝试，毕竟现在CSS样式已经不再只是简单的CSS文件了，通常都会去用Less、Sass等预处理，然后再用像postcss、myth、autoprefixer、cssmin等等后处理。资源加载一般也就简单粗暴地使用模块加载器完成了</p>
+<h3 id="组件依赖">组件依赖</h3>
+<p>组件依赖的处理一般分为两个部分：组件加载和组件使用</p>
+<h4 id="组件加载">组件加载</h4>
+<p>React没有提供相关的组件加载方法，依旧需要通过<code>&lt;script&gt;</code>标签引入，或者使用模块加载器加载组件的JSX和资源文件。</p>
+<h4 id="组件使用">组件使用</h4>
+<p>如果细心，就会发现其实之前已经有使用的例子了，要想在一个组件中使用另外一个组件，比如在<code>ParentComponent</code>中使用<code>ChildComponent</code>，就只需要在<code>ParentComponent</code>的<code>render()</code>方法中写上<code>&lt;ChildComponent /&gt;</code>就行了，必要的时候还可以传些参数。</p>
+<h3 id="疑问">疑问</h3>
+<p>到这里就会发现一个问题，React除了只处理了结构和逻辑，资源也不管，依赖也不管。是的，React将近两万行代码，连个模块加载器都没有提供，更与Angularjs，jQuery等不同的是，他还不带啥脚手架…没有Ajax库，没有Promise库，要啥啥没有…</p>
+<h4 id="虚拟DOM">虚拟DOM</h4>
+<p>那它为啥这么大？因为它实现了一个虚拟DOM（Virtual DOM）。虚拟DOM是干什么的？这就要从浏览器本身讲起</p>
+<p>如我们所知，在浏览器渲染网页的过程中，加载到HTML文档后，会将文档解析并构建DOM树，然后将其与解析CSS生成的CSSOM树一起结合产生爱的结晶——RenderObject树，然后将RenderObject树渲染成页面（当然中间可能会有一些优化，比如RenderLayer树）。这些过程都存在与渲染引擎之中，渲染引擎在浏览器中是于JavaScript引擎（JavaScriptCore也好V8也好）分离开的，但为了方便JS操作DOM结构，渲染引擎会暴露一些接口供JavaScript调用。由于这两块相互分离，通信是需要付出代价的，因此JavaScript调用DOM提供的接口性能不咋地。各种性能优化的最佳实践也都在尽可能的减少DOM操作次数。</p>
+<p>而虚拟DOM干了什么？它直接用JavaScript实现了DOM树（大致上）。组件的HTML结构并不会直接生成DOM，而是映射生成虚拟的JavaScript DOM结构，React又通过在这个虚拟DOM上实现了一个 diff 算法找出最小变更，再把这些变更写入实际的DOM中。这个虚拟DOM以JS结构的形式存在，计算性能会比较好，而且由于减少了实际DOM操作次数，性能会有较大提升</p>
+<p><strong>道理我都懂，可是为什么我们没有模块加载器？</strong></p>
+<p>所以就需要Webpack了</p>
+<h2 id="说说Webpack">说说Webpack</h2>
+<h3 id="什么是Webpack？">什么是Webpack？</h3>
+<p>事实上它是一个打包工具，而不是像RequireJS或SeaJS这样的模块加载器，通过使用Webpack，能够像Node.js一样处理依赖关系，然后解析出模块之间的依赖，将代码打包</p>
+<h3 id="安装Webpack">安装Webpack</h3>
+<p>首先得有Node.js</p>
+<p>然后通过<code>npm install -g webpack</code>安装webpack，当然也可以通过gulp来处理webpack任务，如果使用gulp的话就<code>npm install --save-dev gulp-webpack</code></p>
+<h3 id="配置Webpack">配置Webpack</h3>
+<p>Webpack的构建过程需要一个配置文件，一个典型的配置文件大概就是这样</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+</pre></td><td class="code"><pre><span class="keyword">var</span> webpack = <span class="built_in">require</span>(<span class="string">'webpack'</span>);
+<span class="keyword">var</span> commonsPlugin = <span class="keyword">new</span> webpack.optimize.CommonsChunkPlugin(<span class="string">'common.js'</span>);
+
+module.exports = {
+    entry: {
+        entry1: <span class="string">'./entry/entry1.js'</span>,
+        entry2: <span class="string">'./entry/entry2.js'</span>
+    },
+    output: {
+        path: __dirname,
+        filename: <span class="string">'[name].entry.js'</span>
+    },
+    resolve: {
+        extensions: [<span class="string">''</span>, <span class="string">'.js'</span>, <span class="string">'.jsx'</span>]
+    },
+    module: {
+        loaders: [{
+            test: <span class="regexp">/\.js$/</span>,
+            loader: <span class="string">'babel-loader'</span>
+        }, {
+            test: <span class="regexp">/\.jsx$/</span>,
+            loader: <span class="string">'babel-loader!jsx-loader?harmony'</span>
+        }]
+    },
+    plugins: [commonsPlugin]
+};
+</pre></td></tr></table></figure>
+
+
+<p>这里对Webpack的打包行为做了配置，主要分为几个部分：</p>
+<ul>
+<li>entry：指定打包的入口文件，每有一个键值对，就是一个入口文件</li>
+<li>output：配置打包结果，path定义了输出的文件夹，filename则定义了打包结果文件的名称，filename里面的<code>[name]</code>会由entry中的键（这里是entry1和entry2）替换</li>
+<li>resolve：定义了解析模块路径时的配置，常用的就是extensions，可以用来指定模块的后缀，这样在引入模块时就不需要写后缀了，会自动补全</li>
+<li>module：定义了对模块的处理逻辑，这里可以用loaders定义了一系列的加载器，以及一些正则。当需要加载的文件匹配test的正则时，就会调用后面的loader对文件进行处理，这正是webpack强大的原因。比如这里定义了凡是<code>.js</code>结尾的文件都是用<code>babel-loader</code>做处理，而<code>.jsx</code>结尾的文件会先经过<code>jsx-loader</code>处理，然后经过<code>babel-loader</code>处理。当然这些loader也需要通过<code>npm install</code>安装</li>
+<li>plugins: 这里定义了需要使用的插件，比如commonsPlugin在打包多个入口文件时会提取出公用的部分，生成common.js</li>
+</ul>
+<p>当然Webpack还有很多其他的配置，具体可以参照它的<a href="http://webpack.github.io/docs/configuration.html#entry" target="_blank">配置文档</a></p>
+<h3 id="执行打包">执行打包</h3>
+<p>如果通过<code>npm install -g webpack</code>方式安装webpack的话，可以通过命令行直接执行打包命令，比如这样：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre>1
+</pre></td><td class="code"><pre>$webpack --config webpack<span class="preprocessor">.config</span><span class="preprocessor">.js</span>
+</pre></td></tr></table></figure>
+
+
+<p>这样就会读取当前目录下的webpack.config.js作为配置文件执行打包操作</p>
+<p>如果是通过gulp插件gulp-webpack，则可以在gulpfile中写上gulp任务：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+</pre></td><td class="code"><pre><span class="keyword">var</span> gulp = <span class="built_in">require</span>(<span class="string">'gulp'</span>);
+<span class="keyword">var</span> webpack = <span class="built_in">require</span>(<span class="string">'gulp-webpack'</span>);
+<span class="keyword">var</span> webpackConfig = <span class="built_in">require</span>(<span class="string">'./webpack.config'</span>);
+gulp.task(<span class="string">"webpack"</span>, <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
+    <span class="keyword">return</span> gulp
+        .src(<span class="string">'./'</span>)
+        .pipe(webpack(webpackConfig))
+        .pipe(gulp.dest(<span class="string">'./build'</span>));
+});
+</pre></td></tr></table></figure>
+
+
+<h3 id="组件编写">组件编写</h3>
+<h4 id="使用Babel提升逼格">使用Babel提升逼格</h4>
+<p>Webpack使得我们可以使用Node.js的CommonJS规范来编写模块，比如一个简单的Hello world模块，就可以这么处理：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+</pre></td><td class="code"><pre><span class="keyword">var</span> React = <span class="built_in">require</span>(<span class="string">'react'</span>);
+
+<span class="keyword">var</span> HelloWorldComponent = React.createClass({
+    displayName: <span class="string">'HelloWorldComponent'</span>,
+    render: <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
+        <span class="keyword">return</span> (<span class="xml"><span class="tag">&lt;<span class="title">div</span>&gt;</span>Hello world<span class="tag">&lt;/<span class="title">div</span>&gt;</span>);
+    }
+});
+
+module.exports = HelloWorldComponent;</span>
+</pre></td></tr></table></figure>
+
+
+<p>等等，这和之前的写法没啥差别啊，依旧没有逼格…程序员敲码要有geek范，要逼格than逼格，这太low了。现在都ES6了，React的代码也要写ES6，<code>babel-loader</code>就是干这个的。<a href="https://babeljs.io/" target="_blank">Babel</a>能够将ES6代码转换成ES5。首先需要通过命令<code>npm install --save-dev babel-loader</code>来进行安装，安装完成后就可以使用了，一种使用方式是之前介绍的在<code>webpack.config.js</code>的loaders中配置，另一种是直接在代码中使用，比如：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+</pre></td><td class="code"><pre><span class="keyword">var</span> HelloWorldComponent = <span class="built_in">require</span>(<span class="string">'!babel!jsx!./HelloWorldComponent'</span>);
+</pre></td></tr></table></figure>
+
+
+<p>那我们应当如何使用Babel提升代码的逼格呢？改造一下之前的HelloWorld代码吧：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+</pre></td><td class="code"><pre>import React from <span class="string">'react'</span>;
+
+export <span class="keyword">default</span> <span class="keyword">class</span> HelloWorldComponent extends React.Component {
+    constructor() {
+        super();
+        <span class="keyword">this</span>.state = {};
+    }
+    render() {
+        <span class="keyword">return</span> (<span class="xml"><span class="tag">&lt;<span class="title">div</span>&gt;</span>Hello World<span class="tag">&lt;/<span class="title">div</span>&gt;</span>);
+    }
+}</span>
+</pre></td></tr></table></figure>
+
+
+<p>这样在其他组件中需要引入HelloWorldComponent组件，就只要就可以了：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+</pre></td><td class="code"><pre>import HelloWorldComponent from <span class="string">'./HelloWorldComponent'</span>
+</pre></td></tr></table></figure>
+
+
+<p>怎么样是不是更有逼格了？通过import引入模块，还可以直接定义类和类的继承关系，这里也不再需要<code>getInitialState</code>了，直接在构造函数<code>constructor</code>中用<code>this.state = xxx</code>就好了</p>
+<p>Babel带来的当然还不止这些，在其帮助下还能尝试很多优秀的ES6特性，比如箭头函数，箭头函数的特点就是内部的this和外部保持一致，从此可以和<code>that</code>、<code>_this</code>说再见了</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+</pre></td><td class="code"><pre>[<span class="string">'H'</span>, <span class="string">'e'</span>, <span class="string">'l'</span>, <span class="string">'l'</span>, <span class="string">'o'</span>].map((c) =&gt; {
+    <span class="keyword">return</span> (<span class="xml"><span class="tag">&lt;<span class="title">span</span>&gt;</span>{c}<span class="tag">&lt;/<span class="title">span</span>&gt;</span>);
+});</span>
+</pre></td></tr></table></figure>
+
+
+<p>其他还有很多，具体可以参照<a href="https://babeljs.io/docs/learn-es6/" target="_blank">Babel的学习文档</a></p>
+<h4 id="样式编写">样式编写</h4>
+<p>我是一个强烈地Less依赖患者，脱离了Less直接写CSS就会出现四肢乏力、不想干活、心情烦躁等现象，而且还不喜欢在写Less时候加前缀，平常都是gulp+less+autoprefixer直接处理的，那么在Webpack组织的React组件中要怎么写呢？</p>
+<p><strong>没错，依旧是使用loader</strong></p>
+<p>可以在<code>webpack.config.js</code>的loaders中增加Less的配置：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+</pre></td><td class="code"><pre>{
+  test: <span class="regexp">/\.less$/</span>,
+  loader: <span class="string">'style-loader!css-loader!autoprefixer-loader!less-loader'</span>
+}
+</pre></td></tr></table></figure>
+
+
+<p>通过这样的配置，就可以直接在模块代码中引入Less样式了：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+</pre></td><td class="code"><pre>import React from <span class="string">'react'</span>;
+
+<span class="built_in">require</span>(<span class="string">'./HelloWorldComponent.less'</span>);
+
+export <span class="keyword">default</span> <span class="keyword">class</span> HelloWorldComponent extends React.Component {
+    constructor() {
+        super();
+        <span class="keyword">this</span>.state = {};
+    }
+    render() {
+        <span class="keyword">return</span> (<span class="xml"><span class="tag">&lt;<span class="title">div</span>&gt;</span>Hello World<span class="tag">&lt;/<span class="title">div</span>&gt;</span>);
+    }
+}</span>
+</pre></td></tr></table></figure>
+
+
+<h4 id="其他">其他</h4>
+<p>Webpack的loader为React组件化提供了很多帮助，像图片也提供了相关的loader：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+</pre></td><td class="code"><pre>{ test: <span class="regexp">/\.png$/</span>, loader: <span class="string">"url-loader?mimetype=image/png"</span> }
+</pre></td></tr></table></figure>
+
+
+<p>更多地loader可以移步<a href="https://github.com/webpack/docs/wiki/list-of-loaders" target="_blank">webpack的wiki</a></p>
+<h2 id="在Webpack下实时调试React组件">在Webpack下实时调试React组件</h2>
+<p>Webpack和React结合的另一个强大的地方就是，在修改了组件源码之后，不刷新页面就能把修改同步到页面上。这里需要用到两个库<code>webpack-dev-server</code>和<code>react-hot-loader</code>。</p>
+<p>首先需要安装这两个库，<code>npm install --save-dev webpack-dev-server react-hot-loader</code></p>
+<p>安装完成后，就要开始配置了，首先需要修改entry配置：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+</pre></td><td class="code"><pre>entry: {
+  helloworld: [
+    <span class="string">'webpack-dev-server/client?http://localhost:3000'</span>,
+    <span class="string">'webpack/hot/only-dev-server'</span>,
+    <span class="string">'./helloworld'</span>
+  ]
+},
+</pre></td></tr></table></figure>
+
+
+<p>通过这种方式指定资源热启动对应的服务器，然后需要配置<code>react-hot-loader</code>到loaders的配置当中，比如我的所有组件代码全部放在scripts文件夹下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+</pre></td><td class="code"><pre>{
+  test: <span class="regexp">/\.js?$/</span>,
+  loaders: [<span class="string">'react-hot'</span>, <span class="string">'babel'</span>],
+  include: [path.join(__dirname, <span class="string">'scripts'</span>)]
+}
+</pre></td></tr></table></figure>
+
+
+<p>最后配置一下plugins，加上热替换的插件和防止报错的插件：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+</pre></td><td class="code"><pre>plugins: [
+  <span class="keyword">new</span> webpack.HotModuleReplacementPlugin(),
+  <span class="keyword">new</span> webpack.NoErrorsPlugin()
+]
+</pre></td></tr></table></figure>
+
+
+<p>这样配置就完成了，但是现在要调试需要启动一个服务器，而且之前配置里映射到<code>http://localhost:3000</code>，所以就在本地3000端口起个服务器吧，在项目根目录下面建个server.js：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+</pre></td><td class="code"><pre><span class="keyword">var</span> webpack = <span class="built_in">require</span>(<span class="string">'webpack'</span>);
+<span class="keyword">var</span> WebpackDevServer = <span class="built_in">require</span>(<span class="string">'webpack-dev-server'</span>);
+<span class="keyword">var</span> config = <span class="built_in">require</span>(<span class="string">'./webpack.config'</span>);
+
+<span class="keyword">new</span> WebpackDevServer(webpack(config), {
+  publicPath: config.output.publicPath,
+  hot: <span class="literal">true</span>,
+  historyApiFallback: <span class="literal">true</span>
+}).listen(<span class="number">3000</span>, <span class="string">'localhost'</span>, <span class="function"><span class="keyword">function</span> <span class="params">(err, result)</span> {</span>
+  <span class="keyword">if</span> (err) console.log(err);
+  console.log(<span class="string">'Listening at localhost:3000'</span>);
+});
+</pre></td></tr></table></figure>
+
+
+<p>这样就可以在本地3000端口开启调试服务器了，比如我的页面是根目录下地<code>index.html</code>，就可以直接通过<code>http://localhost:3000/index.html</code>访问页面，修改React组件后页面也会被同步修改，这里貌似使用了websocket来同步数据。图是一个简单的效果：</p>
+<p><img src="http://skyinlayerblog.qiniudn.com/blog/test.gif" alt="Alt text"></p>
+<h2 id="结束">结束</h2>
+<p>React的组件化开发很有想法，而Webpack使得React组件编写和管理更加方便，这里只涉及到了React和Webpack得很小一部分，还有更多的最佳实践有待在学习的路上不断发掘</p>
+<hr><div class="tags"><a href="/tags/React/" class="blog-tag">React</a></div><hr><div class="jia"><div class="jiathis_style_32x32"><a class="jiathis_button_qzone"></a><a class="jiathis_button_tsina"></a><a class="jiathis_button_tqq"></a><a class="jiathis_button_weixin"></a><a class="jiathis_button_renren"></a><a href="http://www.jiathis.com/share?uid=1409314953297200" target="_blank" class="jiathis jiathis_txt jtico jtico_jiathis"></a></div><script type="text/javascript">var jiathis_config = {data_track_clickback:'true'};    </script><script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1409314953297200" charset="utf-8"></script></div><hr><div id="duoshuo" data-url="http://lingyu.wang/2015/05/15/react-and-webpack/" data-thread-key="/blog/2015/05/15/react-and-webpack/" data-title="轻松入门React和Webpack" class="ds-thread"></div><script type="text/javascript">var duoshuoQuery = {short_name:'skyinlayer'};
+(function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+})();</script></div></article><div class="pager"><a href="/2015/04/26/sometalk-4-26/" title="4月26日杂谈" class="next">下一页</a></div></div><aside id="aside"><section class="recent"><h3 class="title iconfont">最新文章<i>&#xe601;</i></h3><div class="links"><ul><li><a href="/2015/05/15/react-and-webpack/">轻松入门React和Webpack</a></li><li><a href="/2015/04/26/sometalk-4-26/">4月26日杂谈</a></li><li><a href="/2015/04/18/learn-canvas-1/">前端动画对比</a></li><li><a href="/2015/01/26/18-books/">读书破万卷，敲码别走神</a></li><li><a href="/2014/11/24/7-rules-for-creating-gorgeous-ui-part-1/">构建华丽UI的7条准则（上部）</a></li></ul></div></section><section class="categories"><h3 class="title iconfont">分类<i>&#xe605;</i></h3><div class="links"><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/CSS/">CSS</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JS技术/">JS技术</a><span class="category-list-count">13</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/NodeJs/">NodeJs</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端综合/">前端综合</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/即时通信/">即时通信</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/响应式/">响应式</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/思考总结/">思考总结</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/性能优化/">性能优化</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/">数据库</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/游戏开发/">游戏开发</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/笔试面试/">笔试面试</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/翻译/">翻译</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/读书笔记/">读书笔记</a><span class="category-list-count">10</span></li></ul></div></section><section class="tags"><h3 class="title iconfont">标签<i>&#xe603;</i></h3><div class="links"><ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS/">CSS</a><span class="tag-list-count">35</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Canvas/">Canvas</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DataChannel/">DataChannel</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ES6/">ES6</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Generator/">Generator</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Gulp/">Gulp</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/">HTML</a><span class="tag-list-count">29</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/">HTTP</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a><span class="tag-list-count">39</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kissy/">Kissy</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NodeJs/">NodeJs</a><span class="tag-list-count">14</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/React/">React</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SEO/">SEO</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WebIM/">WebIM</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WebRTC/">WebRTC</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WebSocket/">WebSocket</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/grunt/">grunt</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jQuery/">jQuery</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/koa/">koa</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/oracle/">oracle</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/xmpp/">xmpp</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/动画/">动画</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/响应式/">响应式</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/存储函数/">存储函数</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/思考/">思考</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/游戏/">游戏</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/生活/">生活</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/笔试面试题/">笔试面试题</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/设计/">设计</a><span class="tag-list-count">10</span></li></ul></div></section><section class="archives"><h3 class="title iconfont"> 归档<i>&#xe60a;</i></h3><div class="links"><ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05">2015年5月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04">2015年4月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01">2015年1月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11">2014年11月</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10">2014年10月</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09">2014年9月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07">2014年7月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05">2014年5月</a><span class="archive-list-count">15</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/04">2014年4月</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/03">2014年3月</a><span class="archive-list-count">29</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02">2014年2月</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/01">2014年1月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/12">2013年12月</a><span class="archive-list-count">1</span></li></ul></div></section></aside></section><footer id="page-footer"><span style="float:right"><script type="text/javascript">var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3Fa5aa4945a04cc5a5a4cd6835ccb7d419' type='text/javascript'%3E%3C/script%3E"));</script></span><p>&copy;Powered by<a href="http://hexo.io" target="_blank" title="hexo">&nbsp;hexo&nbsp;</a>and Theme by<a href="https://github.com/LingyuCoder/lingyu-theme">&nbsp;LingyuCoder</a></p></footer><canvas id="snow"></canvas><style type="text/css">#snow {
+    position: fixed;
+    display: block;
+    pointer-events: none;
+    top: 0;
+    left: 0;
+}
+</style><script type="text/javascript" src="/scripts/snow.js"></script><script type="text/javascript">var snow = new Snow('snow', {
+    'amount': 10,
+    'size': [8, 20],
+    'rotation': [1, 5],
+    'speed': [40, 80],
+    'swing': [0.1, 1],
+    'amplitude': [30, 50],
+    'alpha': [0.1, 0.95],
+    'images': [
+        'http://skyinlayerblog.qiniudn.com/blog/img/snow_1.png',
+        'http://skyinlayerblog.qiniudn.com/blog/img/snow_2.png',
+        'http://skyinlayerblog.qiniudn.com/blog/img/snow_3.png',
+        'http://skyinlayerblog.qiniudn.com/blog/img/snow_4.png'
+    ]
+});
+
+window.addEventListener('resize', function() {
+    snow.resize(window.innerWidth, window.innerHeight);
+}, false);
+
+window.addEventListener('load', function() {
+    snow.start();
+}, false);</script><script type="text/javascript" src="http://cdn.staticfile.org/jquery/2.1.1-rc2/jquery.min.js"></script><script type="text/javascript">$(function(){
+    var duoshuoIds = [];
+    var map = {};
+    $('.meta').each(function(){
+        var $this = $(this);
+        var id = $this.attr('thread');
+        duoshuoIds.push(id);
+        map[id] = $this;
+    });
+    duoshuoIds.length && $.ajax({
+        url: 'http://api.duoshuo.com/threads/counts.jsonp',
+        data: {
+            threads: duoshuoIds.join(','),
+            short_name: 'skyinlayer'
+        },
+        success: function(data){
+            $.each(data.response, function(key, value){
+                var $el = map[key];
+                if($el) {
+                    $.each(['comments','likes', 'reposts'], function(index, type){
+                        $el.find('.' + type).append('<span>' + value[type] + '</span>');
+                    });
+                }
+            });
+        },
+        dataType: 'jsonp'
+    });
+});</script></body></html>

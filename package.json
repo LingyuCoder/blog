@@ -4,7 +4,6 @@
   "private": true,
   "dependencies": {
     "hexo-generator-autoprefixer": "0.0.5",
-    "hexo-generator-everyday": "0.0.8",
     "hexo-generator-feed": "^0.2.1",
     "hexo-renderer-ejs": "*",
     "hexo-renderer-jade": "^0.1.0",
