@@ -4,9 +4,9 @@
   <title><![CDATA[天镶的博客]]></title>
   <subtitle><![CDATA[尘世间一个迷途的小码农]]></subtitle>
   <link href="/atom.xml" rel="self"/>
-  <link href="http://lingyucoder.github.io//"/>
+  <link href="http://lingyu.wang//"/>
   <updated>2015-05-31T15:02:20.000Z</updated>
-  <id>http://lingyucoder.github.io//</id>
+  <id>http://lingyu.wang//</id>
   
   <author>
     <name><![CDATA[天镶]]></name>
@@ -17,8 +17,8 @@
   
   <entry>
     <title><![CDATA[轻松入门React和Webpack]]></title>
-    <link href="http://lingyucoder.github.io/2015/05/15/react-and-webpack/"/>
-    <id>http://lingyucoder.github.io/2015/05/15/react-and-webpack/</id>
+    <link href="http://lingyu.wang/2015/05/15/react-and-webpack/"/>
+    <id>http://lingyu.wang/2015/05/15/react-and-webpack/</id>
     <published>2015-05-14T16:00:00.000Z</published>
     <updated>2015-05-31T15:02:20.000Z</updated>
     <content type="html"><![CDATA[<p>最近在学习React.js，之前都是直接用最原生的方式去写React代码，发现组织起来特别麻烦，之前听人说用Webpack组织React组件得心应手，就花了点时间学习了一下，收获颇丰</p>
@@ -126,16 +126,16 @@
     
     </summary>
     
-      <category term="React" scheme="http://lingyucoder.github.io/tags/React/"/>
+      <category term="React" scheme="http://lingyu.wang/tags/React/"/>
     
-      <category term="JS技术" scheme="http://lingyucoder.github.io/categories/JS%E6%8A%80%E6%9C%AF/"/>
+      <category term="JS技术" scheme="http://lingyu.wang/categories/JS%E6%8A%80%E6%9C%AF/"/>
     
   </entry>
   
   <entry>
     <title><![CDATA[4月26日杂谈]]></title>
-    <link href="http://lingyucoder.github.io/2015/04/26/sometalk-4-26/"/>
-    <id>http://lingyucoder.github.io/2015/04/26/sometalk-4-26/</id>
+    <link href="http://lingyu.wang/2015/04/26/sometalk-4-26/"/>
+    <id>http://lingyu.wang/2015/04/26/sometalk-4-26/</id>
     <published>2015-04-25T16:00:00.000Z</published>
     <updated>2015-05-31T15:02:20.000Z</updated>
     <content type="html"><![CDATA[<p>本来今天打算继续写之前说要写的动画基础知识的，但是晚上玩了玩gitbook就忘掉了。现在也懒得组织了，就把最近写的一些小玩意梳理一下。</p>
@@ -156,9 +156,9 @@
 <h3 id="一点随想">一点随想</h3><p>写这几个插件并不怎么花时间，但是却解决了我的问题，帮我构建了一个更加完善的读书笔记。 <strong>能用来切切实实解决问题、创造出价值的技术，才是真正的技术</strong></p>
 <h2 id="React玩具">React玩具</h2><p>最近React-native炒得很热，整个天猫团队也颇为重视，我也尝试着做了做React-native，不过由于React本身都还没玩通，写起来很吃力，因此决定先好好学习一下React，理解React的思想。这也就产出了几个质脆玩具。</p>
 <ol>
-<li><a href="http://lingyucoder.github.io/learn-react/page/md-editor/index.html">markdown编辑器</a></li>
-<li><a href="http://lingyucoder.github.io/learn-react/page/calculator/index.html">计算器</a></li>
-<li><a href="http://lingyucoder.github.io/learn-react/page/calendar/index.html">日历</a></li>
+<li><a href="http://lingyucoder.github.io/learn-react/page/md-editor/index.html" target="_blank" rel="external">markdown编辑器</a></li>
+<li><a href="http://lingyucoder.github.io/learn-react/page/calculator/index.html" target="_blank" rel="external">计算器</a></li>
+<li><a href="http://lingyucoder.github.io/learn-react/page/calendar/index.html" target="_blank" rel="external">日历</a></li>
 </ol>
 <p>这些源码都放在我Github的<a href="https://github.com/LingyuCoder/learn-react" target="_blank" rel="external">learn-react</a>仓库下</p>
 <p>React用能够很方便的自己定义元素，并且使用定义元素也很简单。通过使用JSX，可以直接将HTML代码写在JSX代码中，组件的结构更加清晰、直观。这与Web Component的组件化思想颇有不同，不过用起来要简便很多。React通过virtual dom，自己构建了一个虚拟的DOM树，在渲染时在虚拟的DOM树上进行diff，只渲染不同的部分，因此性能不错。但是目前有几个问题：</p>
@@ -170,7 +170,7 @@
 <h2 id="博客升级">博客升级</h2><p>最近hexo推出3.0了，于是乎手贱就在新发的电脑上装了，发现主题也跪了，之前写的插件也跪了。好吧，还是继续用我的2.5.7了。</p>
 <p>这个博客我记得是去年过年时候搭的算下来得有一年多了，以前写的很勤奋，几乎两天一篇，甚至一天一篇。现在懒得几个月才一篇。之前突然陷入了一个怪思维，总觉着要写就得写点牛逼的东西，不能让别人觉得我的博客很low，但是又一直没干啥牛逼的事，也就没牛逼的东西可以写…恶性循环…</p>
 <p>仔细想一想：<strong>这是我的博客，我想咋写咋写，我爱咋写咋写，爱看看，不看ctrl+w就是</strong>。于是乎又有了写东西的动力</p>
-<h2 id="关于日记">关于日记</h2><p>可能有人留意到博客首页上有一个<a href="http://lingyu.wang/everyday" target="_blank" rel="external">日记</a>，但估计很少有人点进去，我也懒得在里面放百度统计看看有多少流量了，反正整站才每天100左右，那里肯定也就个位数</p>
+<h2 id="关于日记">关于日记</h2><p>可能有人留意到博客首页上有一个<a href="http://lingyu.wang/everyday">日记</a>，但估计很少有人点进去，我也懒得在里面放百度统计看看有多少流量了，反正整站才每天100左右，那里肯定也就个位数</p>
 <p>我从小到大写日记从来没坚持超过两周，但是在那上面竟然写了5个月…虽然经常几天才更新上传一次，但基本上都连下来了。现在保证一天看两篇技术文章，然后把收获写在里面</p>
 <p>说实话有很多文章看完连收货都没有</p>
 <p>关于这些文章我有一套管理流程：</p>
@@ -196,16 +196,16 @@
     
     </summary>
     
-      <category term="思考" scheme="http://lingyucoder.github.io/tags/%E6%80%9D%E8%80%83/"/>
+      <category term="思考" scheme="http://lingyu.wang/tags/%E6%80%9D%E8%80%83/"/>
     
-      <category term="思考总结" scheme="http://lingyucoder.github.io/categories/%E6%80%9D%E8%80%83%E6%80%BB%E7%BB%93/"/>
+      <category term="思考总结" scheme="http://lingyu.wang/categories/%E6%80%9D%E8%80%83%E6%80%BB%E7%BB%93/"/>
     
   </entry>
   
   <entry>
     <title><![CDATA[前端动画对比]]></title>
-    <link href="http://lingyucoder.github.io/2015/04/18/learn-canvas-1/"/>
-    <id>http://lingyucoder.github.io/2015/04/18/learn-canvas-1/</id>
+    <link href="http://lingyu.wang/2015/04/18/learn-canvas-1/"/>
+    <id>http://lingyu.wang/2015/04/18/learn-canvas-1/</id>
     <published>2015-04-17T16:00:00.000Z</published>
     <updated>2015-05-31T15:00:49.000Z</updated>
     <content type="html"><![CDATA[<p>将近三个月没写文章了，就在这三个月内，我从一只学生狗变成了上班族。现在一切都稳定下来了，决定重新开始写点东西了。以后的计划是每周一篇，努力坚持~</p>
@@ -268,22 +268,22 @@
     
     </summary>
     
-      <category term="Canvas" scheme="http://lingyucoder.github.io/tags/Canvas/"/>
+      <category term="Canvas" scheme="http://lingyu.wang/tags/Canvas/"/>
     
-      <category term="JavaScript" scheme="http://lingyucoder.github.io/tags/JavaScript/"/>
+      <category term="JavaScript" scheme="http://lingyu.wang/tags/JavaScript/"/>
     
-      <category term="动画" scheme="http://lingyucoder.github.io/tags/%E5%8A%A8%E7%94%BB/"/>
+      <category term="动画" scheme="http://lingyu.wang/tags/%E5%8A%A8%E7%94%BB/"/>
     
-      <category term="游戏" scheme="http://lingyucoder.github.io/tags/%E6%B8%B8%E6%88%8F/"/>
+      <category term="游戏" scheme="http://lingyu.wang/tags/%E6%B8%B8%E6%88%8F/"/>
     
-      <category term="游戏开发" scheme="http://lingyucoder.github.io/categories/%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91/"/>
+      <category term="游戏开发" scheme="http://lingyu.wang/categories/%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91/"/>
     
   </entry>
   
   <entry>
     <title><![CDATA[读书破万卷，敲码别走神]]></title>
-    <link href="http://lingyucoder.github.io/2015/01/26/18-books/"/>
-    <id>http://lingyucoder.github.io/2015/01/26/18-books/</id>
+    <link href="http://lingyu.wang/2015/01/26/18-books/"/>
+    <id>http://lingyu.wang/2015/01/26/18-books/</id>
     <published>2015-01-25T16:00:00.000Z</published>
     <updated>2015-05-31T15:00:49.000Z</updated>
     <content type="html"><![CDATA[<p>上一篇文章是去年十一月，时隔两个多月了，这段时间由于毕业论文上屁事太多，没有静下心来写文章做总结。虽然学了不少新姿势，但是一直没在博客上做记录，特地写点东西来清清灰。</p>
@@ -374,16 +374,16 @@
     
     </summary>
     
-      <category term="生活" scheme="http://lingyucoder.github.io/tags/%E7%94%9F%E6%B4%BB/"/>
+      <category term="生活" scheme="http://lingyu.wang/tags/%E7%94%9F%E6%B4%BB/"/>
     
-      <category term="读书笔记" scheme="http://lingyucoder.github.io/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
+      <category term="读书笔记" scheme="http://lingyu.wang/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
     
   </entry>
   
   <entry>
     <title><![CDATA[RisingStack的Node.js风格指南]]></title>
-    <link href="http://lingyucoder.github.io/2014/11/24/risingstack-nodejs-style-guide/"/>
-    <id>http://lingyucoder.github.io/2014/11/24/risingstack-nodejs-style-guide/</id>
+    <link href="http://lingyu.wang/2014/11/24/risingstack-nodejs-style-guide/"/>
+    <id>http://lingyu.wang/2014/11/24/risingstack-nodejs-style-guide/</id>
     <published>2014-11-23T16:00:00.000Z</published>
     <updated>2015-05-31T15:00:49.000Z</updated>
     <content type="html"><![CDATA[<p>本文翻译自<a href="https://github.com/RisingStack/node-style-guide" target="_blank" rel="external">RisingStack/node-style-guide</a></p>
@@ -712,16 +712,16 @@
     
     </summary>
     
-      <category term="NodeJs" scheme="http://lingyucoder.github.io/tags/NodeJs/"/>
+      <category term="NodeJs" scheme="http://lingyu.wang/tags/NodeJs/"/>
     
-      <category term="翻译" scheme="http://lingyucoder.github.io/categories/%E7%BF%BB%E8%AF%91/"/>
+      <category term="翻译" scheme="http://lingyu.wang/categories/%E7%BF%BB%E8%AF%91/"/>
     
   </entry>
   
   <entry>
     <title><![CDATA[构建华丽UI的7条准则（上部）]]></title>
-    <link href="http://lingyucoder.github.io/2014/11/24/7-rules-for-creating-gorgeous-ui-part-1/"/>
-    <id>http://lingyucoder.github.io/2014/11/24/7-rules-for-creating-gorgeous-ui-part-1/</id>
+    <link href="http://lingyu.wang/2014/11/24/7-rules-for-creating-gorgeous-ui-part-1/"/>
+    <id>http://lingyu.wang/2014/11/24/7-rules-for-creating-gorgeous-ui-part-1/</id>
     <published>2014-11-23T16:00:00.000Z</published>
     <updated>2015-05-31T15:00:49.000Z</updated>
     <content type="html"><![CDATA[<p>本文翻译自Erik D. Kennedy的<a href="https://medium.com/@erikdkennedy/7-rules-for-creating-gorgeous-ui-part-1-559d4e805cda?hn=1" target="_blank" rel="external">7 Rules for Creating Gorgeous UI (Part 1)</a></p>
@@ -885,16 +885,16 @@
     
     </summary>
     
-      <category term="设计" scheme="http://lingyucoder.github.io/tags/%E8%AE%BE%E8%AE%A1/"/>
+      <category term="设计" scheme="http://lingyu.wang/tags/%E8%AE%BE%E8%AE%A1/"/>
     
-      <category term="翻译" scheme="http://lingyucoder.github.io/categories/%E7%BF%BB%E8%AF%91/"/>
+      <category term="翻译" scheme="http://lingyu.wang/categories/%E7%BF%BB%E8%AF%91/"/>
     
   </entry>
   
   <entry>
     <title><![CDATA[Peertc和五子棋]]></title>
-    <link href="http://lingyucoder.github.io/2014/11/18/peertc-and-fivechess/"/>
-    <id>http://lingyucoder.github.io/2014/11/18/peertc-and-fivechess/</id>
+    <link href="http://lingyu.wang/2014/11/18/peertc-and-fivechess/"/>
+    <id>http://lingyu.wang/2014/11/18/peertc-and-fivechess/</id>
     <published>2014-11-17T16:00:00.000Z</published>
     <updated>2015-05-31T15:00:49.000Z</updated>
     <content type="html"><![CDATA[<p>今天发现博客的分类错乱了。自己写的主题对一篇文章有多个分类的情况处理效果不好，所以就把文章的分类重新弄了一下。然后看了看归档发现这个月还没写过东西，于是乎决定写这么一篇文章介绍一下Peertc，以及使用它实现一个对战的五子棋。下载地址：<a href="https://github.com/LingyuCoder/peertc" target="_blank" rel="external">Peertc</a>、<a href="https://github.com/LingyuCoder/FiveChess" target="_blank" rel="external">五子棋</a></p>
@@ -907,7 +907,7 @@
 <p>五子棋就来源一第一个点子。至于第二个，做了一些调研，估计用<a href="https://github.com/Operational-Transformation/ot.js" target="_blank" rel="external">OT.js</a>，只能等有时间的时候去弄了。</p>
 <p>FC那么多牛逼的游戏，我却只是做了一个五子棋。原因很简单，Canvas玩的不够熟练也没有素材。五子棋游戏和其他游戏不同的是，它不需要做循环画面刷新，非常适合Canvas上手。</p>
 <h2 id="Peertc">Peertc</h2><p><a href="https://github.com/LingyuCoder/peertc" target="_blank" rel="external">Peertc</a>是我在WebRTC DataChannel基础上实现的一个建立点对点通信，发送数据和文件的一个库。由于WebRTC在建立通信信道上还是无法脱离服务器，所以使用Node.js和<a href="https://www.npmjs.org/package/ws" target="_blank" rel="external">ws</a>在后台弄了个WebSocket服务器，同时WebSocket也是很好的退化方案。</p>
-<p>至于Peertc具体如何建立点对点连接，我已经在文章<a href="http://lingyu.wang/2014/10/21/datachannel/" target="_blank" rel="external">使用WebRTC DataChannel在浏览器间传递数据</a>中通过老姚和老刘的故事介绍过了</p>
+<p>至于Peertc具体如何建立点对点连接，我已经在文章<a href="http://lingyu.wang/2014/10/21/datachannel/">使用WebRTC DataChannel在浏览器间传递数据</a>中通过老姚和老刘的故事介绍过了</p>
 <p>如果图简单的话，只要知道Peertc就是一个在俩浏览器之间传输数据的库就可以了</p>
 <h2 id="五子棋">五子棋</h2><p>我以前没写过五子棋，玩五子棋也玩的比较渣。乘着这个机会，仔细研究了一下五子棋的实现。</p>
 <h3 id="实现">实现</h3><p>一个棋盘（多大随意，我玩过15*15的，但是也玩过可以无限扩展的）就是一个二维数组，黑白轮流往棋盘上放棋子，也就是往二维数组里赋值。每次放下棋子，判断一下在当前位置的横线、竖线、两条斜线上是否能成五个相连，也就是判断各个方向是否能成5个数字相同。</p>
@@ -950,35 +950,35 @@
     
     </summary>
     
-      <category term="Canvas" scheme="http://lingyucoder.github.io/tags/Canvas/"/>
+      <category term="Canvas" scheme="http://lingyu.wang/tags/Canvas/"/>
     
-      <category term="JavaScript" scheme="http://lingyucoder.github.io/tags/JavaScript/"/>
+      <category term="JavaScript" scheme="http://lingyu.wang/tags/JavaScript/"/>
     
-      <category term="WebIM" scheme="http://lingyucoder.github.io/tags/WebIM/"/>
+      <category term="WebIM" scheme="http://lingyu.wang/tags/WebIM/"/>
     
-      <category term="WebRTC" scheme="http://lingyucoder.github.io/tags/WebRTC/"/>
+      <category term="WebRTC" scheme="http://lingyu.wang/tags/WebRTC/"/>
     
-      <category term="游戏" scheme="http://lingyucoder.github.io/tags/%E6%B8%B8%E6%88%8F/"/>
+      <category term="游戏" scheme="http://lingyu.wang/tags/%E6%B8%B8%E6%88%8F/"/>
     
-      <category term="算法" scheme="http://lingyucoder.github.io/tags/%E7%AE%97%E6%B3%95/"/>
+      <category term="算法" scheme="http://lingyu.wang/tags/%E7%AE%97%E6%B3%95/"/>
     
-      <category term="即时通信" scheme="http://lingyucoder.github.io/categories/%E5%8D%B3%E6%97%B6%E9%80%9A%E4%BF%A1/"/>
+      <category term="即时通信" scheme="http://lingyu.wang/categories/%E5%8D%B3%E6%97%B6%E9%80%9A%E4%BF%A1/"/>
     
   </entry>
   
   <entry>
     <title><![CDATA[使用WebRTC DataChannel在浏览器间传递数据]]></title>
-    <link href="http://lingyucoder.github.io/2014/10/21/datachannel/"/>
-    <id>http://lingyucoder.github.io/2014/10/21/datachannel/</id>
+    <link href="http://lingyu.wang/2014/10/21/datachannel/"/>
+    <id>http://lingyu.wang/2014/10/21/datachannel/</id>
     <published>2014-10-20T16:00:00.000Z</published>
     <updated>2015-05-31T15:00:49.000Z</updated>
     <content type="html"><![CDATA[<p>WebRTC给我们带来了浏览器中的视频、音频聊天体验。但个人认为，它最实用的特性莫过于DataChannel——在浏览器之间建立一个点对点的数据通道。在DataChannel之前，浏览器到浏览器的数据传递通常是这样一个流程：浏览器1发送数据给服务器，服务器处理，服务器再转发给浏览器2。这三个过程都会带来相应的消耗，占用服务器带宽不说，还减缓了消息从发送到接收的时间。其实最理想的方式就是浏览器1直接与浏览2进行通信，服务器不需要参与其中。WebRTC DataChannel就提供了这样一种方式。</p>
 <a id="more"></a>
 <p>如果对WebRTC和DataChannel不太了解的同学，可以先阅读如下文章：</p>
 <ul>
-<li><a href="http://lingyu.wang/2014/05/22/webrtc-data-channels/" target="_blank" rel="external">WebRTC的RTCDataChannel</a></li>
-<li><a href="http://lingyu.wang/2014/03/18/webRTC-2/" target="_blank" rel="external">使用WebRTC搭建前端视频聊天室——信令篇</a></li>
-<li><a href="http://lingyu.wang/2014/03/15/webRTC-1/" target="_blank" rel="external">使用WebRTC搭建前端视频聊天室——入门篇</a></li>
+<li><a href="http://lingyu.wang/2014/05/22/webrtc-data-channels/">WebRTC的RTCDataChannel</a></li>
+<li><a href="http://lingyu.wang/2014/03/18/webRTC-2/">使用WebRTC搭建前端视频聊天室——信令篇</a></li>
+<li><a href="http://lingyu.wang/2014/03/15/webRTC-1/">使用WebRTC搭建前端视频聊天室——入门篇</a></li>
 </ul>
 <h2 id="老刘和老姚">老刘和老姚</h2><p>当然服务器完全不参与其中，显然是不可能的，用户需要通过服务器上存储的信息，才能确定需要和谁建立连接。这里通过一个故事来讲述建立连接的过程：</p>
 <h3 id="不如钓鱼去">不如钓鱼去</h3><p>一些背景：</p>
@@ -1056,33 +1056,33 @@
 <li>一对一在线面试、在线教育，这其实是即时通信的一个业务方向</li>
 <li>视频裸（），当我没说</li>
 </ul>
-<p>就酱，另外打个广告及拉点搜索引擎权重：<a href="http://lingyu.wang" target="_blank" rel="external">我的博客</a></p>
+<p>就酱，另外打个广告及拉点搜索引擎权重：<a href="http://lingyu.wang">我的博客</a></p>
 ]]></content>
     <summary type="html">
     <![CDATA[<p>WebRTC给我们带来了浏览器中的视频、音频聊天体验。但个人认为，它最实用的特性莫过于DataChannel——在浏览器之间建立一个点对点的数据通道。在DataChannel之前，浏览器到浏览器的数据传递通常是这样一个流程：浏览器1发送数据给服务器，服务器处理，服务器再转发给浏览器2。这三个过程都会带来相应的消耗，占用服务器带宽不说，还减缓了消息从发送到接收的时间。其实最理想的方式就是浏览器1直接与浏览2进行通信，服务器不需要参与其中。WebRTC DataChannel就提供了这样一种方式。</p>]]>
     
     </summary>
     
-      <category term="DataChannel" scheme="http://lingyucoder.github.io/tags/DataChannel/"/>
+      <category term="DataChannel" scheme="http://lingyu.wang/tags/DataChannel/"/>
     
-      <category term="JavaScript" scheme="http://lingyucoder.github.io/tags/JavaScript/"/>
+      <category term="JavaScript" scheme="http://lingyu.wang/tags/JavaScript/"/>
     
-      <category term="NodeJs" scheme="http://lingyucoder.github.io/tags/NodeJs/"/>
+      <category term="NodeJs" scheme="http://lingyu.wang/tags/NodeJs/"/>
     
-      <category term="WebIM" scheme="http://lingyucoder.github.io/tags/WebIM/"/>
+      <category term="WebIM" scheme="http://lingyu.wang/tags/WebIM/"/>
     
-      <category term="WebRTC" scheme="http://lingyucoder.github.io/tags/WebRTC/"/>
+      <category term="WebRTC" scheme="http://lingyu.wang/tags/WebRTC/"/>
     
-      <category term="WebSocket" scheme="http://lingyucoder.github.io/tags/WebSocket/"/>
+      <category term="WebSocket" scheme="http://lingyu.wang/tags/WebSocket/"/>
     
-      <category term="即时通信" scheme="http://lingyucoder.github.io/categories/%E5%8D%B3%E6%97%B6%E9%80%9A%E4%BF%A1/"/>
+      <category term="即时通信" scheme="http://lingyu.wang/categories/%E5%8D%B3%E6%97%B6%E9%80%9A%E4%BF%A1/"/>
     
   </entry>
   
   <entry>
     <title><![CDATA[Gulp思维 —— Gulp高级技巧]]></title>
-    <link href="http://lingyucoder.github.io/2014/10/07/getting-gulpy/"/>
-    <id>http://lingyucoder.github.io/2014/10/07/getting-gulpy/</id>
+    <link href="http://lingyu.wang/2014/10/07/getting-gulpy/"/>
+    <id>http://lingyu.wang/2014/10/07/getting-gulpy/</id>
     <published>2014-10-06T16:00:00.000Z</published>
     <updated>2015-05-31T15:00:49.000Z</updated>
     <content type="html"><![CDATA[<p><strong>本文翻译自<a href="https://medium.com/@webprolific/getting-gulpy-a2010c13d3d5" target="_blank" rel="external">Getting gulpy — Advanced tips for using gulp.js</a></strong></p>
@@ -1138,20 +1138,20 @@
     
     </summary>
     
-      <category term="Gulp" scheme="http://lingyucoder.github.io/tags/Gulp/"/>
+      <category term="Gulp" scheme="http://lingyu.wang/tags/Gulp/"/>
     
-      <category term="JavaScript" scheme="http://lingyucoder.github.io/tags/JavaScript/"/>
+      <category term="JavaScript" scheme="http://lingyu.wang/tags/JavaScript/"/>
     
-      <category term="NodeJs" scheme="http://lingyucoder.github.io/tags/NodeJs/"/>
+      <category term="NodeJs" scheme="http://lingyu.wang/tags/NodeJs/"/>
     
-      <category term="翻译" scheme="http://lingyucoder.github.io/categories/%E7%BF%BB%E8%AF%91/"/>
+      <category term="翻译" scheme="http://lingyu.wang/categories/%E7%BF%BB%E8%AF%91/"/>
     
   </entry>
   
   <entry>
     <title><![CDATA[Gulp -- 项目的愿景、过去和将来]]></title>
-    <link href="http://lingyucoder.github.io/2014/10/06/gulp-vision-history-future/"/>
-    <id>http://lingyucoder.github.io/2014/10/06/gulp-vision-history-future/</id>
+    <link href="http://lingyu.wang/2014/10/06/gulp-vision-history-future/"/>
+    <id>http://lingyu.wang/2014/10/06/gulp-vision-history-future/</id>
     <published>2014-10-05T16:00:00.000Z</published>
     <updated>2015-05-31T15:00:49.000Z</updated>
     <content type="html"><![CDATA[<p><strong>本文翻译自<a href="https://medium.com/@contrahacks/gulp-3828e8126466" target="_blank" rel="external">gulp — The vision, history, and future of the project</a></strong></p>
@@ -1186,20 +1186,20 @@
     
     </summary>
     
-      <category term="Gulp" scheme="http://lingyucoder.github.io/tags/Gulp/"/>
+      <category term="Gulp" scheme="http://lingyu.wang/tags/Gulp/"/>
     
-      <category term="JavaScript" scheme="http://lingyucoder.github.io/tags/JavaScript/"/>
+      <category term="JavaScript" scheme="http://lingyu.wang/tags/JavaScript/"/>
     
-      <category term="NodeJs" scheme="http://lingyucoder.github.io/tags/NodeJs/"/>
+      <category term="NodeJs" scheme="http://lingyu.wang/tags/NodeJs/"/>
     
-      <category term="翻译" scheme="http://lingyucoder.github.io/categories/%E7%BF%BB%E8%AF%91/"/>
+      <category term="翻译" scheme="http://lingyu.wang/categories/%E7%BF%BB%E8%AF%91/"/>
     
   </entry>
   
   <entry>
     <title><![CDATA[koa-anywhere]]></title>
-    <link href="http://lingyucoder.github.io/2014/09/24/koa-anywhere/"/>
-    <id>http://lingyucoder.github.io/2014/09/24/koa-anywhere/</id>
+    <link href="http://lingyu.wang/2014/09/24/koa-anywhere/"/>
+    <id>http://lingyu.wang/2014/09/24/koa-anywhere/</id>
     <published>2014-09-23T16:00:00.000Z</published>
     <updated>2015-05-31T15:00:49.000Z</updated>
     <content type="html"><![CDATA[<p>最近写了一个快速启动静态文件服务器的NodeJs包<a href="https://github.com/LingyuCoder/koa-anywhere" target="_blank" rel="external">koa-anywhere</a>，可以通过一条命令快速的启动静态文件服务器，而且支持多级目录。目前已经发到了NPM上了</p>
@@ -1220,20 +1220,20 @@
     
     </summary>
     
-      <category term="ES6" scheme="http://lingyucoder.github.io/tags/ES6/"/>
+      <category term="ES6" scheme="http://lingyu.wang/tags/ES6/"/>
     
-      <category term="NodeJs" scheme="http://lingyucoder.github.io/tags/NodeJs/"/>
+      <category term="NodeJs" scheme="http://lingyu.wang/tags/NodeJs/"/>
     
-      <category term="koa" scheme="http://lingyucoder.github.io/tags/koa/"/>
+      <category term="koa" scheme="http://lingyu.wang/tags/koa/"/>
     
-      <category term="NodeJs" scheme="http://lingyucoder.github.io/categories/NodeJs/"/>
+      <category term="NodeJs" scheme="http://lingyu.wang/categories/NodeJs/"/>
     
   </entry>
   
   <entry>
     <title><![CDATA[学前端的一点总结]]></title>
-    <link href="http://lingyucoder.github.io/2014/09/22/learn-fe/"/>
-    <id>http://lingyucoder.github.io/2014/09/22/learn-fe/</id>
+    <link href="http://lingyu.wang/2014/09/22/learn-fe/"/>
+    <id>http://lingyu.wang/2014/09/22/learn-fe/</id>
     <published>2014-09-21T16:00:00.000Z</published>
     <updated>2015-05-31T15:00:49.000Z</updated>
     <content type="html"><![CDATA[<p>最近<a href="https://github.com/qiu-deqing" target="_blank" rel="external">Qiu</a>开了一个<a href="https://github.com/qiu-deqing/FE-learning/blob/master/README.md" target="_blank" rel="external">FE学习经验介绍</a>，并邀请我去写一点东西。感觉这种方式很有意思，趁着闲下来了，就随便扯了一些，希望能帮到想学前端的同学。我自己只是个前端初学者，希望能有更多的前端爱好者一同学习探讨~~</p>
@@ -1453,27 +1453,27 @@
     
     </summary>
     
-      <category term="CSS" scheme="http://lingyucoder.github.io/tags/CSS/"/>
+      <category term="CSS" scheme="http://lingyu.wang/tags/CSS/"/>
     
-      <category term="HTML" scheme="http://lingyucoder.github.io/tags/HTML/"/>
+      <category term="HTML" scheme="http://lingyu.wang/tags/HTML/"/>
     
-      <category term="JavaScript" scheme="http://lingyucoder.github.io/tags/JavaScript/"/>
+      <category term="JavaScript" scheme="http://lingyu.wang/tags/JavaScript/"/>
     
-      <category term="思考" scheme="http://lingyucoder.github.io/tags/%E6%80%9D%E8%80%83/"/>
+      <category term="思考" scheme="http://lingyu.wang/tags/%E6%80%9D%E8%80%83/"/>
     
-      <category term="思考总结" scheme="http://lingyucoder.github.io/categories/%E6%80%9D%E8%80%83%E6%80%BB%E7%BB%93/"/>
+      <category term="思考总结" scheme="http://lingyu.wang/categories/%E6%80%9D%E8%80%83%E6%80%BB%E7%BB%93/"/>
     
   </entry>
   
   <entry>
     <title><![CDATA[细说Generator]]></title>
-    <link href="http://lingyucoder.github.io/2014/07/29/generator/"/>
-    <id>http://lingyucoder.github.io/2014/07/29/generator/</id>
+    <link href="http://lingyu.wang/2014/07/29/generator/"/>
+    <id>http://lingyu.wang/2014/07/29/generator/</id>
     <published>2014-07-28T16:00:00.000Z</published>
     <updated>2015-05-31T15:00:49.000Z</updated>
     <content type="html"><![CDATA[<p>好久没写东西了，今天看了下ES6的Generator的相关知识，在这里记录一下。主要内容翻译自规范，并加入了自己的理解和总结</p>
 <a id="more"></a>
-<p>文章中有很多关于运行时上下文（Execution Context，以下简称EC）的操作，关于EC，作用域链的基础知识请移步<a href="http://lingyu.wang/#/art/blog/2014/03/28/js-basis" target="_blank" rel="external">JavaScript一些基础知识简介</a></p>
+<p>文章中有很多关于运行时上下文（Execution Context，以下简称EC）的操作，关于EC，作用域链的基础知识请移步<a href="http://lingyu.wang/#/art/blog/2014/03/28/js-basis">JavaScript一些基础知识简介</a></p>
 <h1 id="Generator函数">Generator函数</h1><p>generator函数执行的时候，会进行如下动作：</p>
 <ol>
 <li>创建一个VO，与当前EC（Execution Context，以下简称EC）的作用域链组成新的作用域链</li>
@@ -1593,25 +1593,25 @@
     
     </summary>
     
-      <category term="ES6" scheme="http://lingyucoder.github.io/tags/ES6/"/>
+      <category term="ES6" scheme="http://lingyu.wang/tags/ES6/"/>
     
-      <category term="Generator" scheme="http://lingyucoder.github.io/tags/Generator/"/>
+      <category term="Generator" scheme="http://lingyu.wang/tags/Generator/"/>
     
-      <category term="JavaScript" scheme="http://lingyucoder.github.io/tags/JavaScript/"/>
+      <category term="JavaScript" scheme="http://lingyu.wang/tags/JavaScript/"/>
     
-      <category term="NodeJs" scheme="http://lingyucoder.github.io/tags/NodeJs/"/>
+      <category term="NodeJs" scheme="http://lingyu.wang/tags/NodeJs/"/>
     
-      <category term="NodeJs" scheme="http://lingyucoder.github.io/categories/NodeJs/"/>
+      <category term="NodeJs" scheme="http://lingyu.wang/categories/NodeJs/"/>
     
   </entry>
   
   <entry>
     <title><![CDATA[如何写一个KISSY动画插件]]></title>
-    <link href="http://lingyucoder.github.io/2014/05/31/kissy-anime-plugin/"/>
-    <id>http://lingyucoder.github.io/2014/05/31/kissy-anime-plugin/</id>
+    <link href="http://lingyu.wang/2014/05/31/kissy-anime-plugin/"/>
+    <id>http://lingyu.wang/2014/05/31/kissy-anime-plugin/</id>
     <published>2014-05-30T16:00:00.000Z</published>
     <updated>2015-05-31T15:00:49.000Z</updated>
-    <content type="html"><![CDATA[<p>最近写东西写的比较少，并不代表我一直在划水。之前阿里的前辈布置了三个作业，其中一个就是基于KISSY写一个动画插件。事实上，KISSY已经有自己的动画模块，叫做<a href="http://docs.kissyui.com/1.4/docs/html/api/anim/index.html" target="_blank" rel="external">anim</a>，这里前辈的意思就是让我再造一个轮子，<a href="http://lingyucoder.github.io/kissy-anime-plugin/">DEMO页面</a>，<a href="https://github.com/LingyuCoder/kissy-anime-plugin" target="_blank" rel="external">Github页面</a></p>
+    <content type="html"><![CDATA[<p>最近写东西写的比较少，并不代表我一直在划水。之前阿里的前辈布置了三个作业，其中一个就是基于KISSY写一个动画插件。事实上，KISSY已经有自己的动画模块，叫做<a href="http://docs.kissyui.com/1.4/docs/html/api/anim/index.html" target="_blank" rel="external">anim</a>，这里前辈的意思就是让我再造一个轮子，<a href="http://lingyucoder.github.io/kissy-anime-plugin/" target="_blank" rel="external">DEMO页面</a>，<a href="https://github.com/LingyuCoder/kissy-anime-plugin" target="_blank" rel="external">Github页面</a></p>
 <a id="more"></a>
 <p>目前已经有很多比较优秀的JavaScript动画实现了，比如<a href="https://github.com/sole/tween.js/" target="_blank" rel="external">Tween.js</a>，jQuery中的animate就是在Tween的基础上做了一层封装（2.0版本是Tween，老版本的jQuery则是自己实现的动画）。这里多多少少参照了优秀动画模块的思想和内容（比如缓动函数）。</p>
 <h2 id="CSS与JavaScript动画对比">CSS与JavaScript动画对比</h2><p>首先需要确定为什么要开发JavaScript的动画模块，毕竟现在已经有CSS3动画了。这里先对比一下CSS动画和JavaScript动画的区别，并从中提炼出我们需要的信息</p>
@@ -1638,7 +1638,7 @@
 <p><code>transtion</code>定义的是过渡效果，所谓过渡，就是当某个样式改变时，浏览器不会立即赋予这个改变后的值，而是从初始值逐渐改变，平滑的转变成改变后的值。这样也能形成很优秀的动画效果。同时不需要与<code>keyframes</code>结合，可以自己独立存在。</p>
 <h4 id="优缺点">优缺点</h4><p>先来说说优点，CSS3的动画的效率要比JavaScript要高，这不是通过优化JavaScript代码就能逆转的。由于CSS3动画作为浏览器渲染引擎实现的一部分，相对于JavaScript动画而言，省去了JavaScript部分，直接由底层语言实现，并且其内部可由浏览器做一系列相关的优化。比如webkit，它可以专门为动画元素创建一个图层，然后将这个元素的样式转变在主线程之外运行。</p>
 <p>但是，CSS3动画缺乏足够的控制能力，同时，如果我们动画改变的不是CSS属性（比如滚动，这也是视差滚动必须通过JavaScript实现的原因），CSS3的动画就没辙了。另外，其浏览器的兼容性也是很大问题。毕竟IE从9开始才逐渐开始实现CSS3，如果要在IE6~8中做动画效果，就得另寻他法了</p>
-<p>另外，<a href="http://lingyu.wang/#/item" target="_blank" rel="external">这里</a>有我曾经写过的一些CSS3动画效果</p>
+<p>另外，<a href="http://lingyu.wang/#/item">这里</a>有我曾经写过的一些CSS3动画效果</p>
 <h3 id="JavaScript动画">JavaScript动画</h3><p>JavaScript的动画，说白了就是每隔一小段时间修改元素的CSS样式。这个间隔时间一般是1000/60ms，也就是说，每秒钟该60次，达到一秒60帧的效果。每次修改，大致需要经过如下流程：</p>
 <ol>
 <li>计算当前元素样式</li>
@@ -1739,24 +1739,24 @@
     
     </summary>
     
-      <category term="CSS" scheme="http://lingyucoder.github.io/tags/CSS/"/>
+      <category term="CSS" scheme="http://lingyu.wang/tags/CSS/"/>
     
-      <category term="HTML" scheme="http://lingyucoder.github.io/tags/HTML/"/>
+      <category term="HTML" scheme="http://lingyu.wang/tags/HTML/"/>
     
-      <category term="JavaScript" scheme="http://lingyucoder.github.io/tags/JavaScript/"/>
+      <category term="JavaScript" scheme="http://lingyu.wang/tags/JavaScript/"/>
     
-      <category term="Kissy" scheme="http://lingyucoder.github.io/tags/Kissy/"/>
+      <category term="Kissy" scheme="http://lingyu.wang/tags/Kissy/"/>
     
-      <category term="动画" scheme="http://lingyucoder.github.io/tags/%E5%8A%A8%E7%94%BB/"/>
+      <category term="动画" scheme="http://lingyu.wang/tags/%E5%8A%A8%E7%94%BB/"/>
     
-      <category term="前端综合" scheme="http://lingyucoder.github.io/categories/%E5%89%8D%E7%AB%AF%E7%BB%BC%E5%90%88/"/>
+      <category term="前端综合" scheme="http://lingyu.wang/categories/%E5%89%8D%E7%AB%AF%E7%BB%BC%E5%90%88/"/>
     
   </entry>
   
   <entry>
     <title><![CDATA[WebRTC的RTCDataChannel]]></title>
-    <link href="http://lingyucoder.github.io/2014/05/22/webrtc-data-channels/"/>
-    <id>http://lingyucoder.github.io/2014/05/22/webrtc-data-channels/</id>
+    <link href="http://lingyu.wang/2014/05/22/webrtc-data-channels/"/>
+    <id>http://lingyu.wang/2014/05/22/webrtc-data-channels/</id>
     <published>2014-05-21T16:00:00.000Z</published>
     <updated>2015-05-31T15:00:49.000Z</updated>
     <content type="html"><![CDATA[<p>在两个浏览器中，为聊天、游戏、或是文件传输等需求发送信息是十分复杂的。通常情况下，我们需要建立一台服务器来转发数据，当然规模比较大的情况下，会扩展成多个数据中心。这种情况下很容易出现很高的延迟，同时难以保证数据的私密性。</p>
@@ -1848,67 +1848,24 @@
     
     </summary>
     
-      <category term="JavaScript" scheme="http://lingyucoder.github.io/tags/JavaScript/"/>
+      <category term="JavaScript" scheme="http://lingyu.wang/tags/JavaScript/"/>
     
-      <category term="NodeJs" scheme="http://lingyucoder.github.io/tags/NodeJs/"/>
+      <category term="NodeJs" scheme="http://lingyu.wang/tags/NodeJs/"/>
     
-      <category term="WebIM" scheme="http://lingyucoder.github.io/tags/WebIM/"/>
+      <category term="WebIM" scheme="http://lingyu.wang/tags/WebIM/"/>
     
-      <category term="WebRTC" scheme="http://lingyucoder.github.io/tags/WebRTC/"/>
+      <category term="WebRTC" scheme="http://lingyu.wang/tags/WebRTC/"/>
     
-      <category term="WebSocket" scheme="http://lingyucoder.github.io/tags/WebSocket/"/>
+      <category term="WebSocket" scheme="http://lingyu.wang/tags/WebSocket/"/>
     
-      <category term="即时通信" scheme="http://lingyucoder.github.io/categories/%E5%8D%B3%E6%97%B6%E9%80%9A%E4%BF%A1/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[CSS的渲染阻塞]]></title>
-    <link href="http://lingyucoder.github.io/2014/05/21/google-render-blocking-css/"/>
-    <id>http://lingyucoder.github.io/2014/05/21/google-render-blocking-css/</id>
-    <published>2014-05-20T16:00:00.000Z</published>
-    <updated>2015-05-31T15:00:49.000Z</updated>
-    <content type="html"><![CDATA[<p>默认情况下，CSS会被看做是渲染阻塞资源，也就是说，浏览器在CSSOM建立前，已经处理过的网页内容不会被显示到页面上。所以，保证你的CSS代码能够快速从服务器获取且尽可能的简短，并注意使用媒体类型（media types）和媒体查询（media queries）去进行非阻塞的渲染。</p>
-<a id="more"></a>
-<p>在之前的章节中，我们已经知道了要建立渲染树，必须先建立好DOM树和CSSOM树，这里有一个很重要的性能要点：HTML和CSS都是渲染阻塞资源。HTML很明显，因为如果没有创建好DOM树，浏览器都不知道有什么东西需要渲染。但CSS就不那么明显了。如果我们尝试不使用CSS的阻塞渲染去渲染一个典型的页面，会发生什么呢？</p>
-<h3 id="长话短说">长话短说</h3><ul>
-<li>默认情况下CSS是渲染阻塞资源</li>
-<li>媒体类型和媒体查询可以让一些CSS变成非渲染阻塞资源</li>
-<li>所有CSS资源，无论是阻塞还是非阻塞，都需要通过浏览器进行下载</li>
-</ul>
-<h3 id="CSS是渲染阻塞资源">CSS是渲染阻塞资源</h3><p>浏览器将会阻塞渲染直到DOM树和CSSOM树都创建完毕</p>
-<p><strong>CSS是渲染阻塞元素，尽可能快速的让浏览器下载到文件，这样可以减少阻塞的时间</strong></p>
-<p>然而，如果我们有一些只有在特定条件下才使用的样式，比如打印或是在大的显示器中显示等情况，我们当然不希望这些特定条件下才会使用的样式阻塞渲染。</p>
-<h3 id="媒体类型和媒体查询">媒体类型和媒体查询</h3><p>CSS中的媒体类型和媒体查询就可以达到这种效果：</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="title">link</span> <span class="attribute">href</span>=<span class="value">"style.css"</span> <span class="attribute">rel</span>=<span class="value">"stylesheet"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">link</span> <span class="attribute">href</span>=<span class="value">"print.css"</span> <span class="attribute">rel</span>=<span class="value">"stylesheet"</span> <span class="attribute">media</span>=<span class="value">"print"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">link</span> <span class="attribute">href</span>=<span class="value">"other.css"</span> <span class="attribute">rel</span>=<span class="value">"stylesheet"</span> <span class="attribute">media</span>=<span class="value">"(min-width: 40em)"</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>一个媒体查询可以由一个媒体类型和查询表达式构成，查询表达式可以是任意个数，他们检测了当前设备的特点。比如，在第一个样式表申明中并没有使用媒体类型和媒体查询，因此它在所有情况下都会被应用，也就是说，它总汇总阿红才呢过渲染阻塞。而另一方面，第二个样式表仅仅在网页内容被打印时才会被应用，可能你需要在打印时改换一下布局，改变一下字体等等，因此，这个样式表不会再页面首次加载时造成渲染阻塞。而最后一个样式表提供了一个媒体查询，浏览器将判断条件是否满足。如果浏览器满足媒体查询中的条件，浏览器将在下载并处理完这个样式表之前阻塞渲染。</p>
-<p>通过使用媒体查询，我们可以根据特定的用例来定制展现的样式，比如显示和打印。同时，还能动态的判断诸如屏幕方向，缩放事件等等。在申明样式表时，重点关注媒体类型和媒体查询，他们将很大程度影响网页渲染的效率。</p>
-<p>让我们考虑如下例子：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="title">link</span> <span class="attribute">href</span>=<span class="value">"style.css"</span>    <span class="attribute">rel</span>=<span class="value">"stylesheet"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">link</span> <span class="attribute">href</span>=<span class="value">"style.css"</span>    <span class="attribute">rel</span>=<span class="value">"stylesheet"</span> <span class="attribute">media</span>=<span class="value">"screen"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">link</span> <span class="attribute">href</span>=<span class="value">"portrait.css"</span> <span class="attribute">rel</span>=<span class="value">"stylesheet"</span> <span class="attribute">media</span>=<span class="value">"orientation:portrait"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">link</span> <span class="attribute">href</span>=<span class="value">"print.css"</span>    <span class="attribute">rel</span>=<span class="value">"stylesheet"</span> <span class="attribute">media</span>=<span class="value">"print"</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
-<ol>
-<li>第一个样式申明将会造成渲染阻塞，它在任意情况下都会被应用；</li>
-<li>第二个样式申明也会造成渲染阻塞：“screen”是默认类型，除非你执行了一个其他类型，否则浏览器总是显示的设定媒体类型为“screen”。因此这个样式申明和第一个样式申明等价；</li>
-<li>第三个样式申明是一个动态的媒体查询，他会在页面加载完成之后进行计算。根据页面加载完成后的设备横竖屏来决定样式是否会阻塞渲染；</li>
-<li>最后一个样式申明仅仅在页面被打印的时候起作用，因此他不会在页面首次加载进浏览器中时造成渲染阻塞</li>
-</ol>
-<h3 id="浏览器下载">浏览器下载</h3><p>最后，注意一下渲染阻塞只是指浏览器是否要在页面初始渲染时，是否需要渲染该资源内部的样式。无论在何种情况下，尽管非阻塞资源的优先级较低，CSS文件依旧必须要由浏览器进行下载。</p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<p>默认情况下，CSS会被看做是渲染阻塞资源，也就是说，浏览器在CSSOM建立前，已经处理过的网页内容不会被显示到页面上。所以，保证你的CSS代码能够快速从服务器获取且尽可能的简短，并注意使用媒体类型（media types）和媒体查询（media queries）去进行非阻塞的渲染。</p>]]>
-    
-    </summary>
-    
-      <category term="CSS" scheme="http://lingyucoder.github.io/tags/CSS/"/>
-    
-      <category term="HTML" scheme="http://lingyucoder.github.io/tags/HTML/"/>
-    
-      <category term="翻译" scheme="http://lingyucoder.github.io/categories/%E7%BF%BB%E8%AF%91/"/>
+      <category term="即时通信" scheme="http://lingyu.wang/categories/%E5%8D%B3%E6%97%B6%E9%80%9A%E4%BF%A1/"/>
     
   </entry>
   
   <entry>
     <title><![CDATA[使用导航计时监测渲染关键路径]]></title>
-    <link href="http://lingyucoder.github.io/2014/05/21/google-measuring-the-critical-rendering-path-with-navigation-timing/"/>
-    <id>http://lingyucoder.github.io/2014/05/21/google-measuring-the-critical-rendering-path-with-navigation-timing/</id>
+    <link href="http://lingyu.wang/2014/05/21/google-measuring-the-critical-rendering-path-with-navigation-timing/"/>
+    <id>http://lingyu.wang/2014/05/21/google-measuring-the-critical-rendering-path-with-navigation-timing/</id>
     <published>2014-05-20T16:00:00.000Z</published>
     <updated>2015-05-31T15:00:49.000Z</updated>
     <content type="html"><![CDATA[<p>没办法监测，就没办法优化。幸运的是，浏览器提供了一系列用来监测渲染关键路径上每一步的接口，叫导航计时接口（Navigation Timing API）<br><a id="more"></a></p>
@@ -1949,18 +1906,61 @@
     
     </summary>
     
-      <category term="CSS" scheme="http://lingyucoder.github.io/tags/CSS/"/>
+      <category term="CSS" scheme="http://lingyu.wang/tags/CSS/"/>
     
-      <category term="HTML" scheme="http://lingyucoder.github.io/tags/HTML/"/>
+      <category term="HTML" scheme="http://lingyu.wang/tags/HTML/"/>
     
-      <category term="翻译" scheme="http://lingyucoder.github.io/categories/%E7%BF%BB%E8%AF%91/"/>
+      <category term="翻译" scheme="http://lingyu.wang/categories/%E7%BF%BB%E8%AF%91/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[CSS的渲染阻塞]]></title>
+    <link href="http://lingyu.wang/2014/05/21/google-render-blocking-css/"/>
+    <id>http://lingyu.wang/2014/05/21/google-render-blocking-css/</id>
+    <published>2014-05-20T16:00:00.000Z</published>
+    <updated>2015-05-31T15:00:49.000Z</updated>
+    <content type="html"><![CDATA[<p>默认情况下，CSS会被看做是渲染阻塞资源，也就是说，浏览器在CSSOM建立前，已经处理过的网页内容不会被显示到页面上。所以，保证你的CSS代码能够快速从服务器获取且尽可能的简短，并注意使用媒体类型（media types）和媒体查询（media queries）去进行非阻塞的渲染。</p>
+<a id="more"></a>
+<p>在之前的章节中，我们已经知道了要建立渲染树，必须先建立好DOM树和CSSOM树，这里有一个很重要的性能要点：HTML和CSS都是渲染阻塞资源。HTML很明显，因为如果没有创建好DOM树，浏览器都不知道有什么东西需要渲染。但CSS就不那么明显了。如果我们尝试不使用CSS的阻塞渲染去渲染一个典型的页面，会发生什么呢？</p>
+<h3 id="长话短说">长话短说</h3><ul>
+<li>默认情况下CSS是渲染阻塞资源</li>
+<li>媒体类型和媒体查询可以让一些CSS变成非渲染阻塞资源</li>
+<li>所有CSS资源，无论是阻塞还是非阻塞，都需要通过浏览器进行下载</li>
+</ul>
+<h3 id="CSS是渲染阻塞资源">CSS是渲染阻塞资源</h3><p>浏览器将会阻塞渲染直到DOM树和CSSOM树都创建完毕</p>
+<p><strong>CSS是渲染阻塞元素，尽可能快速的让浏览器下载到文件，这样可以减少阻塞的时间</strong></p>
+<p>然而，如果我们有一些只有在特定条件下才使用的样式，比如打印或是在大的显示器中显示等情况，我们当然不希望这些特定条件下才会使用的样式阻塞渲染。</p>
+<h3 id="媒体类型和媒体查询">媒体类型和媒体查询</h3><p>CSS中的媒体类型和媒体查询就可以达到这种效果：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="title">link</span> <span class="attribute">href</span>=<span class="value">"style.css"</span> <span class="attribute">rel</span>=<span class="value">"stylesheet"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">link</span> <span class="attribute">href</span>=<span class="value">"print.css"</span> <span class="attribute">rel</span>=<span class="value">"stylesheet"</span> <span class="attribute">media</span>=<span class="value">"print"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">link</span> <span class="attribute">href</span>=<span class="value">"other.css"</span> <span class="attribute">rel</span>=<span class="value">"stylesheet"</span> <span class="attribute">media</span>=<span class="value">"(min-width: 40em)"</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>一个媒体查询可以由一个媒体类型和查询表达式构成，查询表达式可以是任意个数，他们检测了当前设备的特点。比如，在第一个样式表申明中并没有使用媒体类型和媒体查询，因此它在所有情况下都会被应用，也就是说，它总汇总阿红才呢过渲染阻塞。而另一方面，第二个样式表仅仅在网页内容被打印时才会被应用，可能你需要在打印时改换一下布局，改变一下字体等等，因此，这个样式表不会再页面首次加载时造成渲染阻塞。而最后一个样式表提供了一个媒体查询，浏览器将判断条件是否满足。如果浏览器满足媒体查询中的条件，浏览器将在下载并处理完这个样式表之前阻塞渲染。</p>
+<p>通过使用媒体查询，我们可以根据特定的用例来定制展现的样式，比如显示和打印。同时，还能动态的判断诸如屏幕方向，缩放事件等等。在申明样式表时，重点关注媒体类型和媒体查询，他们将很大程度影响网页渲染的效率。</p>
+<p>让我们考虑如下例子：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="title">link</span> <span class="attribute">href</span>=<span class="value">"style.css"</span>    <span class="attribute">rel</span>=<span class="value">"stylesheet"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">link</span> <span class="attribute">href</span>=<span class="value">"style.css"</span>    <span class="attribute">rel</span>=<span class="value">"stylesheet"</span> <span class="attribute">media</span>=<span class="value">"screen"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">link</span> <span class="attribute">href</span>=<span class="value">"portrait.css"</span> <span class="attribute">rel</span>=<span class="value">"stylesheet"</span> <span class="attribute">media</span>=<span class="value">"orientation:portrait"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">link</span> <span class="attribute">href</span>=<span class="value">"print.css"</span>    <span class="attribute">rel</span>=<span class="value">"stylesheet"</span> <span class="attribute">media</span>=<span class="value">"print"</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<ol>
+<li>第一个样式申明将会造成渲染阻塞，它在任意情况下都会被应用；</li>
+<li>第二个样式申明也会造成渲染阻塞：“screen”是默认类型，除非你执行了一个其他类型，否则浏览器总是显示的设定媒体类型为“screen”。因此这个样式申明和第一个样式申明等价；</li>
+<li>第三个样式申明是一个动态的媒体查询，他会在页面加载完成之后进行计算。根据页面加载完成后的设备横竖屏来决定样式是否会阻塞渲染；</li>
+<li>最后一个样式申明仅仅在页面被打印的时候起作用，因此他不会在页面首次加载进浏览器中时造成渲染阻塞</li>
+</ol>
+<h3 id="浏览器下载">浏览器下载</h3><p>最后，注意一下渲染阻塞只是指浏览器是否要在页面初始渲染时，是否需要渲染该资源内部的样式。无论在何种情况下，尽管非阻塞资源的优先级较低，CSS文件依旧必须要由浏览器进行下载。</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>默认情况下，CSS会被看做是渲染阻塞资源，也就是说，浏览器在CSSOM建立前，已经处理过的网页内容不会被显示到页面上。所以，保证你的CSS代码能够快速从服务器获取且尽可能的简短，并注意使用媒体类型（media types）和媒体查询（media queries）去进行非阻塞的渲染。</p>]]>
+    
+    </summary>
+    
+      <category term="CSS" scheme="http://lingyu.wang/tags/CSS/"/>
+    
+      <category term="HTML" scheme="http://lingyu.wang/tags/HTML/"/>
+    
+      <category term="翻译" scheme="http://lingyu.wang/categories/%E7%BF%BB%E8%AF%91/"/>
     
   </entry>
   
   <entry>
     <title><![CDATA[通过JavaScript增加交互性]]></title>
-    <link href="http://lingyucoder.github.io/2014/05/21/google-adding-interactivity-with-javaScript/"/>
-    <id>http://lingyucoder.github.io/2014/05/21/google-adding-interactivity-with-javaScript/</id>
+    <link href="http://lingyu.wang/2014/05/21/google-adding-interactivity-with-javaScript/"/>
+    <id>http://lingyu.wang/2014/05/21/google-adding-interactivity-with-javaScript/</id>
     <published>2014-05-20T16:00:00.000Z</published>
     <updated>2015-05-31T15:00:49.000Z</updated>
     <content type="html"><![CDATA[<p>JavaScript允许我们网页中的几乎所有的部分：网页内容、样式等等，它还能提供用户交互的行为。然而，JavaScript也会在页面被渲染时阻塞和延迟DOM树的构建。保证JavaScript代码的异步性，删除不必要的JavaScript代码，可以优化性能。</p>
@@ -2004,18 +2004,18 @@
     
     </summary>
     
-      <category term="CSS" scheme="http://lingyucoder.github.io/tags/CSS/"/>
+      <category term="CSS" scheme="http://lingyu.wang/tags/CSS/"/>
     
-      <category term="HTML" scheme="http://lingyucoder.github.io/tags/HTML/"/>
+      <category term="HTML" scheme="http://lingyu.wang/tags/HTML/"/>
     
-      <category term="翻译" scheme="http://lingyucoder.github.io/categories/%E7%BF%BB%E8%AF%91/"/>
+      <category term="翻译" scheme="http://lingyu.wang/categories/%E7%BF%BB%E8%AF%91/"/>
     
   </entry>
   
   <entry>
     <title><![CDATA[渲染树的构建，布局和绘制]]></title>
-    <link href="http://lingyucoder.github.io/2014/05/20/google-render-tree-construction-layout-and-paint/"/>
-    <id>http://lingyucoder.github.io/2014/05/20/google-render-tree-construction-layout-and-paint/</id>
+    <link href="http://lingyu.wang/2014/05/20/google-render-tree-construction-layout-and-paint/"/>
+    <id>http://lingyu.wang/2014/05/20/google-render-tree-construction-layout-and-paint/</id>
     <published>2014-05-19T16:00:00.000Z</published>
     <updated>2015-05-31T15:00:49.000Z</updated>
     <content type="html"><![CDATA[<p>CSSOM树和DOM树组合生成渲染树，渲染树将决定每一个可见元素的计算样式，并作为输入交给绘制线程，绘制线程将会把他们渲染成像素打到屏幕上。优化这些步骤将是提升渲染性能的关键所在。</p>
@@ -2071,18 +2071,18 @@
     
     </summary>
     
-      <category term="CSS" scheme="http://lingyucoder.github.io/tags/CSS/"/>
+      <category term="CSS" scheme="http://lingyu.wang/tags/CSS/"/>
     
-      <category term="HTML" scheme="http://lingyucoder.github.io/tags/HTML/"/>
+      <category term="HTML" scheme="http://lingyu.wang/tags/HTML/"/>
     
-      <category term="翻译" scheme="http://lingyucoder.github.io/categories/%E7%BF%BB%E8%AF%91/"/>
+      <category term="翻译" scheme="http://lingyu.wang/categories/%E7%BF%BB%E8%AF%91/"/>
     
   </entry>
   
   <entry>
     <title><![CDATA[构建对象模型]]></title>
-    <link href="http://lingyucoder.github.io/2014/05/20/google-constructing-the-object-model/"/>
-    <id>http://lingyucoder.github.io/2014/05/20/google-constructing-the-object-model/</id>
+    <link href="http://lingyu.wang/2014/05/20/google-constructing-the-object-model/"/>
+    <id>http://lingyu.wang/2014/05/20/google-constructing-the-object-model/</id>
     <published>2014-05-19T16:00:00.000Z</published>
     <updated>2015-05-31T15:00:49.000Z</updated>
     <content type="html"><![CDATA[<p>浏览器渲染页面之前会构建DOM树和CSSOM树<br><a id="more"></a></p>
@@ -2126,11 +2126,11 @@
     
     </summary>
     
-      <category term="CSS" scheme="http://lingyucoder.github.io/tags/CSS/"/>
+      <category term="CSS" scheme="http://lingyu.wang/tags/CSS/"/>
     
-      <category term="HTML" scheme="http://lingyucoder.github.io/tags/HTML/"/>
+      <category term="HTML" scheme="http://lingyu.wang/tags/HTML/"/>
     
-      <category term="翻译" scheme="http://lingyucoder.github.io/categories/%E7%BF%BB%E8%AF%91/"/>
+      <category term="翻译" scheme="http://lingyu.wang/categories/%E7%BF%BB%E8%AF%91/"/>
     
   </entry>
   
