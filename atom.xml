@@ -5,7 +5,7 @@
   <subtitle><![CDATA[尘世间一个迷途的小码农]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://lingyu.wang//"/>
-  <updated>2015-05-31T15:02:20.000Z</updated>
+  <updated>2015-08-30T08:49:32.000Z</updated>
   <id>http://lingyu.wang//</id>
   
   <author>
@@ -14,6 +14,91 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[用React做重构时的一些思考]]></title>
+    <link href="http://lingyu.wang/2015/08/30/chonggou/"/>
+    <id>http://lingyu.wang/2015/08/30/chonggou/</id>
+    <published>2015-08-29T16:00:00.000Z</published>
+    <updated>2015-08-30T08:49:32.000Z</updated>
+    <content type="html"><![CDATA[<p>好久没写东西了，主要是工作比以前学生时代忙多了，周末也是各种加班充电，沉淀的少了。最近一直在用React对手上的老业务做重构，这里写一下重构中的一些感悟和思考</p>
+<a id="more"></a>
+<h2 id="老业务和老代码">老业务和老代码</h2><h3 id="前台和后台">前台和后台</h3><p>入职之后刚开始接手的是前台展示业务，基本上是在已有的框架上写模块，前台业务尤其是活动期间光完成业务就累得半死。</p>
+<p>后来随着一次业务调整，开始负责商家后台业务了，两边节奏和开发方式都完全不同。前台业务更新换代较快，没事就改个版啥的，后台就完全不同了：</p>
+<ol>
+<li>后台的业务偏重的是功能，与前台业务酷炫的交互不同，后台业务往往是数据的直观展示和CRUD操作</li>
+<li>前台业务往往可以根据展示的区域划分为多个模块，模块较为独立，很少有模块之间的通信。而后台业务往往是多个子功能模块通过复杂的业务逻辑串联到一起形成完整的功能</li>
+</ol>
+<h3 id="一些感想">一些感想</h3><p>目前负责的应用应该是整个天猫最复杂的应用，里面都是一些老旧的代码，有很重的历史包袱。模块之间的划分不清晰，模块之间的耦合也比较严重，对DOM的交叉修改，不必要的依赖各种各样。进来后思考的最多的就是对这块老代码做重构。</p>
+<p>当然老业务只是代码老，并不代表没有新需求，所以对于接手老代码的开发者来说，最重要的一点是：</p>
+<blockquote>
+<p>老坑没填的情况下，首先保证不会挖新坑，不要明知道之前的开发者使用了错误的开发方式，还不负责任的继续使用。历史问题会随着技术的发展和时间的推移而像滚雪球一样越滚越大，如果放任其滚下去很可能最后整个应用完全不可维护</p>
+</blockquote>
+<p>目前负责老业务并不是单纯的老到只需要维护就可以了，事实上还有大量的新需求不断加入当中，它们就是滚雪球时不断粘附到雪球上的雪</p>
+<ul>
+<li>对于与老代码之间耦合不是特别强烈的新需求，采用较为独立的模块化开发方式，以一种可插拔的形式嵌入到老业务中，保证插和拔的时候不会影响老业务正常运作</li>
+<li>在老业务原有的代码上做更改，这是熟悉老业务代码的最佳方式，理清楚要修改的老业务代码逻辑，若涉及的模块和其他模块耦合程度较低，就将其抽离。如果耦合程度较高，就采用对现有架构尽可能小影响的开发方式开发</li>
+<li>解耦的过程就像剥洋葱，剥离了最外面一层，里面一层就变成最外一层了，一层层剥到核心，整个解耦过程就完成了</li>
+</ul>
+<h2 id="老业务中的React">老业务中的React</h2><p>在整个解耦的过程中，采用React做解耦。目前比较流行的React开发方式是采用Common JS开发，模块直接通过npm管理，上线时采用webpack或browserify做打包。但受限于身上的历史包袱，不可能整页采用React实现，成本太大。目前整体页面依旧是普通JS，通过模块加载器管理着各个模块，其中一些模块是React实现的，利用browserify的babelify+babel-runtime做ES 6语法编译，保证即使ES 6语法编写的代码也能够正常跑在浏览器上，由于每个模块是独立的，因此这样会产生一些问题，后面会讲到</p>
+<h3 id="React做模块">React做模块</h3><p>为什么要用 React 做解耦，主要是看中其封装理念，一个模块或组件，应当有：</p>
+<ol>
+<li>提供一些配置数据</li>
+<li>模块自己内部逻辑用的数据</li>
+<li>提供一些供交互的接口和事件</li>
+</ol>
+<h4 id="兼容JSX和原生JS调用">兼容JSX和原生JS调用</h4><p>1，2，3分别对应props、state和onXXX回调。对于老业务而言，如果外层不是React，而是模块加载器包裹的原生JS怎么办呢？其实React组件完全可以独立运行，毕竟有<code>React.render</code>，举个例子：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">define([<span class="string">'react'</span>, <span class="string">'event-mixin'</span>], <span class="function"><span class="keyword">function</span>(<span class="params">React, EventMixin</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> defaultConfig = &#123;</span><br><span class="line">    value: <span class="string">''</span>,</span><br><span class="line">    onChange: noop</span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="keyword">var</span> Component = React.createClass(&#123;</span><br><span class="line">    mixins: [EventMixin],</span><br><span class="line">    propTypes: &#123;&#125;,</span><br><span class="line">    getDefaultProps: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">      <span class="keyword">return</span> defaultConfig;</span><br><span class="line">    &#125;,</span><br><span class="line">    getValue: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;&#125;,</span><br><span class="line">    setValue: <span class="function"><span class="keyword">function</span>(<span class="params">value</span>) </span>&#123;</span><br><span class="line">    &#125;,</span><br><span class="line">    render: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;&#125;</span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line">  Component.init = <span class="function"><span class="keyword">function</span>(<span class="params">container, config</span>) </span>&#123;</span><br><span class="line">    config = S.merge(&#123;&#125;, defaultConfig, config);</span><br><span class="line">    <span class="keyword">return</span> React.render(<span class="xml"><span class="tag">&lt;<span class="title">Component</span> &#123;<span class="attribute">...config</span>&#125;/&gt;</span>, container);</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  return Component;</span><br><span class="line">&#125;);</span></span><br></pre></td></tr></table></figure>
+<p>可以看到，返回一个React类，这个类提供了静态方法用于在容器中直接绘制组件，方便原生JS，而JSX中也可以直接使用标签的方式使用组件</p>
+<p>对于上面说的三点：</p>
+<ol>
+<li>配置数据props的传入：原生JS采用init方法传入，JSX直接写在标签上</li>
+<li>内部数据state组件维护</li>
+<li>组件的方法和事件，对于原生JS提供了getValue、setValue这样的方法，而对于JSX使用则直接可以通过配置传入。对于事件的处理采用了混入Event模型的方式，为组件自身提供了on、off、fire这种事件模型方法供原生JS使用，而对于JSX的调用方式，则直接使用onXXX风格的回调即可</li>
+</ol>
+<p>这样组件就可以兼容外层是JSX或外层是JS的调用方式，同时兼容新业务和老业务</p>
+<h4 id="组件独立性">组件独立性</h4><p>同时，一个组件应当保证对应的独立性：</p>
+<ol>
+<li>样式的独立</li>
+<li>DOM的独立</li>
+<li>组件逻辑的独立</li>
+</ol>
+<p>个人认为一个组件应该standalone就能跑起来的，React非常好的提供了DOM的独立和组件逻辑的独立，采用inline-style的方式也能提供样式的独立。其中DOM的独立非常重要，一旦多个组件DOM形成耦合，这几个组件的解耦将异常困难。React组件的每个DOM元素都分配了自己的id，一旦修改就会发生错误，强制了DOM的独立。</p>
+<p>这样组件就只关注自己了，那么问题就来了，组件都只关注自己，组件之间交互怎么办？所以有Flux</p>
+<h4 id="模块间通信">模块间通信</h4><p>React解决了组件实现，组件间通信就交给了Flux的模式，Flux是一种数据通信模式，其实说简单点就是全局有一些保存数据的Store，各个React组件相互之间通信不是直接通信，而是通过这些保存数据的Store，一个组件修改Store递交数据，另外一个组件监听Store的变化获得数据来实现数据的传输。不过数据传输是单向的</p>
+<p>以往组件之间的耦合是因为一个组件直接调用了另外一个组件的接口，现在大家都不依赖接口了，直接依赖数据，从主动调用变成了被动通知变更</p>
+<p>这里有几个点：</p>
+<ol>
+<li>一个数据需求模块初始化后，一直在监听数据变化，但变更数据的模块可能根本就不存在，这个数据需求模块就蛋疼了，其实当不存在数据变更模块的时候，这个数据需求模块是不应该被初始化的</li>
+<li>由于数据需求模块只在乎数据，给他的数据长啥样，它就长啥样，多个模块共同修改同一份数据时，永远是最新的数据决定了模块的展示，数据需求模块本身必须是无状态的，因为它没办法保证它所依赖的多份数据的递交顺序</li>
+<li>数据需求模块依赖的数据结构是定死的， 变更数据的模块吐出来的数据结果也是定死的，这就产生一个问题，这两个定死的数据结构需要做适配，每个模块只关注自身，当然不应该考虑为其他模块做数据适配。所以这个适配就得在Flux上做，需要尽可能的通过定义开发规范来减少数据适配的出现</li>
+<li>需要immutable保证数据本身的独立性，防止交叉修改同一份数据导致数据污染</li>
+<li>数据都是整块递交，需要DOM Diff这样的方式来保证重绘范围尽可能小</li>
+</ol>
+<h3 id="Webpack和Browserify">Webpack和Browserify</h3><p>这俩的运行机制大体上来说就是分析Common JS代码的AST语法树，找到其中的require指定的依赖名称，然后递归的分析依赖，最后将所有的依赖打包在一起，并配合打包工具自己的模块加载机制复写或替换require实现加载。采用这种方式，组件的安装和使用变得和Common JS一样简单，不用考虑组件的版本管理，因为组件在node_modules里面都有对应版本的源码。</p>
+<p>但这种方式容易产生性能问题：</p>
+<ol>
+<li>不少Common JS的模块都有自己依赖的工具包，这些工具包的版本通常并不相同，这也就导致了重复打包的问题</li>
+<li>Common JS的模块开发方式使得不少开发者没有在意自己使用的包的大小或内容，往往会为了几个很小的功能而引入一个完整的工具库，这在Node.Js上没什么，但是到了浏览器端，就成了大问题</li>
+<li>很多模块没有采用异步加载依赖的方式，而是直接require同步加载依赖，导致打包出来的入口文件巨大无比…首屏很慢</li>
+<li>ES 6的打包碎片问题，如果整页打包当然不存在碎片的问题。但是对于多个模块分开打包，就很导致每个模块自己独立打包，会生成自己的一些编译依赖，而通过模块加载器一起使用时，由于模块相互之间独立，这些依赖虽然有很多是相同的，但也会被引入很多次。目前没有什么好的解决办法，就是减少碎片生成。</li>
+<li>React组件对于子组件的引入都是同步的，如果整页都是React开发就很容易遇到3中的问题</li>
+</ol>
+<p>对于一些新业务，用打包工具整页打包还是可行的，但是一定要注意处理好异步加载的模块，同时保证依赖本身的轻量。而对于老业务，则需要减少独立打包时产生的碎片。不管什么开发方式，都需要注意1，2的情况，个人比较倾向的方式就是，最外层依旧采用现有的AMD模块管理方式，而部分模块采用React开发，防止出现5和3的问题，但4的问题就得通过定义开发规范的方式来规避了</p>
+<h2 id="最后">最后</h2><p>这里随便写一点，可能个人对于React和打包技术的理解有误导致观点不符。其实还是一点，不同的业务场景有自身的技术取舍，能解决问题的技术就是好技术。</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>好久没写东西了，主要是工作比以前学生时代忙多了，周末也是各种加班充电，沉淀的少了。最近一直在用React对手上的老业务做重构，这里写一下重构中的一些感悟和思考</p>]]>
+    
+    </summary>
+    
+      <category term="JavaScript" scheme="http://lingyu.wang/tags/JavaScript/"/>
+    
+      <category term="React" scheme="http://lingyu.wang/tags/React/"/>
+    
+      <category term="前端综合" scheme="http://lingyu.wang/categories/%E5%89%8D%E7%AB%AF%E7%BB%BC%E5%90%88/"/>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[轻松入门React和Webpack]]></title>
@@ -381,6 +466,179 @@
   </entry>
   
   <entry>
+    <title><![CDATA[构建华丽UI的7条准则（上部）]]></title>
+    <link href="http://lingyu.wang/2014/11/24/7-rules-for-creating-gorgeous-ui-part-1/"/>
+    <id>http://lingyu.wang/2014/11/24/7-rules-for-creating-gorgeous-ui-part-1/</id>
+    <published>2014-11-23T16:00:00.000Z</published>
+    <updated>2015-05-31T15:00:49.000Z</updated>
+    <content type="html"><![CDATA[<p>本文翻译自Erik D. Kennedy的<a href="https://medium.com/@erikdkennedy/7-rules-for-creating-gorgeous-ui-part-1-559d4e805cda?hn=1" target="_blank" rel="external">7 Rules for Creating Gorgeous UI (Part 1)</a></p>
+<a id="more"></a>
+<h2 id="简介">简介</h2><p>好吧，首先需要说明的是，这篇指南并不适合每一个人。那么它适合哪些人呢？</p>
+<ul>
+<li>那些要在紧要关头设计他们自己的好看的UI的<strong>开发者</strong></li>
+<li>那些希望自己的作品集看起来比五边形PPT更炫酷或是那些将优秀的用户体验和漂亮的UI打包出售的<strong>用户体验（以下简称UX）设计师</strong></li>
+</ul>
+<p>如果你曾经上过艺术学校，或是认为自己已经是一个UI设计师，你很可能会觉着这篇指南充斥着a.) 无聊, b.) 错误, and c.) 不爽。没关系。你的所有批评都是对的。关掉页面，该干啥干啥。</p>
+<p>让我来告诉你这篇指南里都有些什么。</p>
+<p>首先，我是一个没有UI技能的UX设计师。我喜欢设计用户体验，但<br>我干的时间不长，直到我了解到如下这些驱动我去学界面美化的原因：</p>
+<ul>
+<li>我的作品集看起来很废，无法很好的反映我的工作和思想进程；</li>
+<li>我的UX咨询客户更愿意去找那些不只会画方框和箭头，而懂得更多专业知识的人；</li>
+<li>我是否在某些时候需要在项目初期干活？不只是帮忙扫扫地</li>
+</ul>
+<p>我有我自己的理由。我并不了解垃圾美学观。我是个做工程的，而最令我自豪的就是构建一些帅气的东西。</p>
+<p>最后，我学到了应用程序的每学，它和任何其他创造性的活动中的一样：冰冷，难以分析。以及无耻的从他人作品中模仿。我曾在一个UI项目上花费了10个小时，但只赚了一个小时的钱。其他的9个小时都是在瞎逛式的学习。无休止的搜索Google、Pinterest和Dribbble来找可以模仿的作品。</p>
+<p>这些准则就是这样总结出来的</p>
+<p><strong>所以有一些话希望告诉那些书呆子们：如果做出了优秀的设计，并不是因为我参透了美感和平衡，而是因为我分析出了成果。</strong></p>
+<p>这篇文章并不是一些理论，都是纯粹的应用。你不会看到任何和黄金分割相关的东西。我甚至都没有提及色彩理论。只有那些我不断失败不断练习所学到的东西。</p>
+<p>可以这样说：柔道是基于几个世纪的日本无数和哲学传统发展而来的。你参与了柔道训练，并进行了实战，你就会听到很多关于能量、流动、平和以及之类的东西。</p>
+<p>另一方面，马伽术是一些在20世纪30年代捷克斯洛伐克的一些强硬的犹太人，为了在街头对抗纳粹所发明的。其中没有任何艺术科研，在它的课程中，你学到的是如何通过一支笔去刺瞎别人的眼镜。</p>
+<p>这里就是屏幕上的马伽术</p>
+<p>这些准则包括：</p>
+<ol>
+<li>光来自天空</li>
+<li>黑白先行</li>
+<li>使用双倍的留白</li>
+<li>学习如何在图像上叠加文字</li>
+<li>让文字弹出——并且反流行</li>
+<li>仅使用好的字体</li>
+<li>像艺术家一样去偷</li>
+</ol>
+<p>让我们开始吧</p>
+<h2 id="准则一：光来自天空">准则一：光来自天空</h2><p><em>阴影是用来帮助大脑用来分辨用户界面上元素的宝贵线索</em></p>
+<p>这可能是在学习UI设计中<strong>最重要且常被忽略</strong>的了：光来自天空。光线时常来自于天空，如果从下方来的话会看起来很怪异。</p>
+<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-11-24/1.jpeg" alt="wooooo"></p>
+<p>当光线来自天空，它照亮了物体的顶部并在他们下方留下阴影。物体的顶部更亮，底部更暗。</p>
+<p>你不会把人的下眼睑当做特别的阴影，但当光照在上面时，瞬间就好像一个妖娆的女孩站在你的门前。</p>
+<p>是的，UI也是一样。正如我们的所有五官下侧都会有较小的阴影，在我们所看到的每个UI元素下面也有阴影。<strong>屏幕是扁平的，但我们已经找到了很多方法使得他们看起来像是3D的</strong></p>
+<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-11-24/2.png" alt="My favorite part of this image is the poker finger in the lower-right."></p>
+<p>就拿按钮来说。即使这种相对“扁平”的按钮，它仍有一些与光线相关的细节：</p>
+<ol>
+<li>未按下的按钮（上图）有一个较暗的底部边缘。太阳光照不到那里；</li>
+<li>未按下的按钮的<strong>顶部比底部稍微亮一些</strong>。这是因为它模拟了一个稍微弯曲的表面。就和你需要倾斜你面前的镜子才能看到里面的太阳一样，倾斜向上的表面对你反射了的太阳光多了那么一点点；</li>
+<li>未按下的按钮蒙上了<strong>细微的阴影</strong>，可能你将部分进行放大才能看见</li>
+<li>按下的按钮，底部依然要比顶部更暗，但它<strong>整体都变暗了</strong>——这是因为它在屏幕同意平面上，而光不再那么容易地照到它。可能有人会说了，现实生活中我们按下的按钮颜色也会较深，事实上那是因为我们的双手遮挡住了光线。</li>
+</ol>
+<p>这只是一个按钮，但也呈现出4个小的光线效果。那么问题来了，我们需要将这些运用到所有元素下。</p>
+<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-11-24/3.png" alt="iOS 6 is a little outdated, but it makes a good case study in light behavior."></p>
+<p>这是iOS 6的“请勿打扰”和“通知”的设定。很漂亮不是吗？那么我们来看看它有多少光线效果。</p>
+<ul>
+<li>面板的顶部上有细小的阴影</li>
+<li>“ON”开关的滑动轨道上也有</li>
+<li>“ON”开关的滑动轨道是凹陷的，而底部反射更多的光</li>
+<li>图标突出了一点，是否看到它顶部的边框更亮？这代表了一个垂直于光源的面，因此接收到了不少的光，也因此反射更多光到你眼睛</li>
+<li>面板分割的缺口远离阳光的角度蒙有阴影，反之亦然</li>
+</ul>
+<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-11-24/4.png" alt="A close-up of a divider notch. From an old Hubster concept of mine."></p>
+<p>以下元素通常看起来是<strong>内嵌</strong>的：</p>
+<ul>
+<li>文本输入框</li>
+<li>按下的按钮</li>
+<li>开关的滑动轨道</li>
+<li>单选按钮（未被选择）（radio）</li>
+<li>复选按钮（checkbox）</li>
+</ul>
+<p>以下元素通常看起来是<strong>外凸</strong>的：</p>
+<ul>
+<li>按钮（未按下）</li>
+<li>开关</li>
+<li>下拉控件</li>
+<li>卡片</li>
+<li>被选择的单选按钮的按钮部分</li>
+<li>弹出窗口</li>
+</ul>
+<p>现在你学到了，你会发现到处都是这样。欢迎你，孩子</p>
+<h3 id="等等，扁平化设计怎么办呢，Erik？">等等，扁平化设计怎么办呢，Erik？</h3><p>iOS7的“扁平化设计”轰动了技术社区。如字面上所说，它是平的。没有凸起或凹陷，只是纯色的线条和形状。</p>
+<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-11-24/5.png" alt="iOS 7 扁平设计"></p>
+<p>我和后面那个家伙一样喜欢干净和简洁，但我不认为这是个长期的趋势。我们在界面上对于3D的模拟，还远远没有自然到能够放弃一切。</p>
+<p><strong>很有可能在不久的将来我们就会见到半扁平UI</strong>（我推荐你能够精通这样的设计）。进一步可以称之为“扁平化的设计（flatty design）”。依然干净，依然简洁，但那些需要触碰、滑动、点击的元素会有一些阴影和线索。</p>
+<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-11-24/6.png" alt="OS X Yosemite—不只是扁平，而是扁平化"></p>
+<p>在我写这篇文章时，Google在他们的产品之上推出了“Material Design”语言。这是一个统一的视觉语言，它的核心思想就旨在模仿现实世界。</p>
+<p>从Material Design的设计图中可以看出，它展示了如何通过不同的阴影来表现元素不同的深度。</p>
+<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-11-24/7.png" alt="Material Design 1"></p>
+<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-11-24/8.png" alt="Material Design 2"></p>
+<p>这是我一直坚持做的事情。</p>
+<p>它采用了细微的现实世界的线索来传达信息。<strong>关键字，细微</strong>。</p>
+<p>你不能说它没有模仿现实世界，但也没有像2006年的网站上那样的纹理、渐变和光亮。</p>
+<p>我认为扁平化是未来。扁平？那只是过去。</p>
+<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-11-24/9.png" alt="扁平设计现在似乎大热"></p>
+<h2 id="规则二——黑白先行">规则二——黑白先行</h2><p><em>在添加颜色之前使用灰度进行设计能让最复杂元素的视觉设计也变得简单。</em></p>
+<p>如今UX设计师也进行“移动先行”的设计。这就意味着，先在手机上考虑页面样式及交互，然后再扩展到高像素的Retina屏幕上</p>
+<p><strong>这是个非常好的约束。它传达了一个思想。</strong>先从困难的问题开始（在较小的屏幕上可用的应用程序），然后将解决方案适配到简单的问题上（在大屏幕上可用的应用程序）。</p>
+<p>还有一个类似的约束：先用黑白进行设计。在没有颜色的帮助下，以让应用在各个角度下漂亮且可用这样的困难问题作为开始。最后再添加颜色，即使如此，明确目标。</p>
+<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-11-24/10.png" alt="Haraldur Thorleifsson’s grayscale wireframes look as good as lesser designer’s finished sites."></p>
+<p>这是一个保持应用程序看起来“简洁”的较为可靠且简单的方式。<strong>过多的颜色很容易破坏“简洁”。</strong>黑白先行使得你更加专注于留白、尺寸和布局。而这些正式“简洁”设计所关注的。</p>
+<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-11-24/11.png" alt="Classy grayscale."><br><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-11-24/12.jpeg" alt="Classy grayscale."><br><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-11-24/13.png" alt="Classy grayscale."></p>
+<p>在某些情况下黑白先行并没有效果。那些有很强特定风格的设计——“运动的”、“浮华的”、“卡通的”，等等——需要设计师非常好的使用颜色。但<strong>大多数应用程序除了“简洁”以外都没有特定的风格。</strong>不可否认，那些设计更难。</p>
+<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-11-24/14.png" alt="Flashy and vibrant designs by Julien Renvoye (left) and Cosmin Capitanu (right). Harder than it looks."></p>
+<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-11-24/15.png" alt="Flashy and vibrant designs by Julien Renvoye (left) and Cosmin Capitanu (right). Harder than it looks."></p>
+<p>对于其他的，都可以用黑白先行</p>
+<h3 id="第二步：如何上色">第二步：如何上色</h3><p>最简单的上色方式就是只添加一种颜色</p>
+<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-11-24/16.png" alt="添加一种颜色"></p>
+<p>往黑白的网页中添加一种颜色是简单而有效地吸引眼球方式</p>
+<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-11-24/17.png" alt="添加一种颜色"></p>
+<p>你也可以更进一步，灰度+两种颜色，或是灰度+单一色调的多种颜色</p>
+<blockquote>
+<p><strong>实践中的色码——等等，什么事色调？</strong></p>
+<p>网页和大多数人都是用16进制RGB编码表示颜色。最好忽略这些。RGB并不是一个好的颜色设计框架。<a href="http://demosthenes.info/blog/61/An-Easy-Guide-To-HSL-Color-In-CSS3" target="_blank" rel="external">HSB</a>更有用（HSB与HSV或HSL“基本上是同义的”）</p>
+<p>HSB比RGB更好，以为它符合我们自然思考颜色的方式，你能从HSB值的改变中预测到颜色的变化。</p>
+<p>如果这对你来说是个新闻，这里有一个对于<a href="http://demosthenes.info/blog/61/An-Easy-Guide-To-HSL-Color-In-CSS3" target="_blank" rel="external">HSB颜色的介绍</a>。</p>
+</blockquote>
+<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-11-24/18.jpeg" alt="来自Smashing Magazine的单色调的金色主题"></p>
+<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-11-24/19.jpeg" alt="来自Smashing Magazine的单色调的蓝色主题"></p>
+<p>通过修改单一色相的<strong>饱和度</strong>和<strong>亮度</strong>，可以生成更多的颜色——深色的、浅色的、当背景的、做强调的、吸引眼球的——但它并不会在你眼前压倒一切。</p>
+<p>使用来自一种或两种色相的多个颜色是在<strong>不破坏设计的前提下突出和弱化元素的最可靠的方法。</strong></p>
+<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-11-24/20.png" alt="Countdown timer by Kerem Suer"></p>
+<h2 id="颜色使用的一些其他的注意事项">颜色使用的一些其他的注意事项</h2><p>颜色是视觉设计中最复杂的部分。虽然颜色上的很多东西并不精细，而且对于你面前的设计并不适用，我还是看到了一些不错的东西：</p>
+<p>一些小工具：</p>
+<ul>
+<li><a href="http://ianstormtaylor.com/design-tip-never-use-black/" target="_blank" rel="external">永远不要使用纯黑</a> (Ian Storm Taylor)。这篇文章中说，纯粹的灰色几乎不会出现在现实世界，灰色的色调的饱和度——尤其是较暗的色调——能为你的设计添加丰富的视觉效果。此外，饱和的灰色更好的模拟了现实世界，这正是它的美之所在。</li>
+<li><a href="https://color.adobe.com/" target="_blank" rel="external">Adobe Color CC</a>.一个用来发现、修改和创建颜色方案的优秀工具</li>
+<li><a href="https://dribbble.com/colors/BADA55" target="_blank" rel="external">通过颜色搜索Dribbble</a>. 另外一个找到某一个特定颜色实践的不错方式。这很实用。如果你已经决定使用某个颜色，看看世界上最好的设计师们如何使用这个颜色。</li>
+</ul>
+<h2 id="规则三：使用双倍的留白">规则三：使用双倍的留白</h2><p><em>增加更多呼吸空间可以让你的UI看起来有设计感</em></p>
+<p>我曾在规则二中说过，“黑白先行”迫使设计师在考虑配色之前先考虑留白和布局，以及这为什么好。那么，现在来聊聊留白和布局。</p>
+<p>如果你曾在<a href="http://baike.baidu.com/subview/526745/15420063.htm" target="_blank" rel="external">scratch</a>（一款面向少年的简易编程工具），你可能比较熟悉HTML默认情况下在页面上的布局。</p>
+<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-11-24/21.png" alt="页面上默认的布局"></p>
+<p>基本上，一切都被堆砌在屏幕的顶端。字体比较小，行与行之间完全没有空白。段与段之间有那么一丁点的空白，但并不多。各个段落随着页面伸缩，不管是100像素，还是10000像素。</p>
+<p>从美学上讲，这非常的难看。<strong>如果你希望你的UI看起来有设计感，你需要给它增加一些呼吸的空间。</strong></p>
+<p>有时候需要的留白很夸张。</p>
+<blockquote>
+<p>留白、HTML和CSS</p>
+<p>如果你，和我一样，曾经使用CSS来实现各种格式，<strong>默认情况下没有留白</strong>，现在是时候从中解脱出来了。试着默认情况下从留白开始思考——一切都以空白开始，直到你拿一个元素来替换它。</p>
+<p>很有禅意对吗？我想这是一个人们这么设计的重要原因。</p>
+<p><strong>从一个空白页面开始，意味着以一个只有空白的页面开始。</strong>你在一开始就考虑外边距和留白。你画的所有东西都是有意识的在删除空白。</p>
+<p><strong>从一堆没样式的HTML开始意味着从内容出发。</strong>事后再考虑空白。必须正确的描述这些。</p>
+</blockquote>
+<p>以下是<a href="http://www.piotrkwiatkowski.co.uk/" target="_blank" rel="external">Piotr Kwiatkowski</a>的一个音乐播放器的设计图</p>
+<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-11-24/22.jpeg" alt="音乐播放器"></p>
+<p>尤其注意左边的菜单</p>
+<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-11-24/23.png" alt="左侧的菜单"></p>
+<p>在两个菜单项的垂直空白是文字本身的两倍。12px的字体，上下的内边距也是一样。</p>
+<p>再看一下列表的标题。在单词“PLAYLISTS”上下有15像素的留白，而且它有下划线。也就是说，在列表与列表之间相距25px。</p>
+<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-11-24/24.png" alt="导航条上有更多的空白。“Search all music”的文字大小只占导航条高度的20%。图标也差不多大"></p>
+<p>不错，大的空白能让凌乱的界面看起来更加诱人和简单——比如下面这个论坛。</p>
+<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-11-24/25.png" alt="Matt Sisto设计的论坛"></p>
+<p>或者维基百科。</p>
+<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-11-24/26.png" alt="Aurélien Salomon设计的维基百科"></p>
+<p>你会发现存在很多争议说，这个重新设计的维基百科省去了使用网页的关键功能。但你必须承认，这是一个不错的学习体验。</p>
+<p>增加线条之间的留白</p>
+<p>增加元素之间的留白</p>
+<p>增加每组元素之间的留白</p>
+<p><strong>分析是什么在起作用</strong></p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>本文翻译自Erik D. Kennedy的<a href="https://medium.com/@erikdkennedy/7-rules-for-creating-gorgeous-ui-part-1-559d4e805cda?hn=1">7 Rules for Creating Gorgeous UI (Part 1)</a></p>]]>
+    
+    </summary>
+    
+      <category term="设计" scheme="http://lingyu.wang/tags/%E8%AE%BE%E8%AE%A1/"/>
+    
+      <category term="翻译" scheme="http://lingyu.wang/categories/%E7%BF%BB%E8%AF%91/"/>
+    
+  </entry>
+  
+  <entry>
     <title><![CDATA[RisingStack的Node.js风格指南]]></title>
     <link href="http://lingyu.wang/2014/11/24/risingstack-nodejs-style-guide/"/>
     <id>http://lingyu.wang/2014/11/24/risingstack-nodejs-style-guide/</id>
@@ -713,179 +971,6 @@
     </summary>
     
       <category term="NodeJs" scheme="http://lingyu.wang/tags/NodeJs/"/>
-    
-      <category term="翻译" scheme="http://lingyu.wang/categories/%E7%BF%BB%E8%AF%91/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[构建华丽UI的7条准则（上部）]]></title>
-    <link href="http://lingyu.wang/2014/11/24/7-rules-for-creating-gorgeous-ui-part-1/"/>
-    <id>http://lingyu.wang/2014/11/24/7-rules-for-creating-gorgeous-ui-part-1/</id>
-    <published>2014-11-23T16:00:00.000Z</published>
-    <updated>2015-05-31T15:00:49.000Z</updated>
-    <content type="html"><![CDATA[<p>本文翻译自Erik D. Kennedy的<a href="https://medium.com/@erikdkennedy/7-rules-for-creating-gorgeous-ui-part-1-559d4e805cda?hn=1" target="_blank" rel="external">7 Rules for Creating Gorgeous UI (Part 1)</a></p>
-<a id="more"></a>
-<h2 id="简介">简介</h2><p>好吧，首先需要说明的是，这篇指南并不适合每一个人。那么它适合哪些人呢？</p>
-<ul>
-<li>那些要在紧要关头设计他们自己的好看的UI的<strong>开发者</strong></li>
-<li>那些希望自己的作品集看起来比五边形PPT更炫酷或是那些将优秀的用户体验和漂亮的UI打包出售的<strong>用户体验（以下简称UX）设计师</strong></li>
-</ul>
-<p>如果你曾经上过艺术学校，或是认为自己已经是一个UI设计师，你很可能会觉着这篇指南充斥着a.) 无聊, b.) 错误, and c.) 不爽。没关系。你的所有批评都是对的。关掉页面，该干啥干啥。</p>
-<p>让我来告诉你这篇指南里都有些什么。</p>
-<p>首先，我是一个没有UI技能的UX设计师。我喜欢设计用户体验，但<br>我干的时间不长，直到我了解到如下这些驱动我去学界面美化的原因：</p>
-<ul>
-<li>我的作品集看起来很废，无法很好的反映我的工作和思想进程；</li>
-<li>我的UX咨询客户更愿意去找那些不只会画方框和箭头，而懂得更多专业知识的人；</li>
-<li>我是否在某些时候需要在项目初期干活？不只是帮忙扫扫地</li>
-</ul>
-<p>我有我自己的理由。我并不了解垃圾美学观。我是个做工程的，而最令我自豪的就是构建一些帅气的东西。</p>
-<p>最后，我学到了应用程序的每学，它和任何其他创造性的活动中的一样：冰冷，难以分析。以及无耻的从他人作品中模仿。我曾在一个UI项目上花费了10个小时，但只赚了一个小时的钱。其他的9个小时都是在瞎逛式的学习。无休止的搜索Google、Pinterest和Dribbble来找可以模仿的作品。</p>
-<p>这些准则就是这样总结出来的</p>
-<p><strong>所以有一些话希望告诉那些书呆子们：如果做出了优秀的设计，并不是因为我参透了美感和平衡，而是因为我分析出了成果。</strong></p>
-<p>这篇文章并不是一些理论，都是纯粹的应用。你不会看到任何和黄金分割相关的东西。我甚至都没有提及色彩理论。只有那些我不断失败不断练习所学到的东西。</p>
-<p>可以这样说：柔道是基于几个世纪的日本无数和哲学传统发展而来的。你参与了柔道训练，并进行了实战，你就会听到很多关于能量、流动、平和以及之类的东西。</p>
-<p>另一方面，马伽术是一些在20世纪30年代捷克斯洛伐克的一些强硬的犹太人，为了在街头对抗纳粹所发明的。其中没有任何艺术科研，在它的课程中，你学到的是如何通过一支笔去刺瞎别人的眼镜。</p>
-<p>这里就是屏幕上的马伽术</p>
-<p>这些准则包括：</p>
-<ol>
-<li>光来自天空</li>
-<li>黑白先行</li>
-<li>使用双倍的留白</li>
-<li>学习如何在图像上叠加文字</li>
-<li>让文字弹出——并且反流行</li>
-<li>仅使用好的字体</li>
-<li>像艺术家一样去偷</li>
-</ol>
-<p>让我们开始吧</p>
-<h2 id="准则一：光来自天空">准则一：光来自天空</h2><p><em>阴影是用来帮助大脑用来分辨用户界面上元素的宝贵线索</em></p>
-<p>这可能是在学习UI设计中<strong>最重要且常被忽略</strong>的了：光来自天空。光线时常来自于天空，如果从下方来的话会看起来很怪异。</p>
-<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-11-24/1.jpeg" alt="wooooo"></p>
-<p>当光线来自天空，它照亮了物体的顶部并在他们下方留下阴影。物体的顶部更亮，底部更暗。</p>
-<p>你不会把人的下眼睑当做特别的阴影，但当光照在上面时，瞬间就好像一个妖娆的女孩站在你的门前。</p>
-<p>是的，UI也是一样。正如我们的所有五官下侧都会有较小的阴影，在我们所看到的每个UI元素下面也有阴影。<strong>屏幕是扁平的，但我们已经找到了很多方法使得他们看起来像是3D的</strong></p>
-<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-11-24/2.png" alt="My favorite part of this image is the poker finger in the lower-right."></p>
-<p>就拿按钮来说。即使这种相对“扁平”的按钮，它仍有一些与光线相关的细节：</p>
-<ol>
-<li>未按下的按钮（上图）有一个较暗的底部边缘。太阳光照不到那里；</li>
-<li>未按下的按钮的<strong>顶部比底部稍微亮一些</strong>。这是因为它模拟了一个稍微弯曲的表面。就和你需要倾斜你面前的镜子才能看到里面的太阳一样，倾斜向上的表面对你反射了的太阳光多了那么一点点；</li>
-<li>未按下的按钮蒙上了<strong>细微的阴影</strong>，可能你将部分进行放大才能看见</li>
-<li>按下的按钮，底部依然要比顶部更暗，但它<strong>整体都变暗了</strong>——这是因为它在屏幕同意平面上，而光不再那么容易地照到它。可能有人会说了，现实生活中我们按下的按钮颜色也会较深，事实上那是因为我们的双手遮挡住了光线。</li>
-</ol>
-<p>这只是一个按钮，但也呈现出4个小的光线效果。那么问题来了，我们需要将这些运用到所有元素下。</p>
-<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-11-24/3.png" alt="iOS 6 is a little outdated, but it makes a good case study in light behavior."></p>
-<p>这是iOS 6的“请勿打扰”和“通知”的设定。很漂亮不是吗？那么我们来看看它有多少光线效果。</p>
-<ul>
-<li>面板的顶部上有细小的阴影</li>
-<li>“ON”开关的滑动轨道上也有</li>
-<li>“ON”开关的滑动轨道是凹陷的，而底部反射更多的光</li>
-<li>图标突出了一点，是否看到它顶部的边框更亮？这代表了一个垂直于光源的面，因此接收到了不少的光，也因此反射更多光到你眼睛</li>
-<li>面板分割的缺口远离阳光的角度蒙有阴影，反之亦然</li>
-</ul>
-<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-11-24/4.png" alt="A close-up of a divider notch. From an old Hubster concept of mine."></p>
-<p>以下元素通常看起来是<strong>内嵌</strong>的：</p>
-<ul>
-<li>文本输入框</li>
-<li>按下的按钮</li>
-<li>开关的滑动轨道</li>
-<li>单选按钮（未被选择）（radio）</li>
-<li>复选按钮（checkbox）</li>
-</ul>
-<p>以下元素通常看起来是<strong>外凸</strong>的：</p>
-<ul>
-<li>按钮（未按下）</li>
-<li>开关</li>
-<li>下拉控件</li>
-<li>卡片</li>
-<li>被选择的单选按钮的按钮部分</li>
-<li>弹出窗口</li>
-</ul>
-<p>现在你学到了，你会发现到处都是这样。欢迎你，孩子</p>
-<h3 id="等等，扁平化设计怎么办呢，Erik？">等等，扁平化设计怎么办呢，Erik？</h3><p>iOS7的“扁平化设计”轰动了技术社区。如字面上所说，它是平的。没有凸起或凹陷，只是纯色的线条和形状。</p>
-<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-11-24/5.png" alt="iOS 7 扁平设计"></p>
-<p>我和后面那个家伙一样喜欢干净和简洁，但我不认为这是个长期的趋势。我们在界面上对于3D的模拟，还远远没有自然到能够放弃一切。</p>
-<p><strong>很有可能在不久的将来我们就会见到半扁平UI</strong>（我推荐你能够精通这样的设计）。进一步可以称之为“扁平化的设计（flatty design）”。依然干净，依然简洁，但那些需要触碰、滑动、点击的元素会有一些阴影和线索。</p>
-<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-11-24/6.png" alt="OS X Yosemite—不只是扁平，而是扁平化"></p>
-<p>在我写这篇文章时，Google在他们的产品之上推出了“Material Design”语言。这是一个统一的视觉语言，它的核心思想就旨在模仿现实世界。</p>
-<p>从Material Design的设计图中可以看出，它展示了如何通过不同的阴影来表现元素不同的深度。</p>
-<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-11-24/7.png" alt="Material Design 1"></p>
-<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-11-24/8.png" alt="Material Design 2"></p>
-<p>这是我一直坚持做的事情。</p>
-<p>它采用了细微的现实世界的线索来传达信息。<strong>关键字，细微</strong>。</p>
-<p>你不能说它没有模仿现实世界，但也没有像2006年的网站上那样的纹理、渐变和光亮。</p>
-<p>我认为扁平化是未来。扁平？那只是过去。</p>
-<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-11-24/9.png" alt="扁平设计现在似乎大热"></p>
-<h2 id="规则二——黑白先行">规则二——黑白先行</h2><p><em>在添加颜色之前使用灰度进行设计能让最复杂元素的视觉设计也变得简单。</em></p>
-<p>如今UX设计师也进行“移动先行”的设计。这就意味着，先在手机上考虑页面样式及交互，然后再扩展到高像素的Retina屏幕上</p>
-<p><strong>这是个非常好的约束。它传达了一个思想。</strong>先从困难的问题开始（在较小的屏幕上可用的应用程序），然后将解决方案适配到简单的问题上（在大屏幕上可用的应用程序）。</p>
-<p>还有一个类似的约束：先用黑白进行设计。在没有颜色的帮助下，以让应用在各个角度下漂亮且可用这样的困难问题作为开始。最后再添加颜色，即使如此，明确目标。</p>
-<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-11-24/10.png" alt="Haraldur Thorleifsson’s grayscale wireframes look as good as lesser designer’s finished sites."></p>
-<p>这是一个保持应用程序看起来“简洁”的较为可靠且简单的方式。<strong>过多的颜色很容易破坏“简洁”。</strong>黑白先行使得你更加专注于留白、尺寸和布局。而这些正式“简洁”设计所关注的。</p>
-<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-11-24/11.png" alt="Classy grayscale."><br><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-11-24/12.jpeg" alt="Classy grayscale."><br><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-11-24/13.png" alt="Classy grayscale."></p>
-<p>在某些情况下黑白先行并没有效果。那些有很强特定风格的设计——“运动的”、“浮华的”、“卡通的”，等等——需要设计师非常好的使用颜色。但<strong>大多数应用程序除了“简洁”以外都没有特定的风格。</strong>不可否认，那些设计更难。</p>
-<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-11-24/14.png" alt="Flashy and vibrant designs by Julien Renvoye (left) and Cosmin Capitanu (right). Harder than it looks."></p>
-<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-11-24/15.png" alt="Flashy and vibrant designs by Julien Renvoye (left) and Cosmin Capitanu (right). Harder than it looks."></p>
-<p>对于其他的，都可以用黑白先行</p>
-<h3 id="第二步：如何上色">第二步：如何上色</h3><p>最简单的上色方式就是只添加一种颜色</p>
-<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-11-24/16.png" alt="添加一种颜色"></p>
-<p>往黑白的网页中添加一种颜色是简单而有效地吸引眼球方式</p>
-<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-11-24/17.png" alt="添加一种颜色"></p>
-<p>你也可以更进一步，灰度+两种颜色，或是灰度+单一色调的多种颜色</p>
-<blockquote>
-<p><strong>实践中的色码——等等，什么事色调？</strong></p>
-<p>网页和大多数人都是用16进制RGB编码表示颜色。最好忽略这些。RGB并不是一个好的颜色设计框架。<a href="http://demosthenes.info/blog/61/An-Easy-Guide-To-HSL-Color-In-CSS3" target="_blank" rel="external">HSB</a>更有用（HSB与HSV或HSL“基本上是同义的”）</p>
-<p>HSB比RGB更好，以为它符合我们自然思考颜色的方式，你能从HSB值的改变中预测到颜色的变化。</p>
-<p>如果这对你来说是个新闻，这里有一个对于<a href="http://demosthenes.info/blog/61/An-Easy-Guide-To-HSL-Color-In-CSS3" target="_blank" rel="external">HSB颜色的介绍</a>。</p>
-</blockquote>
-<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-11-24/18.jpeg" alt="来自Smashing Magazine的单色调的金色主题"></p>
-<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-11-24/19.jpeg" alt="来自Smashing Magazine的单色调的蓝色主题"></p>
-<p>通过修改单一色相的<strong>饱和度</strong>和<strong>亮度</strong>，可以生成更多的颜色——深色的、浅色的、当背景的、做强调的、吸引眼球的——但它并不会在你眼前压倒一切。</p>
-<p>使用来自一种或两种色相的多个颜色是在<strong>不破坏设计的前提下突出和弱化元素的最可靠的方法。</strong></p>
-<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-11-24/20.png" alt="Countdown timer by Kerem Suer"></p>
-<h2 id="颜色使用的一些其他的注意事项">颜色使用的一些其他的注意事项</h2><p>颜色是视觉设计中最复杂的部分。虽然颜色上的很多东西并不精细，而且对于你面前的设计并不适用，我还是看到了一些不错的东西：</p>
-<p>一些小工具：</p>
-<ul>
-<li><a href="http://ianstormtaylor.com/design-tip-never-use-black/" target="_blank" rel="external">永远不要使用纯黑</a> (Ian Storm Taylor)。这篇文章中说，纯粹的灰色几乎不会出现在现实世界，灰色的色调的饱和度——尤其是较暗的色调——能为你的设计添加丰富的视觉效果。此外，饱和的灰色更好的模拟了现实世界，这正是它的美之所在。</li>
-<li><a href="https://color.adobe.com/" target="_blank" rel="external">Adobe Color CC</a>.一个用来发现、修改和创建颜色方案的优秀工具</li>
-<li><a href="https://dribbble.com/colors/BADA55" target="_blank" rel="external">通过颜色搜索Dribbble</a>. 另外一个找到某一个特定颜色实践的不错方式。这很实用。如果你已经决定使用某个颜色，看看世界上最好的设计师们如何使用这个颜色。</li>
-</ul>
-<h2 id="规则三：使用双倍的留白">规则三：使用双倍的留白</h2><p><em>增加更多呼吸空间可以让你的UI看起来有设计感</em></p>
-<p>我曾在规则二中说过，“黑白先行”迫使设计师在考虑配色之前先考虑留白和布局，以及这为什么好。那么，现在来聊聊留白和布局。</p>
-<p>如果你曾在<a href="http://baike.baidu.com/subview/526745/15420063.htm" target="_blank" rel="external">scratch</a>（一款面向少年的简易编程工具），你可能比较熟悉HTML默认情况下在页面上的布局。</p>
-<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-11-24/21.png" alt="页面上默认的布局"></p>
-<p>基本上，一切都被堆砌在屏幕的顶端。字体比较小，行与行之间完全没有空白。段与段之间有那么一丁点的空白，但并不多。各个段落随着页面伸缩，不管是100像素，还是10000像素。</p>
-<p>从美学上讲，这非常的难看。<strong>如果你希望你的UI看起来有设计感，你需要给它增加一些呼吸的空间。</strong></p>
-<p>有时候需要的留白很夸张。</p>
-<blockquote>
-<p>留白、HTML和CSS</p>
-<p>如果你，和我一样，曾经使用CSS来实现各种格式，<strong>默认情况下没有留白</strong>，现在是时候从中解脱出来了。试着默认情况下从留白开始思考——一切都以空白开始，直到你拿一个元素来替换它。</p>
-<p>很有禅意对吗？我想这是一个人们这么设计的重要原因。</p>
-<p><strong>从一个空白页面开始，意味着以一个只有空白的页面开始。</strong>你在一开始就考虑外边距和留白。你画的所有东西都是有意识的在删除空白。</p>
-<p><strong>从一堆没样式的HTML开始意味着从内容出发。</strong>事后再考虑空白。必须正确的描述这些。</p>
-</blockquote>
-<p>以下是<a href="http://www.piotrkwiatkowski.co.uk/" target="_blank" rel="external">Piotr Kwiatkowski</a>的一个音乐播放器的设计图</p>
-<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-11-24/22.jpeg" alt="音乐播放器"></p>
-<p>尤其注意左边的菜单</p>
-<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-11-24/23.png" alt="左侧的菜单"></p>
-<p>在两个菜单项的垂直空白是文字本身的两倍。12px的字体，上下的内边距也是一样。</p>
-<p>再看一下列表的标题。在单词“PLAYLISTS”上下有15像素的留白，而且它有下划线。也就是说，在列表与列表之间相距25px。</p>
-<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-11-24/24.png" alt="导航条上有更多的空白。“Search all music”的文字大小只占导航条高度的20%。图标也差不多大"></p>
-<p>不错，大的空白能让凌乱的界面看起来更加诱人和简单——比如下面这个论坛。</p>
-<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-11-24/25.png" alt="Matt Sisto设计的论坛"></p>
-<p>或者维基百科。</p>
-<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-11-24/26.png" alt="Aurélien Salomon设计的维基百科"></p>
-<p>你会发现存在很多争议说，这个重新设计的维基百科省去了使用网页的关键功能。但你必须承认，这是一个不错的学习体验。</p>
-<p>增加线条之间的留白</p>
-<p>增加元素之间的留白</p>
-<p>增加每组元素之间的留白</p>
-<p><strong>分析是什么在起作用</strong></p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<p>本文翻译自Erik D. Kennedy的<a href="https://medium.com/@erikdkennedy/7-rules-for-creating-gorgeous-ui-part-1-559d4e805cda?hn=1">7 Rules for Creating Gorgeous UI (Part 1)</a></p>]]>
-    
-    </summary>
-    
-      <category term="设计" scheme="http://lingyu.wang/tags/%E8%AE%BE%E8%AE%A1/"/>
     
       <category term="翻译" scheme="http://lingyu.wang/categories/%E7%BF%BB%E8%AF%91/"/>
     
@@ -1863,46 +1948,49 @@
   </entry>
   
   <entry>
-    <title><![CDATA[使用导航计时监测渲染关键路径]]></title>
-    <link href="http://lingyu.wang/2014/05/21/google-measuring-the-critical-rendering-path-with-navigation-timing/"/>
-    <id>http://lingyu.wang/2014/05/21/google-measuring-the-critical-rendering-path-with-navigation-timing/</id>
+    <title><![CDATA[通过JavaScript增加交互性]]></title>
+    <link href="http://lingyu.wang/2014/05/21/google-adding-interactivity-with-javaScript/"/>
+    <id>http://lingyu.wang/2014/05/21/google-adding-interactivity-with-javaScript/</id>
     <published>2014-05-20T16:00:00.000Z</published>
     <updated>2015-05-31T15:00:49.000Z</updated>
-    <content type="html"><![CDATA[<p>没办法监测，就没办法优化。幸运的是，浏览器提供了一系列用来监测渲染关键路径上每一步的接口，叫导航计时接口（Navigation Timing API）<br><a id="more"></a></p>
+    <content type="html"><![CDATA[<p>JavaScript允许我们网页中的几乎所有的部分：网页内容、样式等等，它还能提供用户交互的行为。然而，JavaScript也会在页面被渲染时阻塞和延迟DOM树的构建。保证JavaScript代码的异步性，删除不必要的JavaScript代码，可以优化性能。</p>
+<a id="more"></a>
 <h3 id="长话短说">长话短说</h3><ul>
-<li>导航计时为监测渲染关键路径提供了高分辨率的时间戳</li>
-<li>浏览器在到达渲染关键路径的不同阶段时，会触发一系列的事件</li>
+<li>JavaScript可以对DOM和CSSOM进行查询和修改</li>
+<li>JavaScript的执行会阻塞CSSOM的构建</li>
+<li>JavaScript阻塞DOM树的构建，除非显式的声明为异步</li>
 </ul>
-<h3 id="用于监测的时间戳">用于监测的时间戳</h3><p>好的性能策略都是建立在良好的测量基础之上的。下面这张图说明了导航计时接口提供的API：</p>
-<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-5-21/1.png" alt="导航计时接口提供的API"></p>
-<p>上面的每一个标签都提供了一个方法，用于检测每一个页面加载的高分辨率的时间戳。在这里，我们仅仅介绍除了与网络相关的时间戳的哪些一部分时间戳，剩下的我们会在以后的章节作介绍</p>
-<p>那么，这些时间戳代表着什么？</p>
+<h3 id="JavaScript造成的阻塞">JavaScript造成的阻塞</h3><p>JavaScript一个跑在浏览器中的动态语言，JavaScript允许我们修改页面中的每一方面：我们能够通过在DOM树上添加或删除节点来修改网页内容，也能修改元素的CSSOM属性，还能处理用户输入等等。这里提供了一个例子：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="title">html</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="title">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">meta</span> <span class="attribute">name</span>=<span class="value">"viewport"</span> <span class="attribute">content</span>=<span class="value">"width=device-width,initial-scale=1.0"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">link</span> <span class="attribute">href</span>=<span class="value">"style.css"</span> <span class="attribute">rel</span>=<span class="value">"stylesheet"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">title</span>&gt;</span>Critical Path: Script<span class="tag">&lt;/<span class="title">title</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="title">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="title">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">p</span>&gt;</span>Hello <span class="tag">&lt;<span class="title">span</span>&gt;</span>web performance<span class="tag">&lt;/<span class="title">span</span>&gt;</span> students!<span class="tag">&lt;/<span class="title">p</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">div</span>&gt;</span><span class="tag">&lt;<span class="title">img</span> <span class="attribute">src</span>=<span class="value">"awesome-photo.jpg"</span>&gt;</span><span class="tag">&lt;/<span class="title">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">script</span>&gt;</span><span class="javascript"></span><br><span class="line">      <span class="keyword">var</span> span = <span class="built_in">document</span>.getElementsByTagName(<span class="string">'span'</span>)[<span class="number">0</span>];</span><br><span class="line">      span.textContent = <span class="string">'interactive'</span>; <span class="comment">// change DOM text content</span></span><br><span class="line">      span.style.display = <span class="string">'inline'</span>;  <span class="comment">// change CSSOM property</span></span><br><span class="line">      <span class="comment">// create a new element, style it, and append it to the DOM</span></span><br><span class="line">      <span class="keyword">var</span> loadTime = <span class="built_in">document</span>.createElement(<span class="string">'div'</span>);</span><br><span class="line">      loadTime.textContent = <span class="string">'You loaded this page on: '</span> + <span class="keyword">new</span> <span class="built_in">Date</span>();</span><br><span class="line">      loadTime.style.color = <span class="string">'blue'</span>;</span><br><span class="line">      <span class="built_in">document</span>.body.appendChild(loadTime);</span><br><span class="line">    </span><span class="tag">&lt;/<span class="title">script</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="title">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
 <ul>
-<li>domLoading：整个处理过程开始的时间，也就是浏览器开始解析HTML文档的第一个字节的时间</li>
-<li>domInteractive：浏览器解析完所有HTML，并完成DOM构建的时间</li>
-<li>domContentLoaded：开始构建渲染树的时间点，就是DOM构建完毕后，若没有样式以及阻塞的JavaScript运行的时间点<ul>
-<li>许多JavaScript框架都会监听这个事件，然后执行他们自己的逻辑。因此浏览器提供了EventStart和EventEnd两个时间戳来允许我们知道具体运行消耗的时间</li>
+<li>JavaScript允许我们进入到DOM树中，甚至获取隐藏的span元素。事实上隐藏的元素并不存在于渲染树中，但它仍然存在于DOM树中。因此，当我们获取到它的引用时，我们能够修改其内部的文字（通过textContent进行修改），我们甚至能修改它的display样式值，从‘none’改到‘inline’。这上面说的都完成之后，我们的网页将会显示“Hello interative students!”</li>
+<li>JavaScript也允许我们创建节点，为节点赋予样式，在DOM中添加和删除节点。事实上，在技术上，我们的整个页面可以通过一个巨大JavaScript文件来一个一个创建节点并给他们赋予样式。这同样能工作，但使用HTML和CSS明显更加简单。JavaScript函数的第二部分创建了一个div元素，并设定了文字，赋予了样式，然后将其添加到body上。</li>
 </ul>
-</li>
-<li>domComplete：和名字一样，记录了页面上的所有资源都下载完成（包括图片）以及所有处理逻辑都结束后的时间点。这个时间点过后，浏览器旋转的加载标记将不再旋转了</li>
-<li>loadEvent：最后，浏览器触发onload事件来执行一些其他的应用逻辑</li>
-</ul>
-<h3 id="里程碑">里程碑</h3><p>根据HTML的规范，浏览器会检测所有事件：什么时候应该触发事件，应该满足哪些条件等等。对于我们来说，我们只需要关注渲染关键路径上的一些“里程碑”事件：</p>
-<ul>
-<li>domIneractive：说明DOM构建完毕</li>
-<li>domContentLoaded：当DOM和CSSOM都完成后触发<ul>
-<li>如果没有“解析器阻塞”的JavaScript代码，documentContentLoaded将直接在domInteractive之后触发</li>
-</ul>
-</li>
-<li>domComplete：当页面及其所有资源全部完毕时触发</li>
-</ul>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="title">html</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="title">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">title</span>&gt;</span>Critical Path: Measure<span class="tag">&lt;/<span class="title">title</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">meta</span> <span class="attribute">name</span>=<span class="value">"viewport"</span> <span class="attribute">content</span>=<span class="value">"width=device-width,initial-scale=1.0"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">link</span> <span class="attribute">href</span>=<span class="value">"style.css"</span> <span class="attribute">rel</span>=<span class="value">"stylesheet"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">script</span>&gt;</span><span class="javascript"></span><br><span class="line">      <span class="function"><span class="keyword">function</span> <span class="title">measureCRP</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> t = <span class="built_in">window</span>.performance.timing,</span><br><span class="line">          interactive = t.domInteractive - t.domLoading,</span><br><span class="line">          dcl = t.domContentLoadedEventStart - t.domLoading,</span><br><span class="line">          complete = t.domComplete - t.domLoading;</span><br><span class="line">        <span class="keyword">var</span> stats = <span class="built_in">document</span>.createElement(<span class="string">'p'</span>);</span><br><span class="line">        stats.textContent = <span class="string">'interactive: '</span> + interactive + <span class="string">'ms, '</span> +</span><br><span class="line">            <span class="string">'dcl: '</span> + dcl + <span class="string">'ms, complete: '</span> + complete + <span class="string">'ms'</span>;</span><br><span class="line">        <span class="built_in">document</span>.body.appendChild(stats);</span><br><span class="line">      &#125;</span><br><span class="line">    </span><span class="tag">&lt;/<span class="title">script</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="title">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="title">body</span> <span class="attribute">onload</span>=<span class="value">"measureCRP()"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">p</span>&gt;</span>Hello <span class="tag">&lt;<span class="title">span</span>&gt;</span>web performance<span class="tag">&lt;/<span class="title">span</span>&gt;</span> students!<span class="tag">&lt;/<span class="title">p</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">div</span>&gt;</span><span class="tag">&lt;<span class="title">img</span> <span class="attribute">src</span>=<span class="value">"awesome-photo.jpg"</span>&gt;</span><span class="tag">&lt;/<span class="title">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="title">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>上面的例子乍看之下可能比较吓人，但实际上非常简单，导航计时API捕获了相关的时间戳，而我们的JavaScript代码放在onload事件的回调函数中，只有触发了onload事件，才会执行。onload事件只有在domInteractive、domContentLoaded和domComplete事件都完成之后才会触发，所以我们可以捕获到这些时间戳之间的差值，算出每个阶段所耗费的时间</p>
-<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-5-21/2.png" alt="时间戳检测结果"></p>
-<p>综上所述，我们可以获得一些“里程碑事件”以及一些简单的函数来输出测量结果。当然我们可以不将这些数据输出到页面上，而是发送这些分析的数据到专门的分析服务器（Google的分析工具就会自动做这些事），这样就能很方便的检测网页的性能，确定候选页面，并尝到优化所带来的甜头。</p>
+<p>这里，我们修改了已经存在DOM节点的的内容和CSS样式，并在文档中加入了一个全新的节点。JavaScript为我们的网页提供了更强的能力和灵活性。</p>
+<p>然而，这里潜伏着一个大的性能问题。JavaScript为我们提供了更强的能力，但也为渲染的方式和时间带来的一定的限制。</p>
+<p>首先，注意上面的例子中，我们的内联脚本放在了页面的底部。这是为什么呢？你可以自己试试，如果你将脚本移动到span元素的上面，可以看到script里面的脚本将会运行失败并报出错误说在文档中找不到任何span元素（<code>getElementsByTagName(&#39;span&#39;)</code>返回null）。这说明了很重要的一点：脚本运行的位置，是其在文档中的位置。当HTML解析器发现到了script标签时，他会暂停DOM的构建并将控制权交给JavaScript引擎。一旦JavaScript运行完毕，浏览器将会回到之前的位置，继续DOM的构建。</p>
+<p>换句话说，脚本内部无法发现其后面的元素，因为他们还没有被处理过。或者再换个说法：<strong>运行内联脚本将阻塞DOM的构建，这也意味着阻塞页面初始的渲染</strong>。</p>
+<p>页面中的脚本的另一个点在于：脚本不仅仅能够修改DOM，也能够修改CSSOM。事实上，上面的例子中，我们已经修改了span元素的display属性，将它从none修改到inline</p>
+<p>那么，如果浏览器还没有完成CSSOM的下载和构建，就需要运行脚本，浏览器会怎么做？答案很简单，但效率不好：<strong>浏览器将延迟脚本的执行，直到CSSOM的下载和构建全部完成之后，才会执行。与此同时，在我们等待的时候，DOM构建也会阻塞。</strong></p>
+<p>简而言之，JavaScript引入了很多的DOM、CSSOM之间的相互依赖，同时JavaScript的执行将会在浏览器处理和页面渲染时导致明显的时延：</p>
+<ol>
+<li>脚本在文档中的位置很重要</li>
+<li>发现script标签时，会暂停DOM的构建，直到脚本被运行完成，DOM构建才会继续</li>
+<li>JavaScript能够查询和修改DOM和CSSOM</li>
+<li>JavaScript只有在CSSOM被构建完毕之后才会执行</li>
+</ol>
+<p>当我们谈及“渲染性能优化”，在很大程度上，我们谈及的是HTML、CSS和JavaScript之间的依赖关系图。</p>
+<h3 id="解析器的阻塞和异步JavaScript">解析器的阻塞和异步JavaScript</h3><p>默认情况下，JavaScript的执行是“解析器阻塞”的：当浏览器在文档中遇到一个script标签时，DOM的构建会被暂停，控制权递交给JavaScript运行，DOM的构建将会在JavaScript运行完成之后继续执行。这可以从上面的内联脚本例子中看出来。事实上，内联脚本总是“解析器阻塞”的，除非特别照顾这些代码来推迟其执行。</p>
+<p>那么如何通过script标签包含脚本？我们继续使用之前的的例子，将代码放在单独文件中：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="title">html</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="title">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">meta</span> <span class="attribute">name</span>=<span class="value">"viewport"</span> <span class="attribute">content</span>=<span class="value">"width=device-width,initial-scale=1.0"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">link</span> <span class="attribute">href</span>=<span class="value">"style.css"</span> <span class="attribute">rel</span>=<span class="value">"stylesheet"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">title</span>&gt;</span>Critical Path: Script External<span class="tag">&lt;/<span class="title">title</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="title">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="title">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">p</span>&gt;</span>Hello <span class="tag">&lt;<span class="title">span</span>&gt;</span>web performance<span class="tag">&lt;/<span class="title">span</span>&gt;</span> students!<span class="tag">&lt;/<span class="title">p</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">div</span>&gt;</span><span class="tag">&lt;<span class="title">img</span> <span class="attribute">src</span>=<span class="value">"awesome-photo.jpg"</span>&gt;</span><span class="tag">&lt;/<span class="title">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">script</span> <span class="attribute">src</span>=<span class="value">"app.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="title">script</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="title">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> span = <span class="built_in">document</span>.getElementsByTagName(<span class="string">'span'</span>)[<span class="number">0</span>];</span><br><span class="line">span.textContent = <span class="string">'interactive'</span>; <span class="comment">// 改变DOM中的文本</span></span><br><span class="line">span.style.display = <span class="string">'inline'</span>;  <span class="comment">// 改变CSSOM属性</span></span><br><span class="line"><span class="comment">// 创建一个新元素，为其添加样式，并将其加入到DOM中</span></span><br><span class="line"><span class="keyword">var</span> loadTime = <span class="built_in">document</span>.createElement(<span class="string">'div'</span>);</span><br><span class="line">loadTime.textContent = <span class="string">'You loaded this page on: '</span> + <span class="keyword">new</span> <span class="built_in">Date</span>();</span><br><span class="line">loadTime.style.color = <span class="string">'blue'</span>;</span><br><span class="line"><span class="built_in">document</span>.body.appendChild(loadTime);</span><br></pre></td></tr></table></figure>
+<p>你是否认为通过<code>&lt;scirpt&gt;</code>引入的JavaScript代码和内联JavaScrip它的执行顺序不同？当然，这个答案是否定的，这两者的处理方式几样。无论是前者还是后者，浏览器都在处理后面的文档之前，暂停并执行脚本。<strong>然而：在当浏览器使用外部JavaScript文件时，也不得不暂停并等待脚本从磁盘、缓存、或陈远程服务器中获取。这可能在为页面渲染带来上千万毫秒的时延</strong></p>
+<p>有一个好戏，我们确实有一个解决方法。默认情况下，所有的JavaScript都是“解析器阻塞”的，浏览器也不知道JavaScript脚本究竟会在网页山做些什么，因此它会假定最坏的情况并阻塞解析器。然而，如果我们有办法告诉浏览器我们的脚本不需要在它所处的文档位置上被执行，那会怎样呢？如果这样做，浏览器会继续DOM构建，并直到DOM构建完成后，运行脚本，无论是文件是从高速缓存直接中获取还是从远程服务器中获取。</p>
+<p>那么我们怎样实现呢，我们能直接标记脚本为异步脚本：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"> <span class="tag">&lt;<span class="title">html</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="title">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">meta</span> <span class="attribute">name</span>=<span class="value">"viewport"</span> <span class="attribute">content</span>=<span class="value">"width=device-width,initial-scale=1.0"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">link</span> <span class="attribute">href</span>=<span class="value">"style.css"</span> <span class="attribute">rel</span>=<span class="value">"stylesheet"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">title</span>&gt;</span>Critical Path: Script Async<span class="tag">&lt;/<span class="title">title</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="title">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="title">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">p</span>&gt;</span>Hello <span class="tag">&lt;<span class="title">span</span>&gt;</span>web performance<span class="tag">&lt;/<span class="title">span</span>&gt;</span> students!<span class="tag">&lt;/<span class="title">p</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">div</span>&gt;</span><span class="tag">&lt;<span class="title">img</span> <span class="attribute">src</span>=<span class="value">"awesome-photo.jpg"</span>&gt;</span><span class="tag">&lt;/<span class="title">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">script</span> <span class="attribute">src</span>=<span class="value">"app.js"</span> <span class="attribute">async</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="title">script</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="title">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">html</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>增加了async属性能够高速浏览器，它不会在下载和执行过程中阻塞DOM构建。这是一个巨大的效率提升！</p>
 ]]></content>
     <summary type="html">
-    <![CDATA[<p>没办法监测，就没办法优化。幸运的是，浏览器提供了一系列用来监测渲染关键路径上每一步的接口，叫导航计时接口（Navigation Timing API）<br>]]>
+    <![CDATA[<p>JavaScript允许我们网页中的几乎所有的部分：网页内容、样式等等，它还能提供用户交互的行为。然而，JavaScript也会在页面被渲染时阻塞和延迟DOM树的构建。保证JavaScript代码的异步性，删除不必要的JavaScript代码，可以优化性能。</p>]]>
     
     </summary>
     
@@ -1958,49 +2046,46 @@
   </entry>
   
   <entry>
-    <title><![CDATA[通过JavaScript增加交互性]]></title>
-    <link href="http://lingyu.wang/2014/05/21/google-adding-interactivity-with-javaScript/"/>
-    <id>http://lingyu.wang/2014/05/21/google-adding-interactivity-with-javaScript/</id>
+    <title><![CDATA[使用导航计时监测渲染关键路径]]></title>
+    <link href="http://lingyu.wang/2014/05/21/google-measuring-the-critical-rendering-path-with-navigation-timing/"/>
+    <id>http://lingyu.wang/2014/05/21/google-measuring-the-critical-rendering-path-with-navigation-timing/</id>
     <published>2014-05-20T16:00:00.000Z</published>
     <updated>2015-05-31T15:00:49.000Z</updated>
-    <content type="html"><![CDATA[<p>JavaScript允许我们网页中的几乎所有的部分：网页内容、样式等等，它还能提供用户交互的行为。然而，JavaScript也会在页面被渲染时阻塞和延迟DOM树的构建。保证JavaScript代码的异步性，删除不必要的JavaScript代码，可以优化性能。</p>
-<a id="more"></a>
+    <content type="html"><![CDATA[<p>没办法监测，就没办法优化。幸运的是，浏览器提供了一系列用来监测渲染关键路径上每一步的接口，叫导航计时接口（Navigation Timing API）<br><a id="more"></a></p>
 <h3 id="长话短说">长话短说</h3><ul>
-<li>JavaScript可以对DOM和CSSOM进行查询和修改</li>
-<li>JavaScript的执行会阻塞CSSOM的构建</li>
-<li>JavaScript阻塞DOM树的构建，除非显式的声明为异步</li>
+<li>导航计时为监测渲染关键路径提供了高分辨率的时间戳</li>
+<li>浏览器在到达渲染关键路径的不同阶段时，会触发一系列的事件</li>
 </ul>
-<h3 id="JavaScript造成的阻塞">JavaScript造成的阻塞</h3><p>JavaScript一个跑在浏览器中的动态语言，JavaScript允许我们修改页面中的每一方面：我们能够通过在DOM树上添加或删除节点来修改网页内容，也能修改元素的CSSOM属性，还能处理用户输入等等。这里提供了一个例子：</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="title">html</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="title">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">meta</span> <span class="attribute">name</span>=<span class="value">"viewport"</span> <span class="attribute">content</span>=<span class="value">"width=device-width,initial-scale=1.0"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">link</span> <span class="attribute">href</span>=<span class="value">"style.css"</span> <span class="attribute">rel</span>=<span class="value">"stylesheet"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">title</span>&gt;</span>Critical Path: Script<span class="tag">&lt;/<span class="title">title</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="title">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="title">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">p</span>&gt;</span>Hello <span class="tag">&lt;<span class="title">span</span>&gt;</span>web performance<span class="tag">&lt;/<span class="title">span</span>&gt;</span> students!<span class="tag">&lt;/<span class="title">p</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">div</span>&gt;</span><span class="tag">&lt;<span class="title">img</span> <span class="attribute">src</span>=<span class="value">"awesome-photo.jpg"</span>&gt;</span><span class="tag">&lt;/<span class="title">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">script</span>&gt;</span><span class="javascript"></span><br><span class="line">      <span class="keyword">var</span> span = <span class="built_in">document</span>.getElementsByTagName(<span class="string">'span'</span>)[<span class="number">0</span>];</span><br><span class="line">      span.textContent = <span class="string">'interactive'</span>; <span class="comment">// change DOM text content</span></span><br><span class="line">      span.style.display = <span class="string">'inline'</span>;  <span class="comment">// change CSSOM property</span></span><br><span class="line">      <span class="comment">// create a new element, style it, and append it to the DOM</span></span><br><span class="line">      <span class="keyword">var</span> loadTime = <span class="built_in">document</span>.createElement(<span class="string">'div'</span>);</span><br><span class="line">      loadTime.textContent = <span class="string">'You loaded this page on: '</span> + <span class="keyword">new</span> <span class="built_in">Date</span>();</span><br><span class="line">      loadTime.style.color = <span class="string">'blue'</span>;</span><br><span class="line">      <span class="built_in">document</span>.body.appendChild(loadTime);</span><br><span class="line">    </span><span class="tag">&lt;/<span class="title">script</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="title">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="用于监测的时间戳">用于监测的时间戳</h3><p>好的性能策略都是建立在良好的测量基础之上的。下面这张图说明了导航计时接口提供的API：</p>
+<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-5-21/1.png" alt="导航计时接口提供的API"></p>
+<p>上面的每一个标签都提供了一个方法，用于检测每一个页面加载的高分辨率的时间戳。在这里，我们仅仅介绍除了与网络相关的时间戳的哪些一部分时间戳，剩下的我们会在以后的章节作介绍</p>
+<p>那么，这些时间戳代表着什么？</p>
 <ul>
-<li>JavaScript允许我们进入到DOM树中，甚至获取隐藏的span元素。事实上隐藏的元素并不存在于渲染树中，但它仍然存在于DOM树中。因此，当我们获取到它的引用时，我们能够修改其内部的文字（通过textContent进行修改），我们甚至能修改它的display样式值，从‘none’改到‘inline’。这上面说的都完成之后，我们的网页将会显示“Hello interative students!”</li>
-<li>JavaScript也允许我们创建节点，为节点赋予样式，在DOM中添加和删除节点。事实上，在技术上，我们的整个页面可以通过一个巨大JavaScript文件来一个一个创建节点并给他们赋予样式。这同样能工作，但使用HTML和CSS明显更加简单。JavaScript函数的第二部分创建了一个div元素，并设定了文字，赋予了样式，然后将其添加到body上。</li>
+<li>domLoading：整个处理过程开始的时间，也就是浏览器开始解析HTML文档的第一个字节的时间</li>
+<li>domInteractive：浏览器解析完所有HTML，并完成DOM构建的时间</li>
+<li>domContentLoaded：开始构建渲染树的时间点，就是DOM构建完毕后，若没有样式以及阻塞的JavaScript运行的时间点<ul>
+<li>许多JavaScript框架都会监听这个事件，然后执行他们自己的逻辑。因此浏览器提供了EventStart和EventEnd两个时间戳来允许我们知道具体运行消耗的时间</li>
 </ul>
-<p>这里，我们修改了已经存在DOM节点的的内容和CSS样式，并在文档中加入了一个全新的节点。JavaScript为我们的网页提供了更强的能力和灵活性。</p>
-<p>然而，这里潜伏着一个大的性能问题。JavaScript为我们提供了更强的能力，但也为渲染的方式和时间带来的一定的限制。</p>
-<p>首先，注意上面的例子中，我们的内联脚本放在了页面的底部。这是为什么呢？你可以自己试试，如果你将脚本移动到span元素的上面，可以看到script里面的脚本将会运行失败并报出错误说在文档中找不到任何span元素（<code>getElementsByTagName(&#39;span&#39;)</code>返回null）。这说明了很重要的一点：脚本运行的位置，是其在文档中的位置。当HTML解析器发现到了script标签时，他会暂停DOM的构建并将控制权交给JavaScript引擎。一旦JavaScript运行完毕，浏览器将会回到之前的位置，继续DOM的构建。</p>
-<p>换句话说，脚本内部无法发现其后面的元素，因为他们还没有被处理过。或者再换个说法：<strong>运行内联脚本将阻塞DOM的构建，这也意味着阻塞页面初始的渲染</strong>。</p>
-<p>页面中的脚本的另一个点在于：脚本不仅仅能够修改DOM，也能够修改CSSOM。事实上，上面的例子中，我们已经修改了span元素的display属性，将它从none修改到inline</p>
-<p>那么，如果浏览器还没有完成CSSOM的下载和构建，就需要运行脚本，浏览器会怎么做？答案很简单，但效率不好：<strong>浏览器将延迟脚本的执行，直到CSSOM的下载和构建全部完成之后，才会执行。与此同时，在我们等待的时候，DOM构建也会阻塞。</strong></p>
-<p>简而言之，JavaScript引入了很多的DOM、CSSOM之间的相互依赖，同时JavaScript的执行将会在浏览器处理和页面渲染时导致明显的时延：</p>
-<ol>
-<li>脚本在文档中的位置很重要</li>
-<li>发现script标签时，会暂停DOM的构建，直到脚本被运行完成，DOM构建才会继续</li>
-<li>JavaScript能够查询和修改DOM和CSSOM</li>
-<li>JavaScript只有在CSSOM被构建完毕之后才会执行</li>
-</ol>
-<p>当我们谈及“渲染性能优化”，在很大程度上，我们谈及的是HTML、CSS和JavaScript之间的依赖关系图。</p>
-<h3 id="解析器的阻塞和异步JavaScript">解析器的阻塞和异步JavaScript</h3><p>默认情况下，JavaScript的执行是“解析器阻塞”的：当浏览器在文档中遇到一个script标签时，DOM的构建会被暂停，控制权递交给JavaScript运行，DOM的构建将会在JavaScript运行完成之后继续执行。这可以从上面的内联脚本例子中看出来。事实上，内联脚本总是“解析器阻塞”的，除非特别照顾这些代码来推迟其执行。</p>
-<p>那么如何通过script标签包含脚本？我们继续使用之前的的例子，将代码放在单独文件中：</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="title">html</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="title">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">meta</span> <span class="attribute">name</span>=<span class="value">"viewport"</span> <span class="attribute">content</span>=<span class="value">"width=device-width,initial-scale=1.0"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">link</span> <span class="attribute">href</span>=<span class="value">"style.css"</span> <span class="attribute">rel</span>=<span class="value">"stylesheet"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">title</span>&gt;</span>Critical Path: Script External<span class="tag">&lt;/<span class="title">title</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="title">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="title">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">p</span>&gt;</span>Hello <span class="tag">&lt;<span class="title">span</span>&gt;</span>web performance<span class="tag">&lt;/<span class="title">span</span>&gt;</span> students!<span class="tag">&lt;/<span class="title">p</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">div</span>&gt;</span><span class="tag">&lt;<span class="title">img</span> <span class="attribute">src</span>=<span class="value">"awesome-photo.jpg"</span>&gt;</span><span class="tag">&lt;/<span class="title">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">script</span> <span class="attribute">src</span>=<span class="value">"app.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="title">script</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="title">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> span = <span class="built_in">document</span>.getElementsByTagName(<span class="string">'span'</span>)[<span class="number">0</span>];</span><br><span class="line">span.textContent = <span class="string">'interactive'</span>; <span class="comment">// 改变DOM中的文本</span></span><br><span class="line">span.style.display = <span class="string">'inline'</span>;  <span class="comment">// 改变CSSOM属性</span></span><br><span class="line"><span class="comment">// 创建一个新元素，为其添加样式，并将其加入到DOM中</span></span><br><span class="line"><span class="keyword">var</span> loadTime = <span class="built_in">document</span>.createElement(<span class="string">'div'</span>);</span><br><span class="line">loadTime.textContent = <span class="string">'You loaded this page on: '</span> + <span class="keyword">new</span> <span class="built_in">Date</span>();</span><br><span class="line">loadTime.style.color = <span class="string">'blue'</span>;</span><br><span class="line"><span class="built_in">document</span>.body.appendChild(loadTime);</span><br></pre></td></tr></table></figure>
-<p>你是否认为通过<code>&lt;scirpt&gt;</code>引入的JavaScript代码和内联JavaScrip它的执行顺序不同？当然，这个答案是否定的，这两者的处理方式几样。无论是前者还是后者，浏览器都在处理后面的文档之前，暂停并执行脚本。<strong>然而：在当浏览器使用外部JavaScript文件时，也不得不暂停并等待脚本从磁盘、缓存、或陈远程服务器中获取。这可能在为页面渲染带来上千万毫秒的时延</strong></p>
-<p>有一个好戏，我们确实有一个解决方法。默认情况下，所有的JavaScript都是“解析器阻塞”的，浏览器也不知道JavaScript脚本究竟会在网页山做些什么，因此它会假定最坏的情况并阻塞解析器。然而，如果我们有办法告诉浏览器我们的脚本不需要在它所处的文档位置上被执行，那会怎样呢？如果这样做，浏览器会继续DOM构建，并直到DOM构建完成后，运行脚本，无论是文件是从高速缓存直接中获取还是从远程服务器中获取。</p>
-<p>那么我们怎样实现呢，我们能直接标记脚本为异步脚本：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"> <span class="tag">&lt;<span class="title">html</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="title">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">meta</span> <span class="attribute">name</span>=<span class="value">"viewport"</span> <span class="attribute">content</span>=<span class="value">"width=device-width,initial-scale=1.0"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">link</span> <span class="attribute">href</span>=<span class="value">"style.css"</span> <span class="attribute">rel</span>=<span class="value">"stylesheet"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">title</span>&gt;</span>Critical Path: Script Async<span class="tag">&lt;/<span class="title">title</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="title">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="title">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">p</span>&gt;</span>Hello <span class="tag">&lt;<span class="title">span</span>&gt;</span>web performance<span class="tag">&lt;/<span class="title">span</span>&gt;</span> students!<span class="tag">&lt;/<span class="title">p</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">div</span>&gt;</span><span class="tag">&lt;<span class="title">img</span> <span class="attribute">src</span>=<span class="value">"awesome-photo.jpg"</span>&gt;</span><span class="tag">&lt;/<span class="title">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">script</span> <span class="attribute">src</span>=<span class="value">"app.js"</span> <span class="attribute">async</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="title">script</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="title">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">html</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
-<p>增加了async属性能够高速浏览器，它不会在下载和执行过程中阻塞DOM构建。这是一个巨大的效率提升！</p>
+</li>
+<li>domComplete：和名字一样，记录了页面上的所有资源都下载完成（包括图片）以及所有处理逻辑都结束后的时间点。这个时间点过后，浏览器旋转的加载标记将不再旋转了</li>
+<li>loadEvent：最后，浏览器触发onload事件来执行一些其他的应用逻辑</li>
+</ul>
+<h3 id="里程碑">里程碑</h3><p>根据HTML的规范，浏览器会检测所有事件：什么时候应该触发事件，应该满足哪些条件等等。对于我们来说，我们只需要关注渲染关键路径上的一些“里程碑”事件：</p>
+<ul>
+<li>domIneractive：说明DOM构建完毕</li>
+<li>domContentLoaded：当DOM和CSSOM都完成后触发<ul>
+<li>如果没有“解析器阻塞”的JavaScript代码，documentContentLoaded将直接在domInteractive之后触发</li>
+</ul>
+</li>
+<li>domComplete：当页面及其所有资源全部完毕时触发</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="title">html</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="title">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">title</span>&gt;</span>Critical Path: Measure<span class="tag">&lt;/<span class="title">title</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">meta</span> <span class="attribute">name</span>=<span class="value">"viewport"</span> <span class="attribute">content</span>=<span class="value">"width=device-width,initial-scale=1.0"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">link</span> <span class="attribute">href</span>=<span class="value">"style.css"</span> <span class="attribute">rel</span>=<span class="value">"stylesheet"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">script</span>&gt;</span><span class="javascript"></span><br><span class="line">      <span class="function"><span class="keyword">function</span> <span class="title">measureCRP</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> t = <span class="built_in">window</span>.performance.timing,</span><br><span class="line">          interactive = t.domInteractive - t.domLoading,</span><br><span class="line">          dcl = t.domContentLoadedEventStart - t.domLoading,</span><br><span class="line">          complete = t.domComplete - t.domLoading;</span><br><span class="line">        <span class="keyword">var</span> stats = <span class="built_in">document</span>.createElement(<span class="string">'p'</span>);</span><br><span class="line">        stats.textContent = <span class="string">'interactive: '</span> + interactive + <span class="string">'ms, '</span> +</span><br><span class="line">            <span class="string">'dcl: '</span> + dcl + <span class="string">'ms, complete: '</span> + complete + <span class="string">'ms'</span>;</span><br><span class="line">        <span class="built_in">document</span>.body.appendChild(stats);</span><br><span class="line">      &#125;</span><br><span class="line">    </span><span class="tag">&lt;/<span class="title">script</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="title">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="title">body</span> <span class="attribute">onload</span>=<span class="value">"measureCRP()"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">p</span>&gt;</span>Hello <span class="tag">&lt;<span class="title">span</span>&gt;</span>web performance<span class="tag">&lt;/<span class="title">span</span>&gt;</span> students!<span class="tag">&lt;/<span class="title">p</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">div</span>&gt;</span><span class="tag">&lt;<span class="title">img</span> <span class="attribute">src</span>=<span class="value">"awesome-photo.jpg"</span>&gt;</span><span class="tag">&lt;/<span class="title">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="title">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>上面的例子乍看之下可能比较吓人，但实际上非常简单，导航计时API捕获了相关的时间戳，而我们的JavaScript代码放在onload事件的回调函数中，只有触发了onload事件，才会执行。onload事件只有在domInteractive、domContentLoaded和domComplete事件都完成之后才会触发，所以我们可以捕获到这些时间戳之间的差值，算出每个阶段所耗费的时间</p>
+<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-5-21/2.png" alt="时间戳检测结果"></p>
+<p>综上所述，我们可以获得一些“里程碑事件”以及一些简单的函数来输出测量结果。当然我们可以不将这些数据输出到页面上，而是发送这些分析的数据到专门的分析服务器（Google的分析工具就会自动做这些事），这样就能很方便的检测网页的性能，确定候选页面，并尝到优化所带来的甜头。</p>
 ]]></content>
     <summary type="html">
-    <![CDATA[<p>JavaScript允许我们网页中的几乎所有的部分：网页内容、样式等等，它还能提供用户交互的行为。然而，JavaScript也会在页面被渲染时阻塞和延迟DOM树的构建。保证JavaScript代码的异步性，删除不必要的JavaScript代码，可以优化性能。</p>]]>
+    <![CDATA[<p>没办法监测，就没办法优化。幸运的是，浏览器提供了一系列用来监测渲染关键路径上每一步的接口，叫导航计时接口（Navigation Timing API）<br>]]>
     
     </summary>
     
@@ -2068,61 +2153,6 @@
 ]]></content>
     <summary type="html">
     <![CDATA[<p>CSSOM树和DOM树组合生成渲染树，渲染树将决定每一个可见元素的计算样式，并作为输入交给绘制线程，绘制线程将会把他们渲染成像素打到屏幕上。优化这些步骤将是提升渲染性能的关键所在。</p>]]>
-    
-    </summary>
-    
-      <category term="CSS" scheme="http://lingyu.wang/tags/CSS/"/>
-    
-      <category term="HTML" scheme="http://lingyu.wang/tags/HTML/"/>
-    
-      <category term="翻译" scheme="http://lingyu.wang/categories/%E7%BF%BB%E8%AF%91/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[构建对象模型]]></title>
-    <link href="http://lingyu.wang/2014/05/20/google-constructing-the-object-model/"/>
-    <id>http://lingyu.wang/2014/05/20/google-constructing-the-object-model/</id>
-    <published>2014-05-19T16:00:00.000Z</published>
-    <updated>2015-05-31T15:00:49.000Z</updated>
-    <content type="html"><![CDATA[<p>浏览器渲染页面之前会构建DOM树和CSSOM树<br><a id="more"></a></p>
-<h2 id="长话短说">长话短说</h2><ul>
-<li>字节(bytes) → 字符(characters) → 标记(tokens) → 节点(nodes) → 对象模型(object model)</li>
-<li>HTML标记将会被转化为一个文档对象模型（Document Object<code>enter code here</code> Module，以下简称DOM），而CSS标记将会被转化成一个CSS对象模型（CSSOM）</li>
-<li>DOM和CSSOM是互相独立的数据结构</li>
-<li>Chrome的开发者工具的Timeline里面可以捕捉到DOM和CSSOM的构建和处理</li>
-</ul>
-<h2 id="DOM树构建">DOM树构建</h2><p>比如一段如下HTML<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="title">html</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="title">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">meta</span> <span class="attribute">name</span>=<span class="value">"viewport"</span> <span class="attribute">content</span>=<span class="value">"width=device-width,initial-scale=1.0"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">link</span> <span class="attribute">href</span>=<span class="value">"style.css"</span> <span class="attribute">rel</span>=<span class="value">"stylesheet"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">title</span>&gt;</span>Critical Path<span class="tag">&lt;/<span class="title">title</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="title">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="title">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">p</span>&gt;</span>Hello <span class="tag">&lt;<span class="title">span</span>&gt;</span>web performance<span class="tag">&lt;/<span class="title">span</span>&gt;</span> students!<span class="tag">&lt;/<span class="title">p</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">div</span>&gt;</span><span class="tag">&lt;<span class="title">img</span> <span class="attribute">src</span>=<span class="value">"awesome-photo.jpg"</span>&gt;</span><span class="tag">&lt;/<span class="title">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="title">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">html</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
-<p>其从字节到DOM树的过程如下图所示：</p>
-<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-5-20/1.png" alt="从字节到DOM树的过程"></p>
-<p>具体的过程分为如下几步：</p>
-<ol>
-<li>转换（Conversion）：浏览器从网络或硬盘中读取原始的字节，并根据其编码方式转换为独立的字符</li>
-<li>标记化（Tokenizing）：浏览器根据W3C的html5标准解析出尖括号内的字符串，每一个标记有自己的意义和规则</li>
-<li>对象化（Lexing）：将标记转变为对象，对象内定义了他们的值和规则</li>
-<li>DOM构建（DOM construction）：由于HTML标记定义了节点之间的关系，且这个关系是树型结构的（某个节点包含多个节点），所以通过一个树来保存</li>
-</ol>
-<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-5-20/2.png" alt="DOM树的树状结构"></p>
-<p>整个过程输出的是一个DOM，它是网页的DOM树，后面的处理都会用到DOM树</p>
-<p>每一次浏览器要讲HTML标记转换成DOM树，都需要经过这些过程：从字节转换到字符，获取其中的标记，转换标记到节点，通过节点构建DOM树，这些过程需要消耗一定的时间</p>
-<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-5-20/3.png" alt="Chrome DevTools中的DOM树构建过程"></p>
-<p>如果打开Chrome开发者工具，并在页面加载时记录Timeline，你讲看到这些步骤的具体时间。在上例中，浏览器花费了约5ms将一个HTML碎片从字节转换到DOM树，当然，如果页面较大，这个时间会更长。在接下来的创建流畅动画的章节中，如果浏览器需要处理大量的HTML，这里很容易成为瓶颈。</p>
-<p>DOM树构建好后，我们还需要将其渲染到屏幕上。DOM树中并没有告诉浏览器应该如何渲染这些节点，而完成这个职责的就是下面的CSSOM树了</p>
-<h2 id="CSSOM树构建">CSSOM树构建</h2><p>当浏览器为页面构建DOM树的时候，它会统计head部分的link标签，指向外部CSS样式文件。浏览器需要这些文件来渲染页面，它会直接发送请求来获取文件</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">body</span> <span class="rules">&#123; <span class="rule"><span class="attribute">font-size</span>:<span class="value"> <span class="number">16px</span> &#125;</span><br><span class="line">p &#123; font-weight: bold &#125;</span><br><span class="line">span &#123; color: red &#125;</span><br><span class="line">p span &#123; display: none &#125;</span><br><span class="line">img &#123; float: right &#125;</span></span></span></span><br></pre></td></tr></table></figure>
-<p>当然我们也可以在HTML标记中声明CSS样式（内联样式），但保持CSS和HTML的独立使得我们能够将设计与内容分离：设计者基于CSS工作，而开发者则专注于HTML，等等</p>
-<p>和HTML一样，我们将CSS样式转换到某种浏览器能够理解且使用的结构。其大致过程如下：</p>
-<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-5-20/4.png" alt="浏览器将CSS字节转换到CSSOM"></p>
-<p>浏览器将CSS字节转换成字符，然后构建标记和节点，最后练级到一个叫做CSS对象模型（CSSOM）的树型数据结构</p>
-<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-5-20/5.png" alt="树状CSSOM"></p>
-<p>HTML是树状结构很好理解，那么为什么CSSOM也是树状结构呢？在计算页面上对象的需要使用的样式集时，浏览器首先将最常规的样式赋给节点（如果是body元素的孩子，那么会使用body的所有样式），然后递归细化，逐步添加上特殊的规则，这也就是级联样式表中“级联”的意思</p>
-<p>上面的树并不是完整的CSSOM树，目前只是展示了样式表中的样式如何互相覆盖。么一个浏览器都提供了一套自己的样式，也就是“用户代理样式（user agent styles）”，在我们不提供任何样式的时候，就会使用这些央视。如果在Chrome开发者工具里面查看“计算后样式（computed styles）”，可以看到所有节点中样式的来源</p>
-<p>如果想知道CSS处理花费多长时间，可以在开发者工具中记录Timeline，并查看“Resalcuate”事件：与DOM解析不同的是，这里不会分开的“Parse CSS”各个阶段，解析、CSSOM树构建以及样式的递归计算都放在这一个事件之中</p>
-<p><img src="http://skyinlayerblog.qiniudn.com/blog/img/2014-5-20/6.png" alt="通过开发者工具查看样式处理"></p>
-<p>这里可以看到，这次样式处理花费了约0.6ms，涉及页面上的8个元素。那这8个元素从哪儿来？CSSOM和DOM是完全独立的数据结构，浏览器隐藏了很重要的一步，通过渲染树（render tree）将CSSOM和DOM连接起来，下一章就将介绍这个渲染树</p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<p>浏览器渲染页面之前会构建DOM树和CSSOM树<br>]]>
     
     </summary>
     
