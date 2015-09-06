@@ -16,6 +16,12 @@
 		 hm.src = "//hm.baidu.com/hm.js?0695a7053736f06c0a1dd7e62e8ef3ab";
 		 var s = document.getElementsByTagName("script")[0];
 		 s.parentNode.insertBefore(hm, s);
+		 hm.onload = function() {
+			 _hmt.push(['_trackPageview', window.location.href]);
+			 window.onhashchange = function() {
+				 _hmt.push(['_trackPageview', window.location.href]);
+			 };
+		 };
 		})();
 		</script>
   
