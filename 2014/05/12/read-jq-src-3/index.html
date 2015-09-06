@@ -17,7 +17,6 @@
 		 var s = document.getElementsByTagName("script")[0];
 		 s.parentNode.insertBefore(hm, s);
 		 hm.onload = function() {
-			 _hmt.push(['_trackPageview', window.location.href]);
 			 window.onhashchange = function() {
 				 _hmt.push(['_trackPageview', window.location.href]);
 			 };
