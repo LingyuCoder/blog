@@ -1,9 +1,9 @@
 layout: art
 title: jQuery的异步控制
 subtitle: 闲来没事读源码系列——jQuery
-tags: 
+tags:
 - JavaScript
-categories: 
+categories:
 - JS技术
 date: 2014/5/17
 ---
@@ -83,7 +83,7 @@ fire = function( data ) {
     }
     /*修改正在执行状态为false*/
     firing = false;
-    
+
     /*如果等待队列中有数据，那么需要获取等待队列中的数据，再次执行回调函数列表*/
     if ( list ) {
         /*多次执行的话，stack是个数组*/
@@ -292,7 +292,11 @@ jQuery.each( tuples, function( i, tuple ) {
     promise[ tuple[1] ] = list.add;
 
     // Handle state
-    /* 如果状态会改变，说明是resolve方法或reject方法，由于状态转变不可逆，所以需要在回调函数列表最后添加三个函数，分别用于状态修改、使回调函数列表无效、将回调函数列表锁住*/
+    /*
+    如果状态会改变，说明是resolve方法或reject方法，
+    由于状态转变不可逆，所以需要在回调函数列表最后添加三个函数，
+    分别用于状态修改、使回调函数列表无效、将回调函数列表锁住
+    */
     if ( stateString ) {
         list.add(function() {
             // state = [ resolved | rejected ]
@@ -301,7 +305,7 @@ jQuery.each( tuples, function( i, tuple ) {
         // [ reject_list | resolve_list ].disable; progress_list.lock
         }, tuples[ i ^ 1 ][ 2 ].disable, tuples[ 2 ][ 2 ].lock );
     }
-    
+
     // deferred[ resolve | reject | notify ]
     /*在deferred上添加resolve、reject、notify方法，分别映射到其回调函数列表的fireWith上*/
     deferred[ tuple[0] ] = function() {
@@ -381,12 +385,15 @@ promise.promise( deferred );
 
 ####then和pipe
 上面略过了then方法，这里单独拉出来说一下：
+
 ```javascript
 then: function( /* fnDone, fnFail, fnProgress */ ) {
     var fns = arguments;
-    /*这里新建了一个Deferred对象，并返回其Promise对象，以构成一个Deferred对象链
+    /*
+    这里新建了一个Deferred对象，并返回其Promise对象，以构成一个Deferred对象链
     由于这里返回的是Promise对象，没有resolve等方法，所以触发必须在整个Deferred对象链的头上触发
-    链上的每个Deferred对象的三个回调函数列表的最后，都会有一个函数，用于触发链的下一个Deferred对象的相对应的回调函数列表
+    链上的每个Deferred对象的三个回调函数列表的最后，都会有一个函数，
+    用于触发链的下一个Deferred对象的相对应的回调函数列表
     */
     return jQuery.Deferred(function( newDefer ) {
         /*对于上面三种，分别将函数加入到对应的回调函数列表中*/
@@ -431,12 +438,15 @@ when: function( subordinate /* , ..., subordinateN */ ) {
 
         /* 未完成的需要监听的Deferred对象的个数 */
         remaining = length !== 1 || ( subordinate && jQuery.isFunction( subordinate.promise ) ) ? length : 0,
-        /*新建一个Deferred对象用于管理所有的Deferred对象结果，*不妨就叫管理Deferred吧，如果参数只有一个Deferred，就不需要新建了，直接用它就行了/
+        /*新建一个Deferred对象用于管理所有的Deferred对象结果，
+        不妨就叫管理Deferred吧，如果参数只有一个Deferred，就不需要新建了，直接用它就行了
         deferred = remaining === 1 ? subordinate : jQuery.Deferred(),
+        */
 
         /*
-        使用一个计数器来计算的，计数器就是remaining，初始为需要执行的Deferred对象的个数，每有一个Deferred被resolve，就减一，减到0时，所有的Deferred都被resolve了，就触发新建的Deferred的resolve。
-
+        使用一个计数器来计算的，计数器就是remaining，初始为需要执行的Deferred对象的个数，
+        每有一个Deferred被resolve，就减一，减到0时，所有的Deferred都被resolve了，
+        就触发新建的Deferred的resolve。
         如果有Deferred被resolve，但remaining没有到0，就触发管理Deferred的notify
         */
         updateFunc = function( i, contexts, values ) {
@@ -491,4 +501,3 @@ when: function( subordinate /* , ..., subordinateN */ ) {
 
 ##总结
 jQuery中使用Deferred/Promise对象进行异步管理，其内部维护了三个Callbacks回调函数列表，这与常规的Promise的链式实现并不一致。在稍早的版本中，then方法其实也是和done、fail、progress一样往回调函数列表里添加方法，并不会形成Deferred链，后来Resig估计也发现了自己理解错了标准，于是乎通过pipe和then生成Deferred链，但这种Callbacks和Deferred链同时存在的方式，显得不伦不类，不过普通的需求基本上都能满足。jQuery的ready、ajax等都是使用Deferred/Promise来进行异步控制的
-
