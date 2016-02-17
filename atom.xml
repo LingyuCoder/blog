@@ -5,7 +5,7 @@
   <subtitle><![CDATA[尘世间一个迷途的小码农]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://lingyu.wang//"/>
-  <updated>2016-02-17T14:12:59.000Z</updated>
+  <updated>2016-02-17T14:17:27.000Z</updated>
   <id>http://lingyu.wang//</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://lingyu.wang/2016/02/16/2015/"/>
     <id>http://lingyu.wang/2016/02/16/2015/</id>
     <published>2016-02-15T16:00:00.000Z</published>
-    <updated>2016-02-17T14:12:59.000Z</updated>
+    <updated>2016-02-17T14:17:27.000Z</updated>
     <content type="html"><![CDATA[<p>年终总结结果到这个时间才写，其实也是无奈。本来计划过年写的，没想到Steam竟然开了个农历春节特惠，然后就被各种游戏打了，<strong>辣鸡平台，敛我钱财，颓我精神，耗我青春，害我单身</strong></p>
 <a id="more"></a>
 <blockquote>
@@ -34,7 +34,7 @@
 <h2 id="React">React</h2><p>去年上半年4月份入职打杂了一段时间之后，就开始学习React并且进行了一些实战演练：</p>
 <ol>
 <li>产出一篇文章<a href="http://lingyu.wang/#/post/2015/5/15/react-and-webpack">轻松入门React和Webpack</a>，意外的很受好评，<a href="https://segmentfault.com/a/1190000002767365" target="_blank" rel="external">segmentfault</a>上超过了200的收藏，<a href="https://github.com/tmallfe/tmallfe.github.io/issues/23" target="_blank" rel="external">tmall的github博客</a>上也有不少评论。可惜现在文章中已经有很多不适用了，babel大版本到6发生了不少变化，本地调试也改成中间件了</li>
-<li>把自己的博客<a href="http://lingyu.wang">lingyu.wang</a>改成了全React实现，用react-router做了个单页面应用，底层依然基于hexo，自己给hexo写了个<a href="https://github.com/LingyuCoder/hexo-generator-async" target="_blank" rel="external">generate插件</a>把所有数据生成json而不直接生成页面，为了练手已经丧心病狂了，SEO什么的完全不在乎</li>
+<li>把自己的博客<a href="http://lingyu.wang">lingyu.wang</a>改成了全React实现，<a href="https://github.com/LingyuCoder/ly" target="_blank" rel="external">代码在这里</a>，用react-router做了个单页面应用，底层依然基于hexo，自己给hexo写了个<a href="https://github.com/LingyuCoder/hexo-generator-async" target="_blank" rel="external">generate插件</a>把所有数据生成json而不直接生成页面，为了练手已经丧心病狂了，SEO什么的完全不在乎</li>
 <li>写了一些脚手架和组件，乱七八糟参见<a href="https://github.com/LingyuCoder/toybox" target="_blank" rel="external">玩具箱</a></li>
 </ol>
 <p>由于负责天猫最复杂的前端应用之一的开发和维护，有不少老代码，也由于迁移成本太大没有办法在Java层上插入Node.js中间层，各种模块之间各种耦合，中间也写了篇<a href="http://lingyu.wang/#/post/2015/8/30/chonggou">用React做重构时的一些思考</a>。当时项目里存在以下几种耦合：</p>
@@ -65,7 +65,7 @@
 <p>Module外部则是通过全局的pub-sub通信工具来负责模块通信，Module负责与这个通信工具进行直接交互来进行数据通信。通信建立桥接的方式也是在Module上定义一些“通信指令”</p>
 <p>最后，整个系统都采用React Templates来实现，整个页面实现和通信全部写在模板上，页面上只有一堆组件（可以在模板里动态require，模板会在编译期提取然后拉取完成了才进行初始化）。没有任何业务js逻辑存在。</p>
 <p>这样实现了好几个页面我已经成功上线跑了几个月了，还有几个正在实现中，看上去很美好。但后来还是发现了一些问题：<strong>模块通信过程太复杂</strong>，一个完整的数据流转过程通过指令很难很直观的展现，一个看起来很简单的交互中间可能会经过4-5步数据流转，甚至包括一些alert、confirm等等，想让后端写不太可能，连其他前端都看不太懂数据如何流转。这一块还有太多可以优化的地方。</p>
-<h2 id="流程自动化">流程自动化</h2><p>去年下半年我参与了部门统一使用的前端流程自动化工具的维护及改造，花了不少时间在前端流程自动化上。前端经过这么多年的发展，页面上承载的交互、功能、逻辑不断增加，项目逐渐变得庞大，维护和开发成本也随之增加，但依然招不到人。<strong>这里顺带打个广告，如果想来天猫前端的请发邮件至lingyucoder@gmail.com</strong>。流程自动化也就愈发重要。最理想的状况就是，只要是机械能够完成的工作，人就不要参与了。用一些脚本代替简单重复的劳动，这样我们也就可以少加点班了。</p>
+<h2 id="流程自动化">流程自动化</h2><p>去年下半年我参与了部门统一使用的前端流程自动化工具的维护及改造，同时负责了商家端通用组件的脚手架的开发和维护。花了不少时间在前端流程自动化上。前端经过这么多年的发展，页面上承载的交互、功能、逻辑不断增加，项目逐渐变得庞大，维护和开发成本也随之增加，但依然招不到人。<strong>这里顺带打个广告，如果想来天猫前端的请发邮件至lingyucoder@gmail.com</strong>。流程自动化也就愈发重要。最理想的状况就是，只要是机械能够完成的工作，人就不要参与了。用一些脚本代替简单重复的劳动，这样我们也就可以少加点班了。</p>
 <h3 id="Node-js">Node.js</h3><p>Node.js给前端开发流程自动化带来了福音。从目前部门前端开发流程来看，主要就是以下几个步骤，括号里是对应的开源工具：</p>
 <ol>
 <li>创建项目（Yeoman）</li>
